@@ -28,58 +28,7 @@ public class EntityDataSystem extends EntityData implements Constants
        int intYearPlusOne=0;
 
        
-        //----------------------------------------------------------------
-   /*     
-       EntityReport entReportServiceSaleDoc;
-       
-       
-        EntityDBFields[] saleDBFields = new EntityDBFields[20];
-        
-        // same as second (and the rest) query in etityParameters
-        EntityGroupOfComps[] saleEntityGroupOfComps =new EntityGroupOfComps[5];
-        EntityGroupOfPanels[] saleEntityGroupOfPanels = new EntityGroupOfPanels[1];
-        
-        
-        String saleQueryEditable = "SELECT * FROM saleheader";//product.productId AS \"Νο προϊόντος\", product.productName AS \"ονομασία\", product.currencyId FROM product";
-        String[] fieldsOnTitleSale ={"saleheader.saleCodeNo","actiontype.actionTypeCode","saleheader.dateOfSale","customer.name"};
-        String[] fieldsOnTitleCaptionSale  ={"αριθ. παρ/κού","τυπος παρ/κού","ημερομηνία","πελάτης"};      
-        String[] strSaleCategories = {DATAENTRY,METRICS};
 
-        String[] fieldsUniqueSale = null;
-        
-        
-        EntityUpdateAdditional[] updateAdditionalActionType = new EntityUpdateAdditional[1];
-        
-        EntityPanel entityPanelSaleDataentry;// = new EntityPanel("ODOR","saleheader",saleDBFields,saleEntityGroupOfComps,saleEntityGroupOfPanels,"Νο πώλησης","","saleHeaderId",saleQueryEditable,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniqueSale,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,updateAdditionalActionType,entReportServiceSaleDoc);      // entReportServiceSaleDoc
-        //EntityPanel entityPanelProductStatistics = new EntityPanel("statProductHistory","STATS",null,"ιστορικό",ICO_STATISTICS16,"SELECT dbyear AS \"χρήση\", dbcompany.companyName AS \"τίτλος συν/σμού\", invoice.deliveryId AS \"αποστολή\", COUNT(*) AS πλήθος, SUM(invoice.value) AS sum, AVG(invoice.value) AS average, MIN(invoice.value) AS min, MAX(invoice.value) AS max","FROM invoice, dbcompany","WHERE invoice.dbCompanyId = dbcompany.dbCompanyId AND invoice.productId=","GROUP BY dbyear, invoice.dbCompanyId, deliveryId","ORDER BY dbyear, dbcompany.companyName, invoice.deliveryId",false,"",false,"");
-        //EntityPanel entityPanelProductCustomers = new EntityPanel("statProductCustomers","STATS",null,"αγρότες",ICO_STATISTICS16,"SELECT customer.customerId AS \"νο αγρότη\", customer.surname, customer.name, customer.fatherName,customer.customerAfm, COUNT(*) AS \"πλήθος\", SUM(invoice.value) AS \"σύνολο\"","FROM invoice, customer","WHERE invoice.customerId = customer.customerId AND invoice.productId=","GROUP BY customer.customerId","ORDER BY customer.surname, customer.name, customer.fatherName,customer.customerAfm",true,"invoice.dbCompanyId",true,"invoice.dbyear");
-        //EntityPanel entityPanelProductBuyers = new EntityPanel("statProductBuyers","STATS",null,"αγοραστές",ICO_STATISTICS16,"SELECT buyer.buyerId AS \"νο αγοραστή\", buyer.buyerTitle,buyer.buyerAfm, COUNT(*) AS \"πλήθος\", SUM(invoice.value) AS \"σύνολο\"","FROM invoice, buyer","WHERE invoice.buyerId = buyer.buyerId AND invoice.productId=","GROUP BY buyer.buyerId","ORDER BY buyer.buyerTitle",true,"invoice.dbCompanyId",true,"invoice.dbyear");
-        //EntityPanel entityPanelProductSalesPerDate = new EntityPanel("statProductSalesPerDate","STATS",null,"πωλήσεις ανα μήνα",ICO_STATISTICS16,"SELECT returnMonth(date, 'no') AS \"ΝΟ\",returnMonth(date, 'name') AS \"ΜΗΝΑΣ\" , COUNT(*)AS \"ΠΛΗΘΟΣ\", SUM(invoice.value) AS \"ΣΥΝΟΛΟ\", AVG(invoice.value) AS \"Μ.Ο.\"","FROM invoice","WHERE invoice.ProductId=","GROUP BY returnMonth(date, 'no'),returnMonth(date, 'name')","ORDER BY returnMonth(date, 'no')",true,"invoice.dbCompanyId",true,"invoice.dbyear");
-        EntityPanel[] entityPanelSale;// = new EntityPanel[] { entityPanelSaleDataentry};//,entityPanelProductStatistics,entityPanelProductCustomers,entityPanelProductBuyers,entityPanelProductSalesPerDate};
-     */  
-        //----------------------------------------------------------------
-      /*  EntityDBFields[] customerDBFields = new EntityDBFields[24];
-        EntityGroupOfComps[] customerEntityGroupOfComps = new EntityGroupOfComps[7];
-        EntityGroupOfPanels[] customerEntityGroupOfPanels = new EntityGroupOfPanels[3];
-        
-        // same as second query in etityInfo
-        //String customerQueryEditable="SELECT customer.customerId AS \"Νο πελάτη\", customer.surname AS \"επίθετο\", customer.name AS\"όνομα\", customer.fathername AS \"πατρόνυμο\", customer.customerAfm AS \"Α.Φ.Μ.\", customer.doyId, customer.idNo AS \"αρ ταυτοτ\", customer.townId, customer.address AS \"διέυθυνση\", customer.phone AS \"τηλέφωνο\" FROM customer, town WHERE customer.townId=town.townId";
-        String customerQueryEditable="SELECT * FROM customer";// LEFT JOIN doy ON customer.doyId=doy.doyId";// LEFT JOIN bank ON customer.bankId=bank.bankId";        
-        String[] fieldsOnTitleCustomer ={"customerId","name","vatNo"};
-        String[] fieldsOnTitleCaptionCustomer  ={"Νο","όνομα","ΑΦΜ"};
-        String[] strCustomerCategories = {DATAENTRY,METRICS};
-        String[] fieldsUniqueCustomer = {"vatNo"};
-        //STATS be careful to have in the query all the fields that are also in the title
-        EntityPanel entityPanelCustomerDataentry;// = new EntityPanel("ODOR","customer",customerDBFields,customerEntityGroupOfComps,customerEntityGroupOfPanels,"Νο πελάτη","","customerId",customerQueryEditable,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniqueCustomer,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,entReportServiceSaleDoc);      
-        EntityPanel entityPanelCustomerHistory;// = new EntityPanel("statCustomerHistory","STATS",null,"ιστορικό",ICO_STATISTICS16,"SELECT customer.customerId, customer.dbCompanyId, saleheader.saleHeaderId, actiontype.actionTypeCode, saleheader.saleCodeOfDocument, saleheader.saleCodeNo,saleheader.dbYearId, saleheader.dateOfSale, saleheader.isPrinted, saleheader.countTotal,saleheader.quantityTotal, saleheader.pricePreVat, saleheader.priceVat, saleheader.priceTotal","FROM customer, saleheader, actiontype","WHERE customer.customerId = saleheader.customerId AND customer.dbCompanyId = saleheader.dbCompanyId AND actiontype.actionTypeId = saleheader.actionTypeId AND customer.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND customer.customerId =","","ORDER BY saleHeader.dateOfSale, saleHeader.saleCodeOfDocument",false,"",false,"",entityPanelSale,fieldsOnTitleSale,fieldsOnTitleCaptionSale);     
-        //EntityPanel entityPanelCustomerProducts = new EntityPanel("statCustomerProducts","STATS",null,"καλλιέργιες",ICO_STATISTICS16,"SELECT product.productId AS \"Νο προϊόντος\", product.productName AS \"προϊόν\",  COUNT(*) AS \"πλήθος\", SUM(invoice.value) AS \"σύνολο\"","FROM invoice, product","WHERE invoice.productId = product.productId AND invoice.customerId=","GROUP BY product.productId","ORDER BY product.productName",true,"invoice.dbCompanyId",true,"invoice.dbyear");
-        //EntityPanel entityPanelCustomerBuyers = new EntityPanel("statCustomerBuyers","STATS",null,"αγοραστές",ICO_STATISTICS16,"SELECT buyer.buyerId AS \"νο αγοραστή\", buyer.buyerTitle,buyer.buyerAfm, COUNT(*) AS \"πλήθος\", SUM(invoice.value) AS \"σύνολο\"","FROM invoice, buyer","WHERE invoice.buyerId = buyer.buyerId AND invoice.customerId=","GROUP BY buyer.buyerId","ORDER BY buyer.buyerTitle",true,"invoice.dbCompanyId",true,"invoice.dbyear");
-        //EntityPanel entityPanelCustomerSalesPerDate = new EntityPanel("statCustomerSalesPerDate","STATS",null,"πωλήσεις ανα μήνα",ICO_STATISTICS16,"SELECT returnMonth(date, 'no') AS \"ΝΟ\", returnMonth(date, 'name') AS \"ΜΗΝΑΣ\" , COUNT(*)AS \"ΠΛΗΘΟΣ\", SUM(invoice.value) AS \"ΣΥΝΟΛΟ\", AVG(invoice.value) AS \"Μ.Ο.\"","FROM invoice","WHERE invoice.customerId=","GROUP BY returnMonth(date, 'no'),returnMonth(date, 'name')","ORDER BY returnMonth(date, 'no')",true,"invoice.dbCompanyId",true,"invoice.dbyear");
-        EntityPanel[] entityPanelCustomer;// = new EntityPanel[] { entityPanelCustomerDataentry,entityPanelCustomerHistory};//,entityPanelCustomerStatistics,entityPanelCustomerProducts,entityPanelCustomerBuyers,entityPanelCustomerSalesPerDate};
-*/
-        /*String[] deliveryFields={"customerId","dateOfApplication","permanent","dbyear","deliveryId","dbCompanyId"};
-        String[] deliveryFieldsTranslation={"customerId","ημ/νία αίτησης","υπολογισμένο","dbyear","deliveryId","dbCompanyId"};
-        int[] deliveryGroupOfComps = null;*/
        //---------------------------------------------------------------- 
       /*  EntityDBFields[] deliveryDBFields = new EntityDBFields[6];
         EntityGroupOfComps[] deliveryGroupOfComps = new EntityGroupOfComps[2];

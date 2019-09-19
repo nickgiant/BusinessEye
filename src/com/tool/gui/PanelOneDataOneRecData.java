@@ -12,6 +12,7 @@ import com.tool.model.EntityGroupOfPanels;
 import com.tool.model.EntityPanel;
 import com.tool.jdbc.*;
 import com.tool.guicomps.*;
+import static com.tool.guicomps.Constants.FIELD_VISIBLE_NOT_EDITABLE_ALWAYS;
 import com.tool.guicomps.JPanelDecorated;
 import com.tool.guicomps.JTextBoxWithEditButtons;
 import com.tool.guicomps.JxPanel;
@@ -2335,7 +2336,7 @@ catch(Exception e)
           //int fieldCount = i;//i-1; // calculates the no of field starting from 0 when i = 1
           String colName =   dbFieldsInGroupOfPanels[col].getDbField();
           int columnWidth = dbFieldsInGroupOfPanels[col].getColWidth();
-      	 //System.out.println("panelODORData.showRow i ("+i+") colName:"+colName+" class:"+dbFieldsInGroupOfPanels[i].getColClassName());
+         //System.out.println("panelODORData.showRow   --i--   ("+col+") colName:"+colName+" class:"+dbFieldsInGroupOfPanels[col].getColClassName());
           String classtype = dbFieldsInGroupOfPanels[col].getColClassName();       
        String value ="";
                if(classtype.equalsIgnoreCase("java.sql.Date") || classtype.equalsIgnoreCase("java.lang.Date"))
@@ -2474,11 +2475,11 @@ catch(Exception e)
         EntityDBFields dbField = dbFieldsInGroupOfPanels[col];
         // boolean isCalculated = dbField.getFollowingCalculationOrUpdate();// followingCalculationOrUpdateIn: boolean if true then calculation or if false then update
         
-        EntityDBFieldsCalculation[] fieldsCalculationUpdate = dbField.getFieldsCalculationUpdate(); 
+        //EntityDBFieldsCalculation[] fieldsCalculationUpdate = dbField.getFieldsCalculationUpdate(); 
         EntityDBFieldsCalculation[] fieldsCalculationSelect = dbField.getFieldsCalculationSelect();
         
         
-      System.out.println("PanelODORData.dbFieldsCalculateSet     col:"+col+" -  caption:"+dbField.getCaption());
+      //System.out.println("PanelODORData.dbFieldsCalculateSet  -o-o-oo--o--o-o--o-o-o   col:"+col+" -   caption:"+dbField.getCaption()+"   value:"+value);
         if(dbField!=null && fieldsCalculationSelect!=null  && value!=null && !value.toString().equalsIgnoreCase(""))
         {
         try
@@ -2877,14 +2878,14 @@ catch(Exception e)
              System.out.println("error:PanelODORData.dbFieldsCalculateSet  "+sqlex.getMessage());
              sqlex.printStackTrace();
          }
-        finally
-        {
+         finally
+         {
                closeDB();     
-        }
+         }
                  		
-        }    // if  
+        }    // if
         
-        System.out.println("error  PanelODORData.dbFieldsCalculateSet col:("+col+")   colName:"+colName);
+        //System.out.println("PanelODORData.dbFieldsCalculateSet col:("+col+")   colName:"+colName);
         //System.out.println("PanelODORData.dbFieldsCalculateSet bef setvisoredi  hasDataChanged:"+hasDataChanged);
         
        this.setVisibleOrEditableFields(false);
@@ -2927,8 +2928,8 @@ catch(Exception e)
                System.out.println("error  PanelODORData.ifHasValueChangedChangeOtherFieldsOrNot   col:"+col+"  colName:"+colName+" UNKNOWN LOOKUP TYPE  calculateField:"+calculateField+"  "+dbFieldsInGroupOfPanels[calculateField].getLookupType());              
           }       
  
-
-              if(Boolean.parseBoolean(fieldTxtsKeyChanged.get(col).toString()))//used in order not to recalculate ie APY2 when  the existing record is edited,but to calculate when new is inserted(ie no of document)
+             //used in order not to recalculate ie APY2 when  the existing record is edited,but to calculate when new is inserted(ie no of document)    ||  ie when calculating footer data like parakrathsh
+              if(Boolean.parseBoolean(fieldTxtsKeyChanged.get(col).toString()) || dbFieldsInGroupOfPanels[calculateField].getIsVisibleOrEditable()==FIELD_VISIBLE_NOT_EDITABLE_ALWAYS)
                {
                 
                    
@@ -4391,11 +4392,12 @@ catch(Exception e)
               
         //     System.out.println("PanelODORData.calculateSumFields    i:"+i+"     cName:"+cName+"      intTable:"+intTable+"    fieldTxts.size:"+fieldTxts.size()+"    possibly not have the correct no for table that will be summed");
          }
-                  // dbFieldsCalculateSet( dbFieldsInGroupOfPanels,i);
+                   dbFieldsCalculateSet( dbFieldsInGroupOfPanels,i,"");// empty is 'foreigntable' which is not needed
 
       }
              System.out.println("PanelODORData.calculateSumFields bef setvisoredi  hasDataChanged:"+hasDataChanged);
               setVisibleOrEditableFields(false);
+            
        
 
       
@@ -10763,7 +10765,7 @@ ps.setBytes(i, b);
                                 fieldTxtsKeyChanged.set(no, true);
          		    	keyChanged=true; // ie farmerid                     
                 }
-            
+          }  
                 // if is not editable(like sum fields of a table) calculate
                //System.out.println("PanelODORData.  DocumentHandler.insertUpdate   ====================================   formGlobalTableToGet1:"+formGlobalTableToGet1);           
                 if(dbFieldsInGroupOfPanels[no].getIsVisibleOrEditable() != FIELD_VISIBLE_AND_EDITABLE && Boolean.parseBoolean(fieldTxtsKeyChanged.get(no).toString()))
@@ -10776,9 +10778,10 @@ ps.setBytes(i, b);
                     hasDataChanged=false;
                     //System.out.println("PanelODORData.dbFieldsCalculateSet f  hasDataChanged:"+hasDataChanged);
                 }
-                //System.out.println(" PanelODORData.DocumentHandler.changeText  "+no+"   "+classtype+" "+foreignTable+"."+columnDbName+"   keyChanged:"+keyChanged);
+
+              // System.out.println(" PanelODORData.DocumentHandler.changeText "+no+"   "+classtype+" "+foreignTable+"."+columnDbName+"   keyChanged:"+keyChanged);
          	//ta.remove(lblIcoAttention);
-         }
+         
           
         }
         else

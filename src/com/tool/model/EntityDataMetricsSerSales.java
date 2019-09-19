@@ -227,16 +227,16 @@ public class EntityDataMetricsSerSales  extends EntityData implements Constants
         nodeRoot.getChildFromCaption(METRICSOF_SALES).addChild(nodeemsd);
       
         
-        EntityStatistics[] sg = new EntityStatistics[1];
-        sg[0] = new EntityStatistics("statInvoicespermonth","saleheader","παραστατικά ανα μήνα","SELECT returnMonth(date, 'no') AS \"ΝΟ\", returnMonth(date, 'name') AS \"ΜΗΝΑΣ\" , COUNT(*)AS \"ΠΛΗΘΟΣ\", SUM(saleheader.value) AS \"ΣΥΝΟΛΟ\", AVG(saleheader.value) AS \"Μ.Ο.\",SUM(saleheader.valueReturn) AS \"ΕΠΙΣΤΡΟΦΗ\"","FROM saleheader",""/*saleheader.customerId the same because we need where*/,"GROUP BY returnMonth(date, 'no'),returnMonth(date, 'name')","ORDER BY returnMonth(date, 'no')",true,"saleheader.dbCompanyId",true,"saleheader.dbyear",null,null,null,null,null);
+  //      EntityStatistics[] sg = new EntityStatistics[1];
+   //     sg[0] = new EntityStatistics("statInvoicespermonth","saleheader","παραστατικά ανα μήνα","SELECT returnMonth(date, 'no') AS \"ΝΟ\", returnMonth(date, 'name') AS \"ΜΗΝΑΣ\" , COUNT(*)AS \"ΠΛΗΘΟΣ\", SUM(saleheader.value) AS \"ΣΥΝΟΛΟ\", AVG(saleheader.value) AS \"Μ.Ο.\",SUM(saleheader.valueReturn) AS \"ΕΠΙΣΤΡΟΦΗ\"","FROM saleheader",""/*saleheader.customerId the same because we need where*/,"GROUP BY returnMonth(date, 'no'),returnMonth(date, 'name')","ORDER BY returnMonth(date, 'no')",true,"saleheader.dbCompanyId",true,"saleheader.dbyear",null,null,null,null,null);
         
         //EntityStatistics se = new EntityStatistics("invoicespermonth","invoice","παραστατικά ανα μήνα","SELECT returnMonth(date, 'name') AS \"μήνας\" , COUNT(*)AS \"πλήθος\", SUM(invoice.value) AS \"σύνολο\", AVG(invoice.value) AS \"Μ.Ο.\",SUM(invoice.returnValue) AS sumret","FROM invoice","WHERE"/*invoice.customerId the same because we need where*/,"GROUP BY returnMonth(date, 'name')","ORDER BY returnMonth(date, 'no')",true,"invoice.dbCompanyId",true,"invoice.dbyear",null,null);
-        EntityMenu emsg = new EntityMenu();
+   /*     EntityMenu emsg = new EntityMenu();
         emsg.setEntityStatistics(sg,ICO_STATISTICS16);
         emsg.setEntityType(ENTITY_TYPE_STATISTICS);
         DataTreeNode nodeemsg = new DataTreeNode(emsg);
         nodeRoot.getChildFromCaption(METRICSOF_SALES).addChild(nodeemsg);
-
+    */
    
    
    

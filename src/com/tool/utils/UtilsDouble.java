@@ -209,8 +209,17 @@ import java.sql.SQLException;
     */
    public String getDoubleReading(String value,boolean showZero)
    {  
+       double valu = 0.00;
       String ret="";
-      double valu=Double.valueOf("0.00").doubleValue();
+      if(value.indexOf(",")!=-1)
+      {
+          value = value.replaceFirst(",", ".");
+          valu=Double.valueOf(value).doubleValue();
+      }
+      else
+      {
+          valu=Double.valueOf("0.00").doubleValue();
+      }
       String v =getDoubleReading(valu);
      //System.out.println("UtilsDouble.getDoubleReading "+value+"-"+v+"-"+getDoubleEditing(valu));
       if (value == null || value.equals(null) || value.toString().trim().equals("null") || value.toString().trim().equals("") ||  value.toString().trim().equals("0.0") ||  value.toString().trim().equals("0")) // 0.0 in h2
