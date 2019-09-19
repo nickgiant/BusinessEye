@@ -1,5 +1,4 @@
-/*   created 19-12-2009
- */
+
 
 package com.tool.gui;
 
