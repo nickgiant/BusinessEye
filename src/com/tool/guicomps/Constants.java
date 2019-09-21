@@ -133,6 +133,7 @@ public interface Constants
        // prim keys column name in db 
        public static final String STRFIELD_DBCOMPANYID ="dbcompanyid";
        public static final String STRFIELD_DBYEARID ="dbyearId"; //  has to be changed in db with dbyearid
+       public static final String STRFIELD_ISPRINTED = "isPrinted";
        
   public static final int INTSETTINGSREPORT_SHOWINALLPAGES = 0;
   public static final int INTSETTINGSREPORT_SHOWFIRSTPAGE = 1;

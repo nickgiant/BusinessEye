@@ -1,6 +1,3 @@
-//created 22-11-2008
-
-
 package com.tool.guicomps;
 
 import com.tool.model.EntityGroupOfComps;
@@ -40,13 +37,10 @@ import java.util.Vector;
  	
  	private PanelReportSettings panelReportSettings;
  	private PanelPrintPreview panelPrintPreview;
-       // private PanelReportPreview panelReportPreview;
+  
  	private EntityReportBand[] entityReportBand;
 // 	 private ToolBarData toolBarData;
        private JButton btnExecute;
-      // private JButton btnPrint;
-     //  private JButton btnNewPrintDesign;
-      // private JButton btnPrintDesign;  
        private String entityHeader;
        private Thread thread;
    private WindowWait ww;	
@@ -61,7 +55,8 @@ import java.util.Vector;
      private String[] arrayOfNameOfPksOfRecordToShow;
    private String[] arrayOfValueOfPksOfRecordToShow;
 private Database db;
-   
+private String entity;   
+
         public PanelReportSettingsPreview(JFrame frame)
     {
         try {
@@ -77,22 +72,19 @@ private Database db;
     	frame = frameIn;
     	panelReportSettings = new PanelReportSettings(frame);
     	panelPrintPreview = new PanelPrintPreview();
-//        panelReportPreview = new PanelReportPreview();
+
     	JxPanel panelReportSP = new JxPanel();
     	panelReportSP.setLayout (new BoxLayout(panelReportSP, BoxLayout.PAGE_AXIS));
     	panelReportSP.add(panelReportSettings);
     	panelReportSP.add(panelPrintPreview);
-//        panelReportSP.add(panelReportPreview);
+
     	
     	panelReportSettings.addActionListener(new PanelActionListenerShowReport());
     	panelPrintPreview.addActionListener(new PanelActionListenerShowSettings());
-//        panelReportPreview.addActionListener(new PanelActionListener());
     	db= new Database();
-//       toolBarData = new ToolBarData();
-//       toolBarData.setFocusable(false);    	
-    	
+
     	this.setLayout(new BorderLayout());
-//    	this.add(toolBarData, BorderLayout.PAGE_START);
+
     	this.add(panelReportSP, BorderLayout.CENTER)	;
     	
     }
@@ -148,10 +140,12 @@ private Database db;
   *
   *  called by PanelODOR.showPrintPreviewForm
   */
-  public void setEntityDirectPreviewOfForm(EntityReport erpt,String[] arrayOfNameOfPksOfRecordToShowIn,String[] arrayOfValueOfPksOfRecordToShowIn, boolean showSummaryPageIn,
+  public void setEntityDirectPreviewOfForm(String entityIn,EntityReport erpt,String[] arrayOfNameOfPksOfRecordToShowIn,String[] arrayOfValueOfPksOfRecordToShowIn, boolean showSummaryPageIn,
           PanelManagement panelManagementIn)        
   {
 
+      entity=entityIn;
+      
        arrayOfNameOfPksOfRecordToShow=arrayOfNameOfPksOfRecordToShowIn;
        arrayOfValueOfPksOfRecordToShow=arrayOfValueOfPksOfRecordToShowIn;
        
@@ -247,7 +241,7 @@ private Database db;
   //       String strQuery = panelReportSettings.calculateAndGetSQLForPrintPreviewOfForm();
          String strQuery = panelReportSettings.getSqlForPrintPreview();
          System.out.println(".PanelReportSettingsPreview.showReport        FORM     +++++++        strQuery:"+strQuery);
-         panelPrintPreview.setEntityForPreviewOfForm(entityReport,panelReportSettings.getIsDotmatrix(), panelReportSettings.getStrPageSizeDotmatrix(), 
+         panelPrintPreview.setEntityForPreviewOfForm(entity,entityReport,panelReportSettings.getIsDotmatrix(), panelReportSettings.getStrPageSizeDotmatrix(), 
                   panelReportSettings.getStrPortDotmatrix(), panelReportSettings.getArrayStringsToBePrinted(), panelReportSettings.getPageFormat() /*pf*/, intSettingsReport,
         panelReportSettings.getTitle(),panelReportSettings.getSubTitle(),strQuery,// panelReportSettings.calculateAndGetSQLForPrintPreviewOfForm(),
         panelReportSettings.getSelectedPageSizeLaser(),  panelReportSettings.getSelectedPageOrientationIsPortraitLaser(),
@@ -261,7 +255,7 @@ private Database db;
         panelReportSettings.calculateSQLForPrintPreview();
         //System.out.println("PanelReportSettingsPreview.showPanelReport     +o+       getSqlForPrintPreview:"+panelReportSettings.getSqlForPrintPreview());
          
-          panelPrintPreview.setEntity(entityReport,panelReportSettings.getIsDotmatrix(), panelReportSettings.getStrPageSizeDotmatrix(), 
+          panelPrintPreview.setEntity(entity,entityReport,panelReportSettings.getIsDotmatrix(), panelReportSettings.getStrPageSizeDotmatrix(), 
                   panelReportSettings.getStrPortDotmatrix(), panelReportSettings.getArrayStringsToBePrinted(), panelReportSettings.getPageFormat(), intSettingsReport,
         panelReportSettings.getTitle(),panelReportSettings.getSubTitle(), panelReportSettings.getSqlForPrintPreview(),panelReportSettings.getShowColumnsPerBand(),
         panelReportSettings.getShowColumnsHeader(),panelReportSettings.getSelectedPageSizeLaser(),  panelReportSettings.getSelectedPageOrientationIsPortraitLaser(),

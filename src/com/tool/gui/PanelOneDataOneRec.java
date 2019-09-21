@@ -1060,6 +1060,26 @@ import javax.swing.text.JTextComponent;
    private void rowDelete()
    {
 
+       boolean isReadOnly = false;
+           for(int p=0;p<listPanelOneDataOneRecData.size();p++)
+           {
+               //System.out.println("PanelODOR.rowNew p:"+p);
+               PanelOneDataOneRecData pnl = (PanelOneDataOneRecData)listPanelOneDataOneRecData.get(p);
+              isReadOnly =  pnl.checkIfAllComponentsShouldBeReadOnly();
+              if(isReadOnly)
+              {
+                  break;
+              }
+           
+           }       
+       
+       if(isReadOnly)
+       {
+           utilsGui.showMessageInfo("Η εγγραφή δεν γίνεται να διαγραφεί. Είναι μόνο για προβολή.");
+       }
+       else
+       {
+       
        final int YES = 0;
     	final int NO = 1;
     	if (utilsGui.showConfirmYesOrNo(this, "Σίγουρα θέλετε να διαγράψετε αυτή την εγγραφή; \n "+titleCaptionStr) == YES)
@@ -1137,6 +1157,7 @@ import javax.swing.text.JTextComponent;
    //         this.rowNew(false);    
          //}
         }
+       }
    }
 
  private void showPrintPreviewFormIfDataNotChanged(boolean displayInTabOrDialog)
@@ -1239,7 +1260,7 @@ import javax.swing.text.JTextComponent;
        String[] arrayOfNameOfPksOfRecordToShow = primKeysWithTable;//{entityPanel.getEntity()+"."+primKeyDb, entityPanel.getEntity()+"."+"dbCompanyId"};
        String[] arrayOfValueOfPksOfRecordToShow = primKeysValue;//{primKeyValue, VariablesGlobal.globalCompanyId};
        
-       panelReportSettingsPreview.setEntityDirectPreviewOfForm(entityPanel.getEntityReportForm(),arrayOfNameOfPksOfRecordToShow,arrayOfValueOfPksOfRecordToShow,true, panelManagement);      
+       panelReportSettingsPreview.setEntityDirectPreviewOfForm(entityPanel.getEntity(),entityPanel.getEntityReportForm(),arrayOfNameOfPksOfRecordToShow,arrayOfValueOfPksOfRecordToShow,true, panelManagement);      
 
        
        

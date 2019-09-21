@@ -9369,8 +9369,146 @@ ps.setBytes(i, b);
   }*/
    
    /*
+   *  if isPrinted==1 make read only
+   */
+   private boolean checkIfIsPrinted()
+   {
+       
+       boolean isPrinted = false;
+       try
+       {
+           //if isPrinted==1 make read only       
+          for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)
+          {
+                String fieldName = dbFieldsInGroupOfPanels[i].getDbField();
+                int isEditableOrVisible = dbFieldsInGroupOfPanels[i].getIsVisibleOrEditable();
+
+                if (fieldName.equalsIgnoreCase(STRFIELD_ISPRINTED))
+                {
+             int selectedRow=0;       
+   	    db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.checkIfIsPrinted");
+   	    rs=db.getRS();   
+            //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue);
+            selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfIsPrinted",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+            //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   selectedRow"+selectedRow+"    query:"+query);
+            if(selectedRow != 0) 
+            {
+                 rs.absolute(selectedRow); 
+            }
+            else //(selectedRow == 0 && db.getRecordCount()!=0)//  which means no line selected
+            {
+                 selectedRow = 1; // 1st row if none selected
+                 rs.absolute(selectedRow); 
+            }    
+          
+                   String isPrintedValue = rs.getString(fieldName);  
+                   if(isPrintedValue.equalsIgnoreCase("1"))
+                   {
+                          isPrinted=true;
+                          break;                       
+                   }
+                   else
+                   {
+                         isPrinted = false;
+                   }
+                }
+          }       
+       }
+       catch(SQLException e)
+       {
+            System.out.println("error   PanelODORData.checkIfIsPrinted  "+e.getMessage());
+         if(VariablesGlobal.globalShowPrintStackTrace)  
+         {
+           e.printStackTrace();     
+         }            
+            
+       }
+       finally
+       {
+           closeDB();
+       }       
+       
+       
+      return isPrinted; 
+   }
+   
+   private boolean checkIfIsInPreviousYear()
+   {
+       boolean isInPreviousYear = false;
+   
+       try
+       {
+           
+           // if is in a previous year make read only
+          for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)
+          {
+                String fieldName = dbFieldsInGroupOfPanels[i].getDbField();
+                int isEditableOrVisible = dbFieldsInGroupOfPanels[i].getIsVisibleOrEditable();
+
+                if (fieldName.equalsIgnoreCase("dbYearId") && !entity.equalsIgnoreCase("dbYear"))
+                {
+                    
+                    
+   	    db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.checkIfIsInPreviousYear");
+   	    rs=db.getRS();   
+            //System.out.println("      panelOneDataOneRecData.checkIfIsInPreviousYear   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue);
+            selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfIsInPreviousYear",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+            //System.out.println("      panelOneDataOneRecData.checkIfIsInPreviousYear   selectedRow"+selectedRow+"    query:"+query);
+            if(selectedRow != 0) 
+            {
+                 rs.absolute(selectedRow); 
+            }
+            else //(selectedRow == 0 && db.getRecordCount()!=0)//  which means no line selected
+            {
+                 selectedRow = 1; // 1st row if none selected
+                 rs.absolute(selectedRow); 
+            }    
+          
+                   String yeaid = rs.getString(fieldName);
+                    System.out.println("PanelODORData.checkIfIsInPreviousYear  var yearId"+VariablesGlobal.globalYearId+"  fieldName:"+fieldName+"   yeaid:"+yeaid);             
+                      if(yeaid==null || yeaid.equalsIgnoreCase(VariablesGlobal.globalYearId))
+                      {
+                          isInPreviousYear=false;
+                          
+                      }
+                      else// should be read only
+                      {
+                          isInPreviousYear=true;
+                          break;
+                      }
+                   
+                }
+
+                else
+                {
+                    isInPreviousYear=false;//false;
+                   
+                    //break;
+                     
+                }
+          }
+           
+       }
+       catch(SQLException e)
+       {
+            System.out.println("error   PanelODORData.checkIfIsInPreviousYear  "+e.getMessage());
+         if(VariablesGlobal.globalShowPrintStackTrace)  
+         {
+           e.printStackTrace();     
+         }            
+            
+       }
+       finally
+       {
+           closeDB();
+       }       
+       
+       return isInPreviousYear;
+   }
+   
+   /*
+   *  if isPrinted==1 make read only
    *  should be read only when is displayed in a different year than when inserted in db
-   *
    *  also called from  PanelODOR.rowSave to check if it should save
    */
    public boolean checkIfAllComponentsShouldBeReadOnly()
@@ -9383,66 +9521,29 @@ ps.setBytes(i, b);
        }
        else
        {
-       try
-       {
-          for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)
-          {
-                String fieldName = dbFieldsInGroupOfPanels[i].getDbField();
-                int isEditableOrVisible = dbFieldsInGroupOfPanels[i].getIsVisibleOrEditable();
-
-                if (fieldName.equalsIgnoreCase("dbYearId") && !entity.equalsIgnoreCase("dbYear"))
-                {
-                    
-                    
-   	    db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.checkIfAllComponentsShouldBeReadOnly");
-   	    rs=db.getRS();   
-            //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue);
-            selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfAllComponentsShouldBeReadOnly",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
-            //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   selectedRow"+selectedRow+"    query:"+query);
-            if(selectedRow != 0) 
-            {
-                 rs.absolute(selectedRow); 
-            }
-            else //(selectedRow == 0 && db.getRecordCount()!=0)//  which means no line selected
-            {
-                 selectedRow = 1; // 1st row if none selected
-                 rs.absolute(selectedRow); 
-            }    
-          
-                   String yeaid = rs.getString(fieldName);
-                    System.out.println("PanelODORData.checkIfAllComponentsShouldBeReadOnly  var yearId"+VariablesGlobal.globalYearId+"  fieldName:"+fieldName+"   yeaid:"+yeaid);             
-                      if(yeaid==null || yeaid.equalsIgnoreCase(VariablesGlobal.globalYearId))
-                      {
-                          ret=false;
-                          
-                      }
-                      else// should be read only
-                      {
-                          ret=true;
-                          break;
-                      }
-                   
-                }
-
-                else
-                {
-                    ret=false;//false;
-                    //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   else     ret:"+ret+"     i:"+i+"    fieldName:"+fieldName+"      query:"+query);
-                    //break;
-                     
-                }
-          }
-           closeDB();
-       }
-       catch(SQLException e)
-       {
-            System.out.println("error   PanelODORData.checkIfAllComponentsShouldBeReadOnly "+e);
-         if(VariablesGlobal.globalShowPrintStackTrace)  
-         {
-           e.printStackTrace();     
-         }            
-            
-       }
+           
+           
+           boolean isPrinted =  checkIfIsPrinted();
+           boolean isInPreviousYear = checkIfIsInPreviousYear();
+           
+           if(isPrinted && isInPreviousYear)
+           {
+               ret = true;
+           }
+           else if(isPrinted && !isInPreviousYear)
+           {
+                ret = true;
+           }
+           else if(!isPrinted && isInPreviousYear)
+           {
+               ret = true;
+           }
+           else if(!isPrinted && !isInPreviousYear)
+           {
+               ret = false;
+           }
+           
+           
        }// isNewRec false
       // System.out.println(" PanelODORData.checkIfAllComponentsShouldBeReadOnly ret:"+ret+"    isNewRec:"+isNewRec);
       //closeDB();        

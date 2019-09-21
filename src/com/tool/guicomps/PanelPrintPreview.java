@@ -461,12 +461,12 @@ public class PanelPrintPreview extends JxPanel implements Constants
     /*
     *  called by  PanelReportSettingsPreview.showPanelReport
     */
-        public void setEntityForPreviewOfForm(EntityReport entityReportIn,boolean isDotmatrixIn,String strDotMatrixPageSizeIn,String strPortDotmatrixIn,
+        public void setEntityForPreviewOfForm(String entityIn, EntityReport entityReportIn,boolean isDotmatrixIn,String strDotMatrixPageSizeIn,String strPortDotmatrixIn,
                 String [] arrayStringsToBePrintedIn, PageFormat pageFormatIn,int[] intSettingsReportIn,String titleIn, String subTitleIn, String queryIn,
                 String pageSizeLaserIn, boolean pageOrientationIsPortraitLaserIn ,int dotmatrixCpiIn, String[] arrayOfNameOfPksOfRecordToShowIn,
                 String[] arrayOfValueOfPksOfRecordToShowIn)
       {
-          
+          entity=entityIn;
             entityReport=entityReportIn;
             name = entityReport.getName();
             viewType=entityReport.getType();
@@ -492,7 +492,7 @@ public class PanelPrintPreview extends JxPanel implements Constants
          //      queryFormForPrinting          formFieldToGetData
                
 
-     queryFormForPrinting = entityReport.getFormQueryForPrinting()+" "+utilsString.getOrderbySubQuery(queryIn); //AND printForm.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId;
+     queryFormForPrinting = entityReport.getFormQueryForPrinting();//+" "+utilsString.getOrderbySubQuery(queryIn); //AND printForm.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId;
        
        //   actiontype.dbCompanyId = 1 AND printForm.dbCompanyId = 1 AND                  
      formFieldToGetData = entityReport.getFormFieldToGetData();  
@@ -556,10 +556,11 @@ public class PanelPrintPreview extends JxPanel implements Constants
         *  called by PanelReportSettingsPreview.showPanel
         
         */
-        public void setEntity(EntityReport entityReportIn,boolean isDotmatrixIn,String strDotMatrixPageSizeIn,String strPortDotmatrixIn, String [] arrayStringsToBePrintedIn, 
+        public void setEntity(String entityIn,EntityReport entityReportIn,boolean isDotmatrixIn,String strDotMatrixPageSizeIn,String strPortDotmatrixIn, String [] arrayStringsToBePrintedIn, 
                 PageFormat pageFormatIn,int[] intSettingsReportIn,String titleIn, String subTitleIn, String queryIn, ArrayList showColumnsPerBandIn,int[] showColumnsHeaderIn,
         String pageSizeLaserIn, boolean pageOrientationIsPortraitLaserIn ,EntityFilterSettings[] entityFilterSettingsIn, int dotmatrixCpiIn)
         {
+            entity=entityIn;
             entityReport=entityReportIn;
             name = entityReport.getName();
             viewType=entityReport.getType();
@@ -1261,7 +1262,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
             //SwingPrintBook book = new SwingPrintBook();
             //int k = pageFrom;
             
-         if(viewType.equalsIgnoreCase("FORM")) // etnypo
+         if(viewType.equalsIgnoreCase("FORM"))
          {
            
   
@@ -1303,13 +1304,13 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
               {
                 //  showPage(1);// to correct the bug of making not visible(grey) the page
                 //  showPage(1);//
-              	printPrinterJob(printerJob, true);   
+              	printPrinterJob(printerJob, true,"FORM");   
               	//System.out.println("PanelPrintPreview.goPrint isShowDialog setted to false")   ;
               	isShowDialog=false;
               }
               else
               {
-              	printPrinterJob(printerJob, false);      
+              	printPrinterJob(printerJob, false,"FORM");      
               }             
 
           
@@ -1357,13 +1358,13 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
               
               if(isShowDialog)
               {
-              	printPrinterJob(printerJob, true);   
+              	printPrinterJob(printerJob, true,"");   // is not viewType.equalsIgnoreCase("FORM")
               	System.out.println("PanelPrintPreview.goPrint isShowDialog setted to false")   ;
               	isShowDialog=false;
               }
               else
               {
-              	printPrinterJob(printerJob, false);      
+              	printPrinterJob(printerJob, false,"");      // is not viewType.equalsIgnoreCase("FORM")
               }
     //             listPages.clear(); 
                  //panelScrollCenter.removeAll();
@@ -1404,7 +1405,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
      
    }
 
-  private void printPrinterJob(PrinterJob printerJobIn, boolean isShowDialog)
+  private void printPrinterJob(PrinterJob printerJobIn, boolean isShowDialog,String isForm)
   {
 
     //System.out.println("PanelPrintPreview.printPrinterJob ");
@@ -1421,7 +1422,39 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
                     	
                     	printerJobIn.print(); 
               	        System.out.println("PanelPrintPreview.printPrinterJob printing.......");
-
+                       if(isForm.equalsIgnoreCase("FORM"))
+                       {
+                           
+                           String qWhere = "";
+                           for(int a = 0; a<arrayOfNameOfPksOfRecordToShow.length;a++)
+                           {
+                               String qAnd="";
+                               if(a==0)
+                               {
+                                   qAnd = " ";
+                               }
+                               else
+                               {
+                                   qAnd = " AND ";
+                               }
+                               qWhere = qWhere + qAnd +arrayOfNameOfPksOfRecordToShow[a]+" LIKE '"+arrayOfValueOfPksOfRecordToShow[a]+"'";
+                           }
+                           
+                           
+                           String queryUpdate = "UPDATE "+entity+" SET "+entity+"."+STRFIELD_ISPRINTED+" = '1' WHERE "+qWhere;   
+                           //System.out.println("PanelPrintPreview.printPrinterJob printing.......queryUpdate:"+queryUpdate); 
+                           Database db = new Database();
+                           if(db.updateQueryNotTransaction(queryUpdate, "PanelPrintPreview.printPrinterJob", true, false)==1)
+                           {
+                               System.out.println("PanelPrintPreview.printPrinterJob printing.... db UPDATED");
+                               //if is 1 ok
+                           }
+                           else
+                           {
+                               System.out.println("PanelPrintPreview.printPrinterJob printing... db NOT UPDATED   queryUpdate:"+queryUpdate);
+                           }
+                           db.releaseConnectionRs();
+                       }
                         setCursor( Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         
                         // if job has finished : look for : Determining When a Print Job Has Finished.html

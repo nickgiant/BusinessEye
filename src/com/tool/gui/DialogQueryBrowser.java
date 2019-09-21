@@ -1,7 +1,4 @@
-/* // created 5-2-2012
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.tool.gui;
 
 
@@ -62,7 +59,6 @@ public class DialogQueryBrowser extends JDialog implements Constants
         initComponents(null);
     }
     
-    /** This method is called from within the constructor to initialize the form.*/
 
     public DialogQueryBrowser(JFrame frame)//(Frame parent, boolean modal)
     {
@@ -75,15 +71,14 @@ public class DialogQueryBrowser extends JDialog implements Constants
     	frame=frameIn;
         this.setTitle("QueryBrowser");
         utilsOS = new UtilsOS();  
-      // JFrame.setDefaultLookAndFeelDecorated(true);
-      // JDialog.setDefaultLookAndFeelDecorated(true);  // setted in start
+
        systemDirectorySymbol=System.getProperty("file.separator");
        
        utilsGui = new UtilsGui(); 
         
       loadConfigFromFile();  
-              tableModelReadOnly= new TableModelReadOnly();  
-              tableModelReadOnlyProcesses = new TableModelReadOnly();  
+       tableModelReadOnly= new TableModelReadOnly();  
+       tableModelReadOnlyProcesses = new TableModelReadOnly();  
     //Database db= new Database();
     if(dbEngine!=0)
 	{
@@ -107,24 +102,12 @@ public class DialogQueryBrowser extends JDialog implements Constants
 
        
         // Create the table.
-       //JScrollPane tableAggregate = createTable();
                table = new JTableDec(); 
         table.setGridColor(CLR_TABLE_GRID);
         JScrollPane tableAggregate = new JScrollPane();
         tableAggregate.setViewportView(table);
         table.setModel(tableModelReadOnly);
-        
-        // Use a scrollbar, in case there are many columns. 
-	    //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 
 
-        // Install a mouse listener in the TableHeader as the sorter UI.
-      //sorter.addMouseListenerToHeaderInTable(table);
-        
-       
-       
-       
-        //tableAggregate.setBorder(new BevelBorder(BevelBorder.LOWERED));       
-       
        
 	// Create the buttons.
 
@@ -156,16 +139,7 @@ public class DialogQueryBrowser extends JDialog implements Constants
         
        JxPanel panelWritableTable = new JxPanel();
        panelWritableTable.setLayout(new BorderLayout());
-       
-/*       JButton btnUpdateTableData = new JButton("save changes");
-       btnUpdateTableData.addActionListener(new ActionListener()
-        {
-	        public void actionPerformed(ActionEvent e) 
-	        {     	
-//	           tableModelReadOnly.updateDB();    
-	        }
-	    });               
- */              
+             
        JPanel panelWritableTableButtons = new JPanel();
 //       panelWritableTableButtons.add(btnUpdateTableData);
        panelWritableTableButtons.setLayout(new GridLayout(0,1));
@@ -232,7 +206,6 @@ public class DialogQueryBrowser extends JDialog implements Constants
             	JListDec lstTbls = (JListDec)e.getSource();
                 if (e.getClickCount() == 2) // make it 2 for doubleclick
                 {   
-                    //retrievePrimKeyValue( query, selectedTableRow, primKey);
                     //System.out.println("panelODMRData.selection table double clicked. selectedTableRow "+selectedTableRow+" PKvalue "+getPrimKeyValue());
                    queryTextArea.setText("SELECT * FROM "+lstTbls.getSelectedValue().toString());
                    fetch("SELECT * FROM "+lstTbls.getSelectedValue().toString()); 
@@ -256,42 +229,7 @@ public class DialogQueryBrowser extends JDialog implements Constants
         this.setLayout(new BorderLayout());
         this.add(scrollPaneTables,BorderLayout.LINE_START);
         this.add(panelData,BorderLayout.CENTER);
-        this.setPreferredSize(new Dimension(1045,690));
-
-/*        // Create a Frame and put the main panel in it.
-        frameQueryBrowser = new JFrame("Query Browser ("+database+") "+dbUrl);
-       // frameQueryBrowser.addWindowListener(new WindowAdapter() {public void windowClosing(WindowEvent e) {System.exit(0);}});
-        frameQueryBrowser.setBackground(Color.lightGray);
-        frameQueryBrowser.getContentPane().add(panelData);
-        frameQueryBrowser.pack();
-        //frameQueryBrowser.setVisible(false);
-        //frameQueryBrowser.setBounds(200, 200, 800, 700);
-        
-        locateOnCenterOfTheScreen(frameQueryBrowser);
-        
-        // jdk6    
- //       RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tableModel);
-  //      table.setRowSorter(sorter);
-        //jdk6
-        
-        
-        
-        frameQueryBrowser.setVisible(true);
-        
-   */     
-        
-          // Create a Frame and put the main panel in it.
-        //frameQueryBrowser = new JFrame("Query Browser ("+database+") "+dbUrl);
-       // frameQueryBrowser.addWindowListener(new WindowAdapter() {public void windowClosing(WindowEvent e) {System.exit(0);}});
-/*        frameQueryBrowser.setBackground(Color.lightGray);
-        frameQueryBrowser.getContentPane().add(panelData);
-        frameQueryBrowser.pack();
-        //frameQueryBrowser.setVisible(false);
-        //frameQueryBrowser.setBounds(200, 200, 800, 700);
-        
-        locateOnCenterOfTheScreen(frameQueryBrowser);
-        */
-        
+        this.setPreferredSize(new Dimension(1045,690));     
         
        }
 	   else
@@ -333,7 +271,7 @@ public class DialogQueryBrowser extends JDialog implements Constants
     /*
     * exists in DialogQueryBrowser and FrameRedirected
     */      
-//        fetchQueryProcessList();
+        fetchQueryProcessList();
          Thread.sleep(seconds - millis % seconds);
      }//While          
 
