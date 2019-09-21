@@ -485,15 +485,13 @@ public class PanelPrintPreview extends JxPanel implements Constants
         query=queryIn; // is getted from panel data filter
         pageSizeLaser=pageSizeLaserIn;
         pageOrientationIsPortraitLaser=pageOrientationIsPortraitLaserIn;     
-       // entityFilterSettings=entityFilterSettingsIn;
-        
-       // showColumnsPerBand=showColumnsPerBandIn;
-       // showColumnsHeader= showColumnsHeaderIn;   
-         //      queryFormForPrinting          formFieldToGetData
-               
 
+               
+     query=queryIn;
      queryFormForPrinting = entityReport.getFormQueryForPrinting(); //AND printForm.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId;
        
+     queryFormForPrinting=queryFormForPrinting+utilsString.getOrderbySubQuery(queryIn);
+     
        //   actiontype.dbCompanyId = 1 AND printForm.dbCompanyId = 1 AND                  
      formFieldToGetData = entityReport.getFormFieldToGetData();  
        
@@ -1635,9 +1633,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
        // reportPanelPage = new ReportPanelPage();
         reportPanelPage.setEntityForForm(name,isDotmatrix,"FORM",p,entityReport,query,reportCalcs.getListOfListOfColumns(),reportCalcs.getListOfRecords(), 
               queryFormForPrinting,formFieldToGetData,  arrayOfNameOfPksOfRecordToShow,arrayOfValueOfPksOfRecordToShow);
-        //panelScrollCenter.add(reportPanelPage,"page "+p); 
-        //panelScrollCenter.add(reportPanelDoc,"page "+p); 
-        //System.out.println("PanelPrintPreview.showPage      FORM       p:"+p+"     arrayOfNameOfPksOfRecordToShow:"+arrayOfNameOfPksOfRecordToShow);
+
    	 if (isDotmatrix)
          {
    	       strPrintDotMatrix = reportPanelPage.getStrPrintDotmatrixToView();
@@ -1662,7 +1658,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
              
               
              } */ 
-             System.out.println("PanelPrintPreview.showPage     formFieldToGetData:"+formFieldToGetData+"    queryFormForPrinting:"+queryFormForPrinting);
+             System.out.println("PanelPrintPreview.showPage     formFieldToGetData:"+formFieldToGetData+"    -   queryFormForPrinting:"+queryFormForPrinting+"    -     query:"+query);
              raForm =reportPanelPage.getPanelPageFormLaserToShow();//p, queryFormForPrinting,formFieldToGetData);//  getFormLaserToPrint();//  .getPanelPageFormLaserToPrint();
              
              
