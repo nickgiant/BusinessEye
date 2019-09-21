@@ -130,7 +130,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
         panelMain.add(scp, BorderLayout.CENTER);
         this.add(panelMain);
         pack();
-        show();
+        setVisible(true);
         this.setSize(600, 330);
     }
 

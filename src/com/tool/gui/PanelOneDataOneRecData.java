@@ -1,7 +1,3 @@
-/*       look for 
-*
-*/
-
 package com.tool.gui;
 
 import com.tool.model.LookUpMgt;

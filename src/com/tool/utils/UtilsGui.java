@@ -1,4 +1,3 @@
-// created 24-09-2006
 package com.tool.utils;
  
 import com.tool.model.EntityMessage;
@@ -6,9 +5,7 @@ import com.tool.model.EntityMessage;
   import com.tool.gui.*;
 
   import java.util.*;
-  //import com.l2fprod.gui.plaf.skin.Skin;
-  //import com.l2fprod.gui.plaf.skin.SkinLookAndFeel;  
-  
+ 
   import java.awt.*;
   import javax.swing.*;
 
@@ -290,17 +287,7 @@ public class UtilsGui implements Constants
         props.load(in);
 
         laf = props.getProperty("LookAndFeel");
-        //laf=  "org.jdesktop.swingx.plaf.nimbus.NimbusLookAndFeel";
-        
-        
-    /* Skin theSkinToUse = SkinLookAndFeel.loadThemePack(laf);
-        SkinLookAndFeel.setSkin(theSkinToUse);
-        UIManager.setLookAndFeel(new SkinLookAndFeel());*/
-       
-        
-         
-       // if (laf.equalsIgnoreCase("de.muntjak.tinylookandfeel.TinyLookAndFeel"))
-       // {   	Theme.style = Theme.XP_STYLE;     }
+
         
         if (laf.equals(""))
         {   laf = UIManager.getSystemLookAndFeelClassName() ;   }
@@ -337,14 +324,7 @@ public class MessagePanelError extends JPanel
   
   String message;
   int rows ;
-  /*public MessagePanelError(String message)
-  {
-    this.message = message;
-    try
-    {     initialize();   }
-    catch(Exception ex)
-    {    ex.printStackTrace();   }
-  }*/
+
 
   public MessagePanelError(String message, int rows)
   {
@@ -363,7 +343,6 @@ public class MessagePanelError extends JPanel
   {
   	
   	     //Font font = new Font(reportArea.getFont().getName(), Font.BOLD /*reportArea.getFont().getStyle()*/, 8);
-         
          //reportArea.setFont(font);*/
   	
     this.setLayout(new BorderLayout());
@@ -385,7 +364,6 @@ public class MessagePanelError extends JPanel
   public void setText(String text)
   {
     this.message = text;
-    // setPanelSize();
   }
   
   private void setPanelSize()
@@ -438,10 +416,6 @@ public class MessagePanelError extends JPanel
   		
   	}
      
-    // System.out.println("UtilsGui.setPanelSize height "+height+" "+rows);
-     // double to int
-    
-
   }
 
 

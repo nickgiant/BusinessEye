@@ -894,7 +894,7 @@ public class DialogHelp extends JDialog implements Constants
         this.pack();
         this.setSize(700,640);  // width/height
         locateOnCenterOfTheScreen();
-    	this.show();
+    	this.setVisible(true);
     }
     
     private void closeDialog()

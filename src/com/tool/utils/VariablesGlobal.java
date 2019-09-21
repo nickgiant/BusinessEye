@@ -1,7 +1,5 @@
 
  package com.tool.utils;
-
- 
  import java.awt.*;
  
 public class VariablesGlobal 

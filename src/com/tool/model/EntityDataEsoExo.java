@@ -1,5 +1,3 @@
-// created 10-2017
-// ServiceSales
 package com.tool.model;
 
 import com.tool.guicomps.*;

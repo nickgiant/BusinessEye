@@ -397,7 +397,7 @@ public class DialogDataTableConfig extends JDialog implements Constants
      {
      	locateOnCenterOfTheScreen();
         this.pack();
-        this.show();        
+        this.setVisible(true);     
         //this.showDialog();
      }
 

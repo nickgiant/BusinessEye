@@ -2,78 +2,6 @@
 // http://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html
 
 
-/*       look for
- * 
-
-
-         Database dbTransaction = new Database();
-         try
-         {
-          dbTransaction.transactionLoadConnection();
-          dbTransaction.setTransactionAutoCommit(false);
-         System.out.println("PanelODOR.rowDelete     dbTransaction:"+dbTransaction);                 
-         
-         ------- method throws SQLException  (no try ....catch)  
-         --------- transactionUpdateQuery
-        
-        dbTransaction.transactionCommit();
-        dbTransaction.setTransactionAutoCommit(true);               
-       
-       }
-       catch(SQLException e)
-       {
-           dbTransaction.transactionRollback();
-           System.out.println(" error  PanelODOR.rowDelete   rollBack  dbTransaction:"+dbTransaction); 
-           dbTransaction.transactionUpdateQuerySQLException(e,true,"PanelODOR.rowDelete");
-          
-       }
-       finally
-	{
-	      if (!dbTransaction.isTransactionConnectionNull())
-              {
-	           dbTransaction.transactionClose();
-              }
-        }  
-
-
-
-
-
- *      dbTransaction = new Database();
-      try
-      {
- *      
- *      dbTransaction.transactionLoadConnection();   // keeps connection in db class, no return
- *      dbTransaction.setTransactionAutoCommit(false);
-          
-        dbTransaction.transactionUpdateQuery(" sql  ");
-
-*       dbTransaction.transactionCommit();
-        dbTransaction.setTransactionAutoCommit(true);
-                      
-        dbTransaction.setTransactionClose();
-
-        }
-        catch (SQLException e) 
-        {
- 
-			System.out.println(e.getMessage());
-			dbTransaction.getConnectionTransaction().rollback();
- 
-	}
-        finally
-        {
- 
-			if (isTransactionConnectionNull)     // getConnectionForTransaction  returns
-                        {
-				dbTransaction.getConnectionTransaction().close();  // getConnectionForTransaction  returns
-			}
- 
-	}
-
- * 
- */
-
 package com.tool.jdbc;
 
 import com.tool.utils.*;
@@ -118,8 +46,7 @@ public class Database implements Constants
    private WindowWait wWaitTimer = null;
    private Timer timer;
  
- // private Column column;
- 
+
 	public Database() 
 	{     
       utilsGui=new UtilsGui();

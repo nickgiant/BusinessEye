@@ -331,7 +331,7 @@ public class DialogDataEditConfig extends JDialog implements Constants
      	
         this.pack();
         locateOnCenterOfTheScreen();
-        this.show();        
+        this.setVisible(true);      
         //this.showDialog();
      }        
         

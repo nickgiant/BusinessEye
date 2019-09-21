@@ -477,7 +477,7 @@ public class PanelDateChooser extends JPanel implements ItemListener, MouseListe
 	month.setSelectedIndex( _month-Calendar.JANUARY );
 	setSelected( _day );
 	okClicked = false;
-	show();
+	setVisible(true);
 	if ( !okClicked )
 	    return null;
 	calendar.set( Calendar.DATE, getSelectedDay() );
