@@ -492,7 +492,7 @@ public class PanelPrintPreview extends JxPanel implements Constants
          //      queryFormForPrinting          formFieldToGetData
                
 
-     queryFormForPrinting = entityReport.getFormQueryForPrinting(); //AND printForm.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId;
+     queryFormForPrinting = entityReport.getFormQueryForPrinting()+" "+utilsString.getOrderbySubQuery(queryIn); //AND printForm.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId;
        
        //   actiontype.dbCompanyId = 1 AND printForm.dbCompanyId = 1 AND                  
      formFieldToGetData = entityReport.getFormFieldToGetData();  
