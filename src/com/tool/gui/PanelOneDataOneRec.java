@@ -1331,8 +1331,14 @@ import javax.swing.text.JTextComponent;
        }
        
        }
-
-         
+              for(int p=0;p<listPanelOneDataOneRecData.size();p++)
+             {
+                   PanelOneDataOneRecData pnlODORData = (PanelOneDataOneRecData)listPanelOneDataOneRecData.get(p);
+                   //System.out.println("--->PanelODOR.rowSave     dbTransaction:"+dbTransaction+"   p:"+p);  
+                  // if(p==0)// only when the data of the first 'tab' panel is saved, show data and title. When isNewRec is true.
+                   //{
+                pnlODORData.setVisibleOrEditableFields(true);
+             }
         
    }
    

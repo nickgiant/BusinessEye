@@ -9553,8 +9553,9 @@ ps.setBytes(i, b);
    * In table cell: editable is defined in tableModelResultSet.isCellEditable, visible is defned in PanelODMRData.packColumnsWritable
    * and FIELD_VISIBLE_NOT_EDITABLE_WHENEDIT_BUT_EDITABLE_ON_NEW not defined
    *   exists both in rowNew and setEntity. The reason is that it has to be called when is already in edit row and would like to make a new row 
+   * also called in   panelODOR.showPrintPreviewForm
    */
-   private void setVisibleOrEditableFields(boolean calledByEditOrNew)
+   public void setVisibleOrEditableFields(boolean calledByEditOrNew)
    {
  
        boolean shouldBeReadOnly = false;
