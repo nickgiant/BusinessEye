@@ -1,4 +1,3 @@
-// Created on 4-11-2005 
 
   package com.tool.gui;
    
@@ -142,11 +141,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
         //panelMain = new JxPanel();
         panelActionButtons = new JxPanel();        
         lblCompany = new JLabel();
-       // lblUser = new JLabel();
-        //lblPassword = new JLabel();
-        //txtUser = new JTextField();
-        //txtPassword = new JPasswordField();
-        //txtPassword = new JTextField();
+
         lblYear = new JLabel();
         scrollpaneCompany = new JScrollPane();
         scrollpaneYear = new JScrollPane();
@@ -154,8 +149,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
         lblDate = new JLabel();
         //txtDate = new JTextField();
         panelBottom = new JxPanel();
-//        panelBottomCompany = new JxPanel();
-//        panelBottomYear = new JxPanel();
+
         btnOk = new JButtonForPanelDecorated();
         btnClose = new JButtonForPanelDecorated();
         btnCreateCompany = new JButtonForPanelDecorated();
@@ -205,19 +199,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
         
         panelMain.add(new JLabel(""));
 
-        
-      //  lblUser.setText(UtilsResource.getString("User"));
-       // panelTextBoxes.add(lblUser);//, new AbsoluteConstraints(leftOfRightComps+21, topOfLabels, -1, -1));
 
-        //txtUser.setText("nik");
-      //  panelTextBoxes.add(txtUser);//, new AbsoluteConstraints(leftOfRightComps, topOfComponents, 90, -1));
-
-       // lblPassword.setText(UtilsResource.getString("Password"));
-       // panelTextBoxes.add(lblPassword);//, new AbsoluteConstraints(leftOfRightComps+21, 55, -1, -1));
-        
-        
-       // txtPassword.setText("1");
-       // panelTextBoxes.add(txtPassword);//, new AbsoluteConstraints(leftOfRightComps, 70, 90, -1));
         
         tableModel= new TableModelReadOnly();
         table = new JTableDec(tableModel);
@@ -301,36 +283,8 @@ public class DialogCompanyLogin extends JDialog implements Constants
         
 
         scrollpaneYear.setPreferredSize(new Dimension(140, 220));
-      /*ListSelectionListener listSelectionListener = new ListSelectionListener() {
-      public void valueChanged(ListSelectionEvent listSelectionEvent) {
-        System.out.print("First index: " + listSelectionEvent.getFirstIndex());
-        System.out.print(", Last index: " + listSelectionEvent.getLastIndex());
-        boolean adjust = listSelectionEvent.getValueIsAdjusting();
-        System.out.println(", Adjusting? " + adjust);
-        if (!adjust) {
-          JList list = (JList) listSelectionEvent.getSource();
-          int selections[] = list.getSelectedIndices();
-          Object selectionValues[] = list.getSelectedValues();
-          for (int i = 0, n = selections.length; i < n; i++) {
-            if (i == 0)
-            {
-              System.out.print("  Selections: ");
-            }
-            txtDate.setYearEnforce(selectionValues[i]+"");
-            System.out.print(selections[i] + "/" + selectionValues[i] + " ");
-          }
-          System.out.println();
-        }
-      }
-    };
-    listYear.addListSelectionListener(listSelectionListener); */
-        
-        
-        
-        
-        
-        
-        
+
+
         panelMain.add(scrollpaneYear);//, new AbsoluteConstraints(258, topOfComponents, 50, 187));
 
 
@@ -400,63 +354,10 @@ public class DialogCompanyLogin extends JDialog implements Constants
         
         panelTextBox.add(txtDate.getComponent());//, new AbsoluteConstraints(leftOfRightComps-5, 115, 100, -1));
       
-        
-        /*JPanel panelBorderInsideTextBoxes = new JPanel();
-        panelBorderInsideTextBoxes.setPreferredSize(new Dimension(10, 90));
-        panelBorderInsideTextBoxes.setOpaque(false);
-        panelTextBoxes.add(panelBorderInsideTextBoxes);*/
-        
-        //panelMain.add(panelTextBox);
 
-//        panelBottom.setLayout(new AbsoluteLayout());
-        //panelBottom.setLayout(new BoxLayout(panelBottom, BoxLayout.X_AXIS));
         panelBottom.setLayout(new FlowLayout());
         panelBottom.setBorder(BorderFactory.createEmptyBorder(0, 3, 3, 3));
         
- /*       panelBottomCompany.setLayout(new BoxLayout(panelBottomCompany, BoxLayout.Y_AXIS));
-        //panelBottomCompany.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        panelBottomYear.setLayout(new BoxLayout(panelBottomYear, BoxLayout.Y_AXIS));
-
-        btnCreateCompany.setText("<html>"+UtilsResource.getString("CreateCompany")+ " <b>N</b></html>");
-        btnCreateCompany.setMnemonic(KeyEvent.VK_N);
-        btnCreateCompany.setFocusable(false);
-        btnCreateCompany.setIcon(ICO_INSERT16);
-        btnCreateCompany.addActionListener(new ActionListener()
-        {
-	        public void actionPerformed(ActionEvent e) 
-	        {      createCompany();	      }
-	    });
-
-        btnDeleteCompany.setText("<html>"+UtilsResource.getString("DeleteCompany")+" <b>E</b></html>");
-        btnDeleteCompany.setMnemonic(KeyEvent.VK_E);
-        btnDeleteCompany.setFocusable(false);
-        btnDeleteCompany.setIcon(ICO_DELETE16);
-        btnDeleteCompany.addActionListener(new ActionListener()
-        {
-	        public void actionPerformed(ActionEvent e) 
-	        {      deleteCompany();     	      }
-	    });
-
-        btnCreateYear.setText("<html>"+UtilsResource.getString("NewYear")+" <b>Ά</b></html>");
-        btnCreateYear.setMnemonic(KeyEvent.VK_A);
-        btnCreateYear.setFocusable(false);
-        btnCreateYear.setIcon(ICO_INSERT16);
-        btnCreateYear.addActionListener(new ActionListener()
-        {
-	        public void actionPerformed(ActionEvent e) 
-	        {      createYear();	      }
-	    });
-
-        btnDeleteYear.setText("<html>"+UtilsResource.getString("DeleteYear")+" <b>X</b></html>");
-        btnDeleteYear.setMnemonic(KeyEvent.VK_X);
-        btnDeleteYear.setFocusable(false);
-        btnDeleteYear.setIcon(ICO_DELETE16);
-        btnDeleteYear.addActionListener(new ActionListener()
-        {
-	        public void actionPerformed(ActionEvent e) 
-	        {      deleteYear();     	      }
-	    });
-*/
         panelActionButtons.setLayout(new BoxLayout(panelActionButtons, BoxLayout.X_AXIS));
 
         btnOk.setIcon(ICO_OK16);
@@ -521,8 +422,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
     	
     	//String query="SELECT  c.dbCompanyId, c.title, i.count FROM dbcompany c LEFT JOIN (SELECT COUNT(dbCompanyId) AS count,dbCompanyId FROM invoice i GROUP BY dbCompanyId ) i ON  c.dbCompanyId = i.dbCompanyId";
     	String query = "SELECT dbCompanyId AS \"No\", companyName AS \"εταιρίες\", companyVatNo AS \"ΑΦΜ\" FROM dbcompany ORDER BY dbCompanyId";//title";      //   , companyAfm AS \"ΑΦΜ\"  
-        //tableModel= new TableModelReadOnly();
-        //table.setModel(tableModel);
+
         tableModel.setQuery(query);
  
         //table.setTableHeader(null); //no table header
@@ -565,7 +465,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
            }
           // table.setToolTipText("<html><table>"+strListOfYears+"</table></html>");
           listYear.setListData(years);
-          //listYear.setSelectedIndex(years.size()-1);
+
           
           closeDB();
            //setListData(Object[] listData) 
@@ -828,72 +728,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
   	
   }
 
-    /**
-     * Checks if login data is correct.
-     * @param dbCompanyId the id of the company.
-     * @param user the username of the user.
-     * @param pass the password of the user.
-     * @return if login data is correct.
-     */  
-   /*public boolean checkUserNPassFordbCompanyId(int dbCompanyId,String user, String pass)
-   {
-      boolean loginOk=false;
-      
-      if(user.equalsIgnoreCase(""))
-      {
-          utilsGui.showMessageError(this,"Ο χρήστης και ο κωδικός πρέπει να είναι συμπληρωμένα!");
-           loginOk=false;
-      }
-      else
-      {
-      try
-      {	   
-      	   ResultSet rs;
-           ResultSetMetaData rsmd;
-           
-           String query = "SELECT userId, username, password FROM dbuser WHERE username='"+utilsString.escapeSqlInjection(user)+"' AND password='"+utilsString.escapeSqlInjection(pass)+"' ";
-           //String query = "SELECT userId, username, password FROM dbuser WHERE username='"+user+"' AND password='"+pass+"' ";  //      ' OR '1'='1 
-           
-         if (VariablesGlobal.globalShowSQL)
-         {          
-           System.out.println("DialogCompanyLogin.checkUserNPassFordbCompanyId: "+query);
-         }    
-           //rs = db.retrieveResultSet(query);
-           db.retrieveDBDataFromQuery(query,"DialogCompanyLogin.checkUserNPassFordbCompanyId");
-           //db.retrieveDBDataFromQueryPreparedStatement(query,"DialogCompanyLogin.checkUserNPassFordbCompanyId");     ' OR '1'='1 
-   	       rs=db.getRS();
-   	       rsmd=db.getRSMetaData();
-         
-         
-         //System.out.println("DialogCompanyLogin.checkUserNPassFordbCompanyId  hasOneOnlyRow="+hasOneOnlyRow);
-         if ( rs.next() ) // for mysql, h2 and sqlite   //rs.isFirst()) //hasOneOnlyRow !=0 ) 
-         { 
-             userId =  rs.getString("userId");  //hasOneOnlyRow; // the first and only
-             loginOk=true; 
-             
-         }
-         else
-         {
-           	  loginOk=false;
-           	  utilsGui.showMessageError(UtilsResource.getString("UsernameAndPasswordNotCorrect"));
-         }
-          //System.out.println("DialogCompanyLogin.checkUserNPassFordbCompanyId  hasOneOnlyRow="+hasOneOnlyRow);
-          
-           //db.releaseConnectionRs();
-           //setListData(Object[] listData) 
-       }
-       catch ( SQLException sqlex)
-       {
-           System.out.println("error:DialogCompanyLogin.checkUserNPassFordbCompanyId: "+sqlex.getMessage());
-           //sqlex.printStackTrace();
-       }
-      finally
-      {
-             closeDB();     
-      }
-      }// if
-   	   return loginOk;
-   }*/
+
 
     /**
      * Gets the selected company.
@@ -1170,15 +1005,8 @@ public class DialogCompanyLogin extends JDialog implements Constants
             {
                 yearDescr="";
             }
-            /*while ( rs.next() )
-           {  
-              years.add(rs.getString(1));
-           }
-          listYear.setListData(years);
-          listYear.setSelectedIndex(years.size()-1) ;*/
-          
-         
-           //setListData(Object[] listData) 
+
+
        }
        catch ( SQLException sqlex)
        {
