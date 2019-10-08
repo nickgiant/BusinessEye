@@ -41,6 +41,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -85,6 +86,7 @@ public class DialogDbConnect  extends JDialog implements Constants
     private JTextField txtDbUrl;
     private JTextField txtDbUser;
     private JTextField txtDbPass;
+   // private JTextField txtDbSalt;
     //private JTextField txtBackupDir;
     //private JTextField txtDbEngineDir;    
     private JTextField txtDbSettingsDir;   
@@ -110,6 +112,7 @@ public class DialogDbConnect  extends JDialog implements Constants
     
     private static UtilsOS utilsOS;
     private static UtilsGui utilsGui;
+    private static UtilsString utilsString;
     
     //private WindowWait ww;
     
@@ -155,9 +158,9 @@ public class DialogDbConnect  extends JDialog implements Constants
     private String   curDir;
     
          static ArrayList classes;
-    
+   
         // private DialogQueryBrowser dialogQueryBrowser;
-         
+     //private PasswordUtils passUtils;    
          
          
     public DialogDbConnect()//(Frame parent, boolean modal)
@@ -187,7 +190,7 @@ public class DialogDbConnect  extends JDialog implements Constants
        systemDirectorySymbol=System.getProperty("file.separator");
        
        utilsGui = new UtilsGui(); 
-
+       utilsString = new UtilsString();
        //utilsOS = new UtilsOS();
 
       systemDirectorySymbol=System.getProperty("file.separator");
@@ -217,6 +220,7 @@ public class DialogDbConnect  extends JDialog implements Constants
 //        dbName = "farmersvat";
         dbUser="root";
         dbPass="";
+        
                 
         
         panelButtons = new JPanel();
@@ -244,6 +248,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         lblDbPass = new JLabel("κωδικός:", JLabel.CENTER);
         //JLabel lblBackupDir = new JLabel("back up dir:", JLabel.CENTER);
         JLabel lblDbSettingsDir = new JLabel("settings dir:", JLabel.CENTER);
+        //JLabel lblDbSalt = new JLabel("salt:", JLabel.CENTER);
         
         //JLabel lblDbEngineDir = new JLabel("db engine dir:", JLabel.CENTER);
         lblDBInfo = new JLabel("info:", JLabel.CENTER);
@@ -253,7 +258,8 @@ public class DialogDbConnect  extends JDialog implements Constants
         txtDbDriver = new JTextField(intTxtLength);
         txtDbUrl = new JTextField(intTxtLength);
         txtDbUser = new JTextField(intTxtLength);
-        txtDbPass = new JTextField(intTxtLength);
+        txtDbPass = new JPasswordField(intTxtLength);
+        //txtDbSalt = new JTextField(intTxtLength);
         //txtBackupDir= new JTextField(55);
         txtDbSettingsDir = new JTextField(intTxtLength);
         //txtDbEngineDir= new JTextField(55);        
@@ -356,6 +362,8 @@ public class DialogDbConnect  extends JDialog implements Constants
        panelLabelsAndTexts.add(txtDbUser);
        panelLabelsAndTexts.add(lblDbPass);
        panelLabelsAndTexts.add(txtDbPass);
+       //panelLabelsAndTexts.add(lblDbSalt);
+       //panelLabelsAndTexts.add(txtDbSalt);       
        //panelLabelsAndTexts.add(lblBackupDir);
        //panelLabelsAndTexts.add(txtBackupDir);
        //panelLabelsAndTexts.add(lblDbEngineDir);        
@@ -495,7 +503,14 @@ public class DialogDbConnect  extends JDialog implements Constants
         dbUrl = props.getProperty("jdbc.url");
         dbDriver = props.getProperty("jdbc.drivers");
         dbUser = props.getProperty("jdbc.username");
-        dbPass = props.getProperty("jdbc.password");
+        // dbSalt = props.getProperty("jdbc.salt");
+
+        dbPass = utilsString.decrypt(props.getProperty("jdbc.password"));
+           
+          
+         
+        
+       
         //dbPath=props.getProperty("derby.system.home");
         //dbEngineDir=props.getProperty("backup.dbenginedir");
         //backUpsDir=props.getProperty("backup.filesdir");
@@ -613,7 +628,9 @@ public class DialogDbConnect  extends JDialog implements Constants
           txtDbUser.setEditable(true);
           txtDbUser.setText(dbUser);
           txtDbPass.setEditable(true);
-          txtDbPass.setText(dbPass);
+          //txtDbPass.setText(dbPass);
+         // txtDbSalt.setEditable(false);
+          //txtDbSalt.setText(dbSalt);
           //txtDbEngineDir.setText(dbEngineDir);
           
           dbCheck(dbEngine);  
@@ -655,7 +672,9 @@ public class DialogDbConnect  extends JDialog implements Constants
           txtDbUser.setEditable(true);
           txtDbUser.setText(dbUser);
           txtDbPass.setEditable(true);
-          txtDbPass.setText(dbPass);
+          //txtDbPass.setText(dbPass);
+          //txtDbSalt.setEditable(false);
+         // txtDbSalt.setText(dbSalt);
           //txtDbEngineDir.setText(dbEngineDir);
           
           dbCheck(dbEngine);  
@@ -687,7 +706,7 @@ public class DialogDbConnect  extends JDialog implements Constants
           txtDbUser.setEditable(true);
           txtDbUser.setText(dbUser);
           txtDbPass.setEditable(true);
-          txtDbPass.setText(dbPass);
+          //txtDbPass.setText(dbPass);
           //txtDbEngineDir.setText("");
           
           dbCheck(dbEngine);  
@@ -747,7 +766,7 @@ public class DialogDbConnect  extends JDialog implements Constants
           txtDbUser.setEditable(true);
           txtDbUser.setText(dbUser);
           txtDbPass.setEditable(true);
-          txtDbPass.setText(dbPass);
+          //txtDbPass.setText(dbPass);
           //txtDbEngineDir.setText("");
           
           dbCheck(dbEngine);
@@ -764,7 +783,7 @@ public class DialogDbConnect  extends JDialog implements Constants
           dbUrl=txtDbUrl.getText();
           dbUser=txtDbUser.getText();
           dbPass=txtDbPass.getText();
-        
+         // dbSalt = txtDbSalt.getText();
                
         try  // load driver
         {
@@ -916,7 +935,13 @@ public class DialogDbConnect  extends JDialog implements Constants
         //{           System.setProperty("derby.system.home", dbDir);  } // load it
 
         p.put("user", txtDbUser.getText());// username);
-        p.put("password", txtDbPass.getText());//password);
+        //dbSalt = txtDbSalt.getText();
+
+            
+            
+           //String pass = passUtils.generateSecurePassword(txtDbPass.getText(), dbSalt);
+           p.put("password", dbPass);//password);
+
         p.put("useUnicode", "true");
         p.put("characterEncoding", "utf8");//iso-8859-7
       
@@ -1065,7 +1090,13 @@ public class DialogDbConnect  extends JDialog implements Constants
           fileProperties.setProperty("jdbc.url", dbUrl);
           fileProperties.setProperty("jdbc.drivers", dbDriver);
           fileProperties.setProperty("jdbc.username", dbUser);
-          fileProperties.setProperty("jdbc.password", dbPass);
+         // UserDataStore p = UserDataStore.getInstance();          
+         // fileProperties.setProperty("jdbc.password", p.calcAndGetEncodedPassword(dbPass));
+                
+        // Protect user's password. The generated value can be stored in DB.
+        String pass = utilsString.encrypt(dbPass);
+        fileProperties.setProperty("jdbc.password", pass);
+        //fileProperties.setProperty("jdbc.salt", dbSalt);
           //fileProperties.setProperty("derby.system.home", dbPath);
           //fileProperties.setProperty("backup.dbenginedir", dbEngineDir);
          // fileProperties.setProperty("backup.filesdir", backUpsDir);

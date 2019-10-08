@@ -19,6 +19,7 @@ public class DbConnection implements Constants
 {
 	private static String systemDirectorySymbol=System.getProperty("file.separator");
     private static UtilsOS utilsOS;
+    private static UtilsString utilsString;
 //	private static String dbDriver = "com.mysql.jdbc.Driver";
 	/*private static String dbId = "jdbc:mysql://localhost/mc02ngdb";//name of database
 	private static String dbUser = "mc02ng_web";//only select, insert, update, delete
@@ -48,6 +49,7 @@ public class DbConnection implements Constants
     
    public static int getDBEngineOfConnectionFromFile()
    {
+       utilsString =  new UtilsString();
        int dbEngine=0;
      try
      {
@@ -89,6 +91,7 @@ public class DbConnection implements Constants
     
    public static Connection getConnectionFromFile()throws SQLException
    {
+       utilsString =  new UtilsString();
    	utilsOS = new UtilsOS();
    	
         Properties p = new Properties(); // properties to be used for connection
@@ -138,7 +141,7 @@ public class DbConnection implements Constants
         {           System.setProperty("derby.system.home", dbDir);  } // load it
 
         p.put("user", props.getProperty("jdbc.username"));// username);
-        p.put("password", props.getProperty("jdbc.password"));//password);
+        p.put("password",utilsString.decrypt(props.getProperty("jdbc.password")));//password);
         p.put("useUnicode", "true");
         p.put("characterEncoding", "utf8");//iso-8859-7
       

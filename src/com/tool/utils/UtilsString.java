@@ -9,8 +9,20 @@ import java.io.IOException;
 //import sun.misc.BASE64Encoder;
 
 
+import java.util.Base64;
+ 
 
-
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.AlgorithmParameterSpec;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import javax.crypto.*;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.PBEParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.spec.IvParameterSpec;
 
 
  public class UtilsString implements Constants
@@ -19,6 +31,9 @@ import java.io.IOException;
   //private static ResourceBundle res = ResourceBundle.getBundle("org.isqlviewer.resource.ResourceStrings");  	
   	           ArrayList listQueryFieldToGetTheValueFrom ;
            ArrayList listQueryValue ;
+           
+    private static String secretKey = "s!!!n!g!rg1651651gr";
+    private static String salt = "pdisghpi!hgopihoph!bholo";
   	
     public UtilsString()
     {
@@ -1731,6 +1746,18 @@ System.out.println(" --  UtilsString.setEntity  4   queryWithoutWhere4:"+queryBe
    
     System.out.println(" gk == "+a.replaceFromQueryValuesWithQuestionmarks("SELECT sxesoexoheader.*,sxactionType.* FROM sxesoexoheader, sxactionType WHERE sxesoexoheader.dbCompanyId = sxactionType.dbCompanyId AND  sxesoexoheader.dbCompanyId = sxesoexoline.dbCompanyId AND sxaccount.accountId = sxesoexoline.accountId AND sxesoexoheader.isTemplate='0' AND sxesoexoheader.dbCompanyId LIKE 1"));
 
+
+    String originalString = "howtodoinjava.com";
+     
+    String encryptedString = a.encrypt(originalString) ;
+    String decryptedString = a.decrypt(encryptedString) ;
+      
+    System.out.println(originalString);
+    System.out.println(encryptedString);
+    System.out.println(decryptedString);
+
+
+
 }
 
 
@@ -1781,25 +1808,53 @@ public static String escapeSqlInjection(String s)
     return sb.toString();
   }
 
+//https://howtodoinjava.com/security/aes-256-encryption-decryption/
+public  String encrypt(String strToEncrypt)
+{
+    try
+    {
+        byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        IvParameterSpec ivspec = new IvParameterSpec(iv);
+         
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        KeySpec spec = new PBEKeySpec(secretKey.toCharArray(), salt.getBytes(), 65536, 256);
+        SecretKey tmp = factory.generateSecret(spec);
+        SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+         
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
+        return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
+    }
+    catch (Exception e)
+    {
+        System.out.println("Error while encrypting: " + e.toString());
+    }
+    return null;
+}
+
+//https://howtodoinjava.com/security/aes-256-encryption-decryption/
+public  String decrypt(String strToDecrypt) {
+    try
+    {
+        byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        IvParameterSpec ivspec = new IvParameterSpec(iv);
+         
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        KeySpec spec = new PBEKeySpec(secretKey.toCharArray(), salt.getBytes(), 65536, 256);
+        SecretKey tmp = factory.generateSecret(spec);
+        SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+         
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
+        return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+    }
+    catch (Exception e) {
+        System.out.println("Error while decrypting: " + e.toString());
+    }
+    return null;
+}
 
 
-// from https://stackoverflow.com/questions/3769622/encrypt-and-decrypt-property-file-value-in-java
-/*public String encode(String str) {
-    BASE64Encoder encoder = new BASE64Encoder();
-    str = new String(encoder.encodeBuffer(str.getBytes()));
-    return str;
-}*/
-
-// from https://stackoverflow.com/questions/3769622/encrypt-and-decrypt-property-file-value-in-java
-/*public String decode(String str) {
-    BASE64Decoder decoder = new BASE64Decoder();
-    try {
-        str = new String(decoder.decodeBuffer(str));
-    } catch (IOException e) {
-        e.printStackTrace();
-    }       
-    return str;
-}*/
 
 	
 
