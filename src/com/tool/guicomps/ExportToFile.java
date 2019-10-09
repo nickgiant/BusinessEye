@@ -318,8 +318,13 @@ import jxl.write.WriteException;
                 for (j = 0; j < model.getColumnCount(); j++)
                 {
                     //Label lblRow = new Label(j, i + 1, model.getValueAt(i, j).toString(),writableCellFormatTimes);
+                    if(model.getValueAt(i, j)!=null)
+                    {
+                   //System.out.println(j+"  "+ i +" " +model.getValueAt(i, j).toString());
                     data = new jxl.write.Label(j, i+1, model.getValueAt(i, j).toString(), writableCellFormatTimes);
-                    excelSheet.addCell(data);                     
+                    excelSheet.addCell(data);                           
+                    }
+                   
                    //sheet1.addCell(row);
                 }
             }
