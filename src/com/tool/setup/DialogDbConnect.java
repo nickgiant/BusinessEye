@@ -1095,7 +1095,15 @@ public class DialogDbConnect  extends JDialog implements Constants
                 
         // Protect user's password. The generated value can be stored in DB.
         String pass = utilsString.encrypt(dbPass);
-        fileProperties.setProperty("jdbc.password", pass);
+        if(pass==null || pass.equalsIgnoreCase(""))
+        {
+         
+          ret=false;
+        }
+        else
+        {
+             fileProperties.setProperty("jdbc.password", pass);
+        }
         //fileProperties.setProperty("jdbc.salt", dbSalt);
           //fileProperties.setProperty("derby.system.home", dbPath);
           //fileProperties.setProperty("backup.dbenginedir", dbEngineDir);

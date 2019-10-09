@@ -66,7 +66,6 @@ public class Database implements Constants
       {
          System.out.println("error: Database.transactionLoadConnection() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
       }
-       //return con;
    }        
    
    
@@ -109,15 +108,10 @@ public class Database implements Constants
   public void transactionCommit()
   {
     try
-    {
-        
-       
+    {       
       transactionConnection.commit();
       //System.out.println("Database.transactionCommit     ");
       // updateShowWindowSuccess(messageInWindow);
-      
-      
-      
     }
     catch (SQLException ex)
     {
@@ -143,8 +137,6 @@ public class Database implements Constants
                 {
                     ex1.printStackTrace();     
                 }                
-         
-              
             }
       }   
   }
@@ -711,11 +703,11 @@ public class Database implements Constants
    
    public Connection getConnection()
    {
-       try
-       {
+      try
+      {
             con = DbConnection.getConnectionFromFile();
-       }
-       catch ( SQLException sqlex)
+      }
+      catch ( SQLException sqlex)
       {
          System.out.println("error: Database.getConnection() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
       }

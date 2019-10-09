@@ -24,6 +24,13 @@ import javax.crypto.spec.PBEParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
+import javax.crypto.Cipher;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
+
+
 
  public class UtilsString implements Constants
  {
@@ -1828,12 +1835,19 @@ public  String encrypt(String strToEncrypt)
     catch (Exception e)
     {
         System.out.println("Error while encrypting: " + e.toString());
+        UtilsGui utilsGui = new UtilsGui();
+        utilsGui.showMessageError("Error while encrypting: " + e.getMessage()+". Application will terminate");
+        
+        System.exit(0);
+        
+        
     }
     return null;
 }
 
 //https://howtodoinjava.com/security/aes-256-encryption-decryption/
-public  String decrypt(String strToDecrypt) {
+public  String decrypt(String strToDecrypt) 
+{
     try
     {
         byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -1850,12 +1864,55 @@ public  String decrypt(String strToDecrypt) {
     }
     catch (Exception e) {
         System.out.println("Error while decrypting: " + e.toString());
+        UtilsGui utilsGui = new UtilsGui();
+        utilsGui.showMessageError("Error while decrypting: " + e.getMessage()+". Application will terminate");
+                
+        System.exit(0);
+        
     }
     return null;
 }
 
+/*
+*    https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
+*/
+public void fixEncryptDecryptKeyLength() {
+    String errorString = "Failed manually overriding key-length permissions.";
+    int newMaxKeyLength;
+    try {
+        if ((newMaxKeyLength = Cipher.getMaxAllowedKeyLength("AES")) < 256) {
+            Class c = Class.forName("javax.crypto.CryptoAllPermissionCollection");
+            Constructor con = c.getDeclaredConstructor();
+            con.setAccessible(true);
+            Object allPermissionCollection = con.newInstance();
+            Field f = c.getDeclaredField("all_allowed");
+            f.setAccessible(true);
+            f.setBoolean(allPermissionCollection, true);
 
+            c = Class.forName("javax.crypto.CryptoPermissions");
+            con = c.getDeclaredConstructor();
+            con.setAccessible(true);
+            Object allPermissions = con.newInstance();
+            f = c.getDeclaredField("perms");
+            f.setAccessible(true);
+            ((Map) f.get(allPermissions)).put("*", allPermissionCollection);
 
+            c = Class.forName("javax.crypto.JceSecurityManager");
+            f = c.getDeclaredField("defaultPolicy");
+            f.setAccessible(true);
+            Field mf = Field.class.getDeclaredField("modifiers");
+            mf.setAccessible(true);
+            mf.setInt(f, f.getModifiers() & ~Modifier.FINAL);
+            f.set(null, allPermissions);
+
+            newMaxKeyLength = Cipher.getMaxAllowedKeyLength("AES");
+        }
+    } catch (Exception e) {
+        throw new RuntimeException(errorString, e);
+    }
+    if (newMaxKeyLength < 256)
+        throw new RuntimeException(errorString); // hack failed
+}
 	
 
 

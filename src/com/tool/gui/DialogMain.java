@@ -1,4 +1,3 @@
-
  package com.tool.gui;
  
  import com.tool.utils.*;
@@ -51,6 +50,8 @@ public class DialogMain extends JxFrame implements Constants
     private static UtilsGui utilsGui = new UtilsGui();
 //    Logger logger = Logger.getLogger("mine");
     private static UtilsFileSystem utilsFileSystem;
+    private static UtilsOS utilsOS;
+    private static UtilsString utilsString;    
    /* private Integer LAYER_FIRST  = new Integer(1); //base manage
     private Integer LAYER_SECOND   = new Integer(2); 
     private Integer LAYER_THIRD     = new Integer(3); 
@@ -96,7 +97,7 @@ public class DialogMain extends JxFrame implements Constants
     
     
     private static JFrame frame;
-    private static UtilsOS utilsOS;
+
     private static String systemDirectorySymbol;
     
     private EntityData entityData;
@@ -144,6 +145,7 @@ public class DialogMain extends JxFrame implements Constants
     {    
         toolBarMain = new ToolBarMain();
         utilsOS = new UtilsOS(); 
+        utilsString = new UtilsString();
         	utilsFileSystem = new UtilsFileSystem();
                 utilsDouble=new UtilsDouble();
             dlgBackup = new DialogBackUp();    
@@ -2767,7 +2769,7 @@ manager.addChangeListener(updateListener);*/
     
         if(VariablesGlobal.globalShowFrameRedirected)
         {
-          new FrameRedirected(true, false, null, 1080,850, JFrame.DISPOSE_ON_CLOSE);
+          new FrameRedirected(true, false, null, 1080,980, JFrame.DISPOSE_ON_CLOSE);
         }
         //(boolean catchErrors, boolean logFile, String fileName, int width,
          //int height, int closeOperation)
@@ -2805,6 +2807,10 @@ manager.addChangeListener(updateListener);*/
         }      
             System.out.println("DialogMain.main args "+args[0]);
         }        
+        
+        ///   https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
+        utilsString = new UtilsString();
+        utilsString.fixEncryptDecryptKeyLength();
         
         // set right click on texts
         Toolkit.getDefaultToolkit().getSystemEventQueue().push(new EventQueueTxtRightClick()); 

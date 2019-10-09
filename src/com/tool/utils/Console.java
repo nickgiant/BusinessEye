@@ -1,4 +1,3 @@
-// created 28-10-2009
 // copy from http://www.exampledepot.com/egs/javax.swing.text/ta_Console.html
 
 /*

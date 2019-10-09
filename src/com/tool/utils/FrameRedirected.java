@@ -1,4 +1,3 @@
-// created in 28-10-2009
 // from  http://www.rgagnon.com/javadetails/java-0435.html
 
 package com.tool.utils;
