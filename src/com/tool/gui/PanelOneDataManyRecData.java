@@ -3510,15 +3510,15 @@ public int getRowCountFromReadOnlyTable()
    public void exportTo(String type)
    {//same as PanelStatistics.exportTo
    	  
-/*   	  int colCount = tableModelReadOnly.getColumnCount();
+   	  int colCount = tableModelReadOnly.getColumnCount();
       String[] colNames = tableModelReadOnly.getTableColumnRealNames();
       Class[] colClass = tableModelReadOnly.getTableColumnsClass();
       Vector data = tableModelReadOnly.getTableDataVector();
-      
+     
       ExportToFile exportToFile = new ExportToFile();
-
-      exportToFile.exportTo(colCount,colNames,colClass,data,type,frame,strOfMany);
- */ 
+ 
+      exportToFile.exportTo(colCount,table,colNames,colClass,data,type,frame,strOfMany);
+  
    }
    
 

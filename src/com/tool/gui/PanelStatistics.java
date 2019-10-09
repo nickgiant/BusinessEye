@@ -1471,7 +1471,7 @@ import javax.swing.text.JTextComponent;
       
       ExportToFile exportToFile = new ExportToFile();
       
-      exportToFile.exportTo(colCount,colNames,colClass,data,type,frame,title);
+      exportToFile.exportTo(colCount,table,colNames,colClass,data,type,frame,title);
    }
    
     public void displayDialogTablePreferences()

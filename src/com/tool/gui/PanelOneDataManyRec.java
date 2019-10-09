@@ -65,7 +65,7 @@ import javax.swing.border.BevelBorder;
         //private JButton btnFind;
          private JButton btnCard;
         private JButton btnPrintPreview;
-        //private JButtonListMenu btnExport;
+        private JButton btnExport;
         private JMenuItem mItemPrintPreview;
         //private JMenuItem mItemExport;
         /*private JMenuItem mItemHtml;
@@ -407,7 +407,7 @@ import javax.swing.border.BevelBorder;
        	 btnPreferences.setVisible(false);
        	 btnPrintPreview.setVisible(false);
          btnCopy.setVisible(false);
-       	 //btnExport.setVisible(false);
+       	 btnExport.setVisible(false);
        	// lblIcoSeparator3.setVisible(false);
        }
 
@@ -466,8 +466,8 @@ import javax.swing.border.BevelBorder;
        btnEdit.setToolTipText("επεξεργασία "+strOfOne);
        btnDelete.setToolTipText("διαγραφή "+strOfOne);
        
-       btnPrintPreview.setToolTipText("εκτύπωση/εξαγωγή "+strOfMany);
-       //btnExport.setToolTipText("εξαγωγή "+strOfMany+" σε αρχείο");
+       btnPrintPreview.setToolTipText("εκτύπωση "+strOfMany);
+       btnExport.setToolTipText("εξαγωγή "+strOfMany+" σε αρχείο");
        btnPreferences.setToolTipText("προτιμήσεις πίνακα "+strOfMany);
 
        // ---    if has dbCompanyId show btnCopyFromOtherCompany
@@ -988,7 +988,7 @@ class ToolBarData extends JToolBar implements Constants
         btnPrintPreview = new JButton();
     //    btnPrintPreview.setHorizontalTextPosition(SwingConstants.CENTER);
     //    btnPrintPreview.setVerticalTextPosition(SwingConstants.BOTTOM);        
-        //btnExport = new JButtonListMenu();
+        btnExport = new JButton();
         //mItemPrintPreview = new JMenuItem("προεπισκόπηση εκτύπωσης");
         //mItemExport = new JMenuItem("εξαγωγή...");
         /*mItemHtml = new JMenuItem("άμεση εξαγωγή σε αρχείο html");
@@ -1242,28 +1242,21 @@ class ToolBarData extends JToolBar implements Constants
 	    });*/
         
        
-       /* btnTools.setText("<html>εργαλεία</html>");
-        btnTools.setOpaque(false);
-        //btnExport.setText("<html>εξαγωγή <b>Ξ</b></html>");
-        btnTools.setToolTipText("εργαλεία");
-        btnTools.setIcon(ICO_EXPORT16);
-        btnTools.setFocusable(false);
-        btnTools.setMnemonic(KeyEvent.VK_J);
-        btnTools.addActionListener(new ActionListener()
+      
+        btnExport.setOpaque(false);
+        btnExport.setText("<html>εξαγωγή</html>");
+        //.setToolTipText("εργαλεία");
+        btnExport.setIcon(ICO_BACKUP);
+        btnExport.setFocusable(false);
+        //btnExport.setMnemonic(KeyEvent.VK_J);   
+        btnExport.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
-	        {
-	        	 showMenuTools();
-	        
-	        }
+	        {	   exportTo("xls");  }
 	    });
-        Action actionPrint = new ActionPrintPreview();
-        btnTools.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F2"), "export"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
-        btnTools.getActionMap().put("export", actionPrint);
   
   
-  
-      	UtilsMiscEntities utilsMiscEntities = new UtilsMiscEntities();
+      	/*UtilsMiscEntities utilsMiscEntities = new UtilsMiscEntities();
     	 entityExportFileType = utilsMiscEntities.getExportToFileEntities();    	
     	
     	String[] strExportFileType = new String[entityExportFileType.length];
@@ -1328,11 +1321,6 @@ class ToolBarData extends JToolBar implements Constants
   //      btnExport.addMouseListener(popupListener);
 
 
-        /*btnExport.addActionListener(new ActionListener()
-        {
-	        public void actionPerformed(ActionEvent e) 
-	        {	   export();  }
-	    });*/
 
          
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
@@ -1356,6 +1344,7 @@ class ToolBarData extends JToolBar implements Constants
         add(btnPrintPreview);
   //      addSeparator();
         //add(btnExport);
+        add(btnExport);
         add(btnPreferences);
    //     addSeparator();
 
@@ -2194,10 +2183,10 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
     }*/
 
 
-   /*private void exportTo(String type)
+   private void exportTo(String type)
    {
-   	  PanelOneDataManyRecData.exportTo(type);
-   }*/
+   	  panelOneDataManyRecData.exportTo(type);
+   }
   
     
   public boolean returnBackAsk()

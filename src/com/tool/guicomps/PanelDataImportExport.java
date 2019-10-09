@@ -520,7 +520,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
 
 
             }
-                           fldSelectToImport.setText(file.getPath());
+        fldSelectToImport.setText(file.getPath());
      /*       try {
                 
                 
@@ -744,29 +744,6 @@ try {
             System.out.println("PanelDataImportExport.fileExport    SQLException:"+e.getErrorCode()+"  "+e.getMessage());
            e.printStackTrace();
         }
-        
-    /*    
-        Label label;
-       for(int g = 0;g<edbfExport.length;g++)
-       {
-        
-       String strTable =  edbfExport[g].getTableName();
-
-         // if(strTable.equalsIgnoreCase(table))
-          //{
-          //for (int i = 0; i < edbfExport.length; i++)//  i = fieldTxts
-          //{
-            String columnLabel = edbfExport[g].getCaption();//fieldsTranslation[i]; //get colunm name    
-            System.out.println("PanelDataImport.emptyFileExport   table:"+table+"     strTable:"+strTable+"     ("+g+") "+columnLabel);
-                 
-       
-             label = new Label(g, 0, columnLabel, writableCellFormatTimesBoldUnderline);
-             excelSheet.addCell(label); 
-          //}
-       }
-       */
-        //createLabel(excelSheet);
-        //createContent(excelSheet);
 
         workbook.write();
         workbook.close();
