@@ -1,5 +1,3 @@
-// created 22-09-2006
-
 package com.tool.guicomps;
 
 import com.tool.gui.*;
@@ -324,13 +322,8 @@ import jxl.write.WriteException;
                     data = new jxl.write.Label(j, i+1, model.getValueAt(i, j).toString(), writableCellFormatTimes);
                     excelSheet.addCell(data);                           
                     }
-                   
-                   //sheet1.addCell(row);
                 }
             }
-             //rs.beforeFirst();
-           
-        
         }
         
         

@@ -1577,10 +1577,11 @@ private String getTitleCaption(int row)
     */
     private void rowDelete()
     {
-        
+       
       if(panelOneDataManyRecData.getRowCountFromReadOnlyTable()>0)  
       {
-        
+        if(panelOneDataManyRecData.getIsEditable())  
+       {         
         int retShowMessage = YES;
         int selectedParentTableRow = 0;
         selectedParentTableRow = panelOneDataManyRecData.getSelectedTableRow();  
@@ -1636,10 +1637,17 @@ private String getTitleCaption(int row)
         }
      } 
       } // rowCount>0
+        else // is not Editable 
+       {
+          utilsGui.showMessageInfo("Η εγγραφή δεν γίνεται να διαγραφεί. Είναι μόνο για προβολή.");
+       }
+      }
       else
       {
           utilsGui.showMessageInfo("No records to delete.");
+          
       }
+      
     }
  
     

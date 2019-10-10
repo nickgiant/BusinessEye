@@ -1,4 +1,3 @@
-// created  14-07-2007
 package com.tool.gui;
 
 import com.tool.model.EntityStatistics;

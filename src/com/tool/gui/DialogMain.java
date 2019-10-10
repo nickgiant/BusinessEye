@@ -2717,8 +2717,11 @@ manager.addChangeListener(updateListener);*/
         props.load(in);
         String url = props.getProperty("jdbc.url");
         //String dbSettingsDir = props.getProperty("dbSettingsDir"); 
-        
-       	
+
+
+
+        VariablesGlobal.globalFilePassForDb = utilsString.decrypt(props.getProperty("jdbc.password"));
+
         System.out.println("DialogMain.readFromFileDbSettings  read file  dbSettingsDir:"+url);
       }
       catch (IOException ex)
@@ -2830,14 +2833,15 @@ manager.addChangeListener(updateListener);*/
           curDir = System.getProperty("user.dir"); // get current dir
       }
         
-      systemDirectorySymbol=System.getProperty("file.separator");
+        systemDirectorySymbol=System.getProperty("file.separator");
         VariablesGlobal.globalDirConfiguration = curDir;
  
+        
          utilsGui.setLookAndFeel();
          //  new ImageIcon(Constants.class.getResource("/images/logo.png")
-  	    WindowSplash splashScr = new WindowSplash(VariablesGlobal.appName+"  (εκδ "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+")",ICO_BACK);///APP_LOGO );   //  APP_LOGO
+  	WindowSplash splashScr = new WindowSplash(VariablesGlobal.appName+"  (εκδ "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+")",ICO_BACK);///APP_LOGO );   //  APP_LOGO
         DialogMain dialogMain = new DialogMain();
-           dialogMain.readFromFileDbSettings();        
+        dialogMain.readFromFileDbSettings();
      	DatabaseMeta dbMeta = new DatabaseMeta();
   	String running = dbMeta.isDBrunning();
   	      	 	
@@ -2857,6 +2861,7 @@ manager.addChangeListener(updateListener);*/
            
            dialogSetupDb.setVisible(true);
            isFromDbSetup = dialogSetupDb.closeNStart();
+
            DatabaseMeta dbMeta2 = new DatabaseMeta();
   	   String running2 = dbMeta2.isDBrunning();
          
@@ -2864,6 +2869,9 @@ manager.addChangeListener(updateListener);*/
            {
         	 System.exit(0);
            }
+           
+           
+
            
            // also in isRestoreCompleted
            // used here again in order to create the db

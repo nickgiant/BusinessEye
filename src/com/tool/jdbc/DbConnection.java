@@ -141,7 +141,8 @@ public class DbConnection implements Constants
         {           System.setProperty("derby.system.home", dbDir);  } // load it
 
         p.put("user", props.getProperty("jdbc.username"));// username);
-        p.put("password",utilsString.decrypt(props.getProperty("jdbc.password")));//password);
+        p.put("password",VariablesGlobal.globalFilePassForDb);//password);
+        
         p.put("useUnicode", "true");
         p.put("characterEncoding", "utf8");//iso-8859-7
       

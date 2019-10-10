@@ -17,6 +17,7 @@ public class VariablesGlobal
     public static String globalDate;
     public static String globalDirConfiguration;
     public static String globalSystemDirectorySymbol=System.getProperty("file.separator");	
+    public static String globalFilePassForDb;
     
     public static boolean globalShowSQL=false;
     public static boolean globalShowReadDatabaseSQL =false ; 
@@ -52,7 +53,7 @@ public class VariablesGlobal
 
     public static  String appName = "BusinessEye";
     public static  String appLeadVersion = "1";
-    public static  String appSubVersion = "0.2569";
+    public static  String appSubVersion = "0.2570";
     public static  String appVersionYear = "2019/09";
     public static  String appProduct = "0"; // 0 all
     public static  String appProductCaption = "";
