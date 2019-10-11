@@ -2769,10 +2769,12 @@ manager.addChangeListener(updateListener);*/
     
     public static void main(String args[])
     {
-    
-        if(VariablesGlobal.globalShowFrameRedirected)
-        {
-          new FrameRedirected(true, false, null, 1080,980, JFrame.DISPOSE_ON_CLOSE);
+        if(args!=null)
+        {   
+          if(VariablesGlobal.globalShowFrameRedirected && args[1].equalsIgnoreCase("1"))
+          {
+            new FrameRedirected(true, false, null, 1080,980, JFrame.DISPOSE_ON_CLOSE);
+          }
         }
         //(boolean catchErrors, boolean logFile, String fileName, int width,
          //int height, int closeOperation)
@@ -2808,7 +2810,7 @@ manager.addChangeListener(updateListener);*/
         {
             VariablesGlobal.appProductCaption  = PRODUCT_OLA_CAPTION;
         }      
-            System.out.println("DialogMain.main args "+args[0]);
+            System.out.println("DialogMain.main args "+args[0]+"  "+args[1]);
         }        
         
         ///   https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
