@@ -1002,7 +1002,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
           }
           else
           { 
-               System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK    q: "+q);
+              //q=utilsString.removeCaptionsFromQuerySubStringSelect(q);
                 db.retrieveDBDataFromQuery(q,"UtilsPanelReport.retrievePrimKeyValueForOnePK");
                int dbCount = db.getRecordCount();//dbFields.length;//db.getRecordCount();// listDbFieldsPKs.size();
                 //System.out.println("       lb      UtilsPanelReport.retrievePrimKeyValueForOnePK ("+pk+")  entity:"+entity+"   db.getRecordCount():"+db.getRecordCount()+"     q:"+q);

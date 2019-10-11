@@ -5902,6 +5902,29 @@ ps.setBytes(i, b);
                {
                    subqueryWhere = subqueryWhere+"("+primKeys[i]+" LIKE '"+primKeysValue[i]+"')";
                }
+          	  /*if(primKeyDb.equalsIgnoreCase(primKey))
+          	  {// if is prim key like farmerId get from tb.getText
+                      //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere IF  ("+i+")  "+primKey+"   "+getPrimKeyValue(primKey)+"  primKeyValue:"+primKeyValue);   
+                     if(isNewRec)
+                     {                            
+                            subqueryWhere = subqueryWhere+utilsPanelReport.getNoOfPKOfNewRecord(true,dbFieldsAll,entity)+"')";                    
+          	       	        //System.out.println("panelOneDataOneRecData.updateRow "+columnLabel+" "+getValueForVariable(whereValueName));
+                     }
+                     else
+                     {
+                         subqueryWhere = subqueryWhere+primKeyValue+"')";
+                     }
+                       
+          	       	  
+          	  }
+          	  else
+          	  {*/
+                      //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere ELSE  ("+i+")  "+primKey+"   "+getPrimKeyValue(primKey)+"  primKeyValue:"+primKeyValue);   
+          	  //   subqueryWhere = subqueryWhere+primKeysValue[i]+"')";	
+          	  //}
+          	  
+                  //System.out.println("PanelODORData.rowUpdate  subqueryWhere "+i+" "+primKey+"  "+primKeyValue+"  "+getPrimKeyValue(primKey));
+                  
                   
           	  if (i < primKeys.length-1 && primKeys.length>1) 
           	  // add AND but not on the last field(before where), also not when there is only one PK . -1 because arraylist starts from 0
@@ -9343,8 +9366,7 @@ ps.setBytes(i, b);
    
    /*
    *  if isPrinted==1 make read only
-   * PanelODORData.checkIfIsPrinted
-   *///PanelODMR.checkIfIsPrinted
+   */
    private boolean checkIfIsPrinted()
    {
        

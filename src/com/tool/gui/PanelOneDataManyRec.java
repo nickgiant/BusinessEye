@@ -1570,158 +1570,6 @@ private String getTitleCaption(int row)
        
     }
 
-    // PanelODORData.checkIfIsPrinted
-    //PanelODMR.checkIfIsPrinted
-    private boolean checkIfIsPrinted(int selectedRow)
-    {
-        boolean isReadOnly = false;
-
-       /* boolean isNewRec = false;
-        boolean isNewRecFromCopy = false;
-        PanelEditOneDataRec panelEODR = new PanelEditOneDataRec(frame);
-        String editTitle=strOfOne;*/
-       // int selected = panelEODR.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,panelOneDataManyRecData.getPrimKey(),primKeyValue,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,/*null,null,*/
-       //         queryReadOnly, editTitle,ico/*,true*/,isNewRec,isNewRecFromCopy,true,categoryNodes, false,panelManagement);//,entityReportForm);        
-        
-        
-      ArrayList listDbFields = new ArrayList();
-      ArrayList listDbTable = new ArrayList();
-      ArrayList listPanelOfDbFields = new ArrayList();
-      ArrayList listPanelOfDbTable = new ArrayList();
-      
-      ArrayList listDbFieldsChild = new ArrayList();
-      ArrayList listDbTableChild = new ArrayList(); 
-      ArrayList<EntityDBFields> listFieldsInGroupOfPanels = new ArrayList();
-        for(int p = 0;p<entityPanel.length;p++)
-        {
-            if(entityPanel[p].getDBFields()==null)
-            {
-                break;
-            }
-            else
-            {
-            
-              for(int f = 0;f<entityPanel[p].getDBFields().length;f++)
-              {
-                 EntityDBFields dbfield = entityPanel[p].getDBFields()[f];
-                 listFieldsInGroupOfPanels.add(dbfield);
-                
-              // System.out.println("PanelODMR.PanelODMR     p:"+p+"  f:"+f+"   "+dbfield.getTableName()+"."+dbfield.getDbField()+" "+dbfield.getCaption()+" ");//
-               
-                //    listDbTable.add(dbfield.getTableName()); 
-                 //   listDbFields.add(dbfield.getDbField());                  
-                                      
-              }
-            }
-
-        }        
-      if(listFieldsInGroupOfPanels==null)
-      {
-          
-      }
-      else
-      {
-        // transfer dbfield from ArrayList listFieldsInGroupOfPanels to array dbFieldsInGroupOfPanels
-        EntityDBFields[] dbFieldsInGroupOfPanels = new EntityDBFields[listFieldsInGroupOfPanels.size()];
-        for(int l = 0 ;l<listFieldsInGroupOfPanels.size();l++)
-        {
-            dbFieldsInGroupOfPanels[l] = listFieldsInGroupOfPanels.get(l);
-        }
-        
-        
-      
-       try
-       {
-           //if isPrinted==1 make read only       
-          for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)
-          {
-                String fieldName = dbFieldsInGroupOfPanels[i].getDbField();
-               // int isEditableOrVisible = dbFieldsInGroupOfPanels[i].getIsVisibleOrEditable();
- 
-                //System.out.println("   PanelODMR.checkIfAllComponentsShouldBeReadOnly   primKeyDb:"+primKeyDb+"    fieldName:"+fieldName+"   selectedRow:"+selectedRow);
- 
-
-                if (fieldName.equalsIgnoreCase(STRFIELD_ISPRINTED))
-                {
-
-            String primKeyValue = panelOneDataManyRecData.getPrimKeyValue();    
-          String subqueryWhere = ""; // for each primary key          
-             utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, dbFieldsInGroupOfPanels,null,false,/*ismany,/*primKeyIn,intColumnOfDescriptionIn,
-             sql2WhereField, sql2WhereValue,*/ entity, /*tableModelReadOnly,*/ primKeyDb);    
-                       
-             String[] primKeys = utilsPanelReport.getPrimKeys();
-             //String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
-            //System.out.println("PanelODMR.rowUpdate '"+entity+"' selectedRow:"+selectedRow+"  primKeys:"+primKeys.length); 
-             int primKeysCount = primKeys.length;
-             String[] primKeysValue = utilsPanelReport.getPrimKeysValue();              
-              
-
-      //    databaseTableMeta.retrievePrimKs(entity); // first retrieve them
-          for (int p = 0; p< primKeysCount; p++) // i=0 and i< because arraylist starts from 0
-          {             
-
-               //System.out.println("PanelODMR.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue);   
-               if(primKeys[p].equalsIgnoreCase(primKeyDb))
-               {
-                subqueryWhere = subqueryWhere+"("+primKeys[p]+" LIKE '"+primKeyValue+"')"; // when is updating if a second time after insert is selected
-               }
-               else
-               {
-                   subqueryWhere = subqueryWhere+"("+primKeys[p]+" LIKE '"+primKeysValue[p]+"')";
-               }
-                  
-          	  if (p < primKeys.length-1 && primKeys.length>1) 
-          	  // add AND but not on the last field(before where), also not when there is only one PK . -1 because arraylist starts from 0
-          	  { subqueryWhere = subqueryWhere+" AND  ";   }              
-          }                    
-                    
-                    
-                    
-                    String q = utilsString.getQueryBeforeWhere(query)+" WHERE "+subqueryWhere;
-                    
-     
-   	    db.retrieveDBDataFromQuery(q,"PanelODMR.checkIfIsPrinted");
-   	    rs=db.getRS(); 
-            rs.first();
-            //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue);
- 
-             //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly    selectedRow"+selectedRow+"     q:"+q);
- 
-
-          
-                   String isPrintedValue = rs.getString(fieldName);  
-                   if(isPrintedValue.equalsIgnoreCase("1"))
-                   {
-                          isReadOnly=true;
-                          break;                       
-                   }
-                   else
-                   {
-                         isReadOnly = false;
-                   }
-                }
-          }       
-       }
-       catch(SQLException e)
-       {
-            System.out.println("error   PanelODMR.checkIfIsPrinted  "+e.getMessage());
-         if(VariablesGlobal.globalShowPrintStackTrace)  
-         {
-           e.printStackTrace();     
-         }            
-            
-       }
-       finally
-       {
-           closeDB();
-       }             
-        
-      }
- 
-        
-        return isReadOnly;
-    }
-    
     
     /*
     *
@@ -1729,17 +1577,14 @@ private String getTitleCaption(int row)
     */
     private void rowDelete()
     {
-
-        int selectedParentTableRow = 0;
-        selectedParentTableRow = panelOneDataManyRecData.getSelectedTableRow();
-        
-        
+       
       if(panelOneDataManyRecData.getRowCountFromReadOnlyTable()>0)  
       {
-        if(!checkIfIsPrinted(selectedParentTableRow))  
+        if(panelOneDataManyRecData.getIsEditable())  
        {         
         int retShowMessage = YES;
-  
+        int selectedParentTableRow = 0;
+        selectedParentTableRow = panelOneDataManyRecData.getSelectedTableRow();  
         String titleCaption = this.getTitleCaption(selectedParentTableRow);
         retShowMessage=utilsGui.showConfirmYesOrNo(frame,"Are you sure you would like to delete this record? \n "+titleCaption);
         
