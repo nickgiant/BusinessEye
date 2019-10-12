@@ -152,7 +152,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
         
         
         boolean isRunOk=false;
-        String[] run = {"java","-jar",VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+UPDATE_JAR,VariablesGlobal.appProduct};
+        String[] run = {"java","-jar",VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+UPDATE_JAR,VariablesGlobal.appProduct,VariablesGlobal.appShowLogFrame,VariablesGlobal.appRunParam2};
         try 
         {
             Runtime.getRuntime().exec(run);

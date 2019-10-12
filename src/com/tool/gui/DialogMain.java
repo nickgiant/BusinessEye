@@ -2770,8 +2770,10 @@ manager.addChangeListener(updateListener);*/
     public static void main(String args[])
     {
         if(args!=null)
-        {   
-          if(VariablesGlobal.globalShowFrameRedirected && args[1].equalsIgnoreCase("1"))
+        {  
+            VariablesGlobal.appRunParam2=args[2];
+            VariablesGlobal.appShowLogFrame =args[1];
+          if(VariablesGlobal.globalShowFrameRedirected && VariablesGlobal.appShowLogFrame.equalsIgnoreCase("1"))
           {
             new FrameRedirected(true, false, null, 1080,980, JFrame.DISPOSE_ON_CLOSE);
           }
