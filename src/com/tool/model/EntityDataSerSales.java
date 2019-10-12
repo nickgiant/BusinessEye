@@ -617,7 +617,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         int[] inputService ={4};
         
         int[] inputVatCategory ={FIELDSCALCULATION_CATEGORY_BACKWARD,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
-        int[] inputVat ={9,4,4};//field        
+        int[] inputVat ={10,4,4};//field        
         //10,inputService,"SELECT vatcat.vatPercentage FROM stock, vatcat  WHERE stock.vatCatId=vatcat.vatCatId AND stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND stock.stockId=");
         EntityDBFieldsCalculation[] fieldsCalculationServiceSelect = new EntityDBFieldsCalculation[3];
         fieldsCalculationServiceSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,6,inputServiceCategory,inputService,"SELECT stock.proposeQuantity FROM stock  WHERE stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND stock.stockId LIKE #");        
