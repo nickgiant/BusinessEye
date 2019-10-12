@@ -1181,14 +1181,14 @@ int flds = 0;
                            //if(Boolean.parseBoolean(fieldTxtsKeyChanged.get(finalCol).toString()))//keyChanged)
                            //{
           //                    calculateRecordAfterKeySet(finalCol);
-                              System.out.println("   setEntity  cmbBox  selected  dbFieldsCalculateSet   "+dbFieldsInGroupOfPanels[finalCol].getLookupType()+"     e.getStateChange():"+e.getStateChange()+"  "+e.getItem());
+                              System.out.println("   setEntity  cmbBox  selected  dbFieldsCalculateSet   "+dbFieldsInGroupOfPanels[finalCol].getLookupType()+"     e.getStateChange():"+e.getStateChange()+"   index:"+finalCmbBox.getSelectedIndex()+"    item:"+finalCmbBox.getSelectedItem()+"  "+e.getItem());
                                //System.out.println("PanelODORData.dbFieldsCalculateSet b  hasDataChanged:"+hasDataChanged);
                               dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol,"");
                               checkFieldsIfThenElse(finalCol,CHECK_ON_ENTRY);
                               	//keyChanged=false;
                            //}
                              
-                         	finalTb.setText(finalCmbBox.getSelectedItem()+""); // true
+                         	finalTb.setText((finalCmbBox.getSelectedIndex()+1)+"");//  .getSelectedItem()+""); // true
                          }
                          else
                          {
