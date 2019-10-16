@@ -22,7 +22,9 @@ import javafx.scene.web.WebView;*/
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import javax.swing.event.AncestorListener;
+import net.atlanticbb.tantlinger.shef.HTMLEditorPane;
+import novaworx.textpane.SyntaxTextPane;
 /**
  *
  * @author user
@@ -30,6 +32,8 @@ import java.awt.event.*;
 public class PanelHtmlEditor extends JxPanel
 {
       private  JPanel panel;
+      //private JTextArea textArea;
+      private HTMLEditorPane editor ;
       //private final JFXPanel jfxPanel = new JFXPanel();
      // private  HTMLEditor htmlEditor;
     
@@ -47,16 +51,76 @@ public class PanelHtmlEditor extends JxPanel
                 createfxScene();
             }
         });*/
-        
+    
+       editor = new HTMLEditorPane();
+       
+
+
+
+       // textArea = new JTextArea();
+        JScrollPane scrollPaneTextArea = new JScrollPane();//textArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+                    scrollPaneTextArea.setOpaque(false);        
+        scrollPaneTextArea.setViewportView(editor);
         panel = new JPanel(new BorderLayout());        
+        panel.add(scrollPaneTextArea,BorderLayout.CENTER);
+        
+        //panel.add(editor,BorderLayout.CENTER);
 
+        //editor.setEditTabNotVisible();
+       editor.setFocusable(true);
+       setFocusable(true);
+ 
+
+
+        
    //     panel.add(jfxPanel, BorderLayout.CENTER);   
-
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
         
 }
 
+    public void setTextAreaString(String strHtml)
+    {
+        
+        editor.setText(strHtml);
+    }
+    
+    
+    public String getTextAreaString()
+    {
+        return editor.getText();
+    }
+    
+   /* @Override
+    public void focusGained(FocusEvent fe) {
+    System.out.println("-------------------Focus gained in JPanel");
+    }
+   @Override
+   public void focusLost(FocusEvent fe)
+   {
+       
+             if(fe.getComponent() instanceof HTMLEditorPane)
+            {
+                HTMLEditorPane ed = (HTMLEditorPane)fe.getComponent();
+                editor.setText(ed.getText());
+                System.out.println("---------*----------Focus lost in JPanel");
+            }
+       
+    System.out.println("-----------------Focus lost in JPanel");
+   }
+@Override
+public void mousePressed(MouseEvent me) {
+    requestFocus();
+    System.out.println("------------Mouse Pressed in JPanel");
+}
+@Override
+public void mouseReleased(MouseEvent me) {}
+@Override
+public void mouseClicked(MouseEvent me) {}
+@Override
+public void mouseEntered(MouseEvent me) {}
+@Override
+public void mouseExited(MouseEvent me) {}   */
     /*private void createfxScene() 
     {
         htmlEditor = new HTMLEditor();
@@ -93,4 +157,22 @@ public class PanelHtmlEditor extends JxPanel
         });*/       
      /*   return txt;
     }*/
+    
+    
+    public static void main(String args[])
+    {
+        
+        JFrame f = new JFrame();
+        f.setLayout(new BorderLayout());
+        PanelHtmlEditor p = new PanelHtmlEditor();
+        
+        String html ="             ";
+        
+        
+        p.setTextAreaString(html);
+        f.add(p,BorderLayout.CENTER);
+        f.pack();
+        f.setVisible(true);
+    }    
+    
 }
