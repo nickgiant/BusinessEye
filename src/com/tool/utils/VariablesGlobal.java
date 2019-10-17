@@ -57,6 +57,8 @@ public class VariablesGlobal
     public static  String appVersionYear = "2019/09";
     public static  String appProduct = "0"; // 0 all
     public static  String appProductCaption = "";
+    public static  String appShowLogFrame = "0"; // 1 yes, 0 no
+    public static  String appRunParam2 = "0"; // 1 yes, 0 no
 
     
     public VariablesGlobal() 

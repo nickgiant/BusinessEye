@@ -1181,14 +1181,14 @@ int flds = 0;
                            //if(Boolean.parseBoolean(fieldTxtsKeyChanged.get(finalCol).toString()))//keyChanged)
                            //{
           //                    calculateRecordAfterKeySet(finalCol);
-                              System.out.println("   setEntity  cmbBox  selected  dbFieldsCalculateSet   "+dbFieldsInGroupOfPanels[finalCol].getLookupType()+"     e.getStateChange():"+e.getStateChange()+"  "+e.getItem());
+                              System.out.println("   setEntity  cmbBox  selected  dbFieldsCalculateSet   "+dbFieldsInGroupOfPanels[finalCol].getLookupType()+"     e.getStateChange():"+e.getStateChange()+"   index:"+finalCmbBox.getSelectedIndex()+"    item:"+finalCmbBox.getSelectedItem()+"  "+e.getItem());
                                //System.out.println("PanelODORData.dbFieldsCalculateSet b  hasDataChanged:"+hasDataChanged);
                               dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol,"");
                               checkFieldsIfThenElse(finalCol,CHECK_ON_ENTRY);
                               	//keyChanged=false;
                            //}
                              
-                         	finalTb.setText(finalCmbBox.getSelectedItem()+""); // true
+                         	finalTb.setText((finalCmbBox.getSelectedIndex()+1)+"");//  .getSelectedItem()+""); // true
                          }
                          else
                          {
@@ -1847,32 +1847,109 @@ int flds = 0;
                                                     
                             
    	 
-//                         PanelHtmlEditor panelHtmlEditor = new PanelHtmlEditor();
-                        
-                            
+                         PanelHtmlEditor panelHtmlEditor = new PanelHtmlEditor();
+                   /* panelHtmlEditor.addFocusListener(new FocusListener()  
+                    {
+                    	public void focusLost(FocusEvent e)
+                        { */ 
+            /* if(e.getComponent() instanceof JEditorPane)
+            {
+                JEditorPane ed = (JEditorPane)e.getComponent();
+                textArea.setText(ed.getText());
+                
+            }*/                            
+                                  
+                     /*      textArea.setText(panelHtmlEditor.getTextAreaString());
+                        }
+
+                    	public void focusGained(FocusEvent e)
+                        {  
+
+                            panelHtmlEditor.setTextAreaString(textArea.getText());
+                        }
+                    });  */                       
+                    
+                    /*panelHtmlEditor.addMouseListener(new MouseListener()
+                    {
+                        public void mousePressed(MouseEvent me)
+                        { 
+                        }
+                        public void mouseReleased(MouseEvent me)
+                        { 
+                        }
+                        public void mouseEntered(MouseEvent me)
+                        { 
+                          panelHtmlEditor.setTextAreaString(textArea.getText());
+                        }
+                        public void mouseExited(MouseEvent me)
+                        { 
+                             textArea.setText(panelHtmlEditor.getTextAreaString());
+                        }                    
+                        public void mouseClicked(MouseEvent me)
+                        { 
+                        }                    
+                    });*/
+                    
                             JLabel lblArea = new JLabel();
                             lblArea.setBackground(Color.white);
                             lblArea.setOpaque(true);
+
+
+
+                JButton btnLoad  = new JButton("φόρτωση φόρμας");
+                btnLoad.setToolTipText("απαραίτητη επιλογή για την προβολή της φόρμας μετά το άνοιγμα");
+       btnLoad.addActionListener(new ActionListener()
+       {       	
+          public void actionPerformed(ActionEvent e)
+          {
+              panelHtmlEditor.setTextAreaString(textArea.getText());
+              panelHtmlEditor.revalidate();
+              
+                           // finPanelHtmlEditor.setHtmlText(textArea.getText());
+          	
+          }
+       });                     
+                
+                
+               JButton btnSet  = new JButton("εφαρμογή αλλαγών φόρμας");
+               btnSet.setToolTipText("απαραίτητη επιλογή για την εφαρμογή των αλλαγών πριν την αποθήκευση");
+       btnSet.addActionListener(new ActionListener()
+       {       	
+          public void actionPerformed(ActionEvent e)
+          {
+              textArea.setText(panelHtmlEditor.getTextAreaString());
+ 
+                           // finPanelHtmlEditor.setHtmlText(textArea.getText());
+          	
+          }
+       });                
+               JxPanel pnlButtons = new JxPanel();
+               pnlButtons.setLayout(new FlowLayout());
+               pnlButtons.add(btnLoad);
+               pnlButtons.add(btnSet);
+
                             
                          JxPanel pnlPreview = new JxPanel();
                          //pnlPreview.setLayout(new BorderLayout());
                          //pnlPreview.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-                         pnlPreview.setLayout(new BoxLayout(pnlPreview, BoxLayout.LINE_AXIS));
+                         pnlPreview.setLayout(new BorderLayout());//new BoxLayout(pnlPreview, BoxLayout.LINE_AXIS));
                         //  pnlPreview.setLayout(new FlowLayout());
-                         pnlPreview.add(scrollPaneTextArea);
- //                         pnlPreview.add(panelHtmlEditor);
-                          pnlPreview.add(lblArea);
+          //               pnlPreview.add(scrollPaneTextArea);
+                          pnlPreview.add(pnlButtons,BorderLayout.PAGE_START);
+                          pnlPreview.add(panelHtmlEditor,BorderLayout.CENTER);
+                           
+              //            pnlPreview.add(lblArea);
 
                             
                             
-                             JxPanel panelRadios = new JxPanel();
+/*                             JxPanel panelRadios = new JxPanel();
         //panelRadios.setBorder(new TitledBorder(""));
         panelRadios.setLayout(new BoxLayout(panelRadios, BoxLayout.LINE_AXIS));
 
         final JScrollPane  finJscrlPanel = scrollPaneTextArea;
         //final JTextArea finalTextAreaHtml  = textAreaHtml;
         //final JxPanel finPnlPre = pnlPreview;
- //       final PanelHtmlEditor  finPanelHtmlEditor  = panelHtmlEditor;
+        final PanelHtmlEditor  finPanelHtmlEditor  = panelHtmlEditor;
         final JLabel finLblArea = lblArea;
        JRadioButton radioText = new JRadioButton("επεξεργασία κώδικα");
         radioText.addActionListener(new ActionListener()
@@ -1881,7 +1958,7 @@ int flds = 0;
           {
                            //finJscrlPanel.setText(getText());
                            finJscrlPanel.setVisible(true);
-//                           finPanelHtmlEditor.setVisible(false);
+                           finPanelHtmlEditor.setVisible(false);
                             finLblArea.setVisible(false);
                             
                            // finPanelHtmlEditor.setHtmlText(textArea.getText());
@@ -1897,10 +1974,10 @@ int flds = 0;
           {
                            //finJscrlPanel.setText(getText());
                            finJscrlPanel.setVisible(false);
- //                          finPanelHtmlEditor.setVisible(true);
+                           finPanelHtmlEditor.setVisible(true);
                             finLblArea.setVisible(false);
                             
- //                           finPanelHtmlEditor.setHtmlText(textArea.getText());
+        //                    finPanelHtmlEditor.setTextAreaString(textArea.getText());
           	
           }
        });
@@ -1911,12 +1988,12 @@ int flds = 0;
           public void actionPerformed(ActionEvent e)
           {
                            finJscrlPanel.setVisible(false);
- //                           finPanelHtmlEditor.setVisible(false);
+                            finPanelHtmlEditor.setVisible(false);
                             finLblArea.setVisible(true);
                             
           	//boolean isPortrait = false;
                StringBuilder contentBuilder = new StringBuilder();
-                            contentBuilder.append( textArea.getText());                     
+                            contentBuilder.append(textArea.getText());                     
                             finLblArea.setText("<html>"+contentBuilder.toString()+"</html>");                             
                 
           	
@@ -1927,7 +2004,7 @@ int flds = 0;
         radioText.doClick();
         //radioPreview.doClick();
         panelRadios.add(radioText);
-  //      panelRadios.add(radioHtml);
+        panelRadios.add(radioHtml);
         panelRadios.add(radioPreview);      
                             
                             
@@ -1940,23 +2017,18 @@ int flds = 0;
       
       ButtonGroup groupSelectTextOrPreview = new ButtonGroup();
       groupSelectTextOrPreview.add(radioText);
-//      groupSelectTextOrPreview.add(radioHtml);
+      groupSelectTextOrPreview.add(radioHtml);
        groupSelectTextOrPreview.add(radioPreview);                          
                             
                             //if(panelTab.getSelectedIndex()==1)
                            // {
-                              
+ */                             
                             
                             
-                            panelTextArea.add(panelRadios, BorderLayout.PAGE_START);
+               //             panelTextArea.add(panelRadios, BorderLayout.PAGE_START);
                             
-                           //JxPanel pnlTexts = new JxPanel();// holds the 2 textareas, 
-                           //pnlTexts.setLayout(new BoxLayout(pnlTexts, BoxLayout.LINE_AXIS));
-                            
-                            //pnlTexts.add(scrollPaneTextArea);
-                            //pnlTexts.add(pnlPreview);
-                            
-                            panelTextArea.add(pnlPreview, BorderLayout.LINE_START);
+               //             panelTextArea.add(panelHtmlEditor,BorderLayout.PAGE_START);
+                            panelTextArea.add(pnlPreview, BorderLayout.CENTER);//.LINE_START);
                             panelTextArea.setBackground(Color.DARK_GRAY);
                             fieldTxts.set(i,textArea);//this is for html
                         }
