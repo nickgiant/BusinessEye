@@ -181,7 +181,7 @@ public abstract class ActionFind extends AbstractAction implements DocumentListe
    
       public void install(JComponent comp)
       { 
-          comp.registerKeyboardAction(this, KeyStroke.getKeyStroke( KeyEvent.VK_CONTROL,KeyEvent.CTRL_MASK), JComponent.WHEN_FOCUSED); 
+          comp.registerKeyboardAction(this, KeyStroke.getKeyStroke( KeyEvent.VK_CONTROL,KeyEvent.CTRL_DOWN_MASK), JComponent.WHEN_FOCUSED); 
          // comp.registerKeyboardAction(this, KeyStroke.getKeyStroke(KeyEvent.VK_CONTROL,KeyEvent.CTRL_MASK), JComponent.WHEN_FOCUSED); 
           
          // comp.registerKeyboardAction(this, KeyStroke.getKeyStroke( KeyEvent.VK_SHIFT), JComponent.WHEN_FOCUSED); 

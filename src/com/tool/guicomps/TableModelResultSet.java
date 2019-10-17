@@ -93,7 +93,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     //ArrayList rowsToBeDeleted;
    // ArrayList rowsToBeUpdatedQuery;  // query
    // ArrayList listRowsToBeUpdated;  // list
-    private static Integer INTEGER_ONE = new Integer(1);    
+    private static Integer INTEGER_ONE = Integer.valueOf(1);    
    
     private EntityDBFields[] dbFieldsParent;
    private EntityDBFields[] dbFieldsMany; 	
@@ -841,11 +841,11 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
      if(strObject.equalsIgnoreCase("true"))
      {
      	//System.out.println("true");
-     	ret =  new Boolean(true);
+     	ret =   Boolean.valueOf(true);
      }
      else if(strObject.equalsIgnoreCase("false"))
      {
-     	ret = new Boolean(false);
+     	ret =  Boolean.valueOf(false);
      }
      else
      {
@@ -1107,7 +1107,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                 //System.out.println("TableModelRS.setValueAt: is integer");
                 try
                 {    // new Integer((String)value.toString().trim());
-                    ((Object[])dataVector.elementAt(row))[col] = new Integer((String)value.toString().trim());
+                    ((Object[])dataVector.elementAt(row))[col] =  Integer.valueOf((String)value.toString().trim());
                     
                     fireTableCellUpdated(row, col);
                 } catch (NumberFormatException e)
@@ -1124,7 +1124,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                 try
                 {    // convert string to double
                     //double d = Double.parseDouble(value.toString().trim());
-                    double dbl= new Double((String)value.toString().trim());
+                    double dbl= Double.valueOf((String)value.toString().trim());
                     
                    // System.out.println("TableModelRS.setValueAt: double "+dbl);
 
@@ -1147,7 +1147,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                 //If we don't do something like this, the column
                 //switches to contain Strings.
                 //System.out.println("TableModelRS.setValueAt: is Boolean");
-                    ((Object[])dataVector.elementAt(row))[col] = new Boolean((String)value.toString().trim());
+                    ((Object[])dataVector.elementAt(row))[col] = Boolean.valueOf((String)value.toString().trim());
                fireTableCellUpdated(row, col);
             }
             else if(value.getClass() == String.class && value.toString().equalsIgnoreCase("0"))
@@ -3837,7 +3837,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
             if (c == null) {
                 count.put(obj,INTEGER_ONE);
             } else {
-                count.put(obj,new Integer(c.intValue() + 1));
+                count.put(obj,Integer.valueOf(c.intValue() + 1));
             }
         }
         return count;

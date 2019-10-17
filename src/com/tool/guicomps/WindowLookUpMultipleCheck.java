@@ -261,7 +261,7 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
          	             	
       	        	    //System.out.println("WindowLookUpMultipleCheck.setSelectedCheckBox selected --> "+l+" sel "+sel+" "+tableModel.getValueAt(r,1));
 
-                              tableModel.setValueAt(new Boolean(true),r,0);
+                              tableModel.setValueAt( Boolean.valueOf(true),r,0);
                               //strSet = strSet + tableModel.getValueAt(r,1)+strBetweenIndexes;//1 the no of col id		     			         			
          	             }
                       }

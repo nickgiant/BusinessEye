@@ -165,7 +165,7 @@ public class TableModelResultSetCheckBoxes extends AbstractTableModel
       for (int r=0; r<dataVector.size(); r++)
       {
         Object[] record = new Object[colCount+1];
-        record[0] = new Boolean(false);
+        record[0] = Boolean.valueOf(false);
         //System.out.println("vector c 0 "+r);
         for (int c = 1; c <= colCount; c++) // for each field
         {
@@ -301,7 +301,7 @@ public class TableModelResultSetCheckBoxes extends AbstractTableModel
                 //If we don't do something like this, the column
                 //switches to contain Strings.
                 //System.out.println("TableModelRS.setValueAt: is Boolean");
-                ((Object[])dataVectorChk.elementAt(row))[col] = new Boolean((String)value.toString().trim());
+                ((Object[])dataVectorChk.elementAt(row))[col] = Boolean.valueOf((String)value.toString().trim());
                     
             }
                           

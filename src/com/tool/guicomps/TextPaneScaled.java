@@ -24,7 +24,7 @@ public class TextPaneScaled extends JEditorPane
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         TextPaneScaled scaledTextPane = new TextPaneScaled();
         scaledTextPane.getDocument().putProperty("i18n", Boolean.FALSE);
-        scaledTextPane.getDocument().putProperty("ZOOM_FACTOR", new Double(1.5));
+        scaledTextPane.getDocument().putProperty("ZOOM_FACTOR",  Double.valueOf(1.5));
         JScrollPane scroll = new JScrollPane(scaledTextPane);
         frame.getContentPane().add(scroll);
         frame.getContentPane().add(scaledTextPane.zoomCombo, BorderLayout.NORTH);
@@ -57,8 +57,8 @@ public class TextPaneScaled extends JEditorPane
             public void actionPerformed(ActionEvent e) {
                 String s = (String) zoomCombo.getSelectedItem();
                 s = s.substring(0, s.length() - 1);
-                double scale = new Double(s).doubleValue() / 100;
-                TextPaneScaled.this.getDocument().putProperty("ZOOM_FACTOR",new Double(scale));
+                double scale = Double.valueOf(s).doubleValue() / 100;
+                TextPaneScaled.this.getDocument().putProperty("ZOOM_FACTOR",Double.valueOf(scale));
 
                 try {
                     StyledDocument doc=(StyledDocument)TextPaneScaled.this.getDocument();
@@ -156,8 +156,8 @@ class ScaledView extends BoxView {
     }
 
     protected void layout(int width, int height) {
-        super.layout(new Double(width / getZoomFactor()).intValue(),
-                     new Double(height *
+        super.layout(Double.valueOf(width / getZoomFactor()).intValue(),
+                     Double.valueOf(height *
                                 getZoomFactor()).intValue());
     }
 

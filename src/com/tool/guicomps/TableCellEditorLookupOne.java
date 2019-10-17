@@ -323,7 +323,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
                              txtDescription.setSelectionEnd(txtDescription.getText().length());                        
                         
                         
-                        return SwingUtilities.notifyAction(action, ks, e, txtDescription, e.getModifiers());
+                        return SwingUtilities.notifyAction(action, ks, e, txtDescription, e.getModifiersEx​());
                     }
                 }
                                 

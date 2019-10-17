@@ -140,7 +140,7 @@ import java.text.*;
                          //System.out.println("TableCellEditorDate.getTableCellEditorComponent if inputMap"+inputMap+" actionMap"+actionMap+" binding"+binding+" action"+action);                   	
                                             	
                          //return SwingUtilities.notifyAction(action, ks, e, textFormatedDate, e.getModifiers());
-                         return SwingUtilities.notifyAction(action, ks, e, txtdate.getTextComp(), e.getModifiers());
+                         return SwingUtilities.notifyAction(action, ks, e, txtdate.getTextComp(), e.getModifiersEx​());
                           
                     }
                     else

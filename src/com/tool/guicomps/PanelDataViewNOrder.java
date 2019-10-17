@@ -297,7 +297,7 @@ import java.awt.event.*;
               
               if(isFieldSelected == null)
               {
-                 record[0]=new Boolean(true);	
+                 record[0]=Boolean.valueOf(true);	
               }
               else
               {
@@ -307,12 +307,12 @@ import java.awt.event.*;
               	 //System.out.println("---PanelDataViewNOrder.setEntity i"+(i)+" c"+(c)+" length"+isFieldSelected.length+"  col count "+colCount+" "+isFieldSelected+" "+recColumnIn.length+" "+strColumnsCaption.length);
               	 if(isFieldSelected[i]==c+1)
               	 {
-              	      record[0]=new Boolean(true);
+              	      record[0]=Boolean.valueOf(true);
               	      break;	
               	 }
                  else 
               	 {
-              	      record[0]=new Boolean(false);  
+              	      record[0]=Boolean.valueOf(false);  
               	 }
               	}
               }
@@ -611,7 +611,7 @@ import java.awt.event.*;
     {
     	for(int r =0; r<tableModel.getRowCount();r++)
     	{
-    	   tableModel.setValueAt(new Boolean(true),r,0)	;
+    	   tableModel.setValueAt(Boolean.valueOf(true),r,0)	;
     	}
     	
     }
@@ -620,7 +620,7 @@ import java.awt.event.*;
     {
     	for(int r =0; r<tableModel.getRowCount();r++)
     	{
-    	   tableModel.setValueAt(new Boolean(false),r,0)	;
+    	   tableModel.setValueAt( Boolean.valueOf(false),r,0)	;
     	}    	
     }
     
@@ -634,12 +634,12 @@ import java.awt.event.*;
     	   if(tableModel.getValueAt(r,0).toString().equalsIgnoreCase("true"))
     	   {
     	   	 //System.out.println(tableModel.getValueAt(r,0).toString()+" "+r+"->false");
-    	     tableModel.setValueAt(new Boolean(false),r,0);
+    	     tableModel.setValueAt( Boolean.valueOf(false),r,0);
     	   }
     	   else
     	   {
     	   	 //System.out.println(tableModel.getValueAt(r,0).toString()+" "+r+"->true");
-    	   	 tableModel.setValueAt(new Boolean(true),r,0);
+    	   	 tableModel.setValueAt( Boolean.valueOf(true),r,0);
     	   }
     	   
     	}     	

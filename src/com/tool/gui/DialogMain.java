@@ -1085,7 +1085,7 @@ public class DialogMain extends JxFrame implements Constants
             //menuitemFuncLogin.setEnabled(false);
             mitemFuncLoginCompany.setIcon(ICO_USER16);
             mitemFuncLoginCompany.setText("αλλαγή εταιρίας");
-            mitemFuncLoginCompany.setAccelerator(KeyStroke.getKeyStroke('L', KeyEvent.CTRL_MASK));
+            mitemFuncLoginCompany.setAccelerator(KeyStroke.getKeyStroke('L', KeyEvent.CTRL_DOWN_MASK));
             mitemFuncLoginCompany.getAccessibleContext().setAccessibleDescription("Login company function");
             mitemFuncLoginCompany.addActionListener(new ActionListener()
             {
@@ -1184,7 +1184,7 @@ public class DialogMain extends JxFrame implements Constants
             //redoItem.setEnabled(false);
             mitemFuncExit.setIcon(ICO_EXIT16);
             mitemFuncExit.setText("exit");
-            mitemFuncExit.setAccelerator(KeyStroke.getKeyStroke('E', KeyEvent.CTRL_MASK));
+            mitemFuncExit.setAccelerator(KeyStroke.getKeyStroke('E', KeyEvent.CTRL_DOWN_MASK));
             mitemFuncExit.addActionListener(new ActionListener()
             {
             public void actionPerformed(ActionEvent e)
@@ -1244,7 +1244,7 @@ public class DialogMain extends JxFrame implements Constants
 
               mitemConfigOptions.setIcon(ICO_CONFIG16);
             mitemConfigOptions.setText("options");
-            mitemConfigOptions.setAccelerator(KeyStroke.getKeyStroke('R', KeyEvent.CTRL_MASK));
+            mitemConfigOptions.setAccelerator(KeyStroke.getKeyStroke('R', KeyEvent.CTRL_DOWN_MASK));
             mitemConfigOptions.addActionListener(new ActionListener()
             {
             public void actionPerformed(ActionEvent e)
@@ -1311,7 +1311,7 @@ public class DialogMain extends JxFrame implements Constants
             
             //mitemHelpKeys.setIcon(ICO_SYSTINFO16);
             mitemHelpKeys.setText("πλήκτρα συντόμευσης");
-            mitemHelpKeys.setAccelerator(KeyStroke.getKeyStroke('K', KeyEvent.CTRL_MASK));
+            mitemHelpKeys.setAccelerator(KeyStroke.getKeyStroke('K', KeyEvent.CTRL_DOWN_MASK));
             
             mitemHelpKeys.addActionListener(new ActionListener()
             {
@@ -1323,7 +1323,7 @@ public class DialogMain extends JxFrame implements Constants
             //mitemConfigOptions.setEnabled(false);
             mitemHelpSystemInfo.setIcon(ICO_SYSTINFO16);
             mitemHelpSystemInfo.setText("πληροφορίες συστήματος");
-            mitemHelpSystemInfo.setAccelerator(KeyStroke.getKeyStroke('I', KeyEvent.CTRL_MASK));
+            mitemHelpSystemInfo.setAccelerator(KeyStroke.getKeyStroke('I', KeyEvent.CTRL_DOWN_MASK));
             mitemHelpSystemInfo.addActionListener(new ActionListener()
             {
             public void actionPerformed(ActionEvent e)

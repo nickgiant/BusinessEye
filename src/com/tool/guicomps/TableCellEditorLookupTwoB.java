@@ -267,7 +267,7 @@ public class TableCellEditorLookupTwoB implements TableCellEditor, ActionListene
                              txtCompKey.setSelectionStart(0);
                              txtCompKey.setSelectionEnd(txtCompKey.getText().length());  
                         
-                        return SwingUtilities.notifyAction(action, ks, e, txtCompKey, e.getModifiers());
+                        return SwingUtilities.notifyAction(action, ks, e, txtCompKey, e.getModifiersEx​());
                     }
                 }
                                 

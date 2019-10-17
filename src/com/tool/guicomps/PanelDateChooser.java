@@ -120,7 +120,7 @@ public class PanelDateChooser extends JPanel implements ItemListener, MouseListe
      * Custom panel that can receive the focus. Used to implement the
      * calendar control.
      **/
-    private static class FocusablePanel extends JPanel
+    private static class FocusablePanel extends JxPanel
     {
 	/**
 	 * Constructs a new <code>FocusablePanel</code> with the given
@@ -139,7 +139,7 @@ public class PanelDateChooser extends JPanel implements ItemListener, MouseListe
 	 *
 	 * @return <code>true</code>
 	 **/
-	public boolean isFocusTraversable() {
+	public boolean isFocusable() {
 	    return true;
 	}
     }

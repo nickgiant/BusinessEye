@@ -1495,7 +1495,7 @@ import javax.swing.text.JTextComponent;
         for (int c = 0; c < colCount; c++) // for each field
         {
         	String colName = table.getColumnName(c);
-            Object[] record = new Object[] { new Boolean(true), colName } ;
+            Object[] record = new Object[] {Boolean.valueOf(true), colName } ;
             dataVector.addElement(record);
         }
    

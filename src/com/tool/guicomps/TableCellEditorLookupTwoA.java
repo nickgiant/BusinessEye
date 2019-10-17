@@ -299,7 +299,7 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
                              txtDescription.setSelectionEnd(txtDescription.getText().length());                        
                         
                         
-                        return SwingUtilities.notifyAction(action, ks, e, txtDescription, e.getModifiers());
+                        return SwingUtilities.notifyAction(action, ks, e, txtDescription, e.getModifiersEx​());
                     }
                 }
                                 

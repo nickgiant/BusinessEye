@@ -1213,11 +1213,11 @@ private boolean hasDataChanged=false;
      if(strObject.equalsIgnoreCase("true"))
      {
      	//System.out.println("true");
-     	ret =  new Boolean(true);
+     	ret =  Boolean.valueOf(true);
      }
      else if(strObject.equalsIgnoreCase("false"))
      {
-     	ret = new Boolean(false);
+     	ret = Boolean.valueOf(false);
      }
      else
      {
@@ -1256,7 +1256,7 @@ private boolean hasDataChanged=false;
                 System.out.println("TableModelWritable.setValueAt is integer");
                 try
                 {    // new Integer((String)value.toString().trim());
-                    ((Object[])dataVector.elementAt(row))[col] = new Integer((String)value.toString().trim());
+                    ((Object[])dataVector.elementAt(row))[col] = Integer.valueOf((String)value.toString().trim());
                     
                     fireTableCellUpdated(row, col);
                 } catch (NumberFormatException e)
@@ -1273,7 +1273,7 @@ private boolean hasDataChanged=false;
                 try
                 {    // convert string to double
                     //double d = Double.parseDouble(value.toString().trim());
-                    double dbl= new Double((String)value.toString().trim());
+                    double dbl= Double.valueOf((String)value.toString().trim());
                     
                     System.out.println("TableModelWritable.setValueAt: double "+dbl);
 
@@ -1296,7 +1296,7 @@ private boolean hasDataChanged=false;
                 //If we don't do something like this, the column
                 //switches to contain Strings.
                 //System.out.println("tableModelWritable.setValueAt: is Boolean");
-                    ((Object[])dataVector.elementAt(row))[col] = new Boolean((String)value.toString().trim());
+                    ((Object[])dataVector.elementAt(row))[col] = Boolean.valueOf((String)value.toString().trim());
                fireTableCellUpdated(row, col);
             }
             else
@@ -1916,7 +1916,7 @@ private boolean hasDataChanged=false;
       public void addRow()
       {
          // Mark the row for a SQL INSERT in the Database
-         newRows.add(new Integer(allRows.size() +1));
+         newRows.add(Integer.valueOf(allRows.size() +1));
          // Get the total number of rows in the Vector
          int rowNumber = allRows.size();
          int pos;
@@ -1933,12 +1933,12 @@ private boolean hasDataChanged=false;
             }
             pos = classType.indexOf("Integer");
             if(pos > 0){ // we have an Integer
-               Integer blankInt = new Integer("0");
+               Integer blankInt = Integer.valueOf(0);
                newRowVect.addElement(blankInt);
             }
             pos = classType.indexOf("Boolean");
             if(pos > 0){ // we have a Boolean
-               Boolean blankBool = new Boolean(false);
+               Boolean blankBool = Boolean.valueOf(false);
                newRowVect.addElement(blankBool);
             }
          }

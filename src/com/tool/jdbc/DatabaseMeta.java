@@ -115,7 +115,7 @@ public class DatabaseMeta
           mdSize = rs.getString("COLUMN_SIZE");
           //for object
           	mdFieldObjects[i][0]=mdName;
-          	mdFieldObjects[i][1]=new Integer(mdIndex);
+          	mdFieldObjects[i][1]=Integer.valueOf(mdIndex);
           	mdFieldObjects[i][2]=mdTypeName;
           	mdFieldObjects[i][3]=mdSize;
          System.out.println(mdIndex+" "+mdName+" ("+mdTypeName+" "+mdSize+")");

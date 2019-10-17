@@ -119,7 +119,7 @@ public class DialogDirectoryTree extends JDialog implements Constants
     {
       node = new DefaultMutableTreeNode( new FileNode(roots[k]));
       rootNode.add(node);
-      node.add(new DefaultMutableTreeNode( new Boolean(true) ));
+      node.add(new DefaultMutableTreeNode( Boolean.valueOf(true) ));
     }
       
       
@@ -583,7 +583,7 @@ class FileNode
       parent.add(node);
         
       if (nd.hasSubDirs())
-        node.add(new DefaultMutableTreeNode( new Boolean(true) ));
+        node.add(new DefaultMutableTreeNode( Boolean.valueOf(true) ));
     }
 
     return true;

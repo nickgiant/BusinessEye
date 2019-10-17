@@ -147,7 +147,7 @@ import java.awt.event.FocusEvent;
          //System.out.println("TableCellRendererDouble "+row+" "+column+" "+value+"   val:"+val);
      	if(val != null && !val.equalsIgnoreCase(""))
         {
-         dbl= new Double(val);
+         dbl= Double.valueOf(val);
         }
          else
          {
