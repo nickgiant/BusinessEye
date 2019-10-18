@@ -28,6 +28,8 @@ import javax.crypto.Cipher;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 
@@ -1483,6 +1485,31 @@ str += "Ο ";
 return str;
 }
 
+
+
+    public static boolean isEmailSysntaxValid(String email)
+    {
+        boolean isValid = false;
+
+        //Initialize reg ex for email.
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        //Make the comparison case-insensitive.
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
+
+
+    }
+
+
+
+
 public boolean checkGreekAFM (String afm)
 {
 	
@@ -1604,9 +1631,64 @@ return ret;
 
 
 /*
-*   by ggps
+*   by ggps, utilsString
 */
-public boolean checkGreekAMKA(String amka)
+ public boolean checkGreekAFMSyntax(String afm) {
+		if (afm == null) {
+			return false;
+		}
+
+                if (afm.equals("000000000")) {
+			return false;
+		}
+
+		String chkafm = "afm accepted";
+		int i, sum;
+		int afmdigits[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		boolean afmchk = true;
+		boolean afmchkletter = true;
+		boolean afmchkdigit = true;
+		boolean result;
+
+		sum = 0;
+
+		for (i = 0; i < afm.length(); i++) {
+			if (!Character.isDigit(afm.charAt(i)))
+				afmchkletter = false;
+		}
+
+		if (afmchkletter == true) {
+			if ((afm.length() != 9) || (afm.equals(""))) {
+				afmchk = false;
+				afmchkdigit = false;
+			} else {
+				for (i = 0; i < 8; i++) {
+					afmdigits[i] = Integer.valueOf(afm.substring(i, i + 1))
+							.intValue();
+					;
+					sum += afmdigits[i] * (int) java.lang.Math.pow(2, 8 - i);
+				}
+				afmdigits[8] = Integer.valueOf(afm.substring(8, 9)).intValue();
+				int ypol = sum % 11;
+
+				if ((ypol == 10 && afmdigits[8] != 0)
+						|| ((ypol < 10) && (ypol != afmdigits[8])))
+					afmchk = false;
+			}
+		}
+
+		result = afmchk && afmchkletter && afmchkdigit;
+
+		
+		return result;
+	}
+
+
+/*
+*   by ggps, utilsString
+ * Method that checks if an amka is syntactically correct (e.g. 12310237149 is a correct one)
+*/
+public boolean checkGreekAMKASyntax(String amka)
 {
 
         if (amka == null) {

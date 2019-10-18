@@ -1848,6 +1848,7 @@ int flds = 0;
                             
    	 
                          PanelHtmlEditor panelHtmlEditor = new PanelHtmlEditor();
+                         panelHtmlEditor.setPreferredSize(new Dimension(670,480));
                    /* panelHtmlEditor.addFocusListener(new FocusListener()  
                     {
                     	public void focusLost(FocusEvent e)
@@ -1938,7 +1939,7 @@ int flds = 0;
                           pnlPreview.add(pnlButtons,BorderLayout.PAGE_START);
                           pnlPreview.add(panelHtmlEditor,BorderLayout.CENTER);
                            
-              //            pnlPreview.add(lblArea);
+
 
                             
                             
