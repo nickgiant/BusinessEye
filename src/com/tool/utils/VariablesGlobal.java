@@ -53,8 +53,8 @@ public class VariablesGlobal
 
     public static  String appName = "BusinessEye";
     public static  String appLeadVersion = "1";
-    public static  String appSubVersion = "0.2570";
-    public static  String appVersionYear = "2019/09";
+    public static  String appSubVersion = "0.2571";
+    public static  String appVersionYear = "2019/10";
     public static  String appProduct = "0"; // 0 all
     public static  String appProductCaption = "";
     public static  String appShowLogFrame = "0"; // 1 yes, 0 no

@@ -118,7 +118,7 @@ public class DatabaseMeta
           	mdFieldObjects[i][1]=Integer.valueOf(mdIndex);
           	mdFieldObjects[i][2]=mdTypeName;
           	mdFieldObjects[i][3]=mdSize;
-         System.out.println(mdIndex+" "+mdName+" ("+mdTypeName+" "+mdSize+")");
+         //System.out.println("DatabaseMeta.retrieveFields"+mdIndex+" "+mdName+" ("+mdTypeName+" "+mdSize+")");
           //comparePKsWithField(mdName, mdIndex);
            rs.next();
         } 

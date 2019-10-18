@@ -76,6 +76,8 @@ import javax.swing.event.*;
         }
     }
 
+    
+    
 	private void initialize(JFrame frameIn) throws Exception
     {
     	frame = frameIn;

@@ -1357,7 +1357,24 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 */        
  //       EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"Νο χρήσης\", dbyear.dbyear AS\"χρήση\" FROM dbyear  WHERE dbyear.dbcompanyid='"+VariablesGlobal.globalCompanyId+"' ORDER BY  dbyear.dbYearId" ,"SELECT dbYearId AS\"Νο χρήσης\", dbyear AS\"χρήση\", dbcompanyid AS\"Νο εταιρίας\"","FROM dbyear","",fieldsForSumsDbYear,dbyearDBFields ,"έτη/χρήσεις", "DORM","Νο χρήσης","dbYearId", dbYearErs,null,"χρήσης","χρήσεων",entityPanelDbyear,null,fieldsOnTitleDbyear,fieldsOnTitleCaptionDbyear,yearFieldsOrderby,-1,-1,globalYearPlusOne/*,"",""*/);//SELECT dbyear.dbYearId AS "Νο χρήσης", dbyear.dbyear AS"χρήση", Count(aa) AS "πλήθος περίοδων" FROM dbyear, dbYearDelivery  WHERE dbyear.dbYearId = dbYearDelivery.dbYearId AND dbyear.dbcompanyid='1' GROUP BY dbyear.dbYearId ORDER BY dbyear.dbYearId        
         
+     PanelCopyAllFromCompany panelDataCopyFromCompany = new PanelCopyAllFromCompany();
+      
+       
+        EntityTool ta = new EntityTool("datacopyservice","αντιγραφή ρυθμίσεων","αντιγραφή δεδομένων από εταιρία",panelDataCopyFromCompany);
+        //ta[0] = new EntityStatistics("statInvoicespermonth","invoice","παραστατικά ανα μήνα","SELECT returnMonth(date, 'no') AS \"ΝΟ\", returnMonth(date, 'name') AS \"ΜΗΝΑΣ\" , COUNT(*)AS \"ΠΛΗΘΟΣ\", SUM(invoice.value) AS \"ΣΥΝΟΛΟ\", AVG(invoice.value) AS \"Μ.Ο.\",SUM(invoice.valueReturn) AS \"ΕΠΙΣΤΡΟΦΗ\"","FROM invoice",""/*invoice.customerId the same because we need where*/,"GROUP BY returnMonth(date, 'no'),returnMonth(date, 'name')","ORDER BY returnMonth(date, 'no')",true,"invoice.dbCompanyId",true,"invoice.dbyear",null,null);
+        
+        //EntityStatistics se = new EntityStatistics("invoicespermonth","invoice","παραστατικά ανα μήνα","SELECT returnMonth(date, 'name') AS \"μήνας\" , COUNT(*)AS \"πλήθος\", SUM(invoice.value) AS \"σύνολο\", AVG(invoice.value) AS \"Μ.Ο.\",SUM(invoice.returnValue) AS sumret","FROM invoice","WHERE"/*invoice.customerId the same because we need where*/,"GROUP BY returnMonth(date, 'name')","ORDER BY returnMonth(date, 'no')",true,"invoice.dbCompanyId",true,"invoice.dbyear",null,null);
+        EntityMenu emta = new EntityMenu();
+        emta.setEntityTool(ta,ICO_COPY_FROM_OTHER_COMPANY);
+        emta.setEntityType(ENTITY_TYPE_TOOL);
+        DataTreeNode nodeemta = new DataTreeNode(emta);
 
+        //if(nodeSystem.getChildFromCaption(SYSTEM_CAT_2)!=null)
+        //{         
+        nodeSystem.getChildFromCaption(SYSTEM_CAT_1).addChild(nodeemta);
+        //}
+               
+        //------------------------------------------------------------
 
         int[] dbUserRolesFieldsOrderby ={2};
         String[] dbUserRolesFieldsForSums=null;
@@ -1495,7 +1512,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         }
        //---------------------------------------------------------------------------------------------------
         
-      int[] companySetSerSalesFieldsOrderby ={2};
+       int[] companySetSerSalesFieldsOrderby ={2};
        String[] companySetSerSalesFieldsForSums=null;
        EntityParameter pq = new EntityParameter("dbcompanyset", "SELECT dbCompanyId AS \"Νο\" FROM dbcompanyset ORDER BY dbCompanyId" ,"SELECT dbCompanyId AS \"Νο\" ","FROM dbcompanyset","",companySetSerSalesFieldsForSums,companySetSerSalesDBFields,"ρυθμ. παροχής υπηρεσιών","DORO","Νο","dbcompanyid", null,null,"παρ. υπηρεσίας", "παρ. υπηρεσιών",companySetSerSalesEntityPanel,null,companySetSerSalesFieldsOnTitle,companySetSerSalesFieldsOnTitleCaption,companySetSerSalesFieldsOrderby,-1,-1,globalYearPlusOne);
         EntityMenu empq = new EntityMenu();
@@ -1510,6 +1527,11 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         }
         
         //-------------------------------------service sales transaction types below-------------
+        
+        
+        
+ 
+     
         int[] actionseriesFieldsOrderby ={1};
         String[] actionseriesFieldsForSums=null;
         EntityParameter pta = new EntityParameter("actionseries", "SELECT actionseries.actionseriesId AS \"Νο\",  actionseries.descr AS \"ονομασία\", actionseries.actionSeriesCode, actionseries.isActive,  actionseries.seriesNextNumber, actiontype.actionTypeDescription FROM actionseries, actiontype WHERE actionseries.actionTypeId = actiontype.actionTypeId AND actionseries.dbCompanyId = actiontype.dbCompanyId AND actionseries.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT actionseriesId AS \"Νο \",  descr AS \"ονομασία\", isActive","FROM actionseries","WHERE actionseries.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,actionseriesFieldsForSums,actionseriesDBFields ,"σειρές","DORM","Νο","actionseriesId",null,null,"σειράς", "σειρών",actionseriesEntityPanel,null,actionseriesFieldsOnTitle,actionseriesFieldsOnTitleCaption,actionseriesFieldsOrderby,-1,-1,globalYearPlusOne);
@@ -1540,7 +1562,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         
         int[] actionstockFieldsOrderby ={1};
         String[] actionstockFieldsForSums=null;
-        EntityParameter ptb = new EntityParameter("actionstock", "SELECT actionstockId AS \"Νο\",  descr AS \"ονομασία\",affectType, affectsQuantity, affectsValue FROM actionstock WHERE actionstock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT actionstockId AS \"Νο \",  descr AS \"ονομασία\"","FROM actionstock","WHERE actionstock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,actionstockFieldsForSums,actionstockDBFields ,"κινήσεις αποθήκης","DORM","Νο","actionstockId",null,null,"κίνησης αποθήκης", "κινήσεων αποθήκης",actionstockEntityPanel,null,actionstockFieldsOnTitle,actionstockFieldsOnTitleCaption,actionstockFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityParameter ptb = new EntityParameter("actionstock", "SELECT actionstockId AS \"Νο\",  descr AS \"ονομασία\",affectType, affectsQuantity, affectsValue FROM actionstock WHERE actionstock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT actionstockId AS \"Νο \",  descr AS \"ονομασία\"","FROM actionstock","WHERE actionstock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,actionstockFieldsForSums,actionstockDBFields ,"κινήσεις υπηρεσιών","DORM","Νο","actionstockId",null,null,"κίνησης αποθήκης", "κινήσεων αποθήκης",actionstockEntityPanel,null,actionstockFieldsOnTitle,actionstockFieldsOnTitleCaption,actionstockFieldsOrderby,-1,-1,globalYearPlusOne);
         EntityMenu emptb = new EntityMenu();
         emptb.setEntityParameter(ptb,ICO_TABLE16);
         emptb.setEntityType(ENTITY_TYPE_PARAMETER);

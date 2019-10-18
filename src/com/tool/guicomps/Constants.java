@@ -51,7 +51,9 @@ public interface Constants
 
        public static final String PRODUCT_OLA_CAPTION = "";
        public static final String PRODUCT_TIMOLOGIA_CAPTION = "παροχή υπηρεσίας";
+       public static final String PRODUCT_TIMOLOGIA_CAPTION_OF = "παροχής υπηρεσίας";
        public static final String PRODUCT_APLOGRAFIKA_CAPTION = "έσοδα - έξοδα";       
+       public static final String PRODUCT_APLOGRAFIKA_CAPTION_OF = "εσόδων - εξόδων";       
        public static final String PRODUCT_FARMERSVAT_CAPTION = "ΦΠΑ αγροτών";   
 
        public static final boolean HAS_TEMPLATES =true; // panel templates, like protupa
@@ -131,7 +133,7 @@ public interface Constants
        public static final String STRTABLE_DBCOMPANY ="dbcompany";
        public static final String STRTABLE_DBYEAR ="dbyear"; //  has to be changed in db with dbyearid       
        // prim keys column name in db 
-       public static final String STRFIELD_DBCOMPANYID ="dbcompanyid";
+       public static final String STRFIELD_DBCOMPANYID ="dbcompanyid"; // for replace case insensitive use (?i)STRFIELD_DBCOMPANYID
        public static final String STRFIELD_DBYEARID ="dbyearId"; //  has to be changed in db with dbyearid
        public static final String STRFIELD_ISPRINTED = "isPrinted";
        

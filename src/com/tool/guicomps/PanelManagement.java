@@ -118,6 +118,7 @@ public class PanelManagement extends JxPanel implements Constants
     private PanelTask panelTask;
     private PanelDataImportExport panelDataImport;
     private PanelDataImportExport panelDataExport;
+    private PanelCopyAllFromCompany panelDataCopyFromCompany;
     private PanelScoreBoard panelScoreBoard;
     private PanelManyDataManyRec panelManyDataManyRec;
     //private PanelDockableDesktop panelDockableDesktop;
@@ -658,6 +659,7 @@ public class PanelManagement extends JxPanel implements Constants
   	{      	  // IMPORT = 1;       EXPORT = 2;    
       panelDataImport =  new PanelDataImportExport(1);
       panelDataExport =  new PanelDataImportExport(2);
+      panelDataCopyFromCompany = new PanelCopyAllFromCompany();
  	} 
     
  	if(	typeOfPanel == PANEL_TYPE_SCOREBOARD)
@@ -2121,7 +2123,8 @@ lblMainMenu.setHorizontalAlignment(SwingConstants.LEFT);*/
                 }
                 else
                 {
-                    System.out.println("panelManagement.navTreeMenuSelection    caption:"+tool.getCaption()+" NOT DEFINED");
+                    System.out.println("panelManagement.navTreeMenuSelection   NOT DEFINED  caption:"+tool.getCaption()+" panelDataCopyFromCompany");
+                    addShowTabWithPanel(tool.getCaption(),entityMenu.getEntityIcon(), panelDataCopyFromCompany,ENTITY_TYPE_TOOL);
                 }
         	//panelTask.setEntity(task,this);
         }
