@@ -9222,6 +9222,7 @@ ps.setBytes(i, b);
 
              db.retrieveDBDataFromQuery(q,"PanelOneDataOnRecData.showSpecificRow A");
    	     rs=db.getRS();
+             rs.first();
              rs = db.retrieveRow(rs, 1); 
              
               // System.out.println("PanelOneDataOneRecData.showSpecificRow A1 ...........................q:"+q+" rs:"+rs);    

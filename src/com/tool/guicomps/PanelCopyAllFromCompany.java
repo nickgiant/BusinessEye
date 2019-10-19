@@ -71,8 +71,8 @@ public class PanelCopyAllFromCompany extends JxPanel implements Constants
     private JCheckBox chk2;
     private JCheckBox chk3;
     private JCheckBox chk4;
-
-
+    //private JList listOutput;
+    private DefaultListModel listModel;
 public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
     {
        initialize();
@@ -85,15 +85,36 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
      utilsString = new UtilsString();
     panelMain = new JxPanel();
     panelMain.setLayout(new BorderLayout());
+        db =new Database();
         
         
+        
+    JxPanel pnlSetNCheck = new JxPanel();
+    pnlSetNCheck.setLayout(new FlowLayout());
     
         EntityFilterSettings[] actionTypeCompanyErs = new EntityFilterSettings[1];       
         actionTypeCompanyErs[0]=new EntityFilterSettings("αντιγραφή από εταιρία","onelookup","string","","dbCompanyId","dbcompany",""/*"dbcompany"*/,"",0,-1,-1,FIELD_OBLIGATORY);
        
                 pnlDataFilter = new PanelDataFilter(null);//frame);
                 pnlDataFilter.setEntity(actionTypeCompanyErs, null,/*entityCalculate.getEntityGroupOfComps()*/ PANEL_FILTER_SEARCH, /*entityCalculate.getYearEnforce(),*/ null/*panelManagementIn*/);
-                 
+     
+          JButton btnCheck = new JButton("έλεγχος"); 
+          btnCheck.setToolTipText("Έλεγχος για το ποιές επιλογές δεν έχουν ήδη δεδομένα.");
+        //btnCopy.setIcon(ICO_INSERT_COPY);
+        btnCheck.setFocusable(true);
+        btnCheck.addActionListener(new ActionListener()
+        {
+	        public void actionPerformed(ActionEvent e) 
+	        {	 
+	        
+                       checkIfDataCanBeCopied();
+
+	        } 
+	    });  
+        
+        pnlSetNCheck.add(pnlDataFilter);
+        pnlSetNCheck.add(btnCheck);
+                
         JxPanel pnlSelections = new JxPanel();
         pnlSelections.setLayout(new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 1));
                 
@@ -106,7 +127,7 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
          //------------------------------
           //chk3 = new JCheckBox("αντιγραφή λογαριασμών;");
           chk3 = new JCheckBox("αντιγραφή τύπων εσοδων - εξόδων;");
-          chk4 = new JCheckBox("αντιγραφή πρότυπων;");
+          chk4 = new JCheckBox("αντιγραφή πρότυπων (βασικά + γραμμές);");
           //-----------------------------
           
                 //-----------------------------
@@ -174,10 +195,27 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
     pnlCopyButton.setLayout(new FlowLayout());
     pnlCopyButton.add(lblCopy);
     pnlCopyButton.add(btnCopy);
-     
-     panelMain.add(pnlDataFilter, BorderLayout.PAGE_START);
+    
+    
+    
+    listModel = new DefaultListModel();
+   // model.ensureCapacity(100);
+   
+    
+    JList listOutput = new JList(listModel);
+    //ListSelectionModel selectionModel = new ListSelectionModel();
+    JScrollPane scrListOutput = new JScrollPane(listOutput);
+    scrListOutput.setPreferredSize(new Dimension(250,115));
+    JxPanel pnlBottom = new JxPanel(new FlowLayout());
+    pnlBottom.add(scrListOutput);
+    
+    JxPanel pnlCopyNOutput = new JxPanel(new BorderLayout());
+    pnlCopyNOutput.add(pnlCopyButton, BorderLayout.PAGE_START);
+    pnlCopyNOutput.add(pnlBottom, BorderLayout.PAGE_END);
+    
+     panelMain.add(pnlSetNCheck, BorderLayout.PAGE_START);
      panelMain.add(pnlSelections, BorderLayout.CENTER);
-     panelMain.add(pnlCopyButton, BorderLayout.PAGE_END);
+     panelMain.add(pnlCopyNOutput, BorderLayout.PAGE_END);
      this.setLayout(new BorderLayout());      
      this.add(panelMain, BorderLayout.PAGE_START); 
  
@@ -206,10 +244,112 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
         return ret;
     }
 
+    private boolean checkIfTableHasData(String table,String additionalField, String additionalFieldValue)
+    {
+        boolean ret = true;
+        db.getConnection();
+        
+        String additionalFieldSubquery = "";
+        if(!additionalField.equalsIgnoreCase("") && !additionalFieldValue.equalsIgnoreCase(""))
+        {
+            additionalFieldSubquery = " AND "+additionalField+" LIKE "+additionalFieldValue;
+        }
+        else
+        {
+            additionalFieldSubquery = "";
+        }
+        
+        try
+        {
+        String q = "SELECT * FROM "+table+" WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId+additionalFieldSubquery;
+        db.retrieveDBDataFromQuery(q,"PanelCopyAllFromCompany.checkIfTableHasData");
+          if(db.getRS().first())
+          {
+            ret = true;
+          }
+          else
+          {
+            ret = false;
+          }
+        }
+        catch (SQLException e)
+        {
+            System.out.println(" error  PanelCopyAllFromCompany.checkIfTableHasData "+e.getErrorCode()+"  "+e.getMessage());
+            e.printStackTrace();
+        }
+        finally
+        {
+            db.releaseConnectionRs();
+        }
+        
+        db.releaseConnectionRs();
+        
+        return ret;
+    }
+    
+    
+    private void checkIfDataCanBeCopied()
+    {
+
+      boolean boolChek1 = checkIfTableHasData("actionstock","","");
+      boolean boolChek2 = checkIfTableHasData("actiontrader","","");
+      boolean boolChek3 = checkIfTableHasData("actiontype","","");
+      boolean boolChek4 = checkIfTableHasData("actionseries","","");
+      //boolean boolChek5 = checkIfTableHasData("printform","","");
+      //--------------------------------------------------
+        boolean boolChek6 = checkIfTableHasData("stockcat","","");
+      //-----------------------------------------------------
+      boolean boolChek7 = checkIfTableHasData("sxactiontype","","");
+      //--------------------------------------
+      boolean boolChek8 = checkIfTableHasData("sxesoexoheader","isTemplate","1");
+      boolean boolChek9 = checkIfTableHasData("sxesoexoline","isTemplate","1");
+      
+      if(boolChek1 || boolChek2 || boolChek3 || boolChek4)// || boolChek5)
+      {
+          chk1.setEnabled(false);
+          chk1.setSelected(false);
+      }
+      else
+      {
+           chk1.setEnabled(true);
+      }
+      
+      if(boolChek6)
+      {
+          chk2.setEnabled(false);
+          chk2.setSelected(false);
+      }
+      else
+      {
+           chk2.setEnabled(true);
+      }
+      
+      if(boolChek7)
+      {
+          chk3.setEnabled(false);
+          chk3.setSelected(false);
+      }
+      else
+      {
+           chk3.setEnabled(true);
+      }      
+  
+       if(boolChek8 || boolChek9)
+      {
+          chk4.setEnabled(false);
+          chk4.setSelected(false);
+      }
+      else
+      {
+           chk4.setEnabled(true);
+      }        
+    }
+    
     private void copyData()
     {
-        Database db =new Database();
+             checkIfDataCanBeCopied();
 
+      
                      if(pnlDataFilter.checkIfFieldsAreCompleted())
                     {
                         //if target tables have no data
@@ -234,8 +374,9 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
                             listInsertRec.add(qInsertCopy3);                             
                             String qInsertCopy4 = getQueryInsertFromCopyForTable("actionseries",valueDbCompany,"","");
                             listInsertRec.add(qInsertCopy4);
-                            String qInsertCopy5 = getQueryInsertFromCopyForTable("printform",valueDbCompany,"","");
-                            listInsertRec.add(qInsertCopy5);                            
+                            //String qInsertCopy5 = getQueryInsertFromCopyForTable("printform",valueDbCompany,"","");
+                            //
+                            //listInsertRec.add(qInsertCopy5);                            
                         }
                         if(chk2.isSelected())
                         {
@@ -261,18 +402,24 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
                        try
                        {
                          db.transactionLoadConnection();
-                         db.setTransactionAutoCommit(false);                           
+                         db.setTransactionAutoCommit(false);  
+                        int retCount = 0 ;                       
                         for(int i = 0 ;i<listInsertRec.size();i++)
                         {
                             String query = listInsertRec.get(i);
                             //System.out.println("PanelCopyAllFromCompany.copyData "+query);
-                            db.transactionUpdateQuery(query,"PanelCopyAllFromCompany.copyData",true);
+                            retCount = retCount +  db.transactionUpdateQuery(query,"PanelCopyAllFromCompany.copyData",true);
+                                
+                            
+    
                         }
                         db.transactionCommit();
+                        listModel.addElement(retCount+" εγγραφές αντιγράφηκαν");
                        }
                        catch (SQLException e)
                        {
                            System.out.println("  error PanelCopyAllFromCompany.copyData "+e.getErrorCode()+"  "+e.getMessage());
+                           db.transactionRollback();
                            e.printStackTrace();
                        }
                        finally
@@ -280,6 +427,8 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
                          db.transactionClose();            
                        }
                         
+                       
+                       checkIfDataCanBeCopied();
                     }       
         
         
