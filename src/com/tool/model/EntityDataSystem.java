@@ -246,11 +246,11 @@ public class EntityDataSystem extends EntityData implements Constants
         
         // same as DialogLogin
         //----------------------------------------------------------------
-        EntityDBFields[] dbCompanyDBFields = new EntityDBFields[22];        
-        EntityGroupOfComps[] dbCompanyEntityGroupOfComps= new EntityGroupOfComps[7];
+        EntityDBFields[] dbCompanyDBFields = new EntityDBFields[24];        
+        EntityGroupOfComps[] dbCompanyEntityGroupOfComps= new EntityGroupOfComps[8];
               EntityDBFields[] dbyearLineDBFields = new EntityDBFields[5];
 
-        EntityGroupOfPanels[] dbCompanyEntityGroupOfPanels = new EntityGroupOfPanels[2];
+        EntityGroupOfPanels[] dbCompanyEntityGroupOfPanels = new EntityGroupOfPanels[3];
         EntityUpdateAdditional[] updateAdditionalDbCompany = new EntityUpdateAdditional[1];
         
         String dbCompanyQueryEditable="SELECT * FROM dbcompany";//dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.companyName AS\"τίτλος\", dbcompany.companyVatNo AS\"Α.Φ.Μ.\", dbcompany.doyId ,dbcompany.geoCatId,  dbcompany.bankId , dbcompany.bankAccount , dbcompany.bankAccountIBAN , dbcompany.notes FROM dbcompany";
@@ -538,6 +538,9 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         String[] selectQueryFieldsCompany ={"dbCompanyId"};
         dbCompanyDBFields[21] = new EntityDBFields("dbcompany","dbyear","χρήσεις",6,"table",FIELD_VISIBLE_AND_EDITABLE,"dbyear",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,dbyearLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM dbyear WHERE dbCompanyId = # ORDER BY dbyear",selectQueryFieldsCompany,null);     //String[] childTableFieldsForSumsIn   
         
+        dbCompanyDBFields[22] = new EntityDBFields("dbcompany","afmTaxisUsername","χρήστης",7,"java.lang.String",25,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        dbCompanyDBFields[23] = new EntityDBFields("dbcompany","afmTaxisPassword","κωδικός",7,"java.lang.String",25,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        
         dbCompanyEntityGroupOfComps[0]= new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET);
         dbCompanyEntityGroupOfComps[1]= new EntityGroupOfComps("διεύθυνση",4,0,FONT_SIZE_NOT_SET);
         dbCompanyEntityGroupOfComps[2]= new EntityGroupOfComps("λογαριασμός τράπεζας",6,0,FONT_SIZE_NOT_SET);
@@ -547,9 +550,11 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         dbCompanyEntityGroupOfComps[5]= new EntityGroupOfComps("δεκαδικά (Χρειάζεται να εισέλθετε ξανα στην εφαρμογή για να εφαρμοσθούν οι αλλαγές.)",4,0,FONT_SIZE_NOT_SET);
         dbCompanyEntityGroupOfComps[6] = new EntityGroupOfComps("χρήσεις (Χρειάζεται να εισέλθετε ξανα στην εφαρμογή για να εφαρμοσθούν οι αλλαγές.)",4,1,FONT_SIZE_NOT_SET);
 
+        dbCompanyEntityGroupOfComps[7] = new EntityGroupOfComps("κωδικοί αναζήτης ΑΦΜ",4,2,FONT_SIZE_NOT_SET);
         
         dbCompanyEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1);
         dbCompanyEntityGroupOfPanels[1] = new EntityGroupOfPanels("χρήσεις",1);        
+        dbCompanyEntityGroupOfPanels[2] = new EntityGroupOfPanels("κωδικοί",1);  
         
         
         

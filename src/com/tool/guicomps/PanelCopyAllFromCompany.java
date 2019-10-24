@@ -247,7 +247,7 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
     private boolean checkIfTableHasData(String table,String additionalField, String additionalFieldValue)
     {
         boolean ret = true;
-        db.getConnection();
+
         
         String additionalFieldSubquery = "";
         if(!additionalField.equalsIgnoreCase("") && !additionalFieldValue.equalsIgnoreCase(""))
@@ -280,9 +280,10 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
         finally
         {
             db.releaseConnectionRs();
+            db.releaseConnectionRsmd();
         }
         
-        db.releaseConnectionRs();
+
         
         return ret;
     }
@@ -291,6 +292,7 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
     private void checkIfDataCanBeCopied()
     {
 
+     db.getConnection();
       boolean boolChek1 = checkIfTableHasData("actionstock","","");
       boolean boolChek2 = checkIfTableHasData("actiontrader","","");
       boolean boolChek3 = checkIfTableHasData("actiontype","","");
@@ -303,6 +305,9 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
       //--------------------------------------
       boolean boolChek8 = checkIfTableHasData("sxesoexoheader","isTemplate","1");
       boolean boolChek9 = checkIfTableHasData("sxesoexoline","isTemplate","1");
+      db.releaseConnectionRs();
+      db.releaseConnectionRsmd();
+      
       
       if(boolChek1 || boolChek2 || boolChek3 || boolChek4)// || boolChek5)
       {
@@ -409,12 +414,17 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
                             String query = listInsertRec.get(i);
                             //System.out.println("PanelCopyAllFromCompany.copyData "+query);
                             retCount = retCount +  db.transactionUpdateQuery(query,"PanelCopyAllFromCompany.copyData",true);
-                                
-                            
+                            if(retCount==0)
+                            {
+                                listModel.addElement("   δεν έγινε καμία αντιγραφή");
+                            }                                
+
     
                         }
                         db.transactionCommit();
-                        listModel.addElement(retCount+" εγγραφές αντιγράφηκαν");
+
+                              listModel.addElement(retCount+" εγγραφές αντιγράφηκαν");
+                            
                        }
                        catch (SQLException e)
                        {
