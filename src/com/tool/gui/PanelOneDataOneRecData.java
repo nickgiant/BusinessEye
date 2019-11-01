@@ -65,7 +65,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
     private ArrayList fieldTxts2 = new ArrayList(); // to hold tb2    
     private ArrayList fieldTxts3 = new ArrayList(); // to hold tb3 
     private ArrayList fieldTxts4 = new ArrayList(); // to hold tb4
-    private ArrayList listLabelValid = new ArrayList();
+    private ArrayList listButtonValid = new ArrayList();
     
     private ArrayList fieldTxtsKeyChanged = new ArrayList(); // to hold tb the key
     //private ArrayList listPanelCollapsable;
@@ -424,7 +424,7 @@ int flds = 0;
                 isVisibleOrEditable[f]=dbFieldsInGroupOfPanels[f].getIsVisibleOrEditable();
                 defaultValue[f] =  dbFieldsInGroupOfPanels[f].getDefaultValue();
                 primaryKeyIntegerAutoInc[f] = dbFieldsInGroupOfPanels[f].getPrimaryKeyIntegerAutoInc();
-                listLabelValid.add(new JLabel("l"));// add so when set or get have the same length
+                listButtonValid.add(new JButton("l"));// add so when set or get have the same length              
                       }// if 
                } // if
                else
@@ -449,7 +449,7 @@ int flds = 0;
                 isVisibleOrEditable[f]=dbFieldsInGroupOfPanels[f].getIsVisibleOrEditable();
                 defaultValue[f] =  dbFieldsInGroupOfPanels[f].getDefaultValue();
                 primaryKeyIntegerAutoInc[f] = dbFieldsInGroupOfPanels[f].getPrimaryKeyIntegerAutoInc();
-                listLabelValid.add(new JLabel("l"));// add so when set or get have the same length              
+                listButtonValid.add(new JButton("l"));// add so when set or get have the same length              
           }
           
           
@@ -1629,8 +1629,22 @@ int flds = 0;
                     }
                     
                     
-                 JLabel lblCheckValid =new JLabel(); 
-                 	lblCheckValid.setIcon(ICO_CANCEL16)  	;
+                 //JLabel lblCheckValid =new JLabel(); 
+                 	//lblCheckValid.setIcon(ICO_CANCEL16);
+                 JButton btnCheckValid = new JButton();
+                 btnCheckValid.setIcon(ICO_CANCEL16);
+                 final int columnFieldValidationFinal = columnFieldValidation;
+                 final int iFinal = i;
+                 btnCheckValid.addActionListener(new ActionListener()
+                 {
+	             public void actionPerformed(ActionEvent e) 
+	            {	   
+	                 displayDialogCheck(columnFieldValidationFinal, iFinal);
+	             } 
+	        });
+                 
+                 
+                 
                    if(columnWidth>COLWIDTH_FOR_BIGTEXTBOX) //if change 40 change and later in adding it to panel, and in showrow, and in rowUpdate
                    {
                    	if(columnWidth>499) // like printform html // look also bellow
@@ -2066,8 +2080,9 @@ int flds = 0;
 
                       if(columnFieldValidation==FIELD_VALIDATION_AFM)
                       {
-                      	eachDataFieldPanel.add(lblCheckValid);
-                      	listLabelValid.set(i,lblCheckValid);
+                      	eachDataFieldPanel.add(btnCheckValid);
+                      	listButtonValid.set(i,btnCheckValid);
+                        
                       }
                       else
                       {
@@ -4039,7 +4054,47 @@ catch(Exception e)
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
    }
+ 
    
+    private void displayDialogCheck(int columnFieldValidation, int dbCol)
+   { 
+       
+      // Component comp =this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+       //System.out.println(comp.getClass());
+    	this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+       JTextField tb = (JTextField) fieldTxts.get(dbCol);
+       String selectedKeyValue = tb.getText();             
+        JTextArea txtArea = new JTextArea();
+        txtArea.setFont(new JLabel().getFont());
+        
+        DialogMulti dlg = new DialogMulti(frame);
+        String title = "";
+        boolean showOkButton = false;
+        JxPanel pnl = new JxPanel();
+        pnl.setLayout(new BorderLayout());
+        
+        if(columnFieldValidation==FIELD_VALIDATION_AFM)
+        {
+            title=("αναζήτηση στοιχείων απο το taxisnet");
+            showOkButton=true;
+            txtArea.setSize(100, 80);
+            txtArea.setText(selectedKeyValue);
+        }
+        
+        pnl.add(txtArea,BorderLayout.PAGE_START);
+        dlg.setEntity(pnl,PANEL_TYPE_ANY, title,showOkButton);
+        
+        dlg.display();        
+        
+        
+  
+        
+     
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+        
+   }
    
   /*
    *  parts also included in report record zoom in ReportAreaGenerated.clickedOnRow()
@@ -5374,17 +5429,21 @@ catch(Exception e)
                     	
                 if(fieldValidation[i]==FIELD_VALIDATION_AFM)
          	    {     	
-         		    JLabel lb =(JLabel)listLabelValid.get(i);	
+         		   // JLabel lb =(JLabel)listLabelValid.get(i);
+                            JButton btn =(JButton)listButtonValid.get(i);
+                            
          		
          		    if(utilsString.checkGreekAFM(tbe.getText()))	
          		    {
          			  //lb.setText("correct");
-         			  lb.setIcon(ICO_OK16);
+         			  btn.setIcon(ICO_OK16);
+                                  btn.setEnabled(true);
          		    }
          		    else
          	    	{
          			   //lb.setText("faulty");
-         			   lb.setIcon(ICO_CANCEL16);
+         			   btn.setIcon(ICO_CANCEL16);
+                                    btn.setEnabled(false);
          	    	}                    	
          	    }    	             	   
               }
@@ -10880,15 +10939,18 @@ ps.setBytes(i, b);
          		//System.out.println("PanelODORD.DocumentHandler.insertUpdate AFM");
          		tac.setBackground(t.getBackground());  
          		
-         		JLabel lb =(JLabel)listLabelValid.get(no);	
-         		
+         		//JLabel lb =(JLabel)listLabelValid.get(no);	
+         		 JButton btn =(JButton)listButtonValid.get(no);
+                        
          		if(utilsString.checkGreekAFM(tac.getText()))	
          		{
-         			lb.setIcon(ICO_OK16);
+         			btn.setIcon(ICO_OK16);
+                                btn.setEnabled(true);
          		}
          		else
          		{
-         			lb.setIcon(ICO_CANCEL16);
+         			btn.setIcon(ICO_CANCEL16);
+                                btn.setEnabled(false);
          		}
       		
          	}

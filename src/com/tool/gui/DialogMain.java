@@ -112,7 +112,7 @@ public class DialogMain extends JxFrame implements Constants
     
     //private Timer timerDelayExpand;
     private UtilsDouble utilsDouble; 
-     private JButton btnModule;
+     private JToggleButton btnModule;
      //private JButton btnModule2;
     
     private ArrayList listBtnModule;
@@ -1026,13 +1026,7 @@ public class DialogMain extends JxFrame implements Constants
     
     private void setSectionActive(int intSection)
     {
-        
- 
-
-        
-        
-        
-        
+    
         panelManagement.setSectionActive(listSections,intSection);
 
     }
@@ -1371,7 +1365,7 @@ public class DialogMain extends JxFrame implements Constants
 
 
         
-        ArrayList listSections = ed.loadAndGetAllEntitySections();
+         listSections = ed.loadAndGetAllEntitySections();
               //DataTreeNode dTreeNodeRoot = dTreeSections.getRootElement();
       //int countChildren = dTreeNodeSections.getNumberOfChildren();         
       int countChildren = listSections.size();         
@@ -1379,9 +1373,10 @@ public class DialogMain extends JxFrame implements Constants
       //DataTreeNode dTreeNodeChild = dTreeNodeRoot.getChildFromIndex(n);  
     
 //      listBtnModule.removeAll();
+      ButtonGroup buttonGroup = new ButtonGroup();
       for(int n=0;n<countChildren;n++) // -------- level 0
       {
-          btnModule = new JButton();
+          btnModule = new JToggleButton();
           //DataTreeNode dtnr = dTreeNodeSections.getChildFromIndex(n);
           //EntityMenu emCat = (EntityMenu)dtnr.getData();//dTreeNodeRoot.getChildFromIndex(n);
           
@@ -1403,16 +1398,14 @@ public class DialogMain extends JxFrame implements Constants
           {
 	        public void actionPerformed(ActionEvent e) 
 	        {  
-                   // JButton btnM = (JButton)listBtnModule.get(finalN);
-      //              setModuleInPanelManagement(listBtnModule, finalDtnr);
-                    
-
+                   
                     setSectionActive(finalN);
                     
-                    //displayDialogParameters();// displayMessageDialog("ρυθμίσεις","ρυθμίσεις που αφορουν το πρόγραμμα, \n όπως εμφάνιση κτλ...");    
-	        }//displayCalendarDialog(btnConfig);
+                  
+	        }
 	   });    
           
+          buttonGroup.add(btnModule);
          toolBarMain.add(btnModule,n);
 
       }
