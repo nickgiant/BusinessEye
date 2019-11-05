@@ -1632,6 +1632,7 @@ int flds = 0;
                  //JLabel lblCheckValid =new JLabel(); 
                  	//lblCheckValid.setIcon(ICO_CANCEL16);
                  JButton btnCheckValid = new JButton();
+                 btnCheckValid.setBorder(BorderFactory.createEmptyBorder(2,7,2,7));//new LineBorder(Color.WHITE));//.setSize(new Dimension(30,5));//setBounds(0, 0, 20, 10);
                  btnCheckValid.setIcon(ICO_CANCEL16);
                  final int columnFieldValidationFinal = columnFieldValidation;
                  final int iFinal = i;
