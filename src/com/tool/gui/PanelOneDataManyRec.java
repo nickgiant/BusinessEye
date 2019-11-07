@@ -798,6 +798,8 @@ import javax.swing.border.BevelBorder;
         for(int p = 0;p<entPanel.length;p++)
         {
             
+            if(entPanel[p].getDBFields()!=null)
+            {
             for(int f = 0;f<entPanel[p].getDBFields().length;f++)
             {
                 EntityDBFields dbfield = entPanel[p].getDBFields()[f];
@@ -822,6 +824,7 @@ import javax.swing.border.BevelBorder;
                 }
                        
             } 
+            }
             listPanelOfDbTable.add(listDbTable);// for panel p
             listPanelOfDbFields.add(listDbFields);// for panel p
         }
@@ -874,7 +877,9 @@ import javax.swing.border.BevelBorder;
         
         
         for(int p = 0;p<entPanel.length;p++)
-        {     
+        {    
+          if(entPanel[p].getPrimKeyDb() != null && !entPanel[p].getPrimKeyDb().equalsIgnoreCase("")) // null when the panel is statistics or something except data entry panel
+          {            
             // --- for parent
           String strFields = "";
           ArrayList listDbFieldsOfPanel = (ArrayList)listPanelOfDbFields.get(p); // holds listDbFields
@@ -888,8 +893,13 @@ import javax.swing.border.BevelBorder;
                     }
           }
         
+          String strPk = "";
+
+              strPk = entPanel[p].getPrimKeyDb();
+          
+          System.out.println("copyFromCompanyRow strPk:"+strPk+"  p:"+p);
           String strFieldsWithChangedDbCompanyId = strFields.replaceAll("dbCompanyId", VariablesGlobal.globalCompanyId);// replaces value with global var
-          strFieldsWithChangedDbCompanyId = strFieldsWithChangedDbCompanyId.replaceAll(entPanel[p].getPrimKeyDb(),lastNoOfRecs);// would not like to set autoinc value
+          strFieldsWithChangedDbCompanyId = strFieldsWithChangedDbCompanyId.replaceAll(strPk,lastNoOfRecs);// would not like to set autoinc value
           String queryCopy = "INSERT INTO `"+listDbTablesOfPanel.get(0)+"` ("+strFields+") SELECT "+strFieldsWithChangedDbCompanyId+" FROM `"+listDbTablesOfPanel.get(0)+"` WHERE `dbCompanyId` LIKE "+fromCompPkValue+" AND "+entPanel[p].getPrimKeyDb()+" LIKE "+pkOfRowValue;
           System.out.println("PanelODMR.copyFromCompanyRow     queryCopy:"+queryCopy);
           int intRet = dbTransaction.transactionUpdateQuery(queryCopy,"PanelODMR.copyFromCompanyRow parent",true);
@@ -936,7 +946,7 @@ import javax.swing.border.BevelBorder;
            
                       }//  for
                  }// /if
-                    
+        } // if, when p is valid
         }// for groups of childs fields
         } // entPanel
         
