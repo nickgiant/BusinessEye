@@ -335,6 +335,9 @@ public class EntityData implements Constants
         /*entityDataTam = new EntityDataTam();
         listEntities = entityDataTam.addEntitiesLookupTableConstants(entities);   */
         
+        entityDataSystem = new EntityDataSystem();
+        listEntities = entityDataSystem.addEntitiesLookupTableConstants(entities);         
+        
         return listEntities;
      }
      

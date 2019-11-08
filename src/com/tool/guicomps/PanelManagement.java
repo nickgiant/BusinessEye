@@ -723,7 +723,7 @@ public class PanelManagement extends JxPanel implements Constants
 
     
       //  loadSectionMenu
-        EntityMenu entityMenu = (EntityMenu)listSections.get(intSection);
+        
         DataTree dataTree = em.getEntitySectionDataTree();
         DataTreeNode dtnr = dataTree.getRootElement();
         presentMenuPanelFromDataTree(dtnr);

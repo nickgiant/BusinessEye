@@ -1437,11 +1437,11 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        
        EntityLookupTableConstants entityLookupTableConstants;
        
-       EntityLookupTableConstantsData [] luTCData1 = new EntityLookupTableConstantsData[2];
+       /*EntityLookupTableConstantsData [] luTCData1 = new EntityLookupTableConstantsData[2];
        //public EntityLookupTableConstantsData(String pkIn,int orderIn, String titleIn)
        luTCData1[0]=new EntityLookupTableConstantsData("1",1,"title1");
        luTCData1[1]=new EntityLookupTableConstantsData("2",2,"title2");
-       listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCname",luTCData1));
+       listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCname",luTCData1)); */
 
        EntityLookupTableConstantsData [] luTCDataDecimalChar = new EntityLookupTableConstantsData[2];
        //public EntityLookupTableConstantsData(String pkIn,int orderIn, String titleIn)
@@ -1467,6 +1467,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCActionStockAffectType",null)); // if null decide by name in EntityLookupTableConstants   
        listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCActionTraderType",null)); 
        listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCAskPrintYesNo",null)); 
+      
        
        return listEntityLookupTableConstants;
    }

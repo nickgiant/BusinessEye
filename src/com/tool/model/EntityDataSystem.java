@@ -278,7 +278,7 @@ public class EntityDataSystem extends EntityData implements Constants
 
         //----------------------------------------------------------------
         
-     EntityDBFields[] dbUserRolesDBFields = new EntityDBFields[2]; 
+     EntityDBFields[] dbUserRolesDBFields = new EntityDBFields[3]; 
        
         
         EntityGroupOfComps[] dbUserRolesEntityGroupOfComps = new EntityGroupOfComps[1];
@@ -566,7 +566,8 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         dbuserDBFields[3] = new EntityDBFields("dbUser","nameOfUser","πλήρες όνομα χρήστη",0,"java.lang.String",20,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         dbuserDBFields[4] = new EntityDBFields("dbUser","active","ενεργός",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");        
         dbuserDBFields[5] = new EntityDBFields("dbUser","email","email",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        dbuserDBFields[6] = new EntityDBFields("dbUser","userRoleId","ρόλος",0,"java.lang.Integer",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"dbuserrole",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        dbuserDBFields[6] = new EntityDBFields("dbUser","userRoleId","ρόλος",0,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"dbuserrole",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        
         //dbuserDBFields[4] = new EntityDBFields("dbCompanyId","Νο εταιρίας",0, FIELD_SUGGEST,FIELD_VALIDATION_NO);
         dbuserEntityGroupOfComps[0]= new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET);
         
@@ -578,7 +579,8 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         //dbYearDeliveryDBFields[4] = new EntityDBFields("dbYearDelivery","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalCompanyId);
         
         dbUserRolesDBFields[0] = new EntityDBFields("dbUserRole","userRoleId","Νο ρόλου",0,"java.lang.Integer",4, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
-        dbUserRolesDBFields[1] = new EntityDBFields("dbUserRole","roleDescr","περιγραφή",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        dbUserRolesDBFields[1] = new EntityDBFields("dbUserRole","roleDescr","περιγραφή",0,"java.lang.String",40,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        dbUserRolesDBFields[2] = new EntityDBFields("dbUserRole","isAccountant","είναι λογιστής;",0,"java.lang.String",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCIsUserAcc",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"3","");
         
         dbUserRolesEntityGroupOfComps[0]= new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET);
 
@@ -1059,11 +1061,11 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
        
        EntityLookupTableConstants entityLookupTableConstants;
        
-       EntityLookupTableConstantsData [] luTCData1 = new EntityLookupTableConstantsData[2];
+       /*EntityLookupTableConstantsData [] luTCData1 = new EntityLookupTableConstantsData[2];
        //public EntityLookupTableConstantsData(String pkIn,int orderIn, String titleIn)
        luTCData1[0]=new EntityLookupTableConstantsData("1",1,"title1");
        luTCData1[1]=new EntityLookupTableConstantsData("2",2,"title2");
-       listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCname",luTCData1));
+       listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCname",luTCData1));  */
 
 
        EntityLookupTableConstantsData [] luTCDataDecimalChar = new EntityLookupTableConstantsData[2];
@@ -1072,22 +1074,24 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
        luTCDataDecimalChar[1]=new EntityLookupTableConstantsData(".",2,".");
        listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCdecimalchar",luTCDataDecimalChar));       
 
-       EntityLookupTableConstantsData [] luTCDataVatExclusion = new EntityLookupTableConstantsData[3];
+       /*EntityLookupTableConstantsData [] luTCDataVatExclusion = new EntityLookupTableConstantsData[3];
        //public EntityLookupTableConstantsData(String pkIn,int orderIn, String titleIn)
        luTCDataVatExclusion[0]=new EntityLookupTableConstantsData("1",1,"κανονικό");
        luTCDataVatExclusion[1]=new EntityLookupTableConstantsData("2",2,"μειωμένο");
        luTCDataVatExclusion[2]=new EntityLookupTableConstantsData("3",3,"απαλλασσόμενο");
        listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCVatExclusion",luTCDataVatExclusion));    
-
+       */
 
        
-       EntityLookupTableConstantsData [] luTCDataActionTypeCat = new EntityLookupTableConstantsData[3];
+       /*EntityLookupTableConstantsData [] luTCDataActionTypeCat = new EntityLookupTableConstantsData[3];
        //public EntityLookupTableConstantsData(String pkIn,int orderIn, String titleIn)
        luTCDataActionTypeCat[0]=new EntityLookupTableConstantsData("1",1,"πωλήσεις χονδρικής");
        luTCDataActionTypeCat[1]=new EntityLookupTableConstantsData("2",2,"πωλήσεις χονδρικής πιστωτικό");
-       luTCDataActionTypeCat[2]=new EntityLookupTableConstantsData("3",3,"πωλήσεις λιανικής");
+       luTCDataActionTypeCat[2]=new EntityLookupTableConstantsData("3",3,"πωλήσεις λιανικής");*/
        
-       listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCActionTypeCat",luTCDataActionTypeCat));        
+       //listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCActionTypeCat",null));//luTCDataActionTypeCat));        
+       
+       listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCIsUserAcc",null));// if null decide by name from db in EntityLookupTableConstants       
        
        return listEntityLookupTableConstants;
    }
@@ -1124,15 +1128,15 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
      //int[] lookUpFieldIndexPaymentType ={2,3,0};     
      String[] lookUpFieldGeoCat={"geoCatName"};
      
-        EntityFilterSettings[] geoCatErs = new EntityFilterSettings[1];       
-        geoCatErs[0]=new EntityFilterSettings("ονομασία","","string","equals","geoCatName","geocat",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+     EntityFilterSettings[] geoCatErs = new EntityFilterSettings[1];       
+     geoCatErs[0]=new EntityFilterSettings("ονομασία","","string","equals","geoCatName","geocat",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
      entities.add(entityLookUp = new EntityLookUp("geocat","geocat","SELECT geoCatId AS\"Νο πόλης\", geoCatName AS\"πόλη/χωριό\", state AS \"νομός\", postCode AS\"ΤΚ\", phoneCode AS\"κωδ τηλ\" FROM geocat","","","ORDER BY geoCatName" ,"","geoCatId","Νο πόλης","geoCatId","πόλη/χωριό",2,lookUpFieldGeoCat,"πόλη/χωριό",16,"java.lang.String",0,null,null,0,null,null,geoCatQueryEditable,"πόλης","πόλεων",null,entityPanelGeoCat,fieldsOnTitleGeoCat, fieldsOnTitleCaptionGeoCat,geoCatErs,2,1,null,true,-1,-1,null));
      
   
      String[] lookUpFieldActivity={"activityDescr"};
      
-        EntityFilterSettings[] activityCatErs = new EntityFilterSettings[1];       
-        activityCatErs[0]=new EntityFilterSettings("ονομασία","","string","equals","activityDescr","activitycat",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+     EntityFilterSettings[] activityCatErs = new EntityFilterSettings[1];       
+     activityCatErs[0]=new EntityFilterSettings("ονομασία","","string","equals","activityDescr","activitycat",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
      entities.add(entityLookUp = new EntityLookUp("activitycat","activitycat","SELECT activityCatId AS\"Νο δραστηριότητας\", activityDescr AS\"δραστηριότητα\" FROM activitycat","","","ORDER BY activityDescr","" ,"activityCatId","Νο δραστηριότητας","activityCatId","δραστηριότητα",2,lookUpFieldActivity,"δραστηριότητα",16,"java.lang.String",0,null,null,0,null,null,activityCatQueryEditable,"δραστηριότητα","δραστηριοτήτων",null,entityPanelActivityCat,fieldsOnTitleActivityCat, fieldsOnTitleCaptionActivityCat,activityCatErs,2,1,null,true,-1,-1,null));
      
   
@@ -1213,7 +1217,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
   
      String[] lookUpFieldRoleDescr={"roleDescr"};
      //String[] lookUpFieldLabelPaymentType={"είδος παραστατικού","συντομογραφία",null};
-     entities.add(entityLookUp = new EntityLookUp("dbuserrole","dbuserrole","SELECT userRoleId ,roleDescr AS\"περιγραφή\" FROM dbuserrole","","","ORDER BY roleDescr","","userRoleId","Νο","userRoleId","ρόλος",2,lookUpFieldRoleDescr,"ρόλος",10,"java.lang.String",0,null,null,0,null,null,dbUserRolesQueryEditable,"ρόλου","ρόλων",null,dbUserRolesEntityPanel,dbUserRolesFieldsOnTitle, dbUserRolesFieldsOnTitleCaption,null,2,1,null,true,-1,-1,null)); 
+     entities.add(entityLookUp = new EntityLookUp("dbuserrole","dbuserrole","SELECT userRoleId AS\"Νο ρόλου\" ,roleDescr AS\"περιγραφή\", isAccountant, lookupconstants.name FROM dbuserrole INNER JOIN lookupconstants ON dbuserrole.userRoleId = lookupconstants.lookupconstantsId ","WHERE lookupconstants.constantstypeId = 10","","ORDER BY roleDescr","","userRoleId","Νο ρόλου","userRoleId"," Νο ρόλου",2,lookUpFieldRoleDescr,"ρόλος",10,"java.lang.String",0,null,null,0,null,null,dbUserRolesQueryEditable,"ρόλου","ρόλων",null,dbUserRolesEntityPanel,dbUserRolesFieldsOnTitle, dbUserRolesFieldsOnTitleCaption,null,2,1,null,true,-1,-1,null)); 
      //entities.add(entityLookUp = new EntityLookUp("paymenttype","SELECT paymentTypeId AS\"Νο τύπου παρ/κού\",paymentTypeName AS\"ονομασία τύπου παρ/κού\", abbreviation AS\"συντομογραφία\" FROM paymenttype","ORDER BY paymentTypeName","paymentTypeId","Νο τύπου παρ/κού",2,lookUpFieldPaymentType,"είδος παραστατικού",0,null,null,0,null,null,paymenttypeQueryEditable,"τύπου παραστατικού","τύπων παραστατικού",null,entityPanelPaymentType,fieldsOnTitlePaymentType, fieldsOnTitleCaptionPaymentType,null,2,1,null,true,-1,-1)); 
 
 
@@ -1276,7 +1280,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         actiontraderErs[1]=new EntityFilterSettings("ονομασία","","string","equals","descr","actiontrader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
      entities.add(entityLookUp = new EntityLookUp("actiontrader","actiontrader","SELECT actiontraderId AS\"Νο\", descr AS\"ονομασία\" FROM actiontrader","WHERE actiontrader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"","ORDER BY actiontraderId","","actiontraderId","Νο","actiontraderId","κινήσεις συναλλασσόμενου",2,actiontraderLookUpField,"ονομασία",18,"java.lang.String",0,null,null,0,null,null,actiontraderQueryEditable,"του κίνησης συναλλασσόμενου","τύπων συναλ.",null,actiontraderEntityPanel,actiontraderFieldsOnTitle, actiontraderFieldsOnTitleCaption,actiontraderErs,2,1,null,true,-1,-1,null));     	 	
            //--------------------------------------- transaction types above----------        
-     
+
      
      return entities;
    }
@@ -1383,7 +1387,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 
         int[] dbUserRolesFieldsOrderby ={2};
         String[] dbUserRolesFieldsForSums=null;
-        EntityParameter pj = new EntityParameter("dbuserrole", "SELECT userRoleId AS\"Νο\", roleDescr AS\"όνομα ρόλου\" FROM dbuserrole"  ,"SELECT userRoleId AS\"Νο\", roleDescr AS\"όνομα ρόλου\" ","FROM dbuserrole","",dbUserRolesFieldsForSums,dbUserRolesDBFields ,"ρόλοι", "DORM","Νο ρόλου","userRoleId", null,null,"ρόλου","ρόλων",dbUserRolesEntityPanel,null,dbUserRolesFieldsOnTitle,dbUserRolesFieldsOnTitleCaption,dbUserRolesFieldsOrderby,-1,-1,globalYearPlusOne/*,"",""*/);
+        EntityParameter pj = new EntityParameter("dbuserrole", "SELECT userRoleId AS\"Νο ρόλου\", roleDescr AS\"όνομα ρόλου\", isAccountant, lookupconstants.name  FROM dbuserrole INNER JOIN lookupconstants ON dbuserrole.isAccountant = lookupconstants.lookupconstantsId WHERE lookupconstants.constantstypeId = 10"  ,"SELECT userRoleId AS\"Νο ρόλου\", roleDescr AS\"όνομα ρόλου\", isAccountant","FROM dbuserrole","",dbUserRolesFieldsForSums,dbUserRolesDBFields ,"ρόλοι", "DORM","Νο ρόλου","userRoleId", null,null,"ρόλου","ρόλων",dbUserRolesEntityPanel,null,dbUserRolesFieldsOnTitle,dbUserRolesFieldsOnTitleCaption,dbUserRolesFieldsOrderby,-1,-1,globalYearPlusOne/*,"",""*/);
         EntityMenu empj = new EntityMenu();
         empj.setEntityParameter(pj,ICO_TABLE16);
         empj.setEntityType(ENTITY_TYPE_PARAMETER);
@@ -1553,7 +1557,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         
         int[] actionTypeFieldsOrderby ={2};
         String[] fieldsForSumsActionType=null;
-        EntityParameter pl = new EntityParameter("actiontype", "SELECT actionTypeId AS \"Νο τύπου παραστατικού\", actionTypeCode, actionTypeDescription AS \"ονομασία\",actiontype.isDebit,lookupconstants.name FROM actiontype  INNER JOIN lookupconstants ON actiontype.actionTypeCatId = lookupconstants.lookupconstantsId WHERE lookupconstants.constantstypeId = 2 AND actiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT actionTypeId AS \"Νο τύπου παραστατικού\", actionTypeCode, actionTypeDescription AS \"ονομασία\"","FROM actiontype","WHERE actiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsActionType,actionTypeDBFields ,"τύποι παραστατικών","DORM","Νο τύπου παραστατικού","actionTypeId",null,null,"τύπου παραστατικών", "τύπων παραστατικών",entityPanelActionType,null,fieldsOnTitleActionType,fieldsOnTitleCaptionActionType,actionTypeFieldsOrderby,-1,-1,globalYearPlusOne/*,"sxactiontype"/*formGlobalTable1*//*,"sxaccount"/*formGlobalTableToApply1*/);
+        EntityParameter pl = new EntityParameter("actiontype", "SELECT actionTypeId AS \"Νο τύπου παραστατικού\", actionTypeCode, actionTypeDescription AS \"ονομασία\",actiontype.isDebit,lookupconstants.name FROM actiontype INNER JOIN lookupconstants ON actiontype.actionTypeCatId = lookupconstants.lookupconstantsId WHERE lookupconstants.constantstypeId = 2 AND actiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT actionTypeId AS \"Νο τύπου παραστατικού\", actionTypeCode, actionTypeDescription AS \"ονομασία\"","FROM actiontype","WHERE actiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsActionType,actionTypeDBFields ,"τύποι παραστατικών","DORM","Νο τύπου παραστατικού","actionTypeId",null,null,"τύπου παραστατικών", "τύπων παραστατικών",entityPanelActionType,null,fieldsOnTitleActionType,fieldsOnTitleCaptionActionType,actionTypeFieldsOrderby,-1,-1,globalYearPlusOne/*,"sxactiontype"/*formGlobalTable1*//*,"sxaccount"/*formGlobalTableToApply1*/);
         EntityMenu empl = new EntityMenu();
         empl.setEntityParameter(pl,ICO_TABLE16);
         empl.setEntityType(ENTITY_TYPE_PARAMETER);
