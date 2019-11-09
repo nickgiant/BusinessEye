@@ -941,6 +941,7 @@ public class DialogMain extends JxFrame implements Constants
         menuBar= new JMenuBar();
         setJMenuBar(menuBar);  
          loadFixedMenu(menuBar);
+         loadEntitySectionsMenu(menuBar);
          loadFixedMenuLast(menuBar);
          
 
@@ -1356,7 +1357,7 @@ public class DialogMain extends JxFrame implements Constants
        
        
         loadSectionsFromEntityData();
-        loadEntitySectionsMenu();   
+        //loadEntitySectionsMenu();   
        
         
         //boolean[] isNodeVisible ={true, true, true, true,true};
@@ -1426,16 +1427,61 @@ public class DialogMain extends JxFrame implements Constants
     * 
     */
     
-    private void loadEntitySectionsMenu()
+    private void loadEntitySectionsMenu(JMenuBar menuBarIn)
     {
       
-      int countChildren = listSections.size();           
+                
+       //toolBarMain.removeAll();
+      
+       
+       
+        loadSectionsFromEntityData();
+        //loadEntitySectionsMenu();   
+       
+        
+        //boolean[] isNodeVisible ={true, true, true, true,true};
+        ArrayList listSectionEntityMenu = new ArrayList();
+        EntityData ed = new EntityData();
 
+
+        
+         listSections = ed.loadAndGetAllEntitySections();
+              //DataTreeNode dTreeNodeRoot = dTreeSections.getRootElement();
+      //int countChildren = dTreeNodeSections.getNumberOfChildren();         
+      int countChildren = listSections.size();         
+
+      //DataTreeNode dTreeNodeChild = dTreeNodeRoot.getChildFromIndex(n);  
+    
+//      listBtnModule.removeAll();
+      //ButtonGroup buttonGroup = new ButtonGroup();
+      for(int n=0;n<countChildren;n++) // -------- level 0
+      {
+          
+          EntityMenu emCat = (EntityMenu)listSections.get(n);
+
+       JMenu menuFunctions;
+
+            // functions menu -------------------------------------------------------
+            menuFunctions = new JMenu(emCat.getEntityCaption());          
+          
+ 
+          loadMenuFromDataTree(n,menuFunctions);
+          
+          menuBarIn.add(menuFunctions);
+          
+      }
+      
+    /*           EntityData ed = new EntityData();
+       listSections = ed.loadAndGetAllEntitySections();       
+
+       int countChildren = listSections.size(); 
+      
+      
       for(int n=0;n<countChildren;n++) // -------- level 0
       {
           
           
-//         loadMenuFromDataTree(n);          
+         loadMenuFromDataTree(n);          
           
           
           //btnModule = new JButton();
@@ -1449,23 +1495,23 @@ public class DialogMain extends JxFrame implements Constants
           menu.setIcon(emCat.getEntityIcon());//ICO_REPORTDOCUMENT);
 
            System.out.println("DialogMain.loadEntitySectionsMenu      countChildren"+countChildren+"    "+n+"      emCat.getEntityCaption()"+emCat.getEntityCaption());
-
-*/          
+*/
+          
       
 
  
-/*     
-       EntityMenu em = (EntityMenu)listSections.get(n);
+     
+    /*   EntityMenu em = (EntityMenu)listSections.get(n);
               //System.out.println("setSectionActive   "+e+"  getEntityType:"+em.getEntityType()+"  "+em.getEntityCaption());
       DataTree dTreeSections = em.getEntitySectionDataTree();
    DataTreeNode dTreeNodeRoot = dTreeSections.getRootElement();
       //int countChildren = dTreeNode.getNumberOfChildren();    
- */      
-            
+       
+     */       
              
     
       
-         }        
+     //    }        
         
 
         
@@ -1473,7 +1519,201 @@ public class DialogMain extends JxFrame implements Constants
     
     
     
-    private void loadMenuFromDataTree(int intSection)
+    private void loadMenuFromDataTree(int intSection, JMenu menuFunctions)
+    {
+
+    
+    
+       EntityMenu em = (EntityMenu)listSections.get(intSection);
+              //System.out.println("setSectionActive   "+e+"  getEntityType:"+em.getEntityType()+"  "+em.getEntityCaption());
+      DataTree dTreeSections = em.getEntitySectionDataTree();
+   DataTreeNode dTreeNodeRoot = dTreeSections.getRootElement();        
+
+   
+   
+  
+   
+   
+   
+   
+        
+        
+        
+      EntityMenu entityMenu = em;
+     // EntityMenu entityMenuParent = new EntityMenu();
+      
+ //     DataTreeNode dTreeNodeRoot = dataTreeNodeIn;
+     int countChildren = dTreeNodeRoot.getNumberOfChildren(); //dTreeSections.getRootElement().getNumberOfChildren();    
+      //int countChildren = dataTreeNodeIn
+      //int countChildren = dataTreeIn.getRootElement().getNumberOfChildren(); 
+ 
+   int count = 0;     
+      /*for(int n=0;n<countChildren;n++) // -------- level 0
+      {*/
+          
+      //int n= intSection;
+            
+         JMenu mainMenu = menuFunctions;//new JMenu(dTreeNodeRoot.getChildFromIndex(n).toString());
+    	 //menuBarIn.add(mainMenu);
+        // menuBar.add(mainMenu);
+         
+    	 DataTreeNode dTreeNodeChild = dTreeNodeRoot;//dTreeNodeRoot.getChildFromIndex(n);  
+    	      
+    	 if(dTreeNodeChild.hasNodeChildren())//----------- level 1  --------------------------------
+    	 {
+    	      
+    	     for(int v=0;v<dTreeNodeChild.getNumberOfChildren();v++)
+      	     {
+
+                   DataTreeNode dTreeNodeChild2 = dTreeNodeChild.getChildFromIndex(v);
+    	        
+                   entityMenu = (EntityMenu)dTreeNodeChild2.getData();      
+   //                entityMenuParent = (EntityMenu)dTreeNodeChild.getData();      
+                    
+    	        
+    	          JMenuItem mitem  = new JMenuItem(dTreeNodeChild.getChildFromIndex(v).toString());
+    //-              mainMenu.add(mitem);//mitem);
+    	          if(entityMenu.getEntityIcon()!=null)
+    	          {
+    	              mitem.setIcon(entityMenu.getEntityIcon());	
+    	          }
+    	          else
+    	          {
+    //	          	  mitem.setIcon(entityMenuParent.getEntityIcon());
+    	          }
+    	          
+
+    	          final EntityMenu emFinal = entityMenu;
+    	          mitem.addActionListener(new ActionListener()
+                  {
+                      public void actionPerformed(ActionEvent e)
+                      {
+                      	    //menuSelection( dtNodeFianal, idxOfTreeFinal);//displayDialogLogin(); 
+                      	    menuSelection(emFinal);
+                      }
+                  });
+    	              	 		
+
+    	                if(dTreeNodeChild2.hasNodeChildren())//------------- level 2  --------------------------------
+    	                {
+            	              JMenu subMenu2 = new JMenu();//dTreeNodeChild.getChildFromIndex(v).toString());
+            	             // mainMenu.add(subMenu2);
+    	                     for(int h=0;h<dTreeNodeChild2.getNumberOfChildren();h++)
+      	                     {               
+      	                         //System.out.println("PanelManagement.presentJtreeFromDataTree +"+dTreeNodeChild.getChildFromIndex(v));
+                                 subMenu2.setText(dTreeNodeChild2.getChildFromIndex(h).toString());
+                                 DataTreeNode dTreeNodeChild3 = dTreeNodeChild2.getChildFromIndex(h);
+    	                           entityMenu = (EntityMenu)dTreeNodeChild3.getData();
+    	             //              entityMenuParent = (EntityMenu)dTreeNodeChild.getData();   
+    	                           
+    	                           JMenuItem mitem2  = new JMenuItem(dTreeNodeChild2.getChildFromIndex(h).toString());
+                                  
+                                   mainMenu.add(mitem2);
+    	                           if(entityMenu.getEntityIcon()!=null)
+    	                           {
+    	                               mitem2.setIcon(entityMenu.getEntityIcon());	
+    	                           }
+    	                           else
+    	                           {
+    	          	//                   mitem2.setIcon(entityMenuParent.getEntityIcon());
+    	                            }
+    	                           
+    	                           final EntityMenu em2 = entityMenu;
+    	                           mitem2.addActionListener(new ActionListener()
+                                   {
+                                       public void actionPerformed(ActionEvent e)
+                                       {
+                                        	    menuSelection(em2); //displayDialogLogin(); 
+                                       }
+                                   }); 
+                                      	                           
+    	                           
+    	                        if(dTreeNodeChild3.hasNodeChildren())//----------- level 3 -----------------------------
+    	                        {
+            	                    JMenu subMenu3 = new JMenu();
+    	                             for(int k=0;k<dTreeNodeChild3.getNumberOfChildren();k++)
+      	                             {
+                                         subMenu3.setText(dTreeNodeChild2.getChildFromIndex(h).toString());
+                                        
+                                         
+
+                                      DataTreeNode dTreeNodeChild4 = dTreeNodeChild3.getChildFromIndex(k);
+    	                              entityMenu = (EntityMenu)dTreeNodeChild4.getData();
+    	               //               entityMenuParent = (EntityMenu)dTreeNodeChild.getData();   
+    	                              
+    	                             JMenuItem mitem3  = new JMenuItem(dTreeNodeChild3.getChildFromIndex(k).toString());
+                                     subMenu3.add(mitem3);
+    	                             
+    	                             if(entityMenu.getEntityIcon()!=null)
+    	                             {
+    	                                mitem3.setIcon(entityMenu.getEntityIcon());	
+    	                             }
+    	                             else
+    	                             {
+    	          	 //                    mitem3.setIcon(entityMenuParent.getEntityIcon());
+    	                             }
+    	                             
+    	                             
+    	                             final EntityMenu em3 = entityMenu;
+    	                             mitem3.addActionListener(new ActionListener()
+                                     {
+                                          public void actionPerformed(ActionEvent e)
+                                          {
+                      	                      menuSelection(em3);//displayDialogLogin(); 
+                                          }
+                                     });    	                             
+    	                             
+    	 		                         
+    	 		                          
+    	 		    	               if(dTreeNodeChild4.hasNodeChildren())//------------- level 4  -----------------------------
+    	                               {
+    	 		                         System.out.println("error DialogMain.presentMenuFromDataTree level 4 of tree not supported");
+    	 		                       }
+    	 		                       else
+    	 		                       {// else (dTreeNodeChild4.hasNodeChildren())//------------- level 4  -----------------------------
+    	 		                       	//  subMenu3.add(mitem3);
+    	 		                       }
+
+                          	         }
+    	 		                 
+                                          mainMenu.add(subMenu3);
+                                           subMenu2.add(mitem2);
+                                     
+    	                        } // (dTreeNodeChild3.hasNodeChildren())//----------- level 3 -----------------------------
+    	                        else
+    	                        {
+
+    	                        }
+
+                                  
+    	 		
+                          	     }// for 2
+                          	      
+ 
+
+    	                } // else (dTreeNodeChild2.hasNodeChildren())//------------- level 2  --------------------------------
+    	                else
+    	                {
+    	                	mainMenu.add(mitem);  
+    	                }
+    	 		
+    	 		
+    	 		
+    	 		
+    	     }
+
+    	 }    	          
+    	          
+      
+     // } // n
+
+    	
+    }
+  
+/*
+    *    with lots of submenus
+    */
+private void loadSubMenusFromDataTree(int intSection)
     {
 
     
@@ -1685,7 +1925,8 @@ manager.addChangeListener(updateListener);*/
 
     	
     }
-  
+
+
     
     /*private void menuSelection( Object entity, int intMenu)
     { 
