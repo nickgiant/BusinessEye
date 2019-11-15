@@ -75,6 +75,9 @@ public class PanelDataImportExport extends JxPanel implements Constants
     private final int IMPORT = 1;
     private final int EXPORT = 2;
     private Database db;
+    private DefaultListModel listImportFooterModel;
+    private DefaultListModel listExportFooterModel;
+    private String fieldNameAutoInc = "";
     public PanelDataImportExport(int importexport)//(Frame parent, boolean modal)
     {
        initialize(importexport);
@@ -111,6 +114,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
     */
     public void setEntityImport()
     {
+        db = new Database();
          pnlCenterImport = new JxPanel();
         // panelMain.setLayout(new BorderLayout());
          //panelExport.setLayout(new GridBagLayout());
@@ -148,7 +152,14 @@ public class PanelDataImportExport extends JxPanel implements Constants
       
        JLabel lblImportFile = new JLabel("    4.");
       JButton btnImportFile = new JButton("εισαγωγή");    
-
+      btnImportFile.addActionListener(new ActionListener()
+        {
+	        public void actionPerformed(ActionEvent e) 
+	        {	
+                    setFileToImport(fldSelectToImport.getText(),cmbTable.getSelectedItem()+"");
+                    //setTableToExport(cmbTableExport.getSelectedItem()+"",null);
+	        } 
+	    });  
    
       // JLabel lblCreateEmptyFile = new JLabel("δημιουργία αρχείου χωρις δεδομένα,");
      /* JLabel lblSelectTableForEmpty = new JLabel("επιλογή πίνακα");
@@ -201,23 +212,20 @@ public class PanelDataImportExport extends JxPanel implements Constants
       pnlCenterImport.setLayout(layout);
       pnlCenterImport.setBorder(new TitledBorder("διαθέσιμα πεδία στη βάση δεδομένων"));
       
-     //cmbTable.setSelectedIndex(0);
-     /*
+
       JxPanel pnlBottom = new JxPanel();
       pnlBottom.setLayout(new FlowLayout());
-      pnlBottom.setBorder( new TitledBorder("δημιουργία αρχείου χωρις δεδομένα"));      
-     
-      //pnlBottom.add(lblCreateEmptyFile);
-      pnlBottom.add(lblSelectTableForEmpty);
-      pnlBottom.add(cmbTableForEmpty);
-      pnlBottom.add(lblSelectEmptyFile);
-      pnlBottom.add(fldEmptySelect);
-      pnlBottom.add(btnSelectFileEmpty);
-      pnlBottom.add(btnCreateEmptyFile);     
-      */
+      pnlBottom.setBorder( new TitledBorder("αποτελέσματα εισαγωγής"));   
+      
+      JList listImportFooter = new JList();
+      listImportFooter.setSize(new Dimension(300,100));
+       listImportFooterModel = new DefaultListModel();
+     listImportFooter.setModel(listImportFooterModel);
+      pnlBottom.add(listImportFooter);
+
          panelMain.add(pnlTop, BorderLayout.PAGE_START);
          panelMain.add(pnlCenterImport, BorderLayout.CENTER);
-         //panelMain.add(pnlBottom, BorderLayout.PAGE_END);
+         panelMain.add(pnlBottom, BorderLayout.PAGE_END);
     }    
 
     
@@ -283,13 +291,20 @@ public class PanelDataImportExport extends JxPanel implements Constants
       pnlTop.add(btnExportFile);
 
       
-      //JxPanel pnlBottom = new JxPanel();
-      //pnlBottom.setLayout(new FlowLayout());
-      //pnlBottom.setBorder( new TitledBorder("δημιουργία αρχείου χωρις δεδομένα"));  
+      JxPanel pnlBottom = new JxPanel();
+      pnlBottom.setLayout(new FlowLayout());
+      pnlBottom.setBorder( new TitledBorder("αποτελέσματα εξαγωγής"));  
 
+      
+      JList listExportFooter = new JList();
+      listExportFooter.setSize(new Dimension(300,100));
+       listExportFooterModel = new DefaultListModel();
+     listExportFooter.setModel(listExportFooterModel);
+      pnlBottom.add(listExportFooter);
+      
          panelMain.add(pnlTop, BorderLayout.PAGE_START);
        //  panelMain.add(pnlCenter, BorderLayout.CENTER);
-       //  panelMain.add(pnlBottom, BorderLayout.PAGE_END);  
+         panelMain.add(pnlBottom, BorderLayout.PAGE_END);  
     }    
     
     
@@ -310,7 +325,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
           
           
           tables[0] = "customer";
-          tables[1] = "service" ;
+          tables[1] = "stock" ;
          // tables[2] = "customer";
          
           
@@ -327,7 +342,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
           
           
           tables[0] = "customer";
-          tables[1] = "service" ;
+          tables[1] = "stock" ;
          
           
           return tables;
@@ -376,7 +391,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
           }
           else
           {
-            System.out.println("PanelODORData.setSelectedTable  Not SerSales   table:"+table);
+              System.out.println("PanelODORData.setSelectedTable  Not SerSales   table:"+table);
               EntityDataEsoExo  edee=new  EntityDataEsoExo();
               EntityDBFields[] edbfeeImport = edee.getEntityDbFieldsToImport();
               if(showSelectedFieldsToImport(table,edbfeeImport))
@@ -408,6 +423,10 @@ public class PanelDataImportExport extends JxPanel implements Constants
                  //int intPKAutoInc = primaryKeyIntegerAutoInc[i];// 
                  String cc = columnClass;
 
+                 if(edbfImport[g].getPrimaryKeyIntegerAutoInc()==FIELD_PRIMARY_KEY_AUTOINC)
+                 {
+                     fieldNameAutoInc = columnDbName;
+                 }
                  String lblTextType = "";
                  
                  
@@ -611,6 +630,236 @@ try {
          
      }
 
+     private boolean isColumnHeaderLike(String strHeader,Sheet sheet)
+     {
+         boolean ret = false;
+         
+              for (int i = 0; i < sheet.getColumns(); i++)
+                {
+                 Cell cellColumnHeader = sheet.getCell(i, 0);
+                CellType typeColumnHeader = cellColumnHeader.getType();
+                if(cellColumnHeader.getContents().equalsIgnoreCase(strHeader))
+                {
+                    ret=true;
+                    break;
+                }
+                }
+         
+         return ret;
+     }
+     
+     
+     
+     private void setFileToImport(String strFile, String strTable)
+     {
+      //boolean boolReturn=false;
+      
+          	 WindowWait wwe = new WindowWait("παρακαλω περιμένετε, εισαγωγή",WINDOW_LOCATION_CENTER,ICO_RELOAD16, ICO_RELOADB16);
+         wwe.animate();
+   		          // thread for show window wait
+	   Thread      thread = new Thread(new Runnable() {
+	          public void run()
+	          {
+	          
+           	       wwe.showWindow();
+	          
+	               //thread = null;
+	          }
+	          });
+              thread.start();   	  	
+     
+              // thread for backup
+              thread = new Thread(new Runnable() {
+	          public void run()
+	          {   	      
+               
+         int countRows=0;
+         try
+         {
+        try
+        {
+        File inputWorkbook = new File(strFile);
+        Workbook w;
+        try {
+            w = Workbook.getWorkbook(inputWorkbook);
+            // Get the first sheet
+            Sheet sheet = w.getSheet(0);
+            // Loop over first 10 column and lines
+                 
+
+                 db.transactionLoadConnection();
+                 db.setTransactionAutoCommit(false); 
+                
+            //ArrayList record = new ArrayList()
+            for (int j = 0; j < sheet.getRows(); j++) 
+            {
+                if(j!=0)// j is the header
+                {
+                
+              String subQueryColumns = "";
+              String subQueryValues = "";
+                boolean hasDbCompanyId = false;
+   
+    
+                for (int i = 0; i < sheet.getColumns(); i++)
+                {
+                 Cell cellColumnHeader = sheet.getCell(i, 0);
+                CellType typeColumnHeader = cellColumnHeader.getType();
+                
+               /* for(int sl = 0 ;sl<lstSpreadsheetColumns.size();sl++)
+                {
+               String strLstColumnHeader = lstSpreadsheetColumns.get(sl).toString();
+               //lstSpreadsheetColumnsType.add(typeFirstDataCaption);
+               if(cellColumnHeader.getContents().equalsIgnoreCase(strLstColumnHeader))
+               {
+                System.out.println("I got a column "+i+" "+sl+"  "+ cellColumnHeader.getContents()+"="+strLstColumnHeader);    
+               }
+                } */               
+                
+                 
+                 boolean iColumnEmpty = isColumnHeaderLike("",sheet); //when sheet 1st page is changed, change this
+                 boolean isColumnAutoInc = isColumnHeaderLike(fieldNameAutoInc,sheet); //when sheet 1st page is changed, change this
+                // when empty or field name is autoinc. (autoinc is set in showSelectedFieldsToImport), also remember to set -1 in commas
+
+                
+
+                Cell cell = sheet.getCell(i, j);
+                CellType type = cell.getType();
+                if(cellColumnHeader.getContents().equalsIgnoreCase("") || cellColumnHeader.getContents().equalsIgnoreCase(fieldNameAutoInc) )    
+                {
+                   
+                }
+                else
+                {
+
+                    if (type == CellType.LABEL) 
+                    {
+                        String val = cell.getContents();
+                        if(val.equalsIgnoreCase(""))
+                        {
+                        subQueryColumns = subQueryColumns + " "+cellColumnHeader.getContents();
+                        subQueryValues = subQueryValues + "  null ";                            
+                        }
+                        else
+                        {
+                        //System.out.println("I got a label "+ cell.getContents());
+                        subQueryColumns = subQueryColumns + " "+cellColumnHeader.getContents();
+                        subQueryValues = subQueryValues + " '"+cell.getContents()+"'";
+                        }
+                        //subQueryWithValues = subQueryWithValues++" = '"+cell.getContents()+"'";
+                    }
+                    else if (type == CellType.NUMBER)
+                    {
+                        //System.out.println("I got a number "+ cell.getContents());
+                         if(cell.getContents().equalsIgnoreCase(""))
+                         {
+                         subQueryColumns = subQueryColumns + " "+cellColumnHeader.getContents();
+                         subQueryValues = subQueryValues + " 0 ";                             
+                         }
+                         else
+                         {
+                         subQueryColumns = subQueryColumns + " "+cellColumnHeader.getContents();
+                         subQueryValues = subQueryValues + " "+cell.getContents()+"";                        
+                         }
+                        //subQueryWithValues = subQueryWithValues+" "+cellColumnHeader.getContents()+" = "+cell.getContents()+"";
+                    }                 
+                    else
+                    {
+                        subQueryColumns = subQueryColumns + " "+cellColumnHeader.getContents();
+                        subQueryValues = subQueryValues + " '"+cell.getContents()+"'";
+                        // subQueryWithValues = subQueryWithValues+" "+cellColumnHeader.getContents()+" = '"+cell.getContents()+"'";
+                    }
+                   // }
+                   
+                   System.out.println("PanelDataImportExport.setFileToImport "+sheet.getColumns()+"     "+i+"  "+cellColumnHeader.getContents()+"  "+fieldNameAutoInc);
+                   if(i>=sheet.getColumns()-1) 
+                   {
+                       
+                   }
+                   else
+                   {
+                       subQueryColumns = subQueryColumns+", ";
+                    subQueryValues=subQueryValues+", ";
+                   }
+                    
+                }// when there is no value
+              
+                }//for cols
+                
+                
+                String query =  "INSERT INTO "+strTable+"  ("+subQueryColumns+") VALUES ("+subQueryValues+")";
+
+                System.out.println("PanelDataImportExport.fileImport   "+query);
+                           int retCount =   db.transactionUpdateQuery(query,"PanelDataImportExport.fileImport",true);
+                            if(retCount==0)
+                            {
+                                listImportFooterModel.addElement("γραμμή "+j+" :  δεν έγινε αντιγραφή στη βάση");
+                            }         
+                    wwe.setComment("γραμμή: "+j);
+                    countRows=j;
+                
+                    
+            }//  j!=0
+            }// for rows 
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }                      
+             }
+             catch (IOException e)
+            {
+                e.printStackTrace();
+            }                      
+         
+        db.transactionCommit();
+          }
+          catch (SQLException e)
+          {
+                           System.out.println("  error PanelDataImportExport.setFileToImport "+e.getErrorCode()+"  "+e.getMessage());
+                           db.transactionRollback();
+                           e.printStackTrace();
+           }
+           finally
+           {
+                         db.transactionClose();            
+           }        
+                      
+                      
+                      
+              listImportFooterModel.addElement("εισάχθηκαν "+countRows+" γραμμές στο "+strTable);        
+                      
+                      
+                      
+                      
+                      
+        
+         
+         
+         
+         
+         
+         
+         
+         
+               wwe.close();
+      // thread = null;
+        
+    
+        //boolReturn = true;
+
+
+                    }
+                   });
+              thread.start();               
+    	
+
+        
+
+              
+         
+         
+     }
+     
+     
       private void chooseFileToExport()
       {
           
@@ -638,7 +887,7 @@ try {
      /*  
            http://www.vogella.com/tutorials/JavaExcel/article.html
      */
-     private void setTableToExport(String table,EntityDBFields[] edbfExport)
+     private void setTableToExport(String strTable,EntityDBFields[] edbfExport)
      {
       //boolean boolReturn=false;
       
@@ -651,6 +900,10 @@ try {
 	          
            	       wwe.showWindow();
 	          
+                       
+                       
+                       
+                        
 	               //thread = null;
 	          }
 	          });
@@ -698,13 +951,13 @@ try {
         workbook.createSheet("Report", 0);
         WritableSheet excelSheet = workbook.getSheet(0);
        db = new Database();
-        String sql = "SELECT * FROM "+table;
+        String sql = "SELECT * FROM "+strTable+" WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId;
         db.retrieveDBDataFromQuery(sql, "PanelDataImportExport.fileExport");
         ResultSetMetaData rsmd = db.getRSMetaData();
         ResultSet rs = db.getRS();
         try
         {
-        
+        int countRows=0;
         Label label;
         for(int col=1; col<= rsmd.getColumnCount(); col++)
         {
@@ -730,11 +983,12 @@ try {
                // excel.write(model.getValueAt(i,j).toString()+"\t");
                 row++;
             }
+            countRows=row-1;// one is the header
         
         }
         
         
-        
+        listExportFooterModel.addElement("εξήχθησαν "+countRows+" γραμμές από "+strTable); 
         
         }
         catch(SQLException e)
