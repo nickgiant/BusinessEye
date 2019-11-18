@@ -1910,8 +1910,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
               else
               { //exists with modifications in PanelPrintPreniew.getPageTotal and in  ReportAreaForm.setEntity
                    //entityReport.getQuery()
-              
-                  
+
                 ArrayList listRecords =  reportCalcs.getListOfRecords();
               ArrayList listOfListOfColumns = reportCalcs.getListOfListOfColumns();
            
@@ -1940,9 +1939,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
                  boolean colIsPK = col.getColumnIsPK();
             
           String   val =  (String)arrayRecValues[c];                
-                
-               
-             
+
              EntityReportBand erb = entityReportRow.getEntityReportBand();
                  String groupByField = erb.getSqlGroupByField();  
                   EntityReportBandField [] erbf=erb.getEntityReportBandFields();

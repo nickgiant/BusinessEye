@@ -53,7 +53,7 @@ import java.io.*;
     private final String STR_VERBAL_FUNCTION_MONEY_BIL = "/verbalmb"; // m at the end means money
     private final String STR_VERBAL_FUNCTION = "/verbal"; // no m at the end means just number
     
-    //private  int NUMBER_OF_FORMROWS_PER_PAGE = 5;
+    //private  int NUMBER_OF_FORMROWS_PER_PAGE = 5; // in Constants
     
     private String[] arrayOfNameOfPksOfRecordToShow;
     private String[] arrayOfValueOfPksOfRecordToShow;
@@ -130,7 +130,7 @@ import java.io.*;
          arrayOfNameOfPksOfRecordToShow = arrayOfNameOfPksOfRecordToShowIn;
          arrayOfValueOfPksOfRecordToShow =arrayOfValueOfPksOfRecordToShowIn;
 
-         String strForm = getFormDataString(isDotmatrix, formQuery, formField);
+         
 
        String strFirstField = "";
        
@@ -144,6 +144,7 @@ import java.io.*;
   //System.out.println("ReportAreaForm.setEntity  -o-  isDotmatrix:"+isDotmatrix+"    nameOfFormIn:"+nameOfFormIn +"     pageIn:"+pageIn+"        listRecords.size:"+listRecords.size());
            if(arrayOfNameOfPksOfRecordToShow!=null)// when one print form
            {
+               String strForm = getFormDataString(isDotmatrix, formQuery, formField);
                ret = generateForm( nameOfFormIn, isDotmatrix, pageIn, listOfListOfColumns, listRecords, strForm,NUMBER_OF_FORMROWS_PER_PAGE);
                System.out.println("  ===== IF ReportAreaForm.setEntity      entityReportIn:"+entityReportIn+" (only one rec form)");   // only one, else mass form printing // only one, else mass form printing
            }
@@ -155,6 +156,8 @@ import java.io.*;
            String previousVal = ""; // setEntity
            int countOfTableRows =1;// setEntity   
            int changesOfHeaderRecord=0;
+           ArrayList listRec = new ArrayList();
+           String subQueryAND = "";
             for(int r =0 ;r<listRecords.size();r++)
             {  
                 
@@ -179,48 +182,51 @@ import java.io.*;
                   EntityReportBandField [] erbf=erb.getEntityReportBandFields();
                   int fieldCount = erbf.length;
                       groupByField=erb.getTableName()+"."+groupByField;
+                      
                      if(groupByField.equalsIgnoreCase(columnTable+"."+columnName) )// && val.equalsIgnoreCase(pageIn+""))
                      {
-              System.out.println(" ===r===    ReportAreaForm.setEntity   pageIn:"+pageIn+"   r:"+r+"   c:"+c+"      "+columnTable+"."+columnName+"  = "+val+"  previousVal:"+previousVal+"     lastVal:"+lastVal+"       group by field:"+groupByField+"   countOfTableRows:"+countOfTableRows);
+                         
+              //System.out.println(" ===r===    ReportAreaForm.setEntity   pageIn:"+pageIn+"   r:"+r+"   c:"+c+"      "+columnTable+"."+columnName+"  = "+val+"  previousVal:"+previousVal+"     lastVal:"+lastVal+"       group by field:"+groupByField+"   countOfTableRows:"+countOfTableRows);
+//                        subQueryAND = columnTable+"."+columnName+" LIKE "+val
+                        
                         if(lastVal.equalsIgnoreCase(val))
                         {
-                             countOfTableRows++;//is OK
-                           
+                            
+                           countOfTableRows++;//is OK
                         }
                         else
-                        {
+                        { 
+                             
                           // countOfTableRows=1;
                             lastVal = val; 
-                            changesOfHeaderRecord++;
-                          
-                        }
-      //                  System.out.println(" ===r===    ReportAreaForm.setEntity   pageIn:"+pageIn+"   r:"+r+"   c:"+c+"      "+columnTable+"."+columnName+"  = "+val+"      lastVal:"+lastVal+"       group by field:"+groupByField+"   countOfTableRows:"+countOfTableRows);
+                            changesOfHeaderRecord++;           
+                        } 
+                      //  System.out.println(" ===r===    ReportAreaForm.setEntity   pageIn:"+pageIn+"   r:"+r+"   c:"+c+"      "+columnTable+"."+columnName+"  = "+val+"      lastVal:"+lastVal+"       group by field:"+groupByField+"   countOfTableRows:"+countOfTableRows);
                      }
                  // System.out.println(" ===== ELSE   ReportAreaForm.setEntity  r:"+r+"  band no:"+entityReportRow.getRecordIntNoOfBand()+"    "+columnTable+"  "+columnName+"  :"+val+"    group by field:"+ erb.getSqlGroupByField());
               }
-
-
               if(changesOfHeaderRecord == pageIn)
               {
-                 System.out.println(" ===    ReportAreaForm.setEntity     changesOfHeaderRecord:"+changesOfHeaderRecord+" =  pageIn:"+pageIn+"   countOfTableRows:"+countOfTableRows);
-                 ret = generateForm( nameOfFormIn, isDotmatrix, pageIn, listOfListOfColumns, listRecords, strForm,countOfTableRows);                                   
-                 //countOfTableRows=1;
-                 //break;
+                  System.out.println(" ====   ReportAreaForm.setEntity     changesOfHeaderRecord:"+changesOfHeaderRecord+" =  pageIn:"+pageIn+"    r:"+r+"     countOfTableRows:"+countOfTableRows);              
+                   listRec.add(entityReportRow);
+                
               }
               else
-              {
+              {   
+                 
                   countOfTableRows=1;
-                  //System.out.println(" ===    ReportAreaForm.setEntity  ELSE   changesOfHeaderRecord:"+changesOfHeaderRecord+"   pageIn:"+pageIn+"   countOfTableRows:"+countOfTableRows);
-                   //break;
-              }
-             
+                  //System.out.println(" ===    ReportAreaForm.setEntity  ELSE   ");//changesOfHeaderRecord:"+changesOfHeaderRecord+"   pageIn:"+pageIn+"   countOfTableRows:"+countOfTableRows);
+              }                 
             }
-           // System.out.println(" ===  ReportAreaForm.setEntity     changesOfHeaderRecord:"+changesOfHeaderRecord+"   pageIn:"+pageIn+"   countOfTableRows:"+countOfTableRows);
-            //  ret = generateForm( nameOfFormIn, isDotmatrix, pageIn, listOfListOfColumns, listRecords, strForm,countOfTableRows);                                   
-          
-            //System.out.println("     =    ReportAreaForm.setEntity       pageIn:"+pageIn+"  changesOfHeaderRecord:"+changesOfHeaderRecord+"   countOfTableRows:"+countOfTableRows);
-              // ret = generateForm( nameOfFormIn, isDotmatrix, pageIn, listOfListOfColumns, listRecords, strForm,countOfTableRows/*NUMBER_OF_FORMROWS_PER_PAGE*/);                                   
-           }
+//            formQuery = formQuery+" AND "+subQueryAND;
+            String strForm = getFormDataString(isDotmatrix, formQuery, formField);
+            double t = (listRec.size()/2);
+              int a = (int) (t + 0.5);
+            
+            System.out.println("  ReportAreaForm.setEntity ....     listRec.size:"+listRec.size()+"   countOfTableRows:"+countOfTableRows+"  t:"+t+"  a:"+a);
+           ret = generateForm( nameOfFormIn, isDotmatrix, 1/*pageIn*/, listOfListOfColumns, listRec, strForm,NUMBER_OF_FORMROWS_PER_PAGE);              
+
+       }
   
         return ret;
    }
@@ -252,10 +258,11 @@ import java.io.*;
     }
     else // if is laser
     {
-        
+       //System.out.println("ReportAreaForm.setEntity   nameOfFormIn:"+nameOfFormIn +"   pageIn:"+pageIn+"   listOfListOfColumns:"+listOfListOfColumns.size()+"  listRecords:"+listRecords.size());
 
     if(strForm.equalsIgnoreCase(""))
     {
+        System.out.println("error  ReportAreaForm.setEntity   nameOfFormIn:"+nameOfFormIn +"  strForm is empty"); 
         ret = false;
     }   
     else // if has text in laser
@@ -321,7 +328,11 @@ import java.io.*;
                          strPrintLaser = strPrintLaser.replaceAll("(?i)" + tobeChanged, val);     // "(?i)" +    for case insensitive           
                // System.out.println(tobeChanged);
                 
-        }       
+        }
+        else
+        {
+            //System.out.println("error ReportAreaForm.setEntity  A.val:"+val); 
+        }
             }      
                 
                
@@ -378,8 +389,13 @@ import java.io.*;
                          strRowSubstringAfter = strRowSubstringAfter.replaceAll("(?i)" + tobeChangedHTML, val);
                 
                          strRowSubstring=strRowSubstring.replaceAll("(?i)" + tobeChangedFieldFromTable, val);
-          }// if
-        
+                         
+                         
+        }// if
+        else
+        {
+           // System.out.println("error ReportAreaForm.setEntity  B.val:"+val); 
+        }        
             }//c   
 
               listHtmlLines.add(strRowSubstring+"</tr>");
@@ -394,7 +410,7 @@ import java.io.*;
 
             intTo = intFrom+noOfFormRowsPerPage;//noOfFormRowsPerPage*(intCountOfPages);
 
-         //    System.out.println("ReportAreaForm.setEntity   intFrom:"+intFrom+"   intTo:"+intTo+"     r:"+r+"       noOfFormRowsPerPage:"+noOfFormRowsPerPage+"      each record");
+            // System.out.println("ReportAreaForm.setEntity   intFrom:"+intFrom+"   intTo:"+intTo+"     r:"+r+"       noOfFormRowsPerPage:"+noOfFormRowsPerPage+"      each record");
            String strLinesOfAPage = "";   
 
             if(pageIn==intPge)
@@ -413,12 +429,16 @@ import java.io.*;
         //   System.out.println("ReportAreaForm.setEntity    r:"+r+"   pageIn:"+pageIn+"  in page:"+getTotalPages(r)+"  listHtmlPages.size:"+listHtmlPages.size()+"  intPge:"+intPge+"    intCountOfPages:"+intCountOfPages+"  listRecords.size:"+listRecords.size()+"  totalOfPages:"+totalOfPages);
              strHtmlPage = strRowSubstringBefore+strLinesOfAPage+strRowSubstringAfter;
                                
-          }            
+          }
+          else            
+          {
+                System.out.println("error  ReportAreaForm.setEntity    r:"+r+"   pageIn:"+pageIn+"<>"+intPge);
+          }
 
             }// else for wrong html or no htmal
             
        }// r  
-
+        //System.out.println("error  ReportAreaForm.setEntity   nameOfFormIn:"+nameOfFormIn +"   listRecords.size():"+listRecords.size() ); 
        
        
                      

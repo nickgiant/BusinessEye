@@ -765,8 +765,18 @@ try {
                     }                 
                     else
                     {
+                        String val = cell.getContents();
+                        if(val.equalsIgnoreCase(""))
+                        {
+                        subQueryColumns = subQueryColumns + " "+cellColumnHeader.getContents();
+                        subQueryValues = subQueryValues + "  null ";                            
+                        }
+                        else
+                        {
+                        //System.out.println("I got a label "+ cell.getContents());
                         subQueryColumns = subQueryColumns + " "+cellColumnHeader.getContents();
                         subQueryValues = subQueryValues + " '"+cell.getContents()+"'";
+                        }
                         // subQueryWithValues = subQueryWithValues+" "+cellColumnHeader.getContents()+" = '"+cell.getContents()+"'";
                     }
                    // }
@@ -791,7 +801,7 @@ try {
 
                 System.out.println("PanelDataImportExport.fileImport   "+query);
                            int retCount =   db.transactionUpdateQuery(query,"PanelDataImportExport.fileImport",true);
-                            if(retCount==0)
+                            if(retCount!=1)
                             {
                                 listImportFooterModel.addElement("γραμμή "+j+" :  δεν έγινε αντιγραφή στη βάση");
                             }         
@@ -815,6 +825,7 @@ try {
           catch (SQLException e)
           {
                            System.out.println("  error PanelDataImportExport.setFileToImport "+e.getErrorCode()+"  "+e.getMessage());
+                           listImportFooterModel.addElement(e.getMessage());
                            db.transactionRollback();
                            e.printStackTrace();
            }
