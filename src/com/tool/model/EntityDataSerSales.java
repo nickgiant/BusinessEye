@@ -400,7 +400,7 @@ public class EntityDataSerSales extends EntityData implements Constants
        int[] intSettingsReportCustomerfile={0,0,0,0};
  //       EntityReportBandField[] entityReportBandFieldsSaleLineA =new EntityReportBandField[10];          
  //       EntityReportBandField[] entityReportBandFieldsSaleHeaderB =new EntityReportBandField[7];
-       EntityReportBand[] reportBandCustomerServiceSaleDoc = new EntityReportBand[2];  //not in use
+       EntityReportBand[] reportBandCustomerServiceSaleDoc = new EntityReportBand[2];  
           
 
    public EntityDataSerSales()
@@ -2137,7 +2137,7 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
         entityReportBandFieldsSaleHeaderB[6] = new EntityReportBandField("saleheader","dbCompanyId","dbCompanyId","java.lang.String",9,true,null,null);
         entityReportBandFieldsSaleHeaderB[7] = new EntityReportBandField("saleheader","dbYearId","dbYearId","java.lang.String",9,true,null,null);      
       
-      int[] headOrderby ={2,1,6};
+      int[] headOrderby ={2,1,6,5};
       int[] lineOrderby ={1};
 
 //       EntityReportBand[] reportBandCustomerServiceSaleDoc = new EntityReportBand[2];                                                                                                         //  EntityPanel[] entityPanelDrillIn,String[]  panelDrillFieldsOnTitleIn,String[]  panelDrillFieldsOnTitleCaptionIn
