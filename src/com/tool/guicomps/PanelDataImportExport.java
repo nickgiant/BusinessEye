@@ -321,11 +321,11 @@ public class PanelDataImportExport extends JxPanel implements Constants
       
       private String[] getTablesExportForProcess()
       {
-          String[] tables = new String[2];
+          String[] tables = new String[3];
           
-          
-          tables[0] = "customer";
-          tables[1] = "stock" ;
+          tables[0] = "";
+          tables[1] = "customer";
+          tables[2] = "stock" ;
          // tables[2] = "customer";
          
           
@@ -338,11 +338,11 @@ public class PanelDataImportExport extends JxPanel implements Constants
       */
       private String[] getTablesImportForProcess()
       {
-          String[] tables = new String[2];
+          String[] tables = new String[3];
           
-          
-          tables[0] = "customer";
-          tables[1] = "stock" ;
+          tables[0] = "";
+          tables[1] = "customer";
+          tables[2] = "stock" ;
          
           
           return tables;
