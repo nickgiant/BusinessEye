@@ -434,7 +434,7 @@ import java.util.Vector;
 
     if(VariablesGlobal.globalShowReportSQL)
     {
-        System.out.println("ReportCalcs.setEntity     reportType:"+reportType+"     query:"+query+"     queryIn:"+queryIn);
+        System.out.println("ReportCalcs.setEntity   =+=  reportType:"+reportType+"     query:"+query+"     queryIn:"+queryIn);
     }
          int countBands = entityReportIn.getEntityReportBands().length; 
           
@@ -467,10 +467,10 @@ import java.util.Vector;
     /*
     *  fetch from query rsmd
     */
-    private void fetchDataOfRSMDColumns(String query)
+    private void fetchDataOfRSMDColumns(String queryIn)
     {
         listOfRecords = new ArrayList();
-           db.retrieveDBDataFromQuery(query,"ReportCalcs.fetchDataOfRSMDColumns");
+           db.retrieveDBDataFromQuery(queryIn,"ReportCalcs.fetchDataOfRSMDColumns");
    	   rs=db.getRS();
            rsmd=db.getRSMetaData();
            
@@ -499,7 +499,7 @@ import java.util.Vector;
       }// try
       catch ( SQLException sqlex)
       {
-         System.out.println("error: ReportCalcs.fetchDataOfRSMDColumns:  msg "+sqlex.getMessage()+" sql "+query);
+         System.out.println("error: ReportCalcs.fetchDataOfRSMDColumns:  msg "+sqlex.getMessage()+" sql "+queryIn);
          sqlex.printStackTrace();
       }             
      
@@ -550,11 +550,11 @@ import java.util.Vector;
     /*
     *  fetch with defined bands and columns from EntityData
     */
-    private int fetchData(String query)
+    private int fetchData(String queryIn)
     {
         //int rowCount = 0;
         listOfRecords = new ArrayList();
-           db.retrieveDBDataFromQuery(query,"ReportCalcs.fetchData");
+           db.retrieveDBDataFromQuery(queryIn,"ReportCalcs.fetchData");
    	   rs=db.getRS();
            int rowCount = 0;
            //intNoOfRecordOfPreviousBand = 1 ;
