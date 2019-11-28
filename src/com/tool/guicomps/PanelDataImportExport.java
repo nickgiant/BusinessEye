@@ -123,7 +123,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
       pnlTop.setLayout(new FlowLayout());
        JLabel lblSelectFile = new JLabel("    1.επιλογή αρχείου");
        fldSelectToImport = new JTextField(37);
-       fldSelectToImport.setText(VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+"logariasmoi.xls");
+       fldSelectToImport.setText(VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol);
       JButton btnSelectFile = new JButton();
       btnSelectFile.setIcon(ICON_TREEFOLDER_OPENED);
       btnSelectFile.addActionListener(new ActionListener()
@@ -146,11 +146,11 @@ public class PanelDataImportExport extends JxPanel implements Constants
     });
       
       
-       JLabel lblMaxRowsToImport = new JLabel("    3.μέγιστος αριθμός γραμμών");
-       JTextField fldMaxRowsToImport = new JTextField(6);      
+       //JLabel lblMaxRowsToImport = new JLabel("    3.μέγιστος αριθμός γραμμών");
+       //JTextField fldMaxRowsToImport = new JTextField(6);      
       
       
-       JLabel lblImportFile = new JLabel("    4.");
+       JLabel lblImportFile = new JLabel("    3.");
       JButton btnImportFile = new JButton("εισαγωγή");    
       btnImportFile.addActionListener(new ActionListener()
         {
@@ -201,8 +201,8 @@ public class PanelDataImportExport extends JxPanel implements Constants
       pnlTop.add(btnSelectFile);
       pnlTop.add(lblSelectTable);
       pnlTop.add(cmbTable);
-      pnlTop.add(lblMaxRowsToImport);
-      pnlTop.add(fldMaxRowsToImport);
+      //pnlTop.add(lblMaxRowsToImport);
+      //pnlTop.add(fldMaxRowsToImport);
       pnlTop.add(lblImportFile);
       pnlTop.add(btnImportFile);   
 
@@ -247,7 +247,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
       
       JLabel lblSelectFile = new JLabel("    2.επιλογή αρχείου");
       fldExportSelect = new JTextField(37);
-       fldExportSelect.setText(VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+"export.xls");
+      fldExportSelect.setText(VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+"export.xls");
       JButton btnSelectFile = new JButton();
       btnSelectFile.setIcon(ICON_TREEFOLDER_OPENED);
       btnSelectFile.addActionListener(new ActionListener()
@@ -277,7 +277,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
         public void itemStateChanged(ItemEvent e)
         {
             fldExportSelect.setText(VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+"export"+cmbTableExport.getSelectedItem()+".xls");
-          btnExportFile.setText("δημιουργία "+cmbTableExport.getSelectedItem());
+          //btnExportFile.setText("δημιουργία "+cmbTableExport.getSelectedItem());
         }
     });  
       
@@ -384,7 +384,13 @@ public class PanelDataImportExport extends JxPanel implements Constants
        // int intchldesoexo = dtEsoexo.getRootElement().getNumberOfChildren();
          EntityDataSerSales  edss = new  EntityDataSerSales();
          EntityDBFields[] edbfssImport = edss.getEntityDbFieldsToImport();
+         
+         EntityDataEsoExo  edee=new  EntityDataEsoExo();
+         EntityDBFields[] edbfeeImport = edee.getEntityDbFieldsToImport();
+         
            
+         
+         
           if(showSelectedFieldsToImport(table,edbfssImport))
           {
               System.out.println("PanelODORData.setSelectedTable  SerSales  table:"+table);
@@ -392,8 +398,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
           else
           {
               System.out.println("PanelODORData.setSelectedTable  Not SerSales   table:"+table);
-              EntityDataEsoExo  edee=new  EntityDataEsoExo();
-              EntityDBFields[] edbfeeImport = edee.getEntityDbFieldsToImport();
+
               if(showSelectedFieldsToImport(table,edbfeeImport))
               {
                    System.out.println("PanelODORData.setSelectedTable  EsoExo  table:"+table);
@@ -401,10 +406,96 @@ public class PanelDataImportExport extends JxPanel implements Constants
           }
        
       }
+    
+      private boolean showSelectedFieldsToImport(String table,EntityDBFields[] edbfImport)
+      {
+          
+          boolean boolReturn=false;
+          
+          if(table.equalsIgnoreCase(""))
+          {
+              boolReturn=false;
+          }
+          else
+          {
+       db = new Database();
+        String sql = "SELECT * FROM "+table+" WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId;
+        db.retrieveDBDataFromQuery(sql, "PanelDataImportExport.fileExport");
+        ResultSetMetaData rsmd = db.getRSMetaData();
+        ResultSet rs = db.getRS();
+        try
+        {
+  
+        for(int col=1; col<= rsmd.getColumnCount(); col++)
+        {
+            String columnLabel = rsmd.getColumnLabel(col);//fieldsTranslation[i]; //get colunm name  
+             String columnName = rsmd.getColumnName(col);
+             setWhichFieldIsAutoInc(table, edbfImport);
+                 JLabel lblCap = new JLabel();
+                 lblCap.setHorizontalAlignment(JLabel.RIGHT);
+                  pnlCenterImport.add(lblCap);             
+                    //pnlCenterImport.add(new JTextField(cc));
+                   JComboBox cmbElse = new JComboBox(getSpreadsheetColumnTitles());
+                  pnlCenterImport.add(cmbElse); 
+                  cmbElse.setSelectedIndex(calculateAndSelectFieldFromString(columnName));
+
+                  String lblText = col+") "+columnLabel+" ("+columnName+")";
+                  lblCap.setText(lblText);
+             
+        }
+        }
+        catch(SQLException e)
+        {
+                boolReturn=false;
+     
+            System.out.println("PanelDataImportExport.showSelectedFieldsToImport    SQLException:"+e.getErrorCode()+"  "+e.getMessage());
+           e.printStackTrace();
+        }
+        finally
+        {
+                db.releaseConnectionRs();
+                db.releaseConnectionRsmd();
+        } 
+            boolReturn= true;
+          }
+          return boolReturn;
+      }
       
-     private boolean showSelectedFieldsToImport(String table,EntityDBFields[] edbfImport)
-     {
+      
+      private void setWhichFieldIsAutoInc(String table,EntityDBFields[] edbfImport)
+      {
+          
         
+       for(int g = 0;g<edbfImport.length;g++)
+       {
+        
+       String strTable =  edbfImport[g].getTableName();
+      // System.out.println("PanelODORData.showSelectedFieldsToImport   table:"+table+"  strTable:"+strTable);
+          
+          if(strTable.equalsIgnoreCase(table))
+          {
+                // System.out.println("PanelODORData.showSelectedFieldsToImport for  =  ("+i+") "+fields[i]);
+                 String columnLabel = edbfImport[g].getCaption();//fieldsTranslation[i]; //get colunm name
+                 String columnDbName = edbfImport[g].getDbField();
+                 int intObligatoryOrSuggest = edbfImport[g].getFieldObligatoryOrSuggest();
+                 String columnClass = edbfImport[g].getColClassName(); 
+                 //int intPKAutoInc = primaryKeyIntegerAutoInc[i];// 
+                 String cc = columnClass;
+
+                 if(edbfImport[g].getPrimaryKeyIntegerAutoInc()==FIELD_PRIMARY_KEY_AUTOINC)
+                 {
+                     fieldNameAutoInc = columnDbName;
+                 }
+                 
+          }
+       } 
+          
+      }
+      
+      
+    /* private boolean showSelectedFieldsToImport(String table,EntityDBFields[] edbfImport)
+     {
+ 
          boolean boolReturn=false;
         int d = 1;
        for(int g = 0;g<edbfImport.length;g++)
@@ -505,14 +596,14 @@ public class PanelDataImportExport extends JxPanel implements Constants
                   
               // }             
               boolReturn= true;
-         } 
+         }
          else
          {
            boolReturn = false;
          }
     }
          return boolReturn; 
-      }
+      }*/
 
      
      
@@ -1008,6 +1099,11 @@ try {
      
             System.out.println("PanelDataImportExport.fileExport    SQLException:"+e.getErrorCode()+"  "+e.getMessage());
            e.printStackTrace();
+        }
+        finally
+        {
+                db.releaseConnectionRs();
+                db.releaseConnectionRsmd();
         }
 
         workbook.write();
