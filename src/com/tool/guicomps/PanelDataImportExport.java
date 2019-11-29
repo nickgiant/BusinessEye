@@ -136,12 +136,21 @@ public class PanelDataImportExport extends JxPanel implements Constants
      
 
       JLabel lblSelectTable = new JLabel("    2.επιλογή πίνακα");
-      JComboBox cmbTable = new JComboBox(getTablesImportForProcess());
+      ArrayList lstTables = getTablesImportExport();
+      String[] tables = new String[lstTables.size()];
+      for(int t = 0 ;t<lstTables.size();t++)
+      {
+       ImportExportTable tab = (ImportExportTable)lstTables.get(t);
+       tables[t] =   tab.caption;
+      }
+      JComboBox cmbTable = new JComboBox(tables);
       cmbTable.addItemListener(new ItemListener(){
         @Override
         public void itemStateChanged(ItemEvent e)
-        {
-          setSelectedTable(cmbTable.getSelectedItem()+"");
+        {  
+       ImportExportTable tab = (ImportExportTable)lstTables.get(cmbTable.getSelectedIndex());
+       setSelectedTable(   tab.tableName);            
+  
         }
     });
       
@@ -155,8 +164,9 @@ public class PanelDataImportExport extends JxPanel implements Constants
       btnImportFile.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
-	        {	
-                    setFileToImport(fldSelectToImport.getText(),cmbTable.getSelectedItem()+"");
+	        {
+                    ImportExportTable tab = (ImportExportTable)lstTables.get(cmbTable.getSelectedIndex());
+                    setFileToImport(fldSelectToImport.getText(),tab.tableName+"", tab.hasDbCompanyId);
                     //setTableToExport(cmbTableExport.getSelectedItem()+"",null);
 	        } 
 	    });  
@@ -207,7 +217,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
       pnlTop.add(btnImportFile);   
 
 
-      GridLayoutVariable layout = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 4);
+      GridLayoutVariable layout = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 6);
       
       pnlCenterImport.setLayout(layout);
       pnlCenterImport.setBorder(new TitledBorder("διαθέσιμα πεδία στη βάση δεδομένων"));
@@ -238,13 +248,16 @@ public class PanelDataImportExport extends JxPanel implements Constants
       pnlTop.setLayout(new FlowLayout());     
 
       JLabel lblSelectTable = new JLabel("    1.επιλογή πίνακα");
-      JComboBox cmbTableExport = new JComboBox(getTablesExportForProcess());
-           
-      
-      
-      
-      
-      
+      ArrayList lstTables = getTablesImportExport();
+      String[] tables = new String[lstTables.size()];
+      for(int t = 0 ;t<lstTables.size();t++)
+      {
+
+       ImportExportTable tab = (ImportExportTable)lstTables.get(t);
+       tables[t] =   tab.caption;
+      }  
+      JComboBox cmbTableExport = new JComboBox(tables);
+
       JLabel lblSelectFile = new JLabel("    2.επιλογή αρχείου");
       fldExportSelect = new JTextField(37);
       fldExportSelect.setText(VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+"export.xls");
@@ -266,8 +279,10 @@ public class PanelDataImportExport extends JxPanel implements Constants
         {
 	        public void actionPerformed(ActionEvent e) 
 	        {	
-                    
-                    setTableToExport(cmbTableExport.getSelectedItem()+"",null);
+
+       ImportExportTable tab = (ImportExportTable)lstTables.get(cmbTableExport.getSelectedIndex());
+                        
+                    setTableToExport(   tab.tableName+"",null,tab.hasDbCompanyId);
 	        } 
 	    });      
       
@@ -319,34 +334,63 @@ public class PanelDataImportExport extends JxPanel implements Constants
     
       
       
-      private String[] getTablesExportForProcess()
+      private class ImportExportTable
       {
-          String[] tables = new String[3];
+          public String tableName;
+           public String caption;
+           public boolean hasDbCompanyId;
+
+
+
+           
+          private ImportExportTable(String tableNameIn, String captionIn, boolean hasDbCompanyIdIn)
+          {
+              tableName=tableNameIn;
+              caption=captionIn;
+              hasDbCompanyId=hasDbCompanyIdIn;
+          }
           
-          tables[0] = "";
-          tables[1] = "customer";
-          tables[2] = "stock" ;
-         // tables[2] = "customer";
+      }
+      
+      
+      private ArrayList getTablesImportExport()
+      {
+          ArrayList<ImportExportTable> lstTables = new ArrayList<ImportExportTable>();
+          lstTables.add(new ImportExportTable("","",false));
+          
+   if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
+   { 
+
+       lstTables.add(new ImportExportTable("customer","πελάτες",true));
+       lstTables.add(new ImportExportTable("stock","υπηρεσίες",true));
+   }   
+   
+   
+   if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA ) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
+   {  
+       lstTables.add(new ImportExportTable("sxtrader","συναλλασσόμενοι",false));
+       lstTables.add(new ImportExportTable("sxaccount","λογαριασμοί",false));
+   }
+         
          
           
-          return tables;
+          return lstTables;
       }
       
       
       /*
       *   add table fields also to EntityDataSerSales.getEntityDbFieldsToImport
       */
-      private String[] getTablesImportForProcess()
+      /*private String[] getTablesImportForProcess()
       {
           String[] tables = new String[3];
-          
           tables[0] = "";
           tables[1] = "customer";
           tables[2] = "stock" ;
          
           
           return tables;
-      }
+      }*/
     
       
       private int calculateAndSelectFieldFromString(String strColumn)
@@ -387,9 +431,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
          
          EntityDataEsoExo  edee=new  EntityDataEsoExo();
          EntityDBFields[] edbfeeImport = edee.getEntityDbFieldsToImport();
-         
-           
-         
+
          
           if(showSelectedFieldsToImport(table,edbfssImport))
           {
@@ -411,36 +453,48 @@ public class PanelDataImportExport extends JxPanel implements Constants
       {
           
           boolean boolReturn=false;
+ 
           
-          if(table.equalsIgnoreCase(""))
+       for(int g = 0;g<edbfImport.length;g++)
+       {
+        
+       String strTable =  edbfImport[g].getTableName();
+       //System.out.println("PanelODORData.showSelectedFieldsToImport   table:"+table+"  strTable:"+strTable);
+
+          if(!table.equalsIgnoreCase("") && strTable.equalsIgnoreCase(table))
           {
-              boolReturn=false;
+               boolReturn= true;
           }
-          else
-          {
-       db = new Database();
-        String sql = "SELECT * FROM "+table+" WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId;
-        db.retrieveDBDataFromQuery(sql, "PanelDataImportExport.fileExport");
+       }
+        db = new Database();
+        String sql = "SELECT * FROM "+table;
+        db.retrieveDBDataFromQuery(sql, "PanelDataImportExport.showSelectedFieldsToImport");
         ResultSetMetaData rsmd = db.getRSMetaData();
         ResultSet rs = db.getRS();
         try
         {
-  
+           pnlCenterImport.removeAll();
         for(int col=1; col<= rsmd.getColumnCount(); col++)
         {
-            String columnLabel = rsmd.getColumnLabel(col);//fieldsTranslation[i]; //get colunm name  
-             String columnName = rsmd.getColumnName(col);
-             setWhichFieldIsAutoInc(table, edbfImport);
+                 String columnLabel = rsmd.getColumnLabel(col);//fieldsTranslation[i]; //get colunm name  
+                 String columnName = rsmd.getColumnName(col);
+                 setWhichFieldIsAutoInc(table, edbfImport);
+                 //System.out.println("PanelDataImportExport.showSelectedFieldsToImport  table:"+table+"  columnName:"+columnName+"  "+col);
                  JLabel lblCap = new JLabel();
                  lblCap.setHorizontalAlignment(JLabel.RIGHT);
-                  pnlCenterImport.add(lblCap);             
-                    //pnlCenterImport.add(new JTextField(cc));
-                   JComboBox cmbElse = new JComboBox(getSpreadsheetColumnTitles());
-                  pnlCenterImport.add(cmbElse); 
-                  cmbElse.setSelectedIndex(calculateAndSelectFieldFromString(columnName));
-
-                  String lblText = col+") "+columnLabel+" ("+columnName+")";
+                  String lblText = col+") "+columnName+"("+getColumnCaptionFromName(columnName,table,edbfImport)+") ";
                   lblCap.setText(lblText);
+                  pnlCenterImport.add(lblCap);
+                    //pnlCenterImport.add(new JTextField(cc));
+                  //JComboBox cmbElse = new JComboBox(getSpreadsheetColumnTitles());
+                  JLabel lblField = new JLabel("  "+getSpreadsheetColumnTitle(columnName));
+                  lblField.setHorizontalAlignment(JLabel.LEFT);
+                 pnlCenterImport.add(lblField);
+                  
+                  //pnlCenterImport.add(cmbElse);
+                  //cmbElse.setSelectedIndex(calculateAndSelectFieldFromString(columnName));
+                  //cmbElse.setEditable(false);
+                 
              
         }
         }
@@ -456,8 +510,9 @@ public class PanelDataImportExport extends JxPanel implements Constants
                 db.releaseConnectionRs();
                 db.releaseConnectionRsmd();
         } 
-            boolReturn= true;
-          }
+            
+          
+  
           return boolReturn;
       }
       
@@ -470,13 +525,14 @@ public class PanelDataImportExport extends JxPanel implements Constants
        {
         
        String strTable =  edbfImport[g].getTableName();
-      // System.out.println("PanelODORData.showSelectedFieldsToImport   table:"+table+"  strTable:"+strTable);
+       //System.out.println("PanelODORData.showSelectedFieldsToImport   table:"+table+"  strTable:"+strTable);
           
           if(strTable.equalsIgnoreCase(table))
           {
-                // System.out.println("PanelODORData.showSelectedFieldsToImport for  =  ("+i+") "+fields[i]);
+                 
                  String columnLabel = edbfImport[g].getCaption();//fieldsTranslation[i]; //get colunm name
                  String columnDbName = edbfImport[g].getDbField();
+                 //System.out.println("PanelODORData.showSelectedFieldsToImport for  =  ("+g+") "+columnDbName);
                  int intObligatoryOrSuggest = edbfImport[g].getFieldObligatoryOrSuggest();
                  String columnClass = edbfImport[g].getColClassName(); 
                  //int intPKAutoInc = primaryKeyIntegerAutoInc[i];// 
@@ -492,6 +548,35 @@ public class PanelDataImportExport extends JxPanel implements Constants
           
       }
       
+      private String getColumnCaptionFromName(String colname, String table,EntityDBFields[] edbfImport)
+      {
+          String strReturn="";
+        for(int g = 0;g<edbfImport.length;g++)
+       {
+        
+       String strTable =  edbfImport[g].getTableName();
+      // System.out.println("PanelODORData.showSelectedFieldsToImport   table:"+table+"  strTable:"+strTable);
+          
+          if(strTable.equalsIgnoreCase(table))
+          {
+                // System.out.println("PanelODORData.showSelectedFieldsToImport for  =  ("+i+") "+fields[i]);
+                 String columnLabel = edbfImport[g].getCaption();//fieldsTranslation[i]; //get colunm name
+                 String columnDbName = edbfImport[g].getDbField();
+                 int intObligatoryOrSuggest = edbfImport[g].getFieldObligatoryOrSuggest();
+                 String columnClass = edbfImport[g].getColClassName(); 
+                 //int intPKAutoInc = primaryKeyIntegerAutoInc[i];// 
+                 String cc = columnClass;
+
+                 if(colname.equalsIgnoreCase(columnDbName))
+                 {
+                     strReturn = columnLabel;
+                 }
+                 
+          }
+       }  
+        
+        return strReturn;
+      }
       
     /* private boolean showSelectedFieldsToImport(String table,EntityDBFields[] edbfImport)
      {
@@ -631,23 +716,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
 
             }
         fldSelectToImport.setText(file.getPath());
-     /*       try {
-                
-                
-              fldSelectToImport.setText(file.getPath());
-      //          ExcelExporter exp=new ExcelExporter();
-      //          exp.exportTable(jTable1, file);
-                Desktop.getDesktop().open(file);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                System.out.println("not found");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
          }     
     }
          
@@ -741,7 +810,7 @@ try {
      
      
      
-     private void setFileToImport(String strFile, String strTable)
+     private void setFileToImport(String strFile, String strTable, boolean hasDbCompanyId)
      {
       //boolean boolReturn=false;
       
@@ -829,7 +898,7 @@ try {
                         if(val.equalsIgnoreCase(""))
                         {
                         subQueryColumns = subQueryColumns + " "+cellColumnHeader.getContents();
-                        subQueryValues = subQueryValues + "  null ";                            
+                        subQueryValues = subQueryValues + "  null ";                       
                         }
                         else
                         {
@@ -884,12 +953,9 @@ try {
                    }
                     
                 }// when there is no value
-              
                 }//for cols
                 
-                
                 String query =  "INSERT INTO "+strTable+"  ("+subQueryColumns+") VALUES ("+subQueryValues+")";
-
                 System.out.println("PanelDataImportExport.fileImport   "+query);
                            int retCount =   db.transactionUpdateQuery(query,"PanelDataImportExport.fileImport",true);
                             if(retCount!=1)
@@ -929,17 +995,7 @@ try {
                       
               listImportFooterModel.addElement("εισάχθηκαν "+countRows+" γραμμές στο "+strTable);        
                       
-                      
-                      
-                      
-                      
-        
-         
-         
-         
-         
-         
-         
+                     
          
          
                wwe.close();
@@ -989,7 +1045,7 @@ try {
      /*  
            http://www.vogella.com/tutorials/JavaExcel/article.html
      */
-     private void setTableToExport(String strTable,EntityDBFields[] edbfExport)
+     private void setTableToExport(String strTable,EntityDBFields[] edbfExport, boolean hasDbCompanyId)
      {
       //boolean boolReturn=false;
       
@@ -1053,7 +1109,16 @@ try {
         workbook.createSheet("Report", 0);
         WritableSheet excelSheet = workbook.getSheet(0);
        db = new Database();
-        String sql = "SELECT * FROM "+strTable+" WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId;
+       String sql="";
+       if(hasDbCompanyId)
+       {
+           sql = "SELECT * FROM "+strTable+" WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId;
+       }
+       else
+       {
+          sql = "SELECT * FROM "+strTable;   
+       }
+        
         db.retrieveDBDataFromQuery(sql, "PanelDataImportExport.fileExport");
         ResultSetMetaData rsmd = db.getRSMetaData();
         ResultSet rs = db.getRS();
@@ -1139,36 +1204,35 @@ try {
          
      }
      
-      private String[] getSpreadsheetColumnTitles()
+      private String getSpreadsheetColumnTitle(String columnName)
       {
-          String[] spreadsheetColumns = new String[lstSpreadsheetColumns.size()+1];
+          String spreadsheetColumn="";
           if(lstSpreadsheetColumns.size()>0)
           {
-            spreadsheetColumns[0]= "";
+           
             for(int l = 0;l<lstSpreadsheetColumns.size();l++)
             {
-                spreadsheetColumns[l+1]= lstSpreadsheetColumns.get(l)+" "+lstSpreadsheetColumnsType.get(l);
+                String clmn = lstSpreadsheetColumns.get(l)+"";
+                if(columnName.equalsIgnoreCase(clmn))
+                {
+                   spreadsheetColumn = columnName;
+                }
+              
             }
           }
           else
           {
-              spreadsheetColumns = new String[1];
-              spreadsheetColumns[0]= "";
           }
           
-          if(spreadsheetColumns==null)
-          {
-              spreadsheetColumns = new String[1];
-               spreadsheetColumns[0]= "";
-          }
+
           
           
-          return spreadsheetColumns;
+          return spreadsheetColumn;
       }     
      
    
       
-       private void setCloseClick(JDialog dlg)
+   private void setCloseClick(JDialog dlg)
    {
    	dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);   
     dlg.addWindowListener(new WindowAdapter()
