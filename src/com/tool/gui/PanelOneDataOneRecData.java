@@ -48,6 +48,15 @@ import java.beans.PropertyChangeEvent;
 import java.util.concurrent.TimeUnit;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
  public class PanelOneDataOneRecData extends JxPanel implements Constants
  {
@@ -1640,7 +1649,7 @@ int flds = 0;
                  {
 	             public void actionPerformed(ActionEvent e) 
 	            {	   
-	                 displayDialogCheck(columnFieldValidationFinal, iFinal);
+	                 displayDialogCheckValidation(columnFieldValidationFinal, iFinal);
 	             } 
 	        });
                  
@@ -4057,7 +4066,7 @@ catch(Exception e)
    }
  
    
-    private void displayDialogCheck(int columnFieldValidation, int dbCol)
+    private void displayDialogCheckValidation(int columnFieldValidation, int dbCol)
    { 
        
       // Component comp =this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
@@ -4066,8 +4075,7 @@ catch(Exception e)
 
        JTextField tb = (JTextField) fieldTxts.get(dbCol);
        String selectedKeyValue = tb.getText();             
-        JTextArea txtArea = new JTextArea();
-        txtArea.setFont(new JLabel().getFont());
+
         
         DialogMulti dlg = new DialogMulti(frame);
         String title = "";
@@ -4079,11 +4087,102 @@ catch(Exception e)
         {
             title=("αναζήτηση στοιχείων απο το taxisnet");
             showOkButton=true;
-            txtArea.setSize(100, 80);
-            txtArea.setText(selectedKeyValue);
+           /*JTextArea txtArea = new JTextArea();
+           txtArea.setFont(new JLabel().getFont());            
+            txtArea.setSize(100, 80);*/
+           JxPanel pnlAfm = new JxPanel();
+                GridLayoutVariable layout = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 2);
+           pnlAfm.setLayout(layout);
+            UtilsSoap utilsSoap = new UtilsSoap();
+            Database dbafm = new Database();
+            String sqlAFM ="SELECT afmTaxisUsername, afmTaxisPassword FROM dbcompany WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId;;
+           dbafm.retrieveDBDataFromQuery(sqlAFM, "PanelDataImportExport.displayDialogCheckValidation");
+           //ResultSetMetaData rsmd = db.getRSMetaData();
+           ResultSet rsAfm = dbafm.getRS();
+           try
+           {   
+               
+             if(rsAfm.first())
+             {
+                 
+               ArrayList lstSoan = new ArrayList();
+               lstSoan.add(new EntitySoapResponseNamesNValues("onomasia","επωνυμία","java.lang.String",null,"name"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("deactivation_flag","ενεργός","java.lang.Boolean",null,"active"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("regist_date","έναρξη","java.lang.Date",null,"startdate"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("normal_vat_system_flag","κατηγορία ΦΠΑ","java.lang.String",null,"vatcat"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_area_description","περιοχή","java.lang.String",null,"postal"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_zip_code","περιοχή","java.lang.String",null,"pc"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_address","διεύθυνση","java.lang.String",null,"address"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_address_no","διεύθυνση νο","java.lang.String",null,"addressno"));
+               
+               
+                 String afmXml = utilsSoap.getXmlAfmFor(rsAfm.getString("afmTaxisUsername"),rsAfm.getString("afmTaxisPassword"),selectedKeyValue);
+                ArrayList lstSoanResult =  utilsSoap.getNameNValuesFromXml(lstSoan, afmXml);
+                 for(int i=0;i<lstSoanResult.size();i++)
+                 {
+                      EntitySoapResponseNamesNValues esrn = (EntitySoapResponseNamesNValues)lstSoanResult.get(i);
+                      pnlAfm.add(new JLabel(esrn.caption));
+                      if(esrn.classtype.equalsIgnoreCase("java.lang.Boolean"))
+                      {
+                          JCheckBox chk =new JCheckBox();
+                          if(esrn.value.equalsIgnoreCase("1"))
+                          {
+                            chk.setSelected(true);
+                          }
+                          else
+                          {
+                            chk.setSelected(false);  
+                          }
+                          pnlAfm.add(chk);
+                      }
+                      else if(esrn.classtype.equalsIgnoreCase("java.lang.Date"))
+                      {
+                         String[] allowedPatternsToRead = {"yyyy-MM-dd","yy/MM/dd","yy-MM-dd", "yyyy/MM/dd","dd-MM-yyyy","dd/MM/yy","dd-MM-yy", "dd/MM/yyyy"};
+                         String fdate=utilsDate.reformatDateString(esrn.value,allowedPatternsToRead,"dd-MM-yyyy"); //"EEE dd-MM-yyyy"); 
+           	       JTextBoxWithEditButtons textEditFormatedDate = new JTextBoxWithEditButtons(); 
+                       JTextComponent ta = (JTextComponent)textEditFormatedDate.getTextComp();
+                       ta.setText(fdate);
+                       pnlAfm.add(ta);
+                      }
+                      else if(esrn.classtype.equalsIgnoreCase("java.lang.String"))
+                      {
+                      JTextField txtValue = new JTextField(30);
+                      txtValue.setText(esrn.value);
+                      pnlAfm.add(txtValue);
+                      }
+                      else 
+                      {
+                      JTextField txtValue = new JTextField(30);
+                      txtValue.setText(esrn.value);
+                      pnlAfm.add(txtValue);
+                      }                      
+                      
+                     
+                 }
+                 
+                 
+                 //txtArea.setText(afmXml);
+             }
+             else
+             {
+               
+             }
+           }
+           catch(SQLException e)
+           {
+              
+     
+            System.out.println("PanelDataImportExport.displayDialogCheckValidation    SQLException:"+e.getErrorCode()+"  "+e.getMessage());
+           e.printStackTrace();
+           }
+           finally
+           {
+                dbafm.releaseConnectionRs();
+                dbafm.releaseConnectionRsmd();
+           }
+           pnl.add(pnlAfm,BorderLayout.PAGE_START);
         }
         
-        pnl.add(txtArea,BorderLayout.PAGE_START);
         dlg.setEntity(pnl,PANEL_TYPE_ANY, title,showOkButton);
         
         dlg.display();        

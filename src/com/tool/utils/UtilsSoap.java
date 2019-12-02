@@ -5,6 +5,16 @@
  */
 package com.tool.utils;
 
+import com.tool.model.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
@@ -17,10 +27,19 @@ import javax.xml.soap.SOAPFactory;
 import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -30,7 +49,7 @@ public class UtilsSoap {
     
     
     
- 	private static SOAPMessage createObjectSoapRequest() throws Exception
+ 	/*private static SOAPMessage createObjectSoapRequest() throws Exception
         { 
             String urii = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
             SoapRequestNameSpace srns1 =new SoapRequestNameSpace("ns1","http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
@@ -53,6 +72,7 @@ public class UtilsSoap {
             SoapRequestBodyChildElement[] srbce =  {srbce1,srbce2,srbce3,srbce4}; 
                     
             SoapRequest sr = new SoapRequest("sr1",srns,srfe,srbce);
+           
 	
             MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL); //  SOAPConstants.DYNAMIC_SOAP_PROTOCOL  //.newInstance();
 		 SOAPMessage soapMessage = messageFactory.createMessage();
@@ -72,33 +92,69 @@ public class UtilsSoap {
                 /*soapEnvelope.addNamespaceDeclaration("ns1", uri);
                  soapEnvelope.addNamespaceDeclaration("ns2","http://rgwspublic2/RgWsPublic2Service");               
     	         soapEnvelope.addNamespaceDeclaration("ns3", "http://rgwspublic2/RgWsPublic2"); */    
-	   try {
+	/*   try {
 				SOAPFactory factory = SOAPFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
-				
+				ArrayList listElements = new ArrayList();
+                                SOAPElement  elembase = factory.createElement(sr.factoryElement[0].name,sr.factoryElement[0].ns,sr.factoryElement[0].uri);
+                                //listElements.add(elembase);
                                 for(int b=0;b< sr.factoryElement.length;b++)
                                 {
-                                    
+                                    SOAPElement elem1 = factory.createElement(sr.factoryElement[b].name,sr.factoryElement[b].ns,sr.factoryElement[b].uri);
+                                    listElements.add(elem1);
+                                    //System.out.println("UtilSoap.createObjectSoapRequest "+b+"  listElements:"+listElements.size()+" added:"+sr.factoryElement[b].name);
+                                    if(sr.factoryElement[b].textNode!=null)
+                                    {
+                                      elem1.addTextNode(sr.factoryElement[b].textNode);
+                                    }
+                                    SOAPElement  elemc = null;
+                                    for(int c=0;c<listElements.size();c++)
+                                    {
+                                        elemc = (SOAPElement)listElements.get(c);
+                                        System.out.println("UtilSoap.createObjectSoapRequest  b:"+b+"  c:"+c+"   "+elemc.getElementName().getLocalName()+"  size:"+listElements.size());
+                                        if(elemc.getElementName().getLocalName().equalsIgnoreCase(sr.factoryElement[b].isIncludedInElementName))
+                                        {
+                                            System.out.println("UtilSoap.createObjectSoapRequest  b:"+b+"  c:"+c+" --  this:"+elemc.getElementName().getLocalName()+"="+sr.factoryElement[b].isIncludedInElementName+" includes:"+sr.factoryElement[b].name);
+                                            elemc.addChildElement(elem1);
+                                                                                
+                                           
+                                        }
+
+                                    }
+                                      System.out.println("UtilSoap.createObjectSoapRequest elembase add elemc b:"+b);
+                                      elembase.addChildElement(elemc);                                      
+
                                 }
-                                
-				SOAPElement securityElem = factory.createElement("Security","ns1",uri);
+                                SOAPHeader soapHeader = soapEnvelope.getHeader();
+                                soapHeader.addChildElement(elembase);
+				
+				*/
+                                 
+                                 
+                                 
+				/*
+                                SOAPElement securityElem = factory.createElement("Security","ns1",uri);
 				SOAPElement tokenElem = factory.createElement("UsernameToken","ns1",uri);
-				//tokenElem.addAttribute(QName.valueOf("wsu:Id"),"UsernameToken-2");
-				//tokenElem.addAttribute(QName.valueOf("xmlns:wsu"), uta);
-				SOAPElement userElem = factory.createElement("Username","ns1",uri);
-				userElem.addTextNode("120315679C");
-				SOAPElement pwdElem = factory.createElement("Password","ns1",uri);
-				pwdElem.addTextNode("120315679C");
-				//pwdElem.addAttribute(QName.valueOf("Type"), ta);
+                                
+				SOAPElement userElem = factory.createElement("Username","ns1",uri);  userElem.addTextNode("120315679C");
+				
+				SOAPElement pwdElem = factory.createElement("Password","ns1",uri);  pwdElem.addTextNode("120315679C");
+				
+				
 				tokenElem.addChildElement(userElem);
 				tokenElem.addChildElement(pwdElem);
 				securityElem.addChildElement(tokenElem);
-				SOAPHeader soapHeader = soapEnvelope.getHeader();
-				 soapHeader.addChildElement(securityElem);
+                                
+				//SOAPHeader soapHeader = soapEnvelope.getHeader();
+				// soapHeader.addChildElement(securityElem);
                                  
                                  
                                 SOAPBody soapBody = soapEnvelope.getBody();
                                 //soapBody.addChildElement("rgWsPublic2AfmMethod", "ns2");
                                 //SOAPElement soapElement = soapBody.addChildElement("rgWsPublic2AfmMethod", "ns2");
+
+                                
+                                
+                                
                                 SOAPElement soapElement = soapBody.addChildElement("rgWsPublic2AfmMethod", "ns2");//factory.createElement("rgWsPublic2AfmMethod","ns2","INPUT_REC");
                                 soapBody.addChildElement(soapElement);
 
@@ -129,14 +185,14 @@ public class UtilsSoap {
 		 soapMessage.writeTo(System.out);
                   System.out.println();
 		 return soapMessage;                  
-        }   
+        }   */
     
     
     
     
     
     //  https://www.concretepage.com/webservices/java-saaj-web-service-example
-	private static SOAPMessage createSoapRequest() throws Exception
+	private static SOAPMessage createSoapRequestAfm(String username, String password,String lookingforAfm) throws Exception
         {
 		 MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL); //  SOAPConstants.DYNAMIC_SOAP_PROTOCOL  //.newInstance();
 		 SOAPMessage soapMessage = messageFactory.createMessage();
@@ -169,9 +225,9 @@ public class UtilsSoap {
 				//tokenElem.addAttribute(QName.valueOf("wsu:Id"),"UsernameToken-2");
 				//tokenElem.addAttribute(QName.valueOf("xmlns:wsu"), uta);
 				SOAPElement userElem = factory.createElement("Username","ns1",uri);
-				userElem.addTextNode("120315679C");
+				userElem.addTextNode(username);
 				SOAPElement pwdElem = factory.createElement("Password","ns1",uri);
-				pwdElem.addTextNode("120315679C");
+				pwdElem.addTextNode(password);
 				//pwdElem.addAttribute(QName.valueOf("Type"), ta);
 				tokenElem.addChildElement(userElem);
 				tokenElem.addChildElement(pwdElem);
@@ -194,7 +250,7 @@ public class UtilsSoap {
                                                                
                                 SOAPElement afmElem = soapBody.addChildElement("afm_called_for","ns3");//,"ns3", "ns2");//,"ns2",uri);
                                 soapElementI.addChildElement(afmElem);
-				afmElem.addTextNode("120315679");
+				afmElem.addTextNode(lookingforAfm);
                         
 			}
             catch (SOAPException e)
@@ -207,25 +263,122 @@ public class UtilsSoap {
                  //SOAPElement element1 = soapElement.addChildElement("arg0");
 		 //element1.addTextNode("EveryOne");
 		 soapMessage.saveChanges();
-		 System.out.println("----------SOAP Request------------");
+		 //System.out.println("----------SOAP Request------------");
 		 soapMessage.writeTo(System.out);
                   System.out.println();
 		 return soapMessage;    
         }
     
     //   https://www.concretepage.com/webservices/java-saaj-web-service-example
-    	 private static void createSoapResponse(SOAPMessage soapResponse) throws Exception
+    	 private static String createSoapResponse(SOAPMessage soapResponse) throws Exception
          {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                transformerFactory.setAttribute("indent-number", 5);
 		Transformer transformer = transformerFactory.newTransformer();
-		Source sourceContent = soapResponse.getSOAPPart().getContent();
-		System.out.println("\n----------SOAP Response-----------");
-		StreamResult result = new StreamResult(System.out);
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                //transformer.setOutputProperty(OutputKeys.STANDALONE,"yes");
+                ByteArrayOutputStream bout = new ByteArrayOutputStream();
+                soapResponse.writeTo(bout);                
+		//Source sourceContent = soapResponse.getSOAPPart().getContent();
+		//System.out.println("\n----------SOAP Response-----------");
+		//StreamResult result = new StreamResult(System.out);
                  System.out.println();
-		transformer.transform(sourceContent, result);
-                System.out.println();
+		//transformer.transform(sourceContent, result);
+                
+
+
+    String xml = bout.toString();
+
+ Source xmlInput = new StreamSource(new StringReader(xml));
+ StringWriter stringWriter = new StringWriter();
+ StreamResult xmlOutput = new StreamResult(stringWriter);
+ 
+ //System.out.println(stringWriter);
+
+ transformer.transform(xmlInput, xmlOutput);
+ String xmlString = xmlOutput.getWriter().toString();
+
+ //System.out.println(xmlString);
+
+             return xmlString;
 	 }    
     
+    public String getXmlAfmFor(String username, String password,String lookingforAfm)  
+    {
+        String strReturn = "";
+	        try{
+			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+			//String url = "https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL";
+			SOAPMessage soapRequest = createSoapRequestAfm(username,password,lookingforAfm);
+			//hit soapRequest to the server to get response
+			SOAPMessage soapResponse = soapConnection.call(soapRequest, "https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL");
+			strReturn = createSoapResponse(soapResponse);
+			soapConnection.close();
+		}catch (Exception e)
+                {
+		     e.printStackTrace();
+		} 
+                        
+        return strReturn;
+    }
+
+      public ArrayList getNameNValuesFromXml(ArrayList lstSoan,String afmXml)
+      {
+        
+        try
+        {
+          DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+          DocumentBuilder builder = factory.newDocumentBuilder();
+ 
+          // Load the input XML document, parse it and return an instance of the
+          // Document class.
+          InputSource is = new InputSource(new StringReader(afmXml));
+          is.setEncoding("UTF-8");
+          //Document document = builder.parse(new InputSource(new StringReader(afmXml)));
+          org.w3c.dom.Document document =  builder.parse(is);
+          //System.out.println("--"+document.getFirstChild().getNodeName());
+          //List<Employee> employees = new ArrayList<Employee>();
+          //NodeList nodeListOnomasia = document.getElementsByTagName("onomasia");
+          System.out.println("-"+afmXml);
+          
+   for(int l=0;l<lstSoan.size();l++)       
+   {
+       EntitySoapResponseNamesNValues soapn = (EntitySoapResponseNamesNValues)lstSoan.get(l);
+    NodeList nl = document.getElementsByTagName(soapn.nameNode);
+    for (int i = 0; i < nl.getLength(); i++)
+    {
+      //System.out.println("name is : "+nl.item(i).getNodeName()+" "+nl.item(i).getNodeType()+"   "+nl.item(i).getNodeValue());
+      int length = nl.item(i).getChildNodes().getLength();
+      for (int p = 0; p < length; p ++) 
+      {
+        Node c = nl.item(i).getChildNodes().item(p);
+        if (c.getNodeType() == Node.TEXT_NODE) 
+        {
+            soapn.value = c.getNodeValue();
+          System.out.println("name is :"+soapn.nameNode+"   value:"+soapn.value+"  "+c.getNodeValue()+"  ("+soapn.classtype+")");
+        }
+      }
+     }      
+   }
+        }
+        catch(ParserConfigurationException pce)
+        {
+            pce.printStackTrace();
+        }
+        catch(SAXException saxe)
+        {
+            saxe.printStackTrace();
+        }
+        catch(IOException ioe)
+        {
+            ioe.printStackTrace();
+        }           
+   return lstSoan;
+      }      
+         
+         
     public static void main(String[] args) throws Exception
     {
        // URL url = new URL("http://localhost:8080/employeeservice?wsdl");
@@ -235,10 +388,10 @@ public class UtilsSoap {
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 			//String url = "https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL";
-			SOAPMessage soapRequest = createSoapRequest();
+			SOAPMessage soapRequest = createSoapRequestAfm("120315679C","120315679C","120315679");
 			//hit soapRequest to the server to get response
 			SOAPMessage soapResponse = soapConnection.call(soapRequest, "https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL");
-			createSoapResponse(soapResponse);
+			System.out.println(createSoapResponse(soapResponse));
 			soapConnection.close();
 		}catch (Exception e)
                 {
@@ -248,86 +401,47 @@ public class UtilsSoap {
                 
                 
     
-	        try{
+	       /* try{
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 			
 			SOAPMessage soapRequest = createObjectSoapRequest();
 			//hit soapRequest to the server to get response
 			SOAPMessage soapResponse = soapConnection.call(soapRequest, "https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL");
-			createSoapResponse(soapResponse);
+			System.out.println(createSoapResponse(soapResponse));
 			soapConnection.close();
 		}catch (Exception e)
                 {
 		     e.printStackTrace();
-		} 
-                                
-                
+		}*/ 
+                      
+               ArrayList lstSoan = new ArrayList();
+               lstSoan.add(new EntitySoapResponseNamesNValues("onomasia","επωνυμία","java.lang.String",null,"name"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("deactivation_flag","ενεργός","java.lang.Boolean",null,"active"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("deactivation_flag_descr","ενεργός","java.lang.String",null,"active"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("regist_date","έναρξη","java.lang.Date",null,"startdate"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("normal_vat_system_flag","κατηγορία ΦΠΑ","java.lang.String",null,"vatcat"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_area_description","περιοχή","java.lang.String",null,"postal"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_zip_code","περιοχή","java.lang.String",null,"pc"));
+               
+               
+               
+               UtilsSoap utilsSoap = new UtilsSoap();
+               String afmXml = utilsSoap.getXmlAfmFor("120315679C", "120315679C", "120315679");
+               
+               utilsSoap.getNameNValuesFromXml(lstSoan, afmXml);
+
+          
+          
+  
+               
+               
+               
+               
     }
     
     
 }
 
-class SoapRequest
-{
-    public String name;
-    public SoapRequestNameSpace[] namespace;
-    public SoapRequestFactoryElement[] factoryElement;
-    public SoapRequestBodyChildElement[] bodyChildElement;
-            
-    public  SoapRequest(String nameIn, SoapRequestNameSpace[] namespaceIn, SoapRequestFactoryElement[] factoryElementIn, SoapRequestBodyChildElement[] bodyChildElementIn)
-    {
-        name=nameIn;
-        namespace=namespaceIn;
-        factoryElement=factoryElementIn;
-        bodyChildElement=bodyChildElementIn;
-    }
-}
 
 
-class SoapRequestNameSpace
-{
-    public String ns;
-    public String uri;
-    
-    public  SoapRequestNameSpace(String nsIn,String uriIn)
-    {
-        ns=nsIn;
-        uri=uriIn;
-    }
-}
-
-
-class SoapRequestFactoryElement
-{
-    public String name;
-    public String ns;
-    public String uri;
-    String textNode;
-    String isIncludedInElementName;
-    
-    public  SoapRequestFactoryElement(String nameIn, String nsIn,String uriIn, String textNodeIn, String isIncludedInElementNameIn)
-    {
-        name=nameIn;
-        ns=nsIn;
-        uri=uriIn;
-        textNode=textNodeIn;
-        isIncludedInElementName=isIncludedInElementNameIn;
-    }
-}
-
-class SoapRequestBodyChildElement
-{
-    public String name;
-    public String ns;
-    String textNode;
-    String isIncludedInElementName;
-    
-    public  SoapRequestBodyChildElement(String nameIn, String nsIn, String textNodeIn, String isIncludedInElementNameIn)
-    {
-        name=nameIn;
-        ns=nsIn;
-        textNode=textNodeIn;
-        isIncludedInElementName=isIncludedInElementNameIn;
-    }
-}
