@@ -3012,9 +3012,10 @@ manager.addChangeListener(updateListener);*/
             new FrameRedirected(true, false, null, 1080,980, JFrame.DISPOSE_ON_CLOSE);
           }
         }
+        System.setProperty("file.encoding", "UTF-8");
         //(boolean catchErrors, boolean logFile, String fileName, int width,
          //int height, int closeOperation)
-    	
+    	System.out.println("system file encoding: "+System.getProperty("file.encoding"));
     	System.out.println(VariablesGlobal.appName+" "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+" Date: " + new Date());
         System.out.println("DialogMain.main classpath "+System.getProperty("java.class.path"));
         System.out.println("DialogMain.main user.dir "+System.getProperty("user.dir"));

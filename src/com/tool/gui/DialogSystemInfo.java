@@ -26,6 +26,9 @@ import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 //import javax.swing.JInternalFrame;
 import javax.swing.*;
@@ -200,7 +203,8 @@ public class DialogSystemInfo extends JDialog implements Constants
         +"------------- Λειτουργικό σύστημα -------------\n"
         +"Operating System: "+System.getProperty("os.name")+" έκδοση: "+System.getProperty("os.version")+"\n"
         +"Patch level: "+System.getProperty("sun.os.patch.level")+"\n"
-        +"file encoding: "+System.getProperty("file.encoding")+"\n"
+        +"system file encoding: "+System.getProperty("file.encoding")+"\n"
+        +"get encoding:  "+getEncoding()+"\n"      // if is not utf-8   do this:   String xml =  new String(bout.toByteArray(), "UTF-8");  
         +"σύμβολο καταλόγου: "+VariablesGlobal.globalSystemDirectorySymbol+"\n"
         +"-------------------- Χρήστης --------------------\n"
         +"Όνομα χρήστη: "+System.getProperty("user.name")+"\n"
@@ -270,6 +274,22 @@ public class DialogSystemInfo extends JDialog implements Constants
             {          dispose();        }
         });*/
     }
+  
+    ///https://dzone.com/articles/java-may-use-utf-8-as-its-default-charset
+   private String getEncoding()
+   {
+
+      final byte [] bytes = {'D'};
+
+      final InputStream inputStream = new ByteArrayInputStream(bytes);
+
+      final InputStreamReader reader = new InputStreamReader(inputStream);
+
+      final String encoding = reader.getEncoding();
+
+      return encoding;
+
+   }
     
     private void getDBinfo()
     {

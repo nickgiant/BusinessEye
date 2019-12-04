@@ -286,9 +286,9 @@ public class UtilsSoap {
                  System.out.println();
 		//transformer.transform(sourceContent, result);
                 
+String xml =  new String(bout.toByteArray(), "UTF-8");
 
-
-    String xml = bout.toString();
+    //String xml = bout.toString();
 
  Source xmlInput = new StreamSource(new StringReader(xml));
  StringWriter stringWriter = new StringWriter();
@@ -313,7 +313,7 @@ public class UtilsSoap {
 			//String url = "https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL";
 			SOAPMessage soapRequest = createSoapRequestAfm(username,password,lookingforAfm);
 			//hit soapRequest to the server to get response
-			SOAPMessage soapResponse = soapConnection.call(soapRequest, "https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL");
+			SOAPMessage soapResponse = soapConnection.call(soapRequest,"https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL");
 			strReturn = createSoapResponse(soapResponse);
 			soapConnection.close();
 		}catch (Exception e)
