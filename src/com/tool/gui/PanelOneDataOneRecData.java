@@ -4117,6 +4117,7 @@ catch(Exception e)
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_zip_code","περιοχή","java.lang.String",null,"pc"));
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_address","διεύθυνση","java.lang.String",null,"address"));
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_address_no","διεύθυνση νο","java.lang.String",null,"addressno"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("firm_act_descr","δραστηριότητα","java.lang.String",null,"kad"));
                
                
                  String afmXml = utilsSoap.getXmlAfmFor(rsAfm.getString("afmTaxisUsername"),rsAfm.getString("afmTaxisPassword"),selectedKeyValue);
