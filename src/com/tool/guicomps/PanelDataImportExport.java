@@ -78,6 +78,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
     private DefaultListModel listImportFooterModel;
     private DefaultListModel listExportFooterModel;
     private String fieldNameAutoInc = "";
+    private UtilsGui utilsGui;
     public PanelDataImportExport(int importexport)//(Frame parent, boolean modal)
     {
        initialize(importexport);
@@ -93,6 +94,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
     lstSpreadsheetColumnsType = new ArrayList();
     panelMain = new JxPanel();
      panelMain.setLayout(new BorderLayout());
+     utilsGui = new UtilsGui();
       this.setLayout(new BorderLayout());      
             this.add(panelMain, BorderLayout.PAGE_START); 
             if(importexport==IMPORT)
@@ -431,8 +433,8 @@ public class PanelDataImportExport extends JxPanel implements Constants
          
          EntityDataEsoExo  edee=new  EntityDataEsoExo();
          EntityDBFields[] edbfeeImport = edee.getEntityDbFieldsToImport();
+      
 
-         
           if(showSelectedFieldsToImport(table,edbfssImport))
           {
               System.out.println("PanelODORData.setSelectedTable  SerSales  table:"+table);
@@ -446,6 +448,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
                    System.out.println("PanelODORData.setSelectedTable  EsoExo  table:"+table);
               }
           }
+      
        
       }
     
@@ -453,7 +456,8 @@ public class PanelDataImportExport extends JxPanel implements Constants
       {
           
           boolean boolReturn=false;
- 
+     if(!table.equalsIgnoreCase(""))
+     {
           
        for(int g = 0;g<edbfImport.length;g++)
        {
@@ -511,7 +515,7 @@ public class PanelDataImportExport extends JxPanel implements Constants
                 db.releaseConnectionRsmd();
         } 
             
-          
+     }  
   
           return boolReturn;
       }
@@ -813,7 +817,12 @@ try {
      private void setFileToImport(String strFile, String strTable, boolean hasDbCompanyId)
      {
       //boolean boolReturn=false;
-      
+      if(!strFile.endsWith(".xls"))
+      {
+          utilsGui.showMessageError("Παρακαλώ επιλέξτε αρχείο με κατάληξη .xls.");
+      }
+      else
+      {
           	 WindowWait wwe = new WindowWait("παρακαλω περιμένετε, εισαγωγή",WINDOW_LOCATION_CENTER,ICO_RELOAD16, ICO_RELOADB16);
          wwe.animate();
    		          // thread for show window wait
@@ -1010,7 +1019,7 @@ try {
               thread.start();               
     	
 
-        
+      }
 
               
          
@@ -1048,7 +1057,8 @@ try {
      private void setTableToExport(String strTable,EntityDBFields[] edbfExport, boolean hasDbCompanyId)
      {
       //boolean boolReturn=false;
-      
+      if(!strTable.equalsIgnoreCase(""))
+      {
           	 WindowWait wwe = new WindowWait("παρακαλω περιμένετε, εξαγωγή",WINDOW_LOCATION_CENTER,ICO_RELOAD16, ICO_RELOADB16);
          wwe.animate();
    		          // thread for show window wait
@@ -1199,7 +1209,7 @@ try {
        
 
        
-
+      }
      // return boolReturn;
          
      }
