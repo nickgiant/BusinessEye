@@ -326,7 +326,7 @@ String xml =  new String(bout.toByteArray(), "UTF-8");
 
       public ArrayList getNameNValuesFromXml(ArrayList lstSoan,String afmXml)
       {
-        
+         ArrayList lstSoanReturn = new ArrayList();
         try
         {
           DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -342,7 +342,7 @@ String xml =  new String(bout.toByteArray(), "UTF-8");
           //List<Employee> employees = new ArrayList<Employee>();
           //NodeList nodeListOnomasia = document.getElementsByTagName("onomasia");
           System.out.println("-"+afmXml);
-          
+         
    for(int l=0;l<lstSoan.size();l++)       
    {
        EntitySoapResponseNamesNValues soapn = (EntitySoapResponseNamesNValues)lstSoan.get(l);
@@ -357,6 +357,8 @@ String xml =  new String(bout.toByteArray(), "UTF-8");
         if (c.getNodeType() == Node.TEXT_NODE) 
         {
             soapn.value = c.getNodeValue();
+            EntitySoapResponseNamesNValues soapnReturn = new EntitySoapResponseNamesNValues(soapn.nameNode,soapn.caption,soapn.classtype,soapn.value,soapn.nameDb);
+            lstSoanReturn.add(soapnReturn);
           System.out.println("name is :"+soapn.nameNode+"   value:"+soapn.value+"  "+c.getNodeValue()+"  ("+soapn.classtype+")");
         }
       }
@@ -375,7 +377,7 @@ String xml =  new String(bout.toByteArray(), "UTF-8");
         {
             ioe.printStackTrace();
         }           
-   return lstSoan;
+   return lstSoanReturn;
       }      
          
          
