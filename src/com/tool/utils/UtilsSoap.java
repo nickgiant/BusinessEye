@@ -359,7 +359,7 @@ String xml =  new String(bout.toByteArray(), "UTF-8");
             soapn.value = c.getNodeValue();
             EntitySoapResponseNamesNValues soapnReturn = new EntitySoapResponseNamesNValues(soapn.nameNode,soapn.caption,soapn.classtype,soapn.value,soapn.nameDb);
             lstSoanReturn.add(soapnReturn);
-          System.out.println("name is :"+soapn.nameNode+"   value:"+soapn.value+"  "+c.getNodeValue()+"  ("+soapn.classtype+")");
+            //System.out.println("name is :"+soapn.nameNode+"   value:"+soapn.value+"  "+c.getNodeValue()+"  ("+soapn.classtype+")");
         }
       }
      }      

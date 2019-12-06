@@ -4141,8 +4141,8 @@ catch(Exception e)
                       }
                       else if(esrn.classtype.equalsIgnoreCase("java.lang.Date"))
                       {
-                         String[] allowedPatternsToRead = {"yyyy-MM-dd","yy/MM/dd","yy-MM-dd", "yyyy/MM/dd","dd-MM-yyyy","dd/MM/yy","dd-MM-yy", "dd/MM/yyyy"};
-                         String fdate=utilsDate.reformatDateString(esrn.value,allowedPatternsToRead,"dd-MM-yyyy"); //"EEE dd-MM-yyyy"); 
+                       String[] allowedPatternsToRead = {"yyyy-MM-dd","yy/MM/dd","yy-MM-dd", "yyyy/MM/dd","dd-MM-yyyy","dd/MM/yy","dd-MM-yy", "dd/MM/yyyy"};
+                       String fdate=utilsDate.reformatDateString(esrn.value,allowedPatternsToRead,"dd-MM-yyyy"); //"EEE dd-MM-yyyy"); 
            	       JTextBoxWithEditButtons textEditFormatedDate = new JTextBoxWithEditButtons(); 
                        JTextComponent ta = (JTextComponent)textEditFormatedDate.getTextComp();
                        ta.setText(fdate);
@@ -4153,6 +4153,14 @@ catch(Exception e)
                       JTextField txtValue = new JTextField(30);
                       txtValue.setText(esrn.value);
                       pnlAfm.add(txtValue);
+                      if(esrn.nameNode.equalsIgnoreCase("firm_act_descr"))
+                      {
+                          txtValue.setEnabled(false);
+                          
+                      }
+
+                      
+                      
                       }
                       else 
                       {
@@ -4161,6 +4169,7 @@ catch(Exception e)
                       pnlAfm.add(txtValue);
                       }                      
                       
+
                      
                  }
                  
