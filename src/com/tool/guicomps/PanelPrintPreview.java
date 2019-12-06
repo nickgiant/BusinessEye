@@ -1424,7 +1424,13 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
               	        System.out.println("PanelPrintPreview.printPrinterJob printing.......");
                        if(isForm.equalsIgnoreCase("FORM"))
                        {
-                           
+                          if(arrayOfNameOfPksOfRecordToShow==null) 
+                          {
+                               System.out.println("PanelPrintPreview.printPrinterJob MASS printing db NOT SET TO UPDATE");
+                          }
+                          else
+                          {
+                          
                            String qWhere = "";
                            for(int a = 0; a<arrayOfNameOfPksOfRecordToShow.length;a++)
                            {
@@ -1454,6 +1460,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
                                System.out.println("PanelPrintPreview.printPrinterJob printing... db NOT UPDATED   queryUpdate:"+queryUpdate);
                            }
                            db.releaseConnectionRs();
+                         }
                        }
                         setCursor( Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         
