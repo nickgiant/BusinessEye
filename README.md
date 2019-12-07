@@ -6,5 +6,5 @@ Three modules exist.
 2. Calculation of return VAT of farmers
 3. Basic functions of single-entry accounting system.
 
-The application is designed following Greek regulations.
+The application is designed to follow Greek regulations.
 As a consequence captions, menus, and messages are in Greek.
