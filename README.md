@@ -8,3 +8,5 @@ Three modules exist.
 
 The application is designed to follow Greek regulations.
 As a consequence captions, menus, and messages are in Greek.
+
+More in Greek at www.businesseye.gr
