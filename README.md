@@ -1,5 +1,10 @@
 # BusinessEye
-Application in Java Swing and MySQL about issuing invoices for service companies.
-The application domain is separated from the rest of the code.
-This is convenient in cases of business database software where modules have patterns and can be implemented fast even if they are complex. 
-Currently captions, menus, and messages are in Greek.
+Multi module application in Java Swing and MySQL.
+Three modules exist.
+
+1. Issuing of invoices for service companies.
+2. Calculation of return VAT of farmers
+3. Basic functions of single-entry accounting system.
+
+The application is designed following Greek regulations.
+As a consequence captions, menus, and messages are in Greek.
