@@ -283,7 +283,7 @@ public class UtilsSoap {
 		//Source sourceContent = soapResponse.getSOAPPart().getContent();
 		//System.out.println("\n----------SOAP Response-----------");
 		//StreamResult result = new StreamResult(System.out);
-                 System.out.println();
+                 //System.out.println();
 		//transformer.transform(sourceContent, result);
                 
 String xml =  new String(bout.toByteArray(), "UTF-8");
@@ -341,7 +341,7 @@ String xml =  new String(bout.toByteArray(), "UTF-8");
           //System.out.println("--"+document.getFirstChild().getNodeName());
           //List<Employee> employees = new ArrayList<Employee>();
           //NodeList nodeListOnomasia = document.getElementsByTagName("onomasia");
-          System.out.println("-"+afmXml);
+          //System.out.println("-"+afmXml);
          
    for(int l=0;l<lstSoan.size();l++)       
    {
@@ -429,8 +429,8 @@ String xml =  new String(bout.toByteArray(), "UTF-8");
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_area_description","περιοχή","java.lang.String",null,"postal"));
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_zip_code","περιοχή","java.lang.String",null,"pc"));
                lstSoan.add(new EntitySoapResponseNamesNValues("firm_act_descr","δραστηριότητα","java.lang.String",null,"kad"));
-               
-               
+               lstSoan.add(new EntitySoapResponseNamesNValues("error_code","κωδ σφάλματος","java.lang.String",null,"error_code"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("error_descr","σφάλμα","java.lang.String",null,"error_descr"));
                
                UtilsSoap utilsSoap = new UtilsSoap();
                String afmXml = utilsSoap.getXmlAfmFor("120315679C", "120315679C", "120315679");

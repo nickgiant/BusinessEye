@@ -115,7 +115,7 @@ public class DialogMulti extends JDialog implements Constants
     {
         this.pack();
         locateOnCenterOfTheScreen();
-    	this.setVisible(true);//.show();
+    	this.setVisible(true);
         
     }
 
@@ -180,6 +180,7 @@ public class DialogMulti extends JDialog implements Constants
         }        
     	else if (typeOfPanel== PANEL_TYPE_TASK || typeOfPanel== PANEL_TYPE_ONEDATAMANYREC || typeOfPanel==PANEL_TYPE_ANY || typeOfPanel==PANEL_TYPE_REPORT )
     	{
+             isCancelClicked=true;//  ANY is on check validation of AFM with taxis
     		dispose();
     	}
     	else

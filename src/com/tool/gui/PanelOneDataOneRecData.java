@@ -4074,7 +4074,7 @@ catch(Exception e)
     	this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
        JTextField tb = (JTextField) fieldTxts.get(dbCol);
-       String selectedKeyValue = tb.getText();             
+       String selectedKeyValue = tb.getText();
 
         
         DialogMulti dlg = new DialogMulti(frame);
@@ -4091,8 +4091,10 @@ catch(Exception e)
            txtArea.setFont(new JLabel().getFont());            
             txtArea.setSize(100, 80);*/
            JxPanel pnlAfm = new JxPanel();
-                GridLayoutVariable layout = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 2);
+                GridLayoutVariable layout = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 3);
            pnlAfm.setLayout(layout);
+           ArrayList listNewFieldNamesAndValues = new ArrayList();
+           ArrayList listRadioBtns = new ArrayList();
             UtilsSoap utilsSoap = new UtilsSoap();
             Database dbafm = new Database();
             String sqlAFM ="SELECT afmTaxisUsername, afmTaxisPassword FROM dbcompany WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId;;
@@ -4106,7 +4108,7 @@ catch(Exception e)
              {
                  
                ArrayList lstSoan = new ArrayList();
-               lstSoan.add(new EntitySoapResponseNamesNValues("onomasia","επωνυμία","java.lang.String",null,"name"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("onomasia","επωνυμία","java.lang.String",null,"surname"));
                lstSoan.add(new EntitySoapResponseNamesNValues("deactivation_flag","ενεργός","java.lang.Boolean",null,"active"));
                lstSoan.add(new EntitySoapResponseNamesNValues("regist_date","έναρξη","java.lang.Date",null,"startdate"));
                lstSoan.add(new EntitySoapResponseNamesNValues("normal_vat_system_flag","κατηγορία ΦΠΑ","java.lang.String",null,"vatcat"));
@@ -4114,18 +4116,36 @@ catch(Exception e)
                lstSoan.add(new EntitySoapResponseNamesNValues("doy_descr","επωνυμία ΔΟΥ","java.lang.String",null,"dou"));
                lstSoan.add(new EntitySoapResponseNamesNValues("i_ni_flag_descr","νομική μορφή","java.lang.String",null,"nm"));               
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_area_description","περιοχή","java.lang.String",null,"postal"));
-               lstSoan.add(new EntitySoapResponseNamesNValues("postal_zip_code","περιοχή","java.lang.String",null,"pc"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_zip_code","ΤΚ","java.lang.String",null,"pc"));
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_address","διεύθυνση","java.lang.String",null,"address"));
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_address_no","διεύθυνση νο","java.lang.String",null,"addressno"));
                lstSoan.add(new EntitySoapResponseNamesNValues("firm_act_descr","δραστηριότητα","java.lang.String",null,"kad"));
+//               lstSoan.add(new EntitySoapResponseNamesNValues("error_code","κωδ σφάλματος","java.lang.String",null,"error_code"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("error_descr","σφάλμα","java.lang.String",null,"error_descr"));
                
                
                  String afmXml = utilsSoap.getXmlAfmFor(rsAfm.getString("afmTaxisUsername"),rsAfm.getString("afmTaxisPassword"),selectedKeyValue);
                 ArrayList lstSoanResult =  utilsSoap.getNameNValuesFromXml(lstSoan, afmXml);
+                
                  for(int i=0;i<lstSoanResult.size();i++)
                  {
                       EntitySoapResponseNamesNValues esrn = (EntitySoapResponseNamesNValues)lstSoanResult.get(i);
+                      JRadioButton radioBtnNew = new JRadioButton();
+                      listRadioBtns.add(radioBtnNew);
+                   if(esrn.nameNode.equalsIgnoreCase("error_descr")   )
+                   {
+                       if(esrn.value != null)
+                       {
+                           pnlAfm.add(new JLabel(esrn.value));
+                           showOkButton=false;
+                       }
+                   }
+                   else
+                   {
                       pnlAfm.add(new JLabel(esrn.caption));
+                      
+                     
+                      pnlAfm.add(radioBtnNew);
                       if(esrn.classtype.equalsIgnoreCase("java.lang.Boolean"))
                       {
                           JCheckBox chk =new JCheckBox();
@@ -4137,6 +4157,7 @@ catch(Exception e)
                           {
                             chk.setSelected(false);  
                           }
+                          chk.setEnabled(false);
                           pnlAfm.add(chk);
                       }
                       else if(esrn.classtype.equalsIgnoreCase("java.lang.Date"))
@@ -4146,6 +4167,7 @@ catch(Exception e)
            	       JTextBoxWithEditButtons textEditFormatedDate = new JTextBoxWithEditButtons(); 
                        JTextComponent ta = (JTextComponent)textEditFormatedDate.getTextComp();
                        ta.setText(fdate);
+                       ta.setEnabled(false);
                        pnlAfm.add(ta);
                       }
                       else if(esrn.classtype.equalsIgnoreCase("java.lang.String"))
@@ -4153,11 +4175,10 @@ catch(Exception e)
                       JTextField txtValue = new JTextField(30);
                       txtValue.setText(esrn.value);
                       pnlAfm.add(txtValue);
-                      if(esrn.nameNode.equalsIgnoreCase("firm_act_descr"))
-                      {
+                      //if(esrn.nameNode.equalsIgnoreCase("firm_act_descr"))
+                      //{
                           txtValue.setEnabled(false);
-                          
-                      }
+
 
                       
                       
@@ -4166,10 +4187,15 @@ catch(Exception e)
                       {
                       JTextField txtValue = new JTextField(30);
                       txtValue.setText(esrn.value);
+                      txtValue.setEnabled(false);
                       pnlAfm.add(txtValue);
                       }                      
+                     
+                       listNewFieldNamesAndValues.add(esrn);      
+                            
                       
-
+                      
+                   }
                      
                  }
                  
@@ -4185,7 +4211,7 @@ catch(Exception e)
            {
               
      
-            System.out.println("PanelDataImportExport.displayDialogCheckValidation    SQLException:"+e.getErrorCode()+"  "+e.getMessage());
+            System.out.println("PanelOneDataOneRecData.displayDialogCheckValidation    SQLException:"+e.getErrorCode()+"  "+e.getMessage());
            e.printStackTrace();
            }
            finally
@@ -4194,12 +4220,40 @@ catch(Exception e)
                 dbafm.releaseConnectionRsmd();
            }
            pnl.add(pnlAfm,BorderLayout.PAGE_START);
-        }
+          dlg.setEntity(pnl,PANEL_TYPE_ANY, title,showOkButton);
         
-        dlg.setEntity(pnl,PANEL_TYPE_ANY, title,showOkButton);
+          dlg.display();        
+          if(!dlg.getIsCancelClicked())
+          {
+            System.out.println("PanelOneDataOneRecData.displayDialogCheckValidation OK clicked");
+            
+            for(int f =0;f<dbFieldsAll.length;f++)
+            {
+                //System.out.println("PanelOneDataOneRecData.displayDialogCheckValidation B  f:"+f);
+                 for(int e= 0;e<listNewFieldNamesAndValues.size();e++)
+                 {
+                     JRadioButton radioBtn = (JRadioButton)listRadioBtns.get(e);
+                EntitySoapResponseNamesNValues esrn = (EntitySoapResponseNamesNValues)listNewFieldNamesAndValues.get(e);
+               
+                          if(esrn.nameDb.equalsIgnoreCase((dbFieldsAll[f].getDbField())))
+                          {                
+                              //System.out.println("PanelOneDataOneRecData.displayDialogCheckValidation B  :"+esrn.nameDb+" "+radioBtn.isSelected());
+                              if(radioBtn.isSelected())
+                              {
+                            JTextField txtF = (JTextField)fieldTxts.get(f);
+                            txtF.setText(esrn.value);
+                            
+                            System.out.println("PanelOneDataOneRecData.displayDialogCheckValidation OK   dbname:"+esrn.nameDb+" = "+esrn.value);
+                              }
+                          }
+                 }
+            }
+            }
+            
+                  
+        } // is AFM
         
-        dlg.display();        
-        
+
         
   
         
