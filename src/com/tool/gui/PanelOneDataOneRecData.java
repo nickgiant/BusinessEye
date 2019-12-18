@@ -4108,25 +4108,25 @@ catch(Exception e)
              {
                  
                ArrayList lstSoan = new ArrayList();
-               lstSoan.add(new EntitySoapResponseNamesNValues("onomasia","επωνυμία","java.lang.String",null,"surname"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("onomasia","επωνυμία","java.lang.String",null,"title"));
                lstSoan.add(new EntitySoapResponseNamesNValues("deactivation_flag","ενεργός","java.lang.Boolean",null,"active"));
                lstSoan.add(new EntitySoapResponseNamesNValues("regist_date","έναρξη","java.lang.Date",null,"startdate"));
                lstSoan.add(new EntitySoapResponseNamesNValues("normal_vat_system_flag","κατηγορία ΦΠΑ","java.lang.String",null,"vatcat"));
                lstSoan.add(new EntitySoapResponseNamesNValues("doy","κωδ. ΔΟΥ","java.lang.String",null,"doyId"));
                lstSoan.add(new EntitySoapResponseNamesNValues("doy_descr","επωνυμία ΔΟΥ","java.lang.String",null,"dou"));
-               lstSoan.add(new EntitySoapResponseNamesNValues("i_ni_flag_descr","νομική μορφή","java.lang.String",null,"nm"));               
-               lstSoan.add(new EntitySoapResponseNamesNValues("postal_area_description","περιοχή","java.lang.String",null,"postal"));
-               lstSoan.add(new EntitySoapResponseNamesNValues("postal_zip_code","ΤΚ","java.lang.String",null,"pc"));
-               lstSoan.add(new EntitySoapResponseNamesNValues("postal_address","διεύθυνση","java.lang.String",null,"address"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("i_ni_flag_descr","νομική μορφή","java.lang.String",null,"nm"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_area_description","περιοχή","java.lang.String",null,"addressCity"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_zip_code","ΤΚ","java.lang.String",null,"addressPC"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("postal_address","διεύθυνση","java.lang.String",null,"addressStreet"));
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_address_no","διεύθυνση νο","java.lang.String",null,"addressno"));
-               lstSoan.add(new EntitySoapResponseNamesNValues("firm_act_descr","δραστηριότητα","java.lang.String",null,"kad"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("firm_act_descr","δραστηριότητα","java.lang.String",null,"activityDescr"));
 //               lstSoan.add(new EntitySoapResponseNamesNValues("error_code","κωδ σφάλματος","java.lang.String",null,"error_code"));
                lstSoan.add(new EntitySoapResponseNamesNValues("error_descr","σφάλμα","java.lang.String",null,"error_descr"));
-               
-               
+
+
                  String afmXml = utilsSoap.getXmlAfmFor(rsAfm.getString("afmTaxisUsername"),rsAfm.getString("afmTaxisPassword"),selectedKeyValue);
                 ArrayList lstSoanResult =  utilsSoap.getNameNValuesFromXml(lstSoan, afmXml);
-                
+                ButtonGroup btnRdioGroup = new ButtonGroup();
                  for(int i=0;i<lstSoanResult.size();i++)
                  {
                       EntitySoapResponseNamesNValues esrn = (EntitySoapResponseNamesNValues)lstSoanResult.get(i);
@@ -4175,11 +4175,13 @@ catch(Exception e)
                       JTextField txtValue = new JTextField(30);
                       txtValue.setText(esrn.value);
                       pnlAfm.add(txtValue);
-                      //if(esrn.nameNode.equalsIgnoreCase("firm_act_descr"))
-                      //{
-                          txtValue.setEnabled(false);
 
+                        txtValue.setEnabled(false);
 
+                        if(esrn.nameNode.equalsIgnoreCase("firm_act_descr"))
+                        {
+                           btnRdioGroup.add(radioBtnNew);
+                        }
                       
                       
                       }
