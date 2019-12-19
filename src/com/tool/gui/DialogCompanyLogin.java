@@ -421,7 +421,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
     	//System.out.println("DialogCompanyLogin.retrieveCompanies ");
     	
     	//String query="SELECT  c.dbCompanyId, c.title, i.count FROM dbcompany c LEFT JOIN (SELECT COUNT(dbCompanyId) AS count,dbCompanyId FROM invoice i GROUP BY dbCompanyId ) i ON  c.dbCompanyId = i.dbCompanyId";
-    	String query = "SELECT dbCompanyId AS \"No\", companyName AS \"εταιρίες\", companyVatNo AS \"ΑΦΜ\" FROM dbcompany ORDER BY dbCompanyId";//title";      //   , companyAfm AS \"ΑΦΜ\"  
+    	String query = "SELECT dbCompanyId AS \"No\", title AS \"εταιρίες\", companyVatNo AS \"ΑΦΜ\" FROM dbcompany ORDER BY dbCompanyId";//title";      //   , companyAfm AS \"ΑΦΜ\"  
 
         tableModel.setQuery(query);
  
@@ -495,7 +495,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
         EntityDBFields dbCompanyDBFields = new EntityDBFields (dbCompanyFields,dbCompanyFieldsTranslation,dbCompanyGroupOfComps);
         
               
-        String dbCompanyQueryEditable="SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.companyName AS\"τίτλος\", dbcompany.companyAfm AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.townId FROM dbcompany";
+        String dbCompanyQueryEditable="SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.title AS\"τίτλος\", dbcompany.companyAfm AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.townId FROM dbcompany";
         EntityPanel entityPanelDbCompanyDataentry = new EntityPanel("ODOR","dbcompany",dbCompanyDBFields,null,null,"Νο εταιρίας","","dbCompanyId",dbCompanyQueryEditable,"βασικά στοιχεία",null, false, false,false,false,false);      
         
         
@@ -516,7 +516,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
 // to reenable
 //        EntityDBFields[] dbCompanyDBFields = new EntityDBFields[10];        
 /*    	dbCompanyDBFields[0] = new EntityDBFields("dbCompanyId","Νο εταιρίας",0,null, true,FIELD_OBLIGATORY,FIELD_VALIDATION_NO);
-       	dbCompanyDBFields[1] = new EntityDBFields("companyName","τίτλος",0,null, false,FIELD_OBLIGATORY,FIELD_VALIDATION_NO);
+       	dbCompanyDBFields[1] = new EntityDBFields("title","τίτλος",0,null, false,FIELD_OBLIGATORY,FIELD_VALIDATION_NO);
        	dbCompanyDBFields[2] = new EntityDBFields("companyAfm","Α.Φ.Μ.",0,null, false, FIELD_SUGGEST,FIELD_VALIDATION_AFM);
        	dbCompanyDBFields[3] = new EntityDBFields("doyId","Δ.Ο.Υ.",0,"doy", false,FIELD_SUGGEST,FIELD_VALIDATION_NO);
        	dbCompanyDBFields[4] = new EntityDBFields("president","επών-όνομα προέδρου",0,null, false,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO);
@@ -535,16 +535,16 @@ public class DialogCompanyLogin extends JDialog implements Constants
     
         EntityGroupOfPanels[] dbCompanyEntityGroupOfPanels = null;
         
-        String dbCompanyQueryEditable=   "SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.companyName AS\"τίτλος\", dbcompany.companyAfm AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.president, dbcompany.townId , dbcompany.bankId , dbcompany.bankAccount , dbcompany.bankAccountIBAN, dbcompany.notes FROM dbcompany";
+        String dbCompanyQueryEditable=   "SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.title AS\"τίτλος\", dbcompany.companyAfm AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.president, dbcompany.townId , dbcompany.bankId , dbcompany.bankAccount , dbcompany.bankAccountIBAN, dbcompany.notes FROM dbcompany";
 
-        //"SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.companyName AS\"τίτλος\", dbcompany.companyAfm AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.townId, dbcompany.president , dbcompany.bank , dbcompany.bankAccount , dbcompany.bankAccountIBAN , dbcompany.notes FROM dbcompany";
+        //"SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.title AS\"τίτλος\", dbcompany.companyAfm AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.townId, dbcompany.president , dbcompany.bank , dbcompany.bankAccount , dbcompany.bankAccountIBAN , dbcompany.notes FROM dbcompany";
         int[] fieldsOnTitleDbCompany ={1,2,3};
         String[] fieldsOnTitleCaptionDbCompany  ={"Νο","τίτλος","ΑΦΜ"};        
         EntityPanel entityPanelDbCompanyDataentry = new EntityPanel("ODOR","dbcompany",dbCompanyDBFields,dbCompanyEntityGroupOfComps,dbCompanyEntityGroupOfPanels,"Νο εταιρίας","","dbCompanyId",dbCompanyQueryEditable,"βασικά στοιχεία",null, false, true,false,false,false);      
         EntityPanel[] entityPanelDbCompany = new EntityPanel[] { entityPanelDbCompanyDataentry};    
         
         
-        /*String dbCompanyQueryEditable="SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.companyName AS\"τίτλος\", dbcompany.companyAfm AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.townId, dbcompany.president , dbcompany.bank , dbcompany.bankAccount , dbcompany.bankAccountIBAN , dbcompany.notes FROM dbcompany";
+        /*String dbCompanyQueryEditable="SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.title AS\"τίτλος\", dbcompany.companyAfm AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.townId, dbcompany.president , dbcompany.bank , dbcompany.bankAccount , dbcompany.bankAccountIBAN , dbcompany.notes FROM dbcompany";
         int[] fieldsOnTitleDbCompany ={1,2,3};
         String[] fieldsOnTitleCaptionDbCompany  ={"Νο","τίτλος","ΑΦΜ"};        
         EntityPanel entityPanelDbCompanyDataentry = new EntityPanel("ODOR","dbcompany",dbCompanyDBFields,dbCompanyEntityGroupOfComps,dbCompanyEntityGroupOfPanels,"Νο εταιρίας","","dbCompanyId",dbCompanyQueryEditable,"βασικά στοιχεία",null, false, true,false,false,false);      

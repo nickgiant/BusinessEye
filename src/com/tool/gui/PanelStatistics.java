@@ -1031,7 +1031,7 @@ import javax.swing.text.JTextComponent;
     }*/
     private void retrieveCompanyList()
     {   
-        String query = "SELECT dbCompanyId, companyName FROM dbcompany";
+        String query = "SELECT dbCompanyId, title FROM dbcompany";
 
    	    db.retrieveDBDataFromQuery(query,"PanelStatistics.retrieveCompanyList");
    	    rs=db.getRS();
@@ -1046,7 +1046,7 @@ import javax.swing.text.JTextComponent;
     	while (rs.next())
     	{
     		vectorCompany.add( new ItemList(rs.getString(1), rs.getString(2) ) );
-              //  System.out.println("PanelStatistics.retrieveCompanyList "+rs.getString("companyName"));
+              //  System.out.println("PanelStatistics.retrieveCompanyList "+rs.getString("title"));
     	}
      }
      catch ( SQLException sqlex)
