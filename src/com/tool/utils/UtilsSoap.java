@@ -194,6 +194,9 @@ public class UtilsSoap {
     //  https://www.concretepage.com/webservices/java-saaj-web-service-example
 	private static SOAPMessage createSoapRequestAfm(String username, String password,String lookingforAfm) throws Exception
         {
+            
+
+            
 		 MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL); //  SOAPConstants.DYNAMIC_SOAP_PROTOCOL  //.newInstance();
 		 SOAPMessage soapMessage = messageFactory.createMessage();
 		 SOAPPart soapPart = soapMessage.getSOAPPart();
@@ -307,6 +310,15 @@ String xml =  new String(bout.toByteArray(), "UTF-8");
     public String getXmlAfmFor(String username, String password,String lookingforAfm)  
     {
         String strReturn = "";
+        UtilsGui utilsGui = new UtilsGui();
+            if(username == null || username.equalsIgnoreCase("") || password ==null || password.equalsIgnoreCase(""))
+            {
+                
+                utilsGui.showMessageError("Δεν έχει οριστεί όνομα χρήστη ή/και κωδικός για να καλέσει την υπηρεσία. "
+                        + "\nΠηγαίνετε στις ιδιότητες της επιχείρησης στην επιλογή κωδικοί.");
+            }
+            else
+            {
 	        try{
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
@@ -320,6 +332,7 @@ String xml =  new String(bout.toByteArray(), "UTF-8");
                 {
 		     e.printStackTrace();
 		} 
+            }
                         
         return strReturn;
     }

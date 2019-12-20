@@ -4095,24 +4095,17 @@ catch(Exception e)
            pnlAfm.setLayout(layout);
            ArrayList listNewFieldNamesAndValues = new ArrayList();
            ArrayList listRadioBtns = new ArrayList();
-            UtilsSoap utilsSoap = new UtilsSoap();
-            Database dbafm = new Database();
-            String sqlAFM ="SELECT afmTaxisUsername, afmTaxisPassword FROM dbcompany WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId;;
-           dbafm.retrieveDBDataFromQuery(sqlAFM, "PanelDataImportExport.displayDialogCheckValidation");
-           //ResultSetMetaData rsmd = db.getRSMetaData();
-           ResultSet rsAfm = dbafm.getRS();
-           try
-           {   
+           UtilsSoap utilsSoap = new UtilsSoap();
+           String afmXml="";
+  
                
-             if(rsAfm.first())
-             {
-                 
+       
                ArrayList lstSoan = new ArrayList();
                lstSoan.add(new EntitySoapResponseNamesNValues("onomasia","επωνυμία","java.lang.String",null,"title"));
                lstSoan.add(new EntitySoapResponseNamesNValues("deactivation_flag","ενεργός","java.lang.Boolean",null,"active"));
                lstSoan.add(new EntitySoapResponseNamesNValues("regist_date","έναρξη","java.lang.Date",null,"startdate"));
                lstSoan.add(new EntitySoapResponseNamesNValues("normal_vat_system_flag","κατηγορία ΦΠΑ","java.lang.String",null,"vatcat"));
-               lstSoan.add(new EntitySoapResponseNamesNValues("doy","κωδ. ΔΟΥ","java.lang.String",null,"doyId"));
+               lstSoan.add(new EntitySoapResponseNamesNValues("doy","κωδ. ΔΟΥ","java.lang.String",null,"doy"));//
                lstSoan.add(new EntitySoapResponseNamesNValues("doy_descr","επωνυμία ΔΟΥ","java.lang.String",null,"dou"));
                lstSoan.add(new EntitySoapResponseNamesNValues("i_ni_flag_descr","νομική μορφή","java.lang.String",null,"nm"));
                lstSoan.add(new EntitySoapResponseNamesNValues("postal_area_description","περιοχή","java.lang.String",null,"addressCity"));
@@ -4123,8 +4116,33 @@ catch(Exception e)
 //               lstSoan.add(new EntitySoapResponseNamesNValues("error_code","κωδ σφάλματος","java.lang.String",null,"error_code"));
                lstSoan.add(new EntitySoapResponseNamesNValues("error_descr","σφάλμα","java.lang.String",null,"error_descr"));
 
-
-                 String afmXml = utilsSoap.getXmlAfmFor(rsAfm.getString("afmTaxisUsername"),rsAfm.getString("afmTaxisPassword"),selectedKeyValue);
+               
+           Database dbafm = new Database();
+           String sqlAFM ="SELECT afmTaxisUsername, afmTaxisPassword FROM dbcompany WHERE "+STRFIELD_DBCOMPANYID+" LIKE "+VariablesGlobal.globalCompanyId;;
+           dbafm.retrieveDBDataFromQuery(sqlAFM, "PanelDataImportExport.displayDialogCheckValidation");
+           //ResultSetMetaData rsmd = db.getRSMetaData();
+           ResultSet rsAfm = dbafm.getRS();               
+           try
+           { 
+             if(rsAfm.first())
+             {
+                 afmXml = utilsSoap.getXmlAfmFor(rsAfm.getString("afmTaxisUsername"),rsAfm.getString("afmTaxisPassword"),selectedKeyValue);
+             }
+           }
+           catch(SQLException e)
+           {
+  
+            System.out.println("PanelOneDataOneRecData.displayDialogCheckValidation    SQLException:"+e.getErrorCode()+"  "+e.getMessage());
+           e.printStackTrace();
+           }
+           finally
+           {
+                dbafm.releaseConnectionRs();
+                dbafm.releaseConnectionRsmd();
+           }
+           
+                 if(!afmXml.equalsIgnoreCase(""))
+                 {
                 ArrayList lstSoanResult =  utilsSoap.getNameNValuesFromXml(lstSoan, afmXml);
                 ButtonGroup btnRdioGroup = new ButtonGroup();
                  for(int i=0;i<lstSoanResult.size();i++)
@@ -4146,6 +4164,14 @@ catch(Exception e)
                       
                      
                       pnlAfm.add(radioBtnNew);
+                      
+                      for(int f =0;f<dbFieldsAll.length;f++)
+                      {
+                      if(esrn.nameDb.equalsIgnoreCase(dbFieldsAll[f].getDbField()) && !esrn.nameNode.equalsIgnoreCase("deactivation_flag"))
+                      {
+                             radioBtnNew.setSelected(true);
+                      }
+                      }
                       if(esrn.classtype.equalsIgnoreCase("java.lang.Boolean"))
                       {
                           JCheckBox chk =new JCheckBox();
@@ -4202,29 +4228,10 @@ catch(Exception e)
                  }
                  
                  
-                 //txtArea.setText(afmXml);
-             }
-             else
-             {
-               
-             }
-           }
-           catch(SQLException e)
-           {
-              
-     
-            System.out.println("PanelOneDataOneRecData.displayDialogCheckValidation    SQLException:"+e.getErrorCode()+"  "+e.getMessage());
-           e.printStackTrace();
-           }
-           finally
-           {
-                dbafm.releaseConnectionRs();
-                dbafm.releaseConnectionRsmd();
-           }
-           pnl.add(pnlAfm,BorderLayout.PAGE_START);
+          pnl.add(pnlAfm,BorderLayout.PAGE_START);
           dlg.setEntity(pnl,PANEL_TYPE_ANY, title,showOkButton);
+          dlg.display();
         
-          dlg.display();        
           if(!dlg.getIsCancelClicked())
           {
             System.out.println("PanelOneDataOneRecData.displayDialogCheckValidation OK clicked");
@@ -4250,7 +4257,18 @@ catch(Exception e)
                           }
                  }
             }
-            }
+                          
+                 
+                 }//if user n pass is empty
+                 //txtArea.setText(afmXml);
+             }
+             else
+             {
+               
+             }
+
+          
+
             
                   
         } // is AFM
