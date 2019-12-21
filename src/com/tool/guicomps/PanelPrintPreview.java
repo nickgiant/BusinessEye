@@ -1264,9 +1264,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
             
          if(viewType.equalsIgnoreCase("FORM"))
          {
-           
-  
-                      
+         
  //           PageFormat pf = panelReportSettings.displayDialogPageSetup();
 
                     printerJob = PrinterJob.getPrinterJob();
@@ -1445,8 +1443,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
                                }
                                qWhere = qWhere + qAnd +arrayOfNameOfPksOfRecordToShow[a]+" LIKE '"+arrayOfValueOfPksOfRecordToShow[a]+"'";
                            }
-                           
-                           
+
                            String queryUpdate = "UPDATE "+entity+" SET "+entity+"."+STRFIELD_ISPRINTED+" = '1' WHERE "+qWhere;   
                            //System.out.println("PanelPrintPreview.printPrinterJob printing.......queryUpdate:"+queryUpdate); 
                            Database db = new Database();
