@@ -1,6 +1,6 @@
 # BusinessEye
 Multi module application in Java Swing and MySQL.
-Currently three modules are implemented.
+Currently three separate modules are implemented.
 
 1. Issuing of *invoices* for service companies.
 2. Calculation of *return VAT* of farmers
