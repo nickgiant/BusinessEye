@@ -1631,38 +1631,7 @@ import javax.swing.text.JTextComponent;
         if (isQuery2)
         {
           
-/*        	 String medGlobalYear = med.getGlobalYearOfPanelTwoDataOneRec();
-        	 String medGlobalCompanyId=med.getGlobalCompanyIdOfPanelTwoDataOneRec();
-        	 String medGlobalDeliveryId=med.getGlobalDeliveryIdOfPanelTwoDataOneRec();
-                 String tempPrimKeyValue ="";
-                 tempPrimKeyValue= med.getPrimKeyValue(); 
-                 //System.out.println("PanelOneDataManyRecData.retrieveDataFromWritableTable  -----before-----   primKeyValue:"+primKeyValue  +"  globalYear:"+globalYear+" tempPrimKeyValue:"+tempPrimKeyValue);  
-                 if(tempPrimKeyValue == null || tempPrimKeyValue.equalsIgnoreCase("0") || tempPrimKeyValue.equalsIgnoreCase(""))
-                 {  // is already set
-                     //System.out.println("PanelOneDataManyRecData.retrieveDataFromWritableTable tempPrimKeyValue:"+tempPrimKeyValue);  
-                 }
-                 else
-                 {
-                     primKeyValue=tempPrimKeyValue;
-                 }
-    */        
-            //System.out.println("PanelOneDataManyRecData.retrieveDataFromWritableTable  -----after-----   primKeyValue:"+primKeyValue  +"  globalYear:"+globalYear);
 
-//        tableModelResultSet.setWHereFieldAndValue(sql2WhereFieldIn,sql2WhereValueIn,medGlobalYear,medGlobalCompanyId,medGlobalDeliveryId);     	
-          
-//        retrievePrimKeyValueForWritableTable(queryIn,selectedTableRow,primKeyDb,0);
-        //(String queryIn, int selectedTableRow, String primKeyIn,int intColumnOfDescriptionIn)
-/*        UtilsString uString = new UtilsString();
-        if(uString.hasQueryWhere(queryIn))
-        {
-           query= queryIn + uString.
-        }
-        else
-        {
-            
-        }
-  */   //      queryMany=utilsPanelReport.getQueryMany(queryIn, isNewRec ,primKeyDbIn,primKeyValueIn,dbFieldsMany/*,sql2WhereFieldIn,sql2WhereValueIn,medGlobalYear,medGlobalCompanyId,medGlobalDeliveryId*/);
-       
       if(VariablesGlobal.globalShowSelectDataFromWritable)
       {
         System.out.println("OOOO PanelOneDataManyRecData.retrieveDataFromWritableTable   A      isQuery2:"+isQuery2+"     primKeyDbIn:"+primKeyDbIn+" primKeyDb:"+primKeyDb+"     isNewRec:"+isNewRec+"   isQuery2:"+isQuery2+"   queryIn:"+queryIn +"       queryMany:"+queryMany);
@@ -2471,7 +2440,7 @@ import javax.swing.text.JTextComponent;
     }
     
     
-    private void rowClearAll()
+    public void rowClearAll(boolean showConfirmation)
     {
        if (isEditable && tableModelResultSet.getRowCount()>0)// && !isNewRec)
        {        
@@ -2479,7 +2448,11 @@ import javax.swing.text.JTextComponent;
          /* final int YES = 0;
     	 final int NO = 1;*/        
         //int rcount = tableModelResultSet.getRowCount();
-        int ret = utilsGui.showConfirmYesOrNo((JFrame)SwingUtilities.getAncestorOfClass(JFrame.class, this), "Θέλετε να σβήσετε ολες τις εγγραφές;");
+        int ret = 0;
+        if(showConfirmation)
+        {
+           ret=     utilsGui.showConfirmYesOrNo((JFrame)SwingUtilities.getAncestorOfClass(JFrame.class, this), "Θέλετε να σβήσετε ολες τις εγγραφές;");
+        }
         if(ret == 0)
         {
             int rCount = tableModelResultSet.getRowCount();
@@ -3788,8 +3761,10 @@ public int getRowCountFromReadOnlyTable()
        {
            System.out.println("   F W    PanelODMRData.filterForWritableTable  primKeyValue:"+primKeyValue+"    pkValue:"+pkValue+"   boolWhenPKisNothing:"+boolWhenPKisNothing+"     queryIn:"+queryIn+"        isNewRecIn:"+isNewRecIn);
        }
+
            retrieveDataFromWritableTable(queryIn,entity,/*sql2WhereField,sql2WhereValue,*/primKeyDb,pkValue,isEditable,isNewRecIn,isQuery2);
-         
+       
+       
         if (showExtendedSummaryCalcs)
         {   
             showExtendedSummaryCalcs(entity, queryMany, isNewRec , primKeyValue);
@@ -4167,7 +4142,7 @@ class ToolBarDataMany extends JToolBar implements Constants
 	        public void actionPerformed(ActionEvent e) 
 	        {
                     // ask first
-                    rowClearAll();
+                    rowClearAll(true);
 	           //rowSelectedDelete(table.getSelectedRow());        
 	        } 
 	    });

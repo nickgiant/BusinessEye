@@ -260,7 +260,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
             query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
    	    db.retrieveDBDataFromQuery(query,"TableModelResultSet.setQuery");
    	    rs=db.getRS();
-   	    rsmd=db.getRSMetaData();      //  rsmd only for type int
+   	    rsmd=db.getRSMetaData();      
         
          
       
@@ -416,11 +416,16 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     {
       dataVector = new Vector(); // blank it out and keep going.
       System.out.println("TableModelRS.setQuery (header) "+e.getMessage());//e.printStackTrace();
-      closeDB();
+      
     }
+    finally
+    {
+        closeDB();
+    }
+            
     
     //System.out.println("TableModelRS.setQuery header col count ="+colCount+" "+listTableColumns.size());
-    
+
     try
     {  
       // and file the data with the records from our query. This would
@@ -440,7 +445,13 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
         {
              //System.out.println("i "+i+" dbHeadNo "+dbColNo);
              String columnName =dbFieldsMany[i].getDbField();//rsmd.getColumnName(dbColNo);
-             //System.out.println("i "+i+" columnName:"+columnName);
+             //System.out.println("isNewRec:  "+isNewRec+"  i "+i+" columnName:"+columnName);
+             
+             if(isNewRec)
+             {
+             }
+             else
+             {
              Object columnData =rs.getObject(columnName);//dbColNo);
              //System.out.println("i "+i+" dbHeadNo "+dbColNo+" "+columnData);
              
@@ -540,22 +551,25 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
              }
 
         }
+        }
         //System.out.println("tableModelRS.setQuery record.length  "+record.length);
         dataVector.addElement(record);
         row=row+1;  
         initialDataVector.addElement(record);
       }
+    
       fireTableChanged(null); // notify everyone that we have a new table.
-      
-           closeDB();
 
     }
     catch (SQLException e)
     {
       dataVector = new Vector(); // blank it out and keep going.
       System.out.println("TableModelRS.setQuery (data)"+e);//e.printStackTrace();
-      e.printStackTrace();
-      closeDB();
+      e.printStackTrace();     
+    }
+    finally
+    {
+        closeDB();
     }
     
  

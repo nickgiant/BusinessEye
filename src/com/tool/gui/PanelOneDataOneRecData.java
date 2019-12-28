@@ -1432,7 +1432,7 @@ int flds = 0;
                         
                         
                         
-          System.out.println(" - - - - - - - PanelODORData.setEntity  ("+i+")    columnClass:"+columnClass+"    columnDbName:"+columnDbName+"   primKeyValue:"+primKeyValue+"     "+dbFieldsChild+"   sql:"+sql+"     query:"+query);
+          System.out.println(" - - - - - - - PanelODORData.setEntity ("+i+")    columnClass:"+columnClass+"    columnDbName:"+columnDbName+"   primKeyValue:"+primKeyValue+"    isNewRec:"+isNewRec+"     "+dbFieldsChild+"   sql:"+sql+"     query:"+query);
                         //PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(f);
                       PanelOneDataManyRecData pnlODMRData =  new PanelOneDataManyRecData(frame);
                       
@@ -1441,7 +1441,8 @@ int flds = 0;
                                 dbFieldsChild,isNewRec,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,/*formGlobalField1,formGlobalVariable1,*/primKeyValue,
                                 dbFieldsInGroupOfPanels[i].getChildTableFieldsForSums(),fieldTxts,this,intTableOfParentDBFields);
                         //setFormGlobalVariable1ToPanelODMRData();
-                        pnlODMRData.filterForWritableTable(sql,false,false);  // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
+
+                        pnlODMRData.filterForWritableTable(sql,isNewRec,false);  // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
                    
 
 
@@ -5193,81 +5194,17 @@ catch(Exception e)
                 {
                         System.out.println("++++PanelODORData.showRow ===  === === ("+i+")   primKeyValue:"+primKeyValue+"     qIsTemplateToBeReplaced:"+qIsTemplateToBeReplaced+"     sqlWhere:"+sqlWhere+"        sql:"+sql);           
                 }
-                        pnlODMRData.filterForWritableTable(sql,true, false); // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
-                     /*for(int f = 0 ; f<dbFieldsChild.length;f++)
-                        {
-                            System.out.println("PanelODORData.showRow ("+i+"."+f+")  "+dbFieldsChild[f].getDbField());
-                        } */    
+                if(isNewRec)
+                {
+                    
+                }
+                else
+                {
+                        pnlODMRData.filterForWritableTable(sql,isNewRec, false); // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
+                }
                      
                      
-            /*  String  fieldFormVariable="";
-              String fieldThatHasFormVariable ="";
-              String  fieldVariableFromPreField = "";
-              int intOfFieldToSetVariable = -1;
-              for(int r = 0;r<lenClildFields;r++)
-              {
-                  String field = edbfChilds[r].getDbField();
-                   fieldFormVariable  = edbfChilds[r].getFormVariableFromField();
-                  if(fieldFormVariable!= null && !fieldFormVariable.equalsIgnoreCase(""))
-                  {
-                      fieldFormVariable = edbfChilds[r].getFormVariableFromField();
-                        System.out.println("PanelODoRData.showRow    TABLE    r:"+r+"   edbfChilds:"+edbfChilds[r].getDbField()+"   fieldFormVariable:"+fieldFormVariable);//+"  fieldVariableFromPreField:"+fieldVariableFromPreField);
-                      intOfFieldToSetVariable = r;
-                        break;
-                  }
-                  else
-                  {
-                      fieldFormVariable="";
-                  }
-              }  
-              
-              for(int a=0;a<listDbFieldsAll.size();a++)
-              {
-                   EntityDBFields edbf = (EntityDBFields)listDbFieldsAll.get(a);
-                  String field = edbf.getDbField();
-                            
-                  if( field.equalsIgnoreCase(fieldFormVariable) )
-                  {
-                       System.out.println("PanelODoRData.showRow  bef  TABLE  ==>  a:"+a+"   field:"+field+"   fieldFormVariable:"+fieldFormVariable+"  intOfFieldToSetVariable:"+intOfFieldToSetVariable); 
-                         String strValueFromField = "";
-                         JTextField tbf = (JTextField) fieldTxts.get(a);//intOfFieldToSetVariable);
-                         strValueFromField= tbf.getText();                       
-                         setVariablesGlobal1(field,strValueFromField);
-                         System.out.println("PanelODoRData.showRow  aft  TABLE  ==>  a:"+a+"   field:"+field+"   intOfFieldToSetVariable:"+intOfFieldToSetVariable+"   strValueFromField:"+strValueFromField); 
-                  }
-                  else ///  !field.equalsIgnoreCase(fieldFormVariable)
-                  {
-                              
-                  }
-          }*/
-            
-            
-            
-     //                                 int intFieldToGetTheValue = -1;
-     //                                intFieldToGetTheValue= calculateAllFieldsForFormVariable1();          
-    //        String strValueFromField = calculateVarFromPreFieldAndSetGlobal(intFieldToGetTheValue);
-             //System.out.println("PanelODoRData.showRow    TABLE  ==>  intFieldToGetTheValue:"+intFieldToGetTheValue);
-            /*if(intFieldToGetTheValue!=-1)
-            {
-                     String fieldVariableFromPreviousField =   dbFieldsInGroupOfPanels[intFieldToGetTheValue].getDbField();
-                 //      System.out.println("PanelODoRData.showRow  bef  TABLE  ==>  intFieldToGetTheValue:"+intFieldToGetTheValue+"   fieldVariableFromPreviousField:"+fieldVariableFromPreviousField);
-                         String strValueFromField = "";
-                         JTextField tbf = (JTextField) fieldTxts.get(intFieldToGetTheValue);//intOfFieldToSetVariable);
-                         strValueFromField= tbf.getText();                       
-                         setVariablesGlobal1(fieldVariableFromPreviousField,strValueFromField);
-                //         System.out.println("PanelODoRData.showRow  aft  TABLE  ==>  intFieldToGetTheValue:"+intFieldToGetTheValue+"   fieldVariableFromPreviousField:"+fieldVariableFromPreviousField); 
-                                  
-            }    
-            else ///  intFieldToGetTheValue == -1
-            {
-                              
-            }*/
-
-              
-              
-              
-             //System.out.println("PanelODORData.showRow -------table END ");
-        
+      
               
           }
           else if(dbFieldsInGroupOfPanels[i].getColClassName().equalsIgnoreCase("htmlfile"))
@@ -10364,7 +10301,7 @@ ps.setBytes(i, b);
                     
                     
                     
-              String primKeyNameTable="";  
+            /*  String primKeyNameTable="";  
               //String primKeyValueTable ="";
                   for(int f = 0;f<dbFieldsAll.length;f++)
                   {
@@ -10402,13 +10339,15 @@ ps.setBytes(i, b);
                 
                 sqlWhere=sqlWhere+primKeyNameTable+" LIKE  '-' ";//+primKeyValueTable;
                 
-              }
+              }*/
                 
+              
+                    pnlODMRData.rowClearAll(false);             
               
                   //      EntityDBFields[] dbFieldsChild = dbFieldsInGroupOfPanels[i].getDbChildFields();
             
                         
-                   
+                  /* 
                         String sql = sqlWhereFromEntityData+sqlWhere;
                         System.out.println("+-+ PanelODORData.rowNewTables ("+i+")   primKeyValue:"+primKeyValue +"    sql:"+sql);
            String queryWithoutOrderby = utilsString.getQueryWithoutOrderby(sql);
@@ -10417,9 +10356,9 @@ ps.setBytes(i, b);
                         
                      System.out.println("+++ PanelODORData.rowNewTables           sql:"+sql+"      sqlWhereFromEntityData:"+sqlWhereFromEntityData);
                         
-    //                 pnlODMRData.setPrimKeyValue(primKeyValueTable);
-                     pnlODMRData.filterForWritableTable(sql,true, true); // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
-                        
+                   // pnlODMRData.setPrimKeyValue(primKeyValueTable);
+    //                 pnlODMRData.filterForWritableTable(sql,true, true); // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
+                      */
 
                 } // when not isFromCopyOfRecord
                 }
@@ -11440,7 +11379,7 @@ ps.setBytes(i, b);
   {  
       boolean checkIfDataHasChanged = false;
       
-       System.out.println(" PanelODORData.getHasDataChanged ----  hasDataChanged:"+hasDataChanged+"    checkIfDataHasChanged:"+checkIfDataHasChanged);
+      // System.out.println(" PanelODORData.getHasDataChanged ----  hasDataChanged:"+hasDataChanged+"    checkIfDataHasChanged:"+checkIfDataHasChanged);
       
      if(dbFieldsInGroupOfPanels!=null)
       {
