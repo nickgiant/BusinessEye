@@ -1587,7 +1587,7 @@ import javax.swing.text.JTextComponent;
     * public for PanelODORecData.calculationFromToolBarButton table
      */
     private void retrieveDataFromWritableTable(String queryIn,String entityIn,/*String[] sql2WhereFieldIn,String[] sql2WhereValueIn,*/String primKeyDbIn, String primKeyValueIn,
-            boolean isEditableIn, boolean isNewRecIn, boolean isQuery2In)
+            boolean isEditableIn, boolean isNewRecIn, boolean isCopyFromNewRecIn, boolean isQuery2In)
     {
         //System.out.println("PanelOneDataManyRecData.retrieveDataFromWritableTable primKeyDbIn:"+primKeyDbIn+" primKeyDb:"+primKeyDb+"     isNewRec:"+isNewRec+"   isQuery2:"+isQuery2+"  queryIn:"+queryIn +"       queryMany:"+queryMany);
     	isQuery2=isQuery2In;
@@ -1660,13 +1660,13 @@ import javax.swing.text.JTextComponent;
         
         
         
-
+    //System.out.println("O PanelOneDataManyRecData.retrieveDataFromWritableTable  A- ");
 
         table.setModel(tableModelResultSet);
 //  for writable       tableModelResultSet.setQuery(queryIn, entityIn,dbFieldsMany,primKeysMany,primKeysManyTran,sql2WhereField,sql2WhereValue,primKeyValueIn);
-        tableModelResultSet.setQuery(queryMany, entityIn,dbFieldsParent,dbFieldsMany,isNewRec,/*fieldsManyOnInsert,fieldsManyTranslationOnInsert,primKeysMany,primKeysManyTran,sql2WhereField,
+        tableModelResultSet.setQuery(queryMany, entityIn,dbFieldsParent,dbFieldsMany,isNewRec,isCopyFromNewRecIn,/*fieldsManyOnInsert,fieldsManyTranslationOnInsert,primKeysMany,primKeysManyTran,sql2WhereField,
                 sql2WhereValue,*/primKeyDb,primKeyValueIn,isEditableIn,panelODORData);        
-        
+     //System.out.println("O PanelOneDataManyRecData.retrieveDataFromWritableTable  B- ");   
          /*public void setQuery(String queryIn, String entity,EntityDBFields[] dbFieldsManyIn,String[]fieldsManyOnInsertIn,
     String[] fieldsManyTranslationOnInsertIn,String[] primKeysManyIn,String[] primKeysManyTranIn,String[] sql2WhereFieldIn, String[] sql2WhereValueIn,
     String primKeyValueIn, boolean isEditableIn)*/
@@ -3744,7 +3744,7 @@ public int getRowCountFromReadOnlyTable()
    }
    
    //called by and PanelODORData.showRow
-   public void filterForWritableTable(String queryIn,boolean isNewRecIn,boolean boolWhenPKisNothing)//String[] strSearchField, String[] strSearch)
+   public void filterForWritableTable(String queryIn,boolean isNewRecIn,boolean isCopyFromNewRecIn,boolean boolWhenPKisNothing)//String[] strSearchField, String[] strSearch)
    {
       String pkValue = "";
        if(boolWhenPKisNothing)
@@ -3762,7 +3762,7 @@ public int getRowCountFromReadOnlyTable()
            System.out.println("   F W    PanelODMRData.filterForWritableTable  primKeyValue:"+primKeyValue+"    pkValue:"+pkValue+"   boolWhenPKisNothing:"+boolWhenPKisNothing+"     queryIn:"+queryIn+"        isNewRecIn:"+isNewRecIn);
        }
 
-           retrieveDataFromWritableTable(queryIn,entity,/*sql2WhereField,sql2WhereValue,*/primKeyDb,pkValue,isEditable,isNewRecIn,isQuery2);
+           retrieveDataFromWritableTable(queryIn,entity,primKeyDb,pkValue,isEditable,isNewRecIn,isCopyFromNewRecIn,isQuery2);
        
        
         if (showExtendedSummaryCalcs)
@@ -3791,7 +3791,7 @@ public int getRowCountFromReadOnlyTable()
    	  this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
    	   //tableModelReadOnly.filter(strSearchField,strSearch);
           //System.out.println("   F W    PanelODMRData.filterForWritableTable  primKeyValue:"+primKeyValue+"   queryIn:"+queryIn);
-   	   retrieveDataFromWritableTable(queryIn,entity,/*sql2WhereField,sql2WhereValue,*/primKeyDb,primKeyValue,isEditable,isNewRecIn,isQuery2);
+   	   retrieveDataFromWritableTable(queryIn,entity,/*sql2WhereField,sql2WhereValue,*/primKeyDb,primKeyValue,isEditable,isNewRecIn,false,isQuery2);
            
    	   table.revalidate();
    	   this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

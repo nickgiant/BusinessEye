@@ -340,16 +340,17 @@ import org.xml.sax.SAXException;
         updateAdditional=entityPanel.getUpdateAdditional();
         entityTemplate = entityPanel.getEntityTemplate();
      
+        //query=entityPanel.getQuery();
         query=queryIn;// or sqlOne
 
         
         //yearEnforce=VariablesGlobal.globalYear;
         ico=icoIn;
         
-       if(VariablesGlobal.globalShowReadSQLRow)
-       {
-        System.out.println("PanelODORData.setEntity      ---=-----o---      query:"+query);
-       }
+       //if(VariablesGlobal.globalShowReadSQLRow)
+       //{
+        System.out.println("PanelODORData.setEntity      ----------o----------      queryIn:"+queryIn+"   or    entityPanel.getQuery():"+entityPanel.getQuery());
+       //}
         int intfields=0;
           if(entityGroupOfCompsIn!=null)  
           {       
@@ -639,21 +640,22 @@ int flds = 0;
           System.out.println("panelODORData.setEntity query: "+query); 
         }
        //System.out.println("panelODORData.setEntity  ooo   query: "+query); 
-   	    db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.setEntity");
-   	    rs=db.getRS();
-
-
-       
+   	
+       if(isNewRec && !isNewRecFromCopy)
+       {
+           selectedRow=0;
+       }
+       else
+       {
+       db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.setEntity");
+       rs=db.getRS();      
         //System.out.println("panelODORData.setEntity primKeyValue "+primKeyValue);
         
         selectedRow=0;
 
-        //if (isInsidePanelTwoData)
-        //{
-        //System.out.println("      panelOneDataOneRecData.setEntity   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue +"    query:"+query);
         selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.setEntity",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
         //System.out.println("      panelOneDataOneRecData.setEntity   selectedRow"+selectedRow+"    query:"+query);
-
+       }
         GridBagConstraints gc = new GridBagConstraints();
 
 /*       if(selectedRow != 0) 
@@ -1441,10 +1443,10 @@ int flds = 0;
                                 dbFieldsChild,isNewRec,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,/*formGlobalField1,formGlobalVariable1,*/primKeyValue,
                                 dbFieldsInGroupOfPanels[i].getChildTableFieldsForSums(),fieldTxts,this,intTableOfParentDBFields);
                         //setFormGlobalVariable1ToPanelODMRData();
-
-                        pnlODMRData.filterForWritableTable(sql,isNewRec,false);  // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
+                    System.out.println(" - - - - - - - PanelODORData.setEntityA")    ;
+                        pnlODMRData.filterForWritableTable(sql,isNewRec,isNewRecFromCopy,false);  // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
                    
-
+                   System.out.println(" - - - - - - - PanelODORData.setEntityB")    ;
 
                    lbl = new JLabel(dbFieldsInGroupOfPanels[i].getCaption());
                    lbl.setIconTextGap(0);
@@ -2296,9 +2298,7 @@ int flds = 0;
                      System.out.println("PanelODORData.setEntity ChildTableInPosition ("+i+") B' NOT DEFINED:"+dbFieldsInGroupOfPanels[i].getColClassName()+" "+dbFieldsInGroupOfPanels[i].getChildTableInPosition()+" "+dbFieldsInGroupOfPanels[i].getCaption());
                  }
                                 
-                                
-                                
-                  	 	
+	
                   	 }
 
                   	            	
@@ -2312,12 +2312,9 @@ int flds = 0;
           {
              showSpecificRow(selectedRow,query);     // }	
           }     
-           
-           
-         
+
            closeDB(); // close for rsmdForeign, // not here because rs is used also after insertrow
            
-       
    //    guiLoaded=true; // used in DocumentHandler
            
 //     }// try// try
@@ -5173,7 +5170,7 @@ catch(Exception e)
                          //sqlWhere = sqlWhere.replaceAll("AND sxesoexoline.isTemplate LIKE 0","AND sxesoexoline.isTemplate LIKE 1");
                         String sql = queryWithoutOrderby+" "+sqlWhere+" "+queryOrderby;
                         //System.out.println("PanelODORData.showRow -------table1       isNewRec:"+isNewRec+"      isNewRecFromCopy:"+isNewRecFromCopy+"       sql:"+sql);
-            if(entityTemplate!=null && !isNewRecFromCopy)                  
+            if(entityTemplate!=null)// && !isNewRecFromCopy)  // when is template                
             {
                String subqueryIsNotTemplate = entityTemplate.getSubQueryIsNotTemplate();// = "AND sxesoexoline.isTemplate ='0'";
                String subqueryIsTemplate = entityTemplate.getSubQueryIsTemplate();//ToReplace = "AND sxesoexoline.isTemplate LIKE '1'";                        
@@ -5186,7 +5183,7 @@ catch(Exception e)
                            sql = sql.replaceAll(subqueryIsNotTemplate,subqueryIsTemplate);  //  "AND sxesoexoline.isTemplate LIKE 0"       "AND sxesoexoline.isTemplate LIKE 1"
                        }
                        
-                        
+                     pnlODMRData.filterForWritableTable(sql,false,false, false);//  when is template, copied from below    
             }                 
                         
                        // System.out.println("PanelODORData.showRow -------table2   sql:"+sql);
@@ -5194,16 +5191,21 @@ catch(Exception e)
                 {
                         System.out.println("++++PanelODORData.showRow ===  === === ("+i+")   primKeyValue:"+primKeyValue+"     qIsTemplateToBeReplaced:"+qIsTemplateToBeReplaced+"     sqlWhere:"+sqlWhere+"        sql:"+sql);           
                 }
-                if(isNewRec)
+                
+                if(isNewRec && !isNewRecFromCopy)
                 {
                     
                 }
+                else if(isNewRec && isNewRecFromCopy)
+                {
+                      pnlODMRData.filterForWritableTable(sql,isNewRec,isNewRecFromCopy, false); // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
+                }
                 else
                 {
-                        pnlODMRData.filterForWritableTable(sql,isNewRec, false); // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
+                      pnlODMRData.filterForWritableTable(sql,isNewRec,isNewRecFromCopy, false); // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
                 }
                      
-                     
+                  
       
               
           }
@@ -5587,9 +5589,15 @@ catch(Exception e)
        closeDB(); 
            
        setVisibleOrEditableFields(true);
+       System.out.println("++++PanelODORData.showRow ===  === === B");
         
     }    
    
+    public EntityDBFields[] getDbFieldsInGroupOfPanels()
+    {
+        return dbFieldsInGroupOfPanels;
+    }
+    
     
     private String calculateVarFromPreFieldAndSetGlobal(int col)
     {
@@ -9408,7 +9416,7 @@ ps.setBytes(i, b);
              rs.first();
              rs = db.retrieveRow(rs, 1); 
              
-              // System.out.println("PanelOneDataOneRecData.showSpecificRow A1 ...........................q:"+q+" rs:"+rs);    
+              //System.out.println("PanelOneDataOneRecData.showSpecificRow A1 ...........................q:"+q+" rs:"+rs);    
              if(rs!=null)
              {
                  // System.out.println("PanelOneDataOneRecData.showSpecificRow A2 ...........................q:"+q+" rs:"+rs);    
@@ -10246,9 +10254,9 @@ ps.setBytes(i, b);
      
                 if(classtype.equalsIgnoreCase("table"))
                 {
+                   System.out.println("PanelOneDataOneRecData.rowNewTables   isFromCopyOfRecord:"+isFromCopyOfRecord);
                     
-                    
-                    if(isFromCopyOfRecord)
+                    if(isFromCopyOfRecord)// || (!isFromCopyOfRecord && isFromTemplate))// or is not copy but is fromtemplate
                     {
 
               String primKeyNameTable="";  
@@ -10370,7 +10378,7 @@ ps.setBytes(i, b);
    
   // isNewRec if is new rec else if just erasing ,//  unique keys like farmerId in farmersvat (and productId in cw-management)
   // returns pk that is used in tables
-   private void rowNew(boolean isFromCopyOfRecord, int lookupField)  // lookupField -1 = none 
+   private void rowNew(boolean isFromCopyOfRecord, int lookupField) // lookupField -1 = none 
    {
      
    	
@@ -10387,7 +10395,7 @@ ps.setBytes(i, b);
    	    rs=db.getRS();
             int selectedRow = utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.rowNew",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
              utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true, entityPanel.getEntity(), primKeyDb);    
-        //     System.out.println("----O------>  PanelOneDataOneRec.showPrintPreviewForm   '"+entityPanel.getEntity()+"   primKeyDb:"+primKeyDb+"  selectedRow:"+selectedRow+"'  primKeyValue:"+primKeyValue+"  primKeys.length:"+primKeys.length+"  queryReadOnly:"+queryReadOnly);          
+             System.out.println("----O------>  PanelOneDataOneRec.showPrintPreviewForm   '"+entityPanel.getEntity()+"   primKeyDb:"+primKeyDb+"  selectedRow:"+selectedRow+"'  primKeyValue:"+primKeyValue+"   query:"+query);          
             String[] primKeys = utilsPanelReport.getPrimKeys();
             String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
       
@@ -10397,7 +10405,7 @@ ps.setBytes(i, b);
       //    databaseTableMeta.retrievePrimKs(entity); // first retrieve them
           for (int p = 0; p< primKeysCount; p++) // i=0 and i< because arraylist starts from 0
           {             
-                //System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' "+primKeys[i]+"="+primKeysValue[i]); 
+                System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' "+primKeys[p]+"="+primKeysValue[p]); 
 
               
                //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue);   

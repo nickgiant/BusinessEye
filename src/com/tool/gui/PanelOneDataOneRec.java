@@ -1537,7 +1537,7 @@ import javax.swing.text.JTextComponent;
        
 	           if(rowSave(true))
                    {
-                        rowNew(false,false);    
+                        rowNew(false,false);    //boolean isFromCopyOfRecord, boolean boolAskToSaveChanges,boolean isFromTemplate
                    }       
        
        
@@ -2052,13 +2052,32 @@ import javax.swing.text.JTextComponent;
     
       //showSpecificRow(line, queryTemplates);
       
-      rowNew(false,true);
+      rowNew(false,true); //boolean isFromCopyOfRecord, boolean boolAskToSaveChanges,boolean isFromTemplate
            for(int l = 0;l<listPanelOneDataOneRecData.size();l++)
            {
                 panelOneDataOneRecData = (PanelOneDataOneRecData)listPanelOneDataOneRecData.get(l);      
                 //panelOneDataOneRecData.setTemplateReplacementToShow(subqueryIsNotTemplateIn, subqueryIsTemplateIn);
                 queryTemplates = utilsString.getQueryWithoutOrderby(queryTemplates)+" AND "+fieldHeaderId+" LIKE "+pkId+" "+utilsString.getOrderbySubQuery(queryTemplates);
                 panelOneDataOneRecData.showSpecificRow(queryTemplates);
+      /*          EntityDBFields[] dbFieldsInGroupOfPanels = panelOneDataOneRecData.getDbFieldsInGroupOfPanels();
+      for(int i = 0;i<dbFieldsInGroupOfPanels.length;i++)
+      //for(int i = 0;i<dbFieldsAll.length;i++)  
+      {
+          //int fieldCount = i;//i-1; // calculates the no of field starting from 0 when i = 1
+          String colName =   dbFieldsInGroupOfPanels[i].getDbField();
+          String colTableName =dbFieldsInGroupOfPanels[i].getTableName();
+          String colCaption =   dbFieldsInGroupOfPanels[i].getCaption();
+          int columnWidth = dbFieldsInGroupOfPanels[i].getColWidth();
+      	 //System.out.println("panelODORData.showRow i ("+i+") colName:"+colName+" class:"+dbFieldsInGroupOfPanels[i].getColClassName());
+          String classtype = dbFieldsInGroupOfPanels[i].getColClassName();                
+          
+          if(classtype.equalsIgnoreCase("table"))
+          {
+              
+          }
+          
+      }   */   
+                
                System.out.println("  ======================================  PanelODOR.selectTemplate    l:"+l+"    queryTemplates:"+queryTemplates);
                 //utilsGui.showMessageInfo(line+"");
            }
@@ -2250,7 +2269,7 @@ import javax.swing.text.JTextComponent;
         {
 	        public void actionPerformed(ActionEvent e) 
 	        {	   
-	           rowNew(false,true);	        
+	           rowNew(false,true);	        //boolean isFromCopyOfRecord, boolean boolAskToSaveChanges,boolean isFromTemplate
 	        } 
 	    });
         Action actionNewRec = new ActionNewRec();
@@ -2267,7 +2286,7 @@ import javax.swing.text.JTextComponent;
 	    {
 	    
 	        public void actionPerformed(ActionEvent e) 
-	        {	   rowNew(true,true);  } 
+	        {	   rowNew(true,true);  } // boolean isFromCopyOfRecord, boolean boolAskToSaveChanges,boolean isFromTemplate
 	    });
    //     Action actionNewRecFromCopy = new ActionNewRecFromCopy();
    //     btnInsertFromCopy.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F9 ,java.awt.event.InputEvent.CTRL_DOWN_MASK ), "newRecFromCopy"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments

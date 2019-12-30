@@ -164,7 +164,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     * 
     * called by PanelODMRData.retrieveDataFromWritableTable 
     */
-  public void setQuery(String queryIn, String entity,EntityDBFields[] dbFieldsParentIn, EntityDBFields[] dbFieldsManyIn,boolean isNewRecIn,/*String[]fieldsManyOnInsertIn,*/
+  public void setQuery(String queryIn, String entity,EntityDBFields[] dbFieldsParentIn, EntityDBFields[] dbFieldsManyIn,boolean isNewRecIn,boolean isCopyFromNewRecIn,/*String[]fieldsManyOnInsertIn,*/
     /*String[] fieldsManyTranslationOnInsertIn,String[] primKeysManyIn,String[] primKeysManyTranIn,String[] sql2WhereFieldIn, String[] sql2WhereValueIn,*/
     String primKeyDbIn, String primKeyValueIn, boolean isEditableIn,PanelOneDataOneRecData panelODORDataIn)
   {
@@ -257,11 +257,26 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                }       
                 
       }
+   
+   
+   if(isNewRec && !isCopyFromNewRecIn)
+   {
+       
+   }
+   else if(isNewRec && isCopyFromNewRecIn)
+   {
+            query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
+   	    db.retrieveDBDataFromQuery(query,"TableModelResultSet.setQuery");
+   	    rs=db.getRS();
+   	    rsmd=db.getRSMetaData();        
+   }
+   else 
+   {
             query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
    	    db.retrieveDBDataFromQuery(query,"TableModelResultSet.setQuery");
    	    rs=db.getRS();
    	    rsmd=db.getRSMetaData();      
-        
+   }    
          
       
 
@@ -278,9 +293,9 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
       // Now we must rebuild the headers array with the new column names
       headers = new String[colCount];
       int dbHeadNo = 1;
-     if (isEditable)
+     if (isEditable )
      {
-          if(rsmd.getColumnCount()!=dbFieldsMany.length)
+          if( !isNewRec && rsmd.getColumnCount()!=dbFieldsMany.length )
           {
               System.out.println("  error  TableModelResultSet.setEntity  rsmd.getColumnCount():"+rsmd.getColumnCount()+" != dbFieldsMany.length:"+dbFieldsMany.length);
           }
@@ -294,7 +309,18 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                 //System.out.println("tableModelRS.setQuery columnName "+columnName+" "+h+" "+dbHeadNo);
                 int columnLength=dbFieldsMany[h].getColWidth();  //  rsmd.getColumnDisplaySize(dbHeadNo);
                 String colClassName = dbFieldsMany[h].getColClassName();// 
-                int type = rsmd.getColumnType(dbHeadNo); // type neede for column object,rsmd only for type
+                int type = 0;
+                if(isNewRec && !isCopyFromNewRecIn)
+                {
+                }
+                else if(isNewRec && isCopyFromNewRecIn)
+                {
+                   type = rsmd.getColumnType(dbHeadNo); // type neede for column object,rsmd only for type
+                }
+                else
+                {
+                     type = rsmd.getColumnType(dbHeadNo); // type neede for column object,rsmd only for type
+                }
                 //System.out.println("TableModelResultSet.setEntity h:("+h+") or dbHeadNo:"+dbHeadNo+" columnName:"+columnName+" colClassName:"+colClassName+" type:"+type);
                 String ft;   //if foreign table = null assign
                 if (dbFieldsMany[h].getLookupEntityName()==null) //&&(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
@@ -426,6 +452,39 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     
     //System.out.println("TableModelRS.setQuery header col count ="+colCount+" "+listTableColumns.size());
 
+    
+             if(isNewRec && !isCopyFromNewRecIn)
+             {
+      int row =1;
+      initialDataVector = new Vector();
+
+      	//int dbColNo = 1;// dbColNo
+        Object[] record = new Object[colCount];
+     //   int lookUpKeysLength=0;
+    //    int repeatedKey=0;
+        for (int i = 0; i < colCount; i++) // for each field
+        {
+             //System.out.println("i "+i+" dbHeadNo "+dbColNo);
+             String columnName =dbFieldsMany[i].getDbField();//rsmd.getColumnName(dbColNo);
+             //System.out.println("isNewRec:  "+isNewRec+"  i "+i+" columnName:"+columnName);
+
+        dataVector.addElement(record);
+        row=row+1;  
+        initialDataVector.addElement(record);
+        }
+    
+      fireTableChanged(null); // notify everyone that we have a new table.
+
+    
+             }
+             else
+             {
+                    
+    
+    
+    
+    
+    
     try
     {  
       // and file the data with the records from our query. This would
@@ -447,11 +506,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
              String columnName =dbFieldsMany[i].getDbField();//rsmd.getColumnName(dbColNo);
              //System.out.println("isNewRec:  "+isNewRec+"  i "+i+" columnName:"+columnName);
              
-             if(isNewRec)
-             {
-             }
-             else
-             {
+
              Object columnData =rs.getObject(columnName);//dbColNo);
              //System.out.println("i "+i+" dbHeadNo "+dbColNo+" "+columnData);
              
@@ -550,7 +605,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
              //   dbColNo=dbColNo+1;
              }
 
-        }
+        
         }
         //System.out.println("tableModelRS.setQuery record.length  "+record.length);
         dataVector.addElement(record);
@@ -571,7 +626,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     {
         closeDB();
     }
-    
+             }
  
  //     closeDB();
       
@@ -2134,12 +2189,14 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   }
   else
   {    
+      System.out.println("tableModelRS.saveChanges  --->>>>A checksums.size:"+checksums.size());  
       if(checkIfThereAreDoubleEntries())
       {
           System.out.println("TableModelResultSet.saveChanges  ThereAreDoubleEntries:"+checkIfThereAreDoubleEntries() );
       }
       else
       {
+          
         for(int r =0 ;r<this.getTableDataVector().size();r++)
   	{
   		Object row = this.getTableDataVector().get(r);
@@ -2214,7 +2271,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   	
         
         
-    System.out.println("tableModelRS.saveChanges  --->>>> checksums.size:"+checksums.size());  
+    System.out.println("tableModelRS.saveChanges  --->>>>B checksums.size:"+checksums.size());  
    if(checksums.size()>0)
    {        
                 //ArrayList listRowToBeDeleted = new ArrayList();
