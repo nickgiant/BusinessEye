@@ -462,16 +462,17 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
         Object[] record = new Object[colCount];
      //   int lookUpKeysLength=0;
     //    int repeatedKey=0;
-        for (int i = 0; i < colCount; i++) // for each field
+   /*     for (int i = 0; i < colCount; i++) // for each field
         {
              //System.out.println("i "+i+" dbHeadNo "+dbColNo);
              String columnName =dbFieldsMany[i].getDbField();//rsmd.getColumnName(dbColNo);
              //System.out.println("isNewRec:  "+isNewRec+"  i "+i+" columnName:"+columnName);
-
+             //record[i]=columnData;
+        }
         dataVector.addElement(record);
         row=row+1;  
-        initialDataVector.addElement(record);
-        }
+        initialDataVector.addElement(record);*/
+        
     
       fireTableChanged(null); // notify everyone that we have a new table.
 
@@ -614,7 +615,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
       }
     
       fireTableChanged(null); // notify everyone that we have a new table.
-
+     	
     }
     catch (SQLException e)
     {
@@ -632,7 +633,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
       
     //if(isEditable)
     //{
-       setTableInitialState();	
+        setTableInitialState();
     //}
     
     
@@ -2285,7 +2286,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                                      //Object orow = v.get(row);
                              int intListHashDel = Integer.parseInt(listRecsHashToBeRemoved.get(rem).toString());
                              int intCheckSums = Integer.parseInt(checksums.get(ch).toString());
-
+                             
                              if(  intListHashDel == intCheckSums)
                              { 
                                listRowDescedingToBeDeleted.add(ch+1);                                 

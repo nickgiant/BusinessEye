@@ -3727,7 +3727,7 @@ public int getRowCountFromReadOnlyTable()
        
    }
    
-   //called by PanelTwoDataManyRec
+  
    public String filterForReadOnlyTable(String queryIn)//, String[] strSearchField, String[] strSearch)
    {
    	  this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -3746,6 +3746,7 @@ public int getRowCountFromReadOnlyTable()
    //called by and PanelODORData.showRow
    public void filterForWritableTable(String queryIn,boolean isNewRecIn,boolean isCopyFromNewRecIn,boolean boolWhenPKisNothing)//String[] strSearchField, String[] strSearch)
    {
+       this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
       String pkValue = "";
        if(boolWhenPKisNothing)
        {
@@ -3771,8 +3772,8 @@ public int getRowCountFromReadOnlyTable()
         }
       
         showExtendedSummaryForWritable();
-    
- 
+        
+       
        //System.out.println("panelOneDataManyRecData.filterForWritableTable row count:"+table.getRowCount());
          if (table.getRowCount()>0)        	
         {

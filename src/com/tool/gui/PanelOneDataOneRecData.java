@@ -647,14 +647,11 @@ int flds = 0;
        }
        else
        {
-       db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.setEntity");
-       rs=db.getRS();      
-        //System.out.println("panelODORData.setEntity primKeyValue "+primKeyValue);
-        
-        selectedRow=0;
-
-        selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.setEntity",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
-        //System.out.println("      panelOneDataOneRecData.setEntity   selectedRow"+selectedRow+"    query:"+query);
+           db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.setEntity");
+           rs=db.getRS();
+           selectedRow=0;
+           selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.setEntity",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+           closeDB();
        }
         GridBagConstraints gc = new GridBagConstraints();
 
@@ -2313,9 +2310,9 @@ int flds = 0;
              showSpecificRow(selectedRow,query);     // }	
           }     
 
-           closeDB(); // close for rsmdForeign, // not here because rs is used also after insertrow
+       //    closeDB();  // not here because rs is used also after insertrow
            
-   //    guiLoaded=true; // used in DocumentHandler
+  //     guiLoaded=true; // used in DocumentHandler
            
 //     }// try// try
  //    catch ( SQLException sqlex)
@@ -5189,12 +5186,12 @@ catch(Exception e)
                        // System.out.println("PanelODORData.showRow -------table2   sql:"+sql);
                 if(VariablesGlobal.globalShowSelectRecord)
                 {
-                        System.out.println("++++PanelODORData.showRow ===  === === ("+i+")   primKeyValue:"+primKeyValue+"     qIsTemplateToBeReplaced:"+qIsTemplateToBeReplaced+"     sqlWhere:"+sqlWhere+"        sql:"+sql);           
+                        System.out.println("++++PanelODORData.showRow ===  === === ("+i+")   primKeyValue:"+primKeyValue+"   isNewRec:"+isNewRec+"   isNewRecFromCopy:"+isNewRecFromCopy+"    qIsTemplateToBeReplaced:"+qIsTemplateToBeReplaced+"     sqlWhere:"+sqlWhere+"        sql:"+sql);           
                 }
                 
                 if(isNewRec && !isNewRecFromCopy)
                 {
-                    
+                     System.out.println("++++PanelODORData.showRow ===  === === =====  =  ("+i+")  isNewRec and !isNewRecFromCopy   primKeyValue:"+primKeyValue);
                 }
                 else if(isNewRec && isNewRecFromCopy)
                 {
@@ -9282,7 +9279,8 @@ ps.setBytes(i, b);
           String q = queryWithoutWhere + " WHERE "+subqueryWhere;
        
           System.out.println("PanelODORData.showSpecificRowForPKsAfterANewRecIsSaved       pkFromOnePanel:"+pkFromOnePanel+"          q:"+q+"           query:"+query);
-       guiLoaded = false;
+          isNewRec=false;
+          guiLoaded = false;
           showSpecificRow(q);
 
        
@@ -9476,7 +9474,7 @@ ps.setBytes(i, b);
          {
              System.out.println("Error PanelOneDataOneRecData.showSpecificRow() B  " + e.getMessage()+"     q:"+q); 
              e.printStackTrace();
-             closeDB();
+             
          } 
          finally
          {
@@ -9725,9 +9723,9 @@ ps.setBytes(i, b);
                  rs.absolute(selectedRow); 
             }    
           
-                   String yeaid = rs.getString(fieldName);
-                    System.out.println("PanelODORData.checkIfIsInPreviousYear  var yearId"+VariablesGlobal.globalYearId+"  fieldName:"+fieldName+"   yeaid:"+yeaid);             
-                      if(yeaid==null || yeaid.equalsIgnoreCase(VariablesGlobal.globalYearId))
+                   String yearid = rs.getString(fieldName);
+                    System.out.println("PanelODORData.checkIfIsInPreviousYear  var yearId"+VariablesGlobal.globalYearId+"  fieldName:"+fieldName+"   yearid:"+yearid);             
+                      if(yearid==null || yearid.equalsIgnoreCase(VariablesGlobal.globalYearId))
                       {
                           isInPreviousYear=false;
                           

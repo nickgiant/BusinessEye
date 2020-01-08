@@ -711,7 +711,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
     String subqueryIsTemplate = "AND sxesoexoline.isTemplate LIKE '1'";// to save replace it
       String fieldHeaderId = "sxesoexoheader.esoexoheaderId";
       String strNameOfFieldOfTemplateMenu = "sxesoexoheader.titleOfTemplate";
-    String setFieldIsTemplate = "isTemplate";       
+    String setFieldIsTemplate = "\\bisTemplate\\b";     
     EntityTemplate entityTemplateEsoExoHeader = new EntityTemplate(queryTemplates,subqueryIsNotTemplate,subqueryIsTemplate,fieldHeaderId,strNameOfFieldOfTemplateMenu,setFieldIsTemplate);
             
             //panels
@@ -1152,7 +1152,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
             
             //panels
             EntityCheckFields[] entityCheckFieldsEsexTemp = null;
-        entityPanelEsexTempDataentry = new EntityPanel("ODOR","sxesoexoheader",esoexoHeaderTempDBFields,esoexoTempEntityGroupOfComps,esoexoTempEntityGroupOfPanels,"Νο προτύπου εσόδων εξόδων","","esoexoheaderId",saleQueryEditableTemplate,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniqueSale,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,/*updateAdditionalActionType*/null,null/*entReportEsExDoc*/,null,entityCheckFieldsEsexTemp,null);            
+        entityPanelEsexTempDataentry = new EntityPanel("ODOR","sxesoexoheader",esoexoHeaderTempDBFields,esoexoTempEntityGroupOfComps,esoexoTempEntityGroupOfPanels,"Νο προτύπου εσόδων εξόδων","","esoexoheaderId",saleQueryEditableTemplate,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniqueSale,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,/*updateAdditionalActionType*/null,null/*entReportEsExDoc*/,null,entityCheckFieldsEsexTemp,entityTemplateEsoExoHeader);            
         entityPanelEsexTemp = new EntityPanel[] { entityPanelEsexTempDataentry};
      
         

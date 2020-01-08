@@ -784,7 +784,7 @@ import javax.swing.border.BevelBorder;
       // boolean ret=false;
        // System.out.println("PanelODMR.copyFromCompanyRow     to copy r:"+row+"   "+ent+"    "+entPanel[0].getPrimKeyDb()+"  "+entPanel[0].getQuery()); 
         
-        
+       EntityTemplate entityTemplate = entPanel[0].getEntityTemplate();
 
         
       ArrayList listDbFields = new ArrayList();
@@ -835,24 +835,26 @@ import javax.swing.border.BevelBorder;
         int intLastNoOfRecs=0;
         String queryRowCount = "SELECT "+entPanel[0].getPrimKeyDb()+" FROM `"+listDbTable.get(0)+"` WHERE `dbCompanyId` LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY "+entPanel[0].getPrimKeyDb()+" DESC LIMIT 1";
         db.retrieveDBDataFromQuery(queryRowCount, "PanelODMR.copyFromCompanyRow get last pk");
-        ResultSet rs = db.getRS();
-        if(rs==null)
-        {
-            
-        }
-        else
-        {
         try
         {
+           ResultSet rs = db.getRS();
+
+
             rs.first();
             lastNoOfRecs = rs.getString(1);
-            System.out.println("PanelODMR.copyFromCompanyRow get last "+lastNoOfRecs);
+            System.out.println("PanelODMR.copyFromCompanyRow get last "+lastNoOfRecs+"   queryRowCount:"+queryRowCount);
         }
         catch(SQLException e)
         {
-                    System.out.println("PanelODMR.copyFromCompanyRow get last pk  "+e.getMessage());
+                System.out.println("error PanelODMR.copyFromCompanyRow   queryRowCount:"+queryRowCount);
+                    System.out.println("error PanelODMR.copyFromCompanyRow get last pk  :"+e.getMessage());
         }
+        finally
+        {
+            // NOT rs.close();
+            
         }
+        
         
     try
     {
@@ -863,6 +865,7 @@ import javax.swing.border.BevelBorder;
     {
         System.out.println("PanelODMR.copyFromCompanyRow  lastNoOfRecs:"+lastNoOfRecs+" is NOT integer. nfe:"+nfe.getMessage());  
     }
+
         
         if(intLastNoOfRecs>=1)
         {
@@ -897,13 +900,18 @@ import javax.swing.border.BevelBorder;
 
               strPk = entPanel[p].getPrimKeyDb();
           
-          System.out.println("copyFromCompanyRow strPk:"+strPk+"  p:"+p);
+          System.out.println("PanelODMRec.copyFromCompanyRow    strPk:"+strPk+"  p:"+p+"       entityTemplate:"+entityTemplate);
           String strFieldsWithChangedDbCompanyId = strFields.replaceAll("dbCompanyId", VariablesGlobal.globalCompanyId);// replaces value with global var
+          if(entityTemplate!=null)
+          {
+             strFieldsWithChangedDbCompanyId = strFields.replaceAll(entityTemplate.getFieldIsTemplate(), "1");
+          }
           strFieldsWithChangedDbCompanyId = strFieldsWithChangedDbCompanyId.replaceAll(strPk,lastNoOfRecs);// would not like to set autoinc value
           String queryCopy = "INSERT INTO `"+listDbTablesOfPanel.get(0)+"` ("+strFields+") SELECT "+strFieldsWithChangedDbCompanyId+" FROM `"+listDbTablesOfPanel.get(0)+"` WHERE `dbCompanyId` LIKE "+fromCompPkValue+" AND "+entPanel[p].getPrimKeyDb()+" LIKE "+pkOfRowValue;
           System.out.println("PanelODMR.copyFromCompanyRow     queryCopy:"+queryCopy);
           int intRet = dbTransaction.transactionUpdateQuery(queryCopy,"PanelODMR.copyFromCompanyRow parent",true);
           
+         
           
 
         //--- for childs
@@ -939,6 +947,12 @@ import javax.swing.border.BevelBorder;
         
         String strFieldsChildWithChangedDbCompanyId = strFieldsChild.replaceAll("dbCompanyId", VariablesGlobal.globalCompanyId);// replaces value with global var
        strFieldsChildWithChangedDbCompanyId = strFieldsChildWithChangedDbCompanyId.replaceAll(entPanel[p].getPrimKeyDb(),lastNoOfRecs);// would not like to set autoinc value
+       
+          if(entityTemplate!=null)
+          {
+             strFieldsChildWithChangedDbCompanyId = strFieldsChildWithChangedDbCompanyId.replaceAll(entityTemplate.getFieldIsTemplate(), "1");
+          }       
+       
        queryCopyChild = "INSERT INTO `"+dbfieldchild.getTableName()+"` ("+strFieldsChild+") SELECT "+strFieldsChildWithChangedDbCompanyId+" FROM `"+dbfieldchild.getTableName()+"` WHERE `dbCompanyId` LIKE "+fromCompPkValue+" AND "+entPanel[p].getPrimKeyDb()+" LIKE "+pkOfRowValue;
        System.out.println("PanelODMR.copyFromCompanyRow        queryCopyChild:"+queryCopyChild);
        int intRetChild = dbTransaction.transactionUpdateQuery(queryCopyChild,"PanelODMR.copyFromCompanyRow child",true);
