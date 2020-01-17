@@ -9,4 +9,4 @@ Currently three separate modules are implemented.
 The application is designed to follow Greek regulations.
 As a consequence captions, menus, and messages are in Greek.
 
-More in Greek at www.businesseye.gr
+A presentation at www.businesseye.gr and more about development at www.businesseye.gr/development.
