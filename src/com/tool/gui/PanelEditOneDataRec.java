@@ -616,7 +616,7 @@ import javax.swing.border.BevelBorder;
                    }
 
                    
-                  System.out.println("PanelEditODR.addMenuButtons    "+ep+"     "+entityPanel[cnFinal].getType()+"    cnFinal:"+cnFinal+"     cpFinal:"+cpFinal+"   entityPanel[cnFinal].getTitle()"+entityPanel[cnFinal].getTitle());
+                  //System.out.println("PanelEditODR.addMenuButtons    "+ep+"     "+entityPanel[cnFinal].getType()+"    cnFinal:"+cnFinal+"     cpFinal:"+cpFinal+"   entityPanel[cnFinal].getTitle()"+entityPanel[cnFinal].getTitle());
                    selectionInMenu(ep, entityGroupOfPanelsFinal[cpFinal],cpFinal);                    
                              }
                          });              

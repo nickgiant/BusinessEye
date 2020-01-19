@@ -259,24 +259,14 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
       }
    
    
-   if(isNewRec && !isCopyFromNewRecIn)
-   {
+
        
-   }
-   else if(isNewRec && isCopyFromNewRecIn)
-   {
-            query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
-   	    db.retrieveDBDataFromQuery(query,"TableModelResultSet.setQuery");
-   	    rs=db.getRS();
-   	    rsmd=db.getRSMetaData();        
-   }
-   else 
-   {
-            query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
+              query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
    	    db.retrieveDBDataFromQuery(query,"TableModelResultSet.setQuery");
    	    rs=db.getRS();
    	    rsmd=db.getRSMetaData();      
-   }    
+       
+    
          
       
 
@@ -452,36 +442,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     
     //System.out.println("TableModelRS.setQuery header col count ="+colCount+" "+listTableColumns.size());
 
-    
-             if(isNewRec && !isCopyFromNewRecIn)
-             {
-      int row =1;
-      initialDataVector = new Vector();
 
-      	//int dbColNo = 1;// dbColNo
-        Object[] record = new Object[colCount];
-     //   int lookUpKeysLength=0;
-    //    int repeatedKey=0;
-   /*     for (int i = 0; i < colCount; i++) // for each field
-        {
-             //System.out.println("i "+i+" dbHeadNo "+dbColNo);
-             String columnName =dbFieldsMany[i].getDbField();//rsmd.getColumnName(dbColNo);
-             //System.out.println("isNewRec:  "+isNewRec+"  i "+i+" columnName:"+columnName);
-             //record[i]=columnData;
-        }
-        dataVector.addElement(record);
-        row=row+1;  
-        initialDataVector.addElement(record);*/
-        
-    
-      fireTableChanged(null); // notify everyone that we have a new table.
-
-    
-             }
-             else
-             {
-                    
-    
     
     
     
@@ -627,11 +588,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     {
         closeDB();
     }
-             }
- 
- //     closeDB();
-      
-    //if(isEditable)
+
     //{
         setTableInitialState();
     //}

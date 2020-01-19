@@ -12,17 +12,9 @@ package com.tool.model;
 public class EntityTemplate
 {
     
-    /*
-    *
-    *        String queryTemplates = "SELECT * FROM sxesoexoheader WHERE  sxesoexoheader.dbCompanyId = "+VariablesGlobal.globalCompanyId+"  AND  sxesoexoheader.isTemplate = 1 ORDER BY sxesoexoheader.titleOfTemplate";//esoexoheaderId";//sxesoexoheader.titleOfTemplate";
-      final String subqueryIsNotTemplate = "AND sxesoexoline.isTemplate ='0'";
-      final String subqueryIsTemplate = "AND sxesoexoline.isTemplate LIKE '1'";
-      String fieldHeaderId = "sxesoexoheader.esoexoheaderId";
-      String strNameOfFieldOfTemplateMenu = "sxesoexoheader.titleOfTemplate";
-    String setFieldIsTemplate = "isTemplate";
-    */
-    
-    
+      /*
+      *   set only in the entity that uses the template (like esoexo records, not in the esoexotemplates)
+      */
     
     private String queryShowTemplates;
     private String subQueryIsTemplate;
@@ -35,6 +27,9 @@ public class EntityTemplate
       public EntityTemplate()
       {}
       
+      /*
+      *   set only in the entity that uses the template (like esoexo records, not in the esoexotemplates)
+      */
       public EntityTemplate(String queryShowTemplatesIn,String subQueryIsTemplateIn, String subQueryIsNotTemplateIn,String fieldPrimkeyIdIn,String fieldOfTemplateMenuIn,String fieldIsTemplateIn)
       {   
       queryShowTemplates = queryShowTemplatesIn;

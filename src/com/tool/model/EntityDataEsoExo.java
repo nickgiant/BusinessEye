@@ -707,12 +707,12 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
       String strNameOfFieldOfTemplateMenu = "sxesoexoheader.titleOfTemplate";
     String setFieldIsTemplate = "isTemplate";  */           
     String queryTemplates = "SELECT * FROM sxesoexoheader WHERE  sxesoexoheader.dbCompanyId = "+VariablesGlobal.globalCompanyId+"  AND  sxesoexoheader.isTemplate = 1 AND isTemplateActive = 1 ORDER BY sxesoexoheader.titleOfTemplate";//esoexoheaderId";//sxesoexoheader.titleOfTemplate";
-    String subqueryIsNotTemplate = "AND sxesoexoline.isTemplate ='0'";// to show replase it
+    String subqueryIsNotTemplate = "AND sxesoexoline.isTemplate LIKE '0'";// to show replase it
     String subqueryIsTemplate = "AND sxesoexoline.isTemplate LIKE '1'";// to save replace it
       String fieldHeaderId = "sxesoexoheader.esoexoheaderId";
       String strNameOfFieldOfTemplateMenu = "sxesoexoheader.titleOfTemplate";
     String setFieldIsTemplate = "\\bisTemplate\\b";     
-    EntityTemplate entityTemplateEsoExoHeader = new EntityTemplate(queryTemplates,subqueryIsNotTemplate,subqueryIsTemplate,fieldHeaderId,strNameOfFieldOfTemplateMenu,setFieldIsTemplate);
+    EntityTemplate entityTemplateEsoExoHeader = new EntityTemplate(queryTemplates,subqueryIsTemplate,subqueryIsNotTemplate,fieldHeaderId,strNameOfFieldOfTemplateMenu,setFieldIsTemplate);
             
             //panels
         entityPanelEsexDataentry = new EntityPanel("ODOR","sxesoexoheader",esoexoHeaderDBFields,esoexoEntityGroupOfComps,esoexoEntityGroupOfPanels,"Νο εσόδων εξόδων","","esoexoheaderId",saleQueryEditable,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniqueSale,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,/*updateAdditionalActionType*/null,entReportEsExDoc,null,entityCheckFieldsVATCompanyOfEsoexo,entityTemplateEsoExoHeader);             
@@ -920,7 +920,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
         //esoexoHeaderDBFields[10] = new EntityDBFields("sxesoexoheader","isPrinted","εκτυπωμένο",2,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);                
         String[] childTableFieldsForSumsesoexolines=null;//{"προ ΦΠΑ","αξία ΦΠΑ","αξία"};
         
-        esoexoHeaderDBFields[8] = new EntityDBFields("sxesoexoheader","esoexolines","λογαριασμοί",3,"table",FIELD_VISIBLE_AND_EDITABLE,"sxesoexoline",120,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,esoexolineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM sxesoexoline WHERE sxesoexoline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxesoexoline.isTemplate ='0' ORDER BY sxesoexoline.inc",null,childTableFieldsForSumsesoexolines);        
+        esoexoHeaderDBFields[8] = new EntityDBFields("sxesoexoheader","esoexolines","λογαριασμοί",3,"table",FIELD_VISIBLE_AND_EDITABLE,"sxesoexoline",120,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,esoexolineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM sxesoexoline WHERE sxesoexoline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxesoexoline.isTemplate LIKE '0' ORDER BY sxesoexoline.inc",null,childTableFieldsForSumsesoexolines);        
          
         esoexoHeaderDBFields[9] = new EntityDBFields("sxesoexoheader","countTotal","πλήθος",4,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,8,7,DBFIELD_TYPE_OF_SUM_COUNT);        
         //esoexoHeaderDBFields[10] = new EntityDBFields("sxesoexoheader","quantityTotal","ποσότητα",3,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,11,6,DBFIELD_TYPE_OF_SUM_SUM);        
@@ -1152,7 +1152,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
             
             //panels
             EntityCheckFields[] entityCheckFieldsEsexTemp = null;
-        entityPanelEsexTempDataentry = new EntityPanel("ODOR","sxesoexoheader",esoexoHeaderTempDBFields,esoexoTempEntityGroupOfComps,esoexoTempEntityGroupOfPanels,"Νο προτύπου εσόδων εξόδων","","esoexoheaderId",saleQueryEditableTemplate,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniqueSale,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,/*updateAdditionalActionType*/null,null/*entReportEsExDoc*/,null,entityCheckFieldsEsexTemp,entityTemplateEsoExoHeader);            
+        entityPanelEsexTempDataentry = new EntityPanel("ODOR","sxesoexoheader",esoexoHeaderTempDBFields,esoexoTempEntityGroupOfComps,esoexoTempEntityGroupOfPanels,"Νο προτύπου εσόδων εξόδων","","esoexoheaderId",saleQueryEditableTemplate,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniqueSale,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,/*updateAdditionalActionType*/null,null/*entReportEsExDoc*/,null,entityCheckFieldsEsexTemp,null);            // entityTemplateEsoExoHeader not in here, only in the entity that can use a template
         entityPanelEsexTemp = new EntityPanel[] { entityPanelEsexTempDataentry};
      
         

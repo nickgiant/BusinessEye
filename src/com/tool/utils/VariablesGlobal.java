@@ -34,7 +34,7 @@ public class VariablesGlobal
     
     public static boolean globalShowFrameRedirected=true;
 
-    public static boolean globalShowSelectRecord=true;
+    public static boolean globalShowSelectRecord=false;
    public static boolean globalShowSelectUtilPanelReportRecord=false;//   -t--ooo--t--UtilsPanelReport.getLookupValue  
    public static boolean globalShowSelectDataFromWritable=false;//   OOOO PanelOneDataManyRecData.retrieveDataFromWritable
    public static boolean globalShowReportSQL=false;
@@ -53,8 +53,8 @@ public class VariablesGlobal
 
     public static  String appName = "BusinessEye";
     public static  String appLeadVersion = "1";
-    public static  String appSubVersion = "0.2583";
-    public static  String appVersionYear = "2019/12";
+    public static  String appSubVersion = "0.2586";
+    public static  String appVersionYear = "2020/01";
     public static  String appProduct = "0"; // 0 all
     public static  String appProductCaption = "";
     public static  String appShowLogFrame = "0"; // 1 yes, 0 no

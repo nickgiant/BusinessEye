@@ -3758,11 +3758,11 @@ public int getRowCountFromReadOnlyTable()
        }
    	  this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
    	   //tableModelReadOnly.filter(strSearchField,strSearch);
+       
        if(VariablesGlobal.globalShowSelectDataFromWritable)
        {
            System.out.println("   F W    PanelODMRData.filterForWritableTable  primKeyValue:"+primKeyValue+"    pkValue:"+pkValue+"   boolWhenPKisNothing:"+boolWhenPKisNothing+"     queryIn:"+queryIn+"        isNewRecIn:"+isNewRecIn);
        }
-
            retrieveDataFromWritableTable(queryIn,entity,primKeyDb,pkValue,isEditable,isNewRecIn,isCopyFromNewRecIn,isQuery2);
        
        

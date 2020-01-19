@@ -1431,7 +1431,7 @@ int flds = 0;
                         
                         
                         
-          System.out.println(" - - - - - - - PanelODORData.setEntity ("+i+")    columnClass:"+columnClass+"    columnDbName:"+columnDbName+"   primKeyValue:"+primKeyValue+"    isNewRec:"+isNewRec+"     "+dbFieldsChild+"   sql:"+sql+"     query:"+query);
+          //System.out.println(" - - - - - - - PanelODORData.setEntity ("+i+")    columnClass:"+columnClass+"    columnDbName:"+columnDbName+"   primKeyValue:"+primKeyValue+"    isNewRec:"+isNewRec+"     "+dbFieldsChild+"   sql:"+sql+"     query:"+query);
                         //PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(f);
                       PanelOneDataManyRecData pnlODMRData =  new PanelOneDataManyRecData(frame);
                       
@@ -1440,10 +1440,10 @@ int flds = 0;
                                 dbFieldsChild,isNewRec,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,/*formGlobalField1,formGlobalVariable1,*/primKeyValue,
                                 dbFieldsInGroupOfPanels[i].getChildTableFieldsForSums(),fieldTxts,this,intTableOfParentDBFields);
                         //setFormGlobalVariable1ToPanelODMRData();
-                    System.out.println(" - - - - - - - PanelODORData.setEntityA")    ;
+                    //System.out.println(" - - - - - - - PanelODORData.setEntityA")    ;
                         pnlODMRData.filterForWritableTable(sql,isNewRec,isNewRecFromCopy,false);  // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
                    
-                   System.out.println(" - - - - - - - PanelODORData.setEntityB")    ;
+                  // System.out.println(" - - - - - - - PanelODORData.setEntityB")    ;
 
                    lbl = new JLabel(dbFieldsInGroupOfPanels[i].getCaption());
                    lbl.setIconTextGap(0);
@@ -4881,7 +4881,10 @@ catch(Exception e)
       }
       //System.out.println("panelODORData.showRow:----");
       
-      System.out.println("PanelODORData.showRow -------  sizes  fieldTxts:"+fieldTxts.size() +" fieldTxts:"+fieldTxts2.size() +" dbFieldsAll.length:"+ dbFieldsAll.length);//rsmd.getColumnCount());
+      if(fieldTxts.size()!=fieldTxts2.size() && fieldTxts2.size()!=dbFieldsAll.length)
+      {
+          System.out.println("PanelODORData.showRow -------  sizes different  fieldTxts:"+fieldTxts.size() +" fieldTxts:"+fieldTxts2.size() +" dbFieldsAll.length:"+ dbFieldsAll.length);//rsmd.getColumnCount());
+      }
       
       boolean isFirstFieldAutoInc=false;
 
@@ -5171,16 +5174,21 @@ catch(Exception e)
             {
                String subqueryIsNotTemplate = entityTemplate.getSubQueryIsNotTemplate();// = "AND sxesoexoline.isTemplate ='0'";
                String subqueryIsTemplate = entityTemplate.getSubQueryIsTemplate();//ToReplace = "AND sxesoexoline.isTemplate LIKE '1'";                        
-                       if(isNewRec) 
-                       {
+                       if(isNewRec && isNewRecFromCopy)
+                       { // when is new rec or copy or select template
                            sql = sql.replaceAll(subqueryIsTemplate,subqueryIsNotTemplate);
                        }
-                       else
+                       else if(isNewRec && !isNewRecFromCopy)
                        {
-                           sql = sql.replaceAll(subqueryIsNotTemplate,subqueryIsTemplate);  //  "AND sxesoexoline.isTemplate LIKE 0"       "AND sxesoexoline.isTemplate LIKE 1"
+                           sql = sql.replaceAll(subqueryIsNotTemplate,subqueryIsTemplate);
+                           System.out.println("  PanelODORData.showRow ===   isNewRec"+isNewRec+"    isNewRecFromCopy:"+isNewRecFromCopy+"    sql:"+sql);
+                       }
+                       else
+                       { // when is edit
+                           
                        }
                        
-                     pnlODMRData.filterForWritableTable(sql,false,false, false);//  when is template, copied from below    
+                    // pnlODMRData.filterForWritableTable(sql,false,false, false);//  when is template, copied from below    
             }                 
                         
                        // System.out.println("PanelODORData.showRow -------table2   sql:"+sql);
@@ -5189,22 +5197,9 @@ catch(Exception e)
                         System.out.println("++++PanelODORData.showRow ===  === === ("+i+")   primKeyValue:"+primKeyValue+"   isNewRec:"+isNewRec+"   isNewRecFromCopy:"+isNewRecFromCopy+"    qIsTemplateToBeReplaced:"+qIsTemplateToBeReplaced+"     sqlWhere:"+sqlWhere+"        sql:"+sql);           
                 }
                 
-                if(isNewRec && !isNewRecFromCopy)
-                {
-                     System.out.println("++++PanelODORData.showRow ===  === === =====  =  ("+i+")  isNewRec and !isNewRecFromCopy   primKeyValue:"+primKeyValue);
-                }
-                else if(isNewRec && isNewRecFromCopy)
-                {
+
                       pnlODMRData.filterForWritableTable(sql,isNewRec,isNewRecFromCopy, false); // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
-                }
-                else
-                {
-                      pnlODMRData.filterForWritableTable(sql,isNewRec,isNewRecFromCopy, false); // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
-                }
-                     
-                  
-      
-              
+     
           }
           else if(dbFieldsInGroupOfPanels[i].getColClassName().equalsIgnoreCase("htmlfile"))
           {
@@ -5586,7 +5581,7 @@ catch(Exception e)
        closeDB(); 
            
        setVisibleOrEditableFields(true);
-       System.out.println("++++PanelODORData.showRow ===  === === B");
+       //System.out.println("++++PanelODORData.showRow ===  === === B");
         
     }    
    
@@ -10252,7 +10247,7 @@ ps.setBytes(i, b);
      
                 if(classtype.equalsIgnoreCase("table"))
                 {
-                   System.out.println("PanelOneDataOneRecData.rowNewTables   isFromCopyOfRecord:"+isFromCopyOfRecord);
+                   //System.out.println("PanelOneDataOneRecData.rowNewTables ================================  isFromCopyOfRecord:"+isFromCopyOfRecord);
                     
                     if(isFromCopyOfRecord)// || (!isFromCopyOfRecord && isFromTemplate))// or is not copy but is fromtemplate
                     {
@@ -10277,6 +10272,14 @@ ps.setBytes(i, b);
                   }                        
       
                     PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(i);//,PanelOneDataManyRecData);
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     for(int r = 0 ;r<pnlODMRData.getRowCount();r++)
                     {
                         
@@ -10285,10 +10288,11 @@ ps.setBytes(i, b);
                         for(int b =0;b<ed.length;b++)
                         {
                             String strColumn = ed[b].getDbField();
+                            //System.out.println("PanelOneDataOneRecData.rowNewTables   isFromCopyOfRecord:"+isFromCopyOfRecord+"   b:"+b+"    strColumn:"+strColumn);
                             if(strColumn.equalsIgnoreCase(primKeyNameTable))
                             {
                                 
-                                //System.out.println("  ooooo PanelOneDataOneRecData.setFieldsTemplateZero      r:"+r+"     b:"+b+"    fieldIsTemplate:"+fieldIsTemplate);
+                               // System.out.println("  ooooo PanelOneDataOneRecData.setFieldsTemplateZero      r:"+r+"     b:"+b);
                                      pnlODMRData.setTableValueAt("0", r, b);
                                     
                             }
@@ -11430,7 +11434,7 @@ ps.setBytes(i, b);
       {
           checkIfDataHasChanged = hasDataChanged;
       }
-       System.out.println("----  PanelODORData.getHasDataChanged   hasDataChanged:"+hasDataChanged);	
+       //System.out.println("----  PanelODORData.getHasDataChanged   hasDataChanged:"+hasDataChanged);	
   	return checkIfDataHasChanged;
   }
 

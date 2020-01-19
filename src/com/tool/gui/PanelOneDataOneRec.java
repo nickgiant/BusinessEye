@@ -695,7 +695,7 @@ import javax.swing.text.JTextComponent;
             
         scrollpaneTable.setBorder(null);
         //System.out.println("PanelODOR.setEntity  isNewRec:"+isNewRec);
-        System.out.println("PanelOneDataOneRec.setEntity       New Rec            isNewRec:"+isNewRec+"     isNewRecFromCopy:"+isNewRecFromCopy);
+        //System.out.println("PanelOneDataOneRec.setEntity       New Rec            isNewRec:"+isNewRec+"     isNewRecFromCopy:"+isNewRecFromCopy);
         if(isNewRec)
         {
              /*btnSave.setEnabled(true);
@@ -1890,7 +1890,7 @@ import javax.swing.text.JTextComponent;
            
            try
            {    
-               System.out.println("PanelODOR.setTitle()     ---=====---      primKeyDb:"+primKeyDb+"  pkValue:"+pkValue+"    isNewRec:"+isNewRec+"    isInsertedFirstTime:"+isInsertedFirstTime+"      queryForTitle:"+queryForTitle+"         -------     subqueryWhere:"+subqueryWhere);
+               //System.out.println("PanelODOR.setTitle()     ---=====---      primKeyDb:"+primKeyDb+"  pkValue:"+pkValue+"    isNewRec:"+isNewRec+"    isInsertedFirstTime:"+isInsertedFirstTime+"      queryForTitle:"+queryForTitle+"         -------     subqueryWhere:"+subqueryWhere);
    	           db.retrieveDBDataFromQuery(queryForTitle,"PanelOneDataOneRec.setTitle");
    	           rs=db.getRS();
    	           //ResultSetMetaData rsmd = db.getRSMetaData();
@@ -2059,8 +2059,12 @@ import javax.swing.text.JTextComponent;
                 //panelOneDataOneRecData.setTemplateReplacementToShow(subqueryIsNotTemplateIn, subqueryIsTemplateIn);
                 queryTemplates = utilsString.getQueryWithoutOrderby(queryTemplates)+" AND "+fieldHeaderId+" LIKE "+pkId+" "+utilsString.getOrderbySubQuery(queryTemplates);
                 panelOneDataOneRecData.showSpecificRow(queryTemplates);
-      /*          EntityDBFields[] dbFieldsInGroupOfPanels = panelOneDataOneRecData.getDbFieldsInGroupOfPanels();
-      for(int i = 0;i<dbFieldsInGroupOfPanels.length;i++)
+ 
+
+           EntityDBFields[] dbFieldsInGroupOfPanels = panelOneDataOneRecData.getDbFieldsInGroupOfPanels();
+           
+           System.out.println("  ======================================  PanelODOR.selectTemplate  l:"+l+"    queryTemplates:"+queryTemplates);
+     /* for(int i = 0;i<dbFieldsInGroupOfPanels.length;i++)
       //for(int i = 0;i<dbFieldsAll.length;i++)  
       {
           //int fieldCount = i;//i-1; // calculates the no of field starting from 0 when i = 1
@@ -2072,19 +2076,17 @@ import javax.swing.text.JTextComponent;
           String classtype = dbFieldsInGroupOfPanels[i].getColClassName();                
           
           if(classtype.equalsIgnoreCase("table"))
-          {
-              
+          { 
+               System.out.println("  ======================================  PanelODOR.selectTemplate  l:"+l+"  i:"+i+"    colName:"+colName+"    colTableName:"+colTableName+"  queryTemplates:"+queryTemplates);
           }
           
-      }   */   
-                
-               System.out.println("  ======================================  PanelODOR.selectTemplate    l:"+l+"    queryTemplates:"+queryTemplates);
-                //utilsGui.showMessageInfo(line+"");
+      }*/      
+
            }
            
            isNewRec =true;
            
-       setFieldsTemplateZero(setFieldIsTemplate);           
+       setFieldsTemplateZero(setFieldIsTemplate);
       
   }
   
