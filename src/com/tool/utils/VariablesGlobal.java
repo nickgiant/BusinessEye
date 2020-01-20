@@ -50,7 +50,6 @@ public class VariablesGlobal
 
     public static String columnNameInc="inc"; //  incremental number   aa   or   date on invoices
 
-
     public static  String appName = "BusinessEye";
     public static  String appLeadVersion = "1";
     public static  String appSubVersion = "0.2586";
