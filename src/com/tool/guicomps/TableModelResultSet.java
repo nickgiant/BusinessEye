@@ -1587,11 +1587,14 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                 {
                    System.out.println("error:TableModelResultSet.dbFieldsCalculateSet: A "+sqlex.getMessage());
                    sqlex.printStackTrace();
-                   closeDB(); 
-                }            
+                   
+                }
+                finally
+                {
                           // System.out.println("TableModelResultSet.dbFieldsCalculateSet table col:"+col+" table row=("+row+")  calculateField:"+calculateField+"  val:"+val+"  calculationEachRow:"+calculationEachRow);
                 closeDB();               
-                               setValueAt(val,row,calculateField);
+                }
+                    setValueAt(val,row,calculateField);
 
                             // }      // for each r                    
                              

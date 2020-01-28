@@ -1839,7 +1839,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
      
       for(int f= 0 ;f<dbFieldsInGroupOfPanels.length;f++)
       {
-         //System.out.println("UtilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1     f:"+f+"       "+dbFieldsInGroupOfPanels[f].getCaption()+"   class:"+dbFieldsInGroupOfPanels[f].getColClassName());   
+        // System.out.println("UtilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1     f:"+f+"       "+dbFieldsInGroupOfPanels[f].getCaption()+"   class:"+dbFieldsInGroupOfPanels[f].getColClassName());   
           listDbFieldsAll.add(dbFieldsInGroupOfPanels[f]);
           if(dbFieldsInGroupOfPanels[f].getColClassName().equalsIgnoreCase("table"))
           {
@@ -1917,7 +1917,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
             if(fieldName.equalsIgnoreCase(fieldVariableFromPreField)) // fieldVariableFromPreField!=null && !fieldVariableFromPreField.equalsIgnoreCase("") 
             {
                     intFieldToGetTheValue = k;
-                 //   System.out.println("PanelODoRData.calculateAllFieldsForFormVariable1  -  equals ?  i:"+i+"   k:"+k+"   intFieldToGetTheValue:"+intFieldToGetTheValue+"    fieldVariableFromPreField:"+fieldVariableFromPreField+"     fieldName"+fieldName+"    lstFieldVariable:"+lstFieldVariable);  
+                    //System.out.println("PanelODoRData.calculateAllFieldsForFormVariable1  -  equals ?     k:"+k+"   intFieldToGetTheValue:"+intFieldToGetTheValue+"    fieldVariableFromPreField:"+fieldVariableFromPreField+"  =   fieldName"+fieldName+"    lstFieldVariable:"+lstFieldVariable);  
                 break;
                  //System.out.println("panelODMRData.calculateAllFieldsForFormVariable1    equals ?      i:"+i+"   k:"+k+"   fieldVariableFromPreField:"+fieldVariableFromPreField+"    lstFieldVariable:"+lstFieldVariable);  
 

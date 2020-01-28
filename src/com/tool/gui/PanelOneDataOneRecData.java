@@ -4935,11 +4935,19 @@ catch(Exception e)
               { field.trim(); }*/
               
          
-              int intFieldToGetTheValue = calculateAllFieldsForFormVariable1();          
+              int intFieldToGetTheValue = calculateAllFieldsForFormVariable1(); 
+              //System.out.println("PanelODoRData.showRow     foreignTable:"+foreignTable+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue);
           String fieldVariableFromPreField =  "";
           if(dbFieldsInGroupOfPanels!=null && intFieldToGetTheValue!=-1)
           {
-              fieldVariableFromPreField = dbFieldsInGroupOfPanels[intFieldToGetTheValue].getDbField();
+              if(intFieldToGetTheValue < dbFieldsInGroupOfPanels.length )// 
+              {
+                 fieldVariableFromPreField = dbFieldsInGroupOfPanels[intFieldToGetTheValue].getDbField();
+              }
+              else
+              {
+                  System.out.println("error -> PanelODoRData.showRow     foreignTable:"+foreignTable+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue+" < "+dbFieldsInGroupOfPanels.length);
+              }
           }
           
             if(dbFieldsInGroupOfPanels[i].getColClassName().equalsIgnoreCase("table"))
@@ -4950,7 +4958,7 @@ catch(Exception e)
               System.out.println("PanelODoRData.showRow     TABLE     colName:"+colName+"   lenClildFields:"+lenClildFields);  
               for(int r = 0;r<lenClildFields;r++)
               {
-                  System.out.println("PanelODoRData.showRow    TABLE   colName:"+colName+"   r:"+r+"   edbfChilds:"+edbfChilds[r].getDbField()+"  fieldVariableFromPreField:"+fieldVariableFromPreField);
+                  System.out.println("PanelODoRData.showRow    TABLE   colName:"+colName+"   i:"+i+"   edbfChilds:"+edbfChilds[r].getDbField()+"  fieldVariableFromPreField:"+fieldVariableFromPreField);
               }              
               */
           }
@@ -5411,7 +5419,11 @@ catch(Exception e)
 
               	   chk.setOpaque(false);
               	   boolean sel =false;
-              	   if(field.equals("0"))
+                   if(field.equals(""))
+              	   {
+              	   	sel=false;
+              	   }
+                   else if(field.equals("0"))
               	   {
               	   	sel=false;
               	   }
@@ -5429,6 +5441,7 @@ catch(Exception e)
               	   }
               	   else
               	   {
+                        
               	   	  System.out.println("PanelOneDataOneRecData.showRow  boolean unknown value "+field);
               	   }
               	   
@@ -9655,8 +9668,8 @@ ps.setBytes(i, b);
                  rs.absolute(selectedRow); 
             }    
           
-                   String isPrintedValue = rs.getString(fieldName);  
-                   if(isPrintedValue.equalsIgnoreCase("1"))
+                   int isPrintedValue = rs.getInt(fieldName); 
+                   if(isPrintedValue>0)
                    {
                           isPrinted=true;
                           break;                       

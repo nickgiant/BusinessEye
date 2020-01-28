@@ -1405,10 +1405,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
 
   private void printPrinterJob(PrinterJob printerJobIn, boolean isShowDialog,String isForm)
   {
-
     //System.out.println("PanelPrintPreview.printPrinterJob ");
-
-
          if(isShowDialog)
          {
               try 
@@ -1444,17 +1441,37 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
                                qWhere = qWhere + qAnd +arrayOfNameOfPksOfRecordToShow[a]+" LIKE '"+arrayOfValueOfPksOfRecordToShow[a]+"'";
                            }
 
-                           String queryUpdate = "UPDATE "+entity+" SET "+entity+"."+STRFIELD_ISPRINTED+" = '1' WHERE "+qWhere;   
-                           //System.out.println("PanelPrintPreview.printPrinterJob printing.......queryUpdate:"+queryUpdate); 
                            Database db = new Database();
+                           String queryRead = "SELECT "+entity+"."+STRFIELD_ISPRINTED+" FROM "+entity+" WHERE "+qWhere;
+                           db.retrieveDBDataFromQuery(queryRead, "PanelPrintPreview.printPrinterJob");
+                           int noOfPrints = 0;
+                           ResultSet rs = db.getRS();
+                           try
+                           {
+                             rs.first();
+                             noOfPrints = rs.getInt(STRFIELD_ISPRINTED);
+                           }
+                           catch(SQLException se)
+                           {
+                            System.out.println("error:PanelPrintPreview.printPrinterJob: "+se.getMessage());
+                            se.printStackTrace();                               
+                           }
+                           finally
+                           {
+                               db.releaseConnectionRs();
+                           }
+                            noOfPrints=noOfPrints+1;
+                            String queryUpdate = "UPDATE "+entity+" SET "+entity+"."+STRFIELD_ISPRINTED+" = '"+noOfPrints+"' WHERE "+qWhere;   
+                           //System.out.println("PanelPrintPreview.printPrinterJob printing.......queryUpdate:"+queryUpdate); 
+                           
                            if(db.updateQueryNotTransaction(queryUpdate, "PanelPrintPreview.printPrinterJob", true, false)==1)
                            {
-                               System.out.println("PanelPrintPreview.printPrinterJob printing.... db UPDATED");
+                               System.out.println("PanelPrintPreview.printPrinterJob printing.... db UPDATED  noOfPrints:"+noOfPrints);
                                //if is 1 ok
                            }
                            else
                            {
-                               System.out.println("PanelPrintPreview.printPrinterJob printing... db NOT UPDATED   queryUpdate:"+queryUpdate);
+                               System.out.println("PanelPrintPreview.printPrinterJob printing... db NOT UPDATED  (noOfPrints:"+noOfPrints+")  queryUpdate:"+queryUpdate);
                            }
                            db.releaseConnectionRs();
                          }

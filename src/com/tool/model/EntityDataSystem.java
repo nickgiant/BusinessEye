@@ -387,10 +387,10 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         
         //----------------------------------------------------------------
         //EntityDBFields[] actionTypeLineDBFields = new EntityDBFields[7];
-        EntityDBFields[] actionTypeDBFields = new EntityDBFields[11];
+        EntityDBFields[] actionTypeDBFields = new EntityDBFields[12];
 
         
-        EntityGroupOfComps[] actionTypeEntityGroupOfComps = new EntityGroupOfComps[2];
+        EntityGroupOfComps[] actionTypeEntityGroupOfComps = new EntityGroupOfComps[3];
         EntityGroupOfPanels[] actionTypeEntityGroupOfPanels = null;
         
         
@@ -750,6 +750,14 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
       
         //------------------------- 
 
+        EntityDBFields[] actionTypeCopyDBFields = new EntityDBFields[5];
+
+        actionTypeCopyDBFields[0] = new EntityDBFields("actiontypecopy","actionTypeCopyId","Νο τύπου παραστατικού",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+        actionTypeCopyDBFields[1] = new EntityDBFields("actiontypecopy","actionTypeId","actionTypeId",0,"java.lang.String",15, FIELD_PRIMARY_KEY_FROM_PARENTTABLE,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,null,"");
+        actionTypeCopyDBFields[2] = new EntityDBFields("actiontypecopy","copyNo","νο αντίγραφου",0,"java.lang.Integer",15,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        actionTypeCopyDBFields[3] = new EntityDBFields("actiontypecopy","textToPrint","κείμενο αντίγραφου",0,"java.lang.String",40,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        actionTypeCopyDBFields[4] = new EntityDBFields("actiontypecopy","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalCompanyId,"");
+        
          actionTypeDBFields[0] = new EntityDBFields("actiontype","actionTypeId","Νο τύπου παραστατικού",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
          actionTypeDBFields[1] = new EntityDBFields("actiontype","actionTypeDescription","ονομασία",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
          actionTypeDBFields[2] = new EntityDBFields("actiontype","actionTypeCode","κωδικός παραστατικού",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
@@ -759,20 +767,22 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
          
          //actionTypeDBFields[6] = new EntityDBFields("actiontype","typeNextNumber","επόμενος αριθμός παραστατικού",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
          actionTypeDBFields[6] = new EntityDBFields("actiontype","actionTypeCatId","κατηγορία παραστατικού",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCActionTypeCat", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+         actionTypeDBFields[7] = new EntityDBFields("actiontype","actiontype copy","αντίγραφα",1,"table",FIELD_VISIBLE_AND_EDITABLE,"actiontypecopy",120,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,actionTypeCopyDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM actiontypecopy WHERE actiontypecopy.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY actiontypecopy.actionTypeCopyId",null,null);        
          //actionTypeDBFields[8] = new EntityDBFields("actiontype","isCredit","πιστωτικό",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"false","");       
          //actionTypeDBFields[9] = new EntityDBFields("actiontype","active","ενεργός",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");        
          //actionTypeDBFields[10] = new EntityDBFields("actiontype","printformId","φόρμα εκτύπωσης",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"printform",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-         actionTypeDBFields[7] = new EntityDBFields("actiontype","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalCompanyId,"");
-         actionTypeDBFields[8] = new EntityDBFields("actiontype","isSxRecordActive","ενημέρωση",1,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,"false","");                       
+         actionTypeDBFields[8] = new EntityDBFields("actiontype","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalCompanyId,"");
+         actionTypeDBFields[9] = new EntityDBFields("actiontype","isSxRecordActive","ενημέρωση",2,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,"false","");                       
 // actionTypeDBFields[0] = new EntityDBFields("actiontypeheader","actiontype","τύποι παραστατικών",0,"table",FIELD_VISIBLE_AND_EDITABLE,"actiontype",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,actionTypeLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT * FROM actiontype ORDER BY actionTypeId",null);     //String[] childTableFieldsForSumsIn   
-         actionTypeDBFields[9] = new EntityDBFields("actiontype","sxActionTypeId","τύπος",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"sxactiontype",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,null,"");
-         actionTypeDBFields[10] = new EntityDBFields("actiontype","sxAccountId","λογαριασμός",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"sxaccount",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,null,"sxActionTypeId");
+         actionTypeDBFields[10] = new EntityDBFields("actiontype","sxActionTypeId","τύπος",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"sxactiontype",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,null,"");
+         actionTypeDBFields[11] = new EntityDBFields("actiontype","sxAccountId","λογαριασμός",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"sxaccount",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,null,"sxActionTypeId");
          
          
          
          actionTypeEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET);     
         //actionTypeEntityGroupOfComps[1] = new EntityGroupOfComps("εκτύπωση",4,0);
-        actionTypeEntityGroupOfComps[1] = new EntityGroupOfComps("ενημέρωση εσόδων εξόδων",6,0,FONT_SIZE_NOT_SET);
+        actionTypeEntityGroupOfComps[1] = new EntityGroupOfComps("αντίγραφα",1,0,FONT_SIZE_NOT_SET);
+        actionTypeEntityGroupOfComps[2] = new EntityGroupOfComps("ενημέρωση εσόδων εξόδων",6,0,FONT_SIZE_NOT_SET);
         
       
       
