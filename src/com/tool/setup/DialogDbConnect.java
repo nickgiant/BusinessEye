@@ -981,6 +981,19 @@ public class DialogDbConnect  extends JDialog implements Constants
              // System.out.println("Database.updateQuery "+query);      
         
         	              int  ret = stmnt.executeUpdate("CREATE DATABASE IF NOT EXISTS `"+strReturn+"` /*!40100 DEFAULT CHARACTER SET utf8 */;");// IF NOT EXISTS
+                               stmnt.execute("USE "+strReturn+";");
+                              stmnt.executeUpdate("CREATE TABLE IF NOT EXISTS `dbsystem` ("+
+                    "`dbsystemid` int(11) NOT NULL AUTO_INCREMENT,"+
+                    "`dbleadversion` varchar(10) DEFAULT '0',"+
+                    "`dbsubversion` varchar(10) DEFAULT '0',"+
+                    "PRIMARY KEY (`dbsystemid`)"+
+                     ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8");
+
+                   stmnt.executeUpdate("REPLACE INTO dbsystem (dbsystemid, dbleadversion, dbsubversion) VALUES ( 1 ,  '1',  '0.2561' )");
+                              
+                              
+                              
+                              
                               
                               if(ret==0)
                               {
