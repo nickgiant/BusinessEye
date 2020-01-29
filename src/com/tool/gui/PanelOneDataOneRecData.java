@@ -9669,7 +9669,7 @@ ps.setBytes(i, b);
             }    
           
                    int isPrintedValue = rs.getInt(fieldName); 
-                   if(isPrintedValue>0)
+                   if(isPrintedValue>1)
                    {
                           isPrinted=true;
                           break;                       
@@ -10451,6 +10451,7 @@ ps.setBytes(i, b);
              String colCaption =  dbFieldsInGroupOfPanels[i].getCaption(); 
              String classtype = dbFieldsInGroupOfPanels[i].getColClassName();  // rsmd.getColumnClassName(i+1);
              int columnWidth = dbFieldsInGroupOfPanels[i].getColWidth();  //rsmd.getColumnDisplaySize(i+1);
+            
             //System.out.println("PanelOneDataOneRecData.rowNew "+i+" "+colCaption);
              JTextComponent tb = null;              
    	           if(dbFieldsInGroupOfPanels[i].getPrimaryKeyIntegerAutoInc() == FIELD_PRIMARY_KEY_AUTOINC)
@@ -10469,14 +10470,15 @@ ps.setBytes(i, b);
    	}
    	else
    	{
-                                               
+                                             
 
    	      for(int i=0;i<fieldTxts.size();i++)
    	      {
 
              String colCaption =  dbFieldsInGroupOfPanels[i].getCaption(); 
-             String classtype = dbFieldsInGroupOfPanels[i].getColClassName();  // rsmd.getColumnClassName(i+1);
-             int columnWidth = dbFieldsInGroupOfPanels[i].getColWidth();  //rsmd.getColumnDisplaySize(i+1);
+             String classtype = dbFieldsInGroupOfPanels[i].getColClassName();  
+             int columnWidth = dbFieldsInGroupOfPanels[i].getColWidth(); 
+              int lookupType = dbFieldsInGroupOfPanels[i].getLookupType();  
             //System.out.println("PanelOneDataOneRecData.rowNew "+i+" "+colCaption);
              JTextComponent tb = null;
 
@@ -10562,6 +10564,25 @@ ps.setBytes(i, b);
                                
           	             
           	           }
+                           else if(classtype.equalsIgnoreCase("java.lang.Integer")  &&  lookupType == LOOKUPTYPE_NOLOOKUP)// just integer, not lookupconstant
+                           {
+                               
+                              
+   	                        tb = (JTextComponent) fieldTxts.get(i);
+   	                        
+                                
+                                if(defaultValue[i]==null)
+                                {
+                                   tb.setText("");     
+                                }
+                                else
+                                {
+                                    tb.setText(defaultValue[i]);     // like global variables 
+                                    //System.out.println("PanelOneDataOneRecData.rowNewForFieldsExceptUniqueKeys "+defaultValue[i]);
+                                }                                  
+                                                             
+                               
+                           }
    	                  else if(classtype.equalsIgnoreCase("java.lang.Boolean"))
    	                  {
               	              JCheckBox chk = (JCheckBox) fieldTxts.get(i);

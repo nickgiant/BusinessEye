@@ -296,7 +296,8 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
       boolean boolChek1 = checkIfTableHasData("actionstock","","");
       boolean boolChek2 = checkIfTableHasData("actiontrader","","");
       boolean boolChek3 = checkIfTableHasData("actiontype","","");
-      boolean boolChek4 = checkIfTableHasData("actionseries","","");
+      boolean boolChek4 = checkIfTableHasData("actiontypecopy","","");
+      boolean boolChek5 = checkIfTableHasData("actionseries","","");
       //boolean boolChek5 = checkIfTableHasData("printform","","");
       //--------------------------------------------------
         boolean boolChek6 = checkIfTableHasData("stockcat","","");
@@ -309,7 +310,7 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
       db.releaseConnectionRsmd();
       
       
-      if(boolChek1 || boolChek2 || boolChek3 || boolChek4)// || boolChek5)
+      if(boolChek1 || boolChek2 || boolChek3 || boolChek4 || boolChek5)
       {
           chk1.setEnabled(false);
           chk1.setSelected(false);
@@ -376,9 +377,11 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
                             String qInsertCopy2 = getQueryInsertFromCopyForTable("actiontrader",valueDbCompany,"","");
                             listInsertRec.add(qInsertCopy2);
                             String qInsertCopy3 = getQueryInsertFromCopyForTable("actiontype",valueDbCompany,"","");
-                            listInsertRec.add(qInsertCopy3);                             
-                            String qInsertCopy4 = getQueryInsertFromCopyForTable("actionseries",valueDbCompany,"","");
-                            listInsertRec.add(qInsertCopy4);
+                            listInsertRec.add(qInsertCopy3);
+                            String qInsertCopy4 = getQueryInsertFromCopyForTable("actiontypecopy",valueDbCompany,"","");
+                            listInsertRec.add(qInsertCopy4);                                 
+                            String qInsertCopy5 = getQueryInsertFromCopyForTable("actionseries",valueDbCompany,"","");
+                            listInsertRec.add(qInsertCopy5);
                             //String qInsertCopy5 = getQueryInsertFromCopyForTable("printform",valueDbCompany,"","");
                             //
                             //listInsertRec.add(qInsertCopy5);                            
