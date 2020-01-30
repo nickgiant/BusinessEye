@@ -196,6 +196,7 @@ public class DialogSystemInfo extends JDialog implements Constants
         JTextArea txtInfo = new JTextArea(
 
         VariablesGlobal.appName+" "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+"  (c) "+VariablesGlobal.appVersionYear+"\n"
+                +VariablesGlobal.appUseName+"\n"
         +"--------------------- Εφαρμογή ---------------------\n"
         +"κατάλογος εφαρμογής: "+VariablesGlobal.globalDirConfiguration+"\n"
         +"υποκατάλογος αναφορών: "+VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+DIR_REPORTDOCUMENTTEMPLATE+"\n"

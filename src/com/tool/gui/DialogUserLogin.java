@@ -123,6 +123,8 @@ public class DialogUserLogin  extends JDialog implements Constants
         //lblTitle.setForeground(Color.white);
         //lblTitle.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));//top,left,bottom,right
         
+        JxPanel paneTitleNUse = new JxPanel();
+         paneTitleNUse.setLayout(new BoxLayout(paneTitleNUse, BoxLayout.Y_AXIS));
         //lblTitle.setIcon(ICO_LOCKED32);  //ICO_BACK
               Color blue= new Color(129, 169, 226);
               //Color blue= new Color(63, 183, 255);
@@ -130,8 +132,12 @@ public class DialogUserLogin  extends JDialog implements Constants
             //lightblue =  lightblue.brighter().brighter();
         paneTitle = new JPanelCurvedGradient(CLR_PANEL_START_ALTER,CLR_PANEL_END_ALTER,0,0);//PanelGradient(lblTitle.getBackground().brighter().brighter(),lblTitle.getBackground().darker(),60);//new PanelTitle(new Color(0, 0, 0, 0),this.getBackground().darker().darker().darker().darker(),Color.white,"title");
         paneTitle.add(lblTitle);
+        paneTitleNUse.add(paneTitle);
         
-        
+        JxPanel pnlUse = new JxPanel();
+        pnlUse.setLayout(new FlowLayout());
+        pnlUse.add(new JLabel(VariablesGlobal.appUseName));
+        paneTitleNUse.add(pnlUse);
         
        JPanel panelTextBoxes  = new JPanel();
         panelTextBoxes.setOpaque(false);
@@ -205,7 +211,7 @@ public class DialogUserLogin  extends JDialog implements Constants
  //       panelBottom.add(panelBottomYear);
         panelBottom.add(panelActionButtons);      
 
-        getContentPane().add(paneTitle, BorderLayout.NORTH);
+        getContentPane().add(paneTitleNUse, BorderLayout.NORTH);
         
         panelMain.setOpaque(false);
         panelBottom.setOpaque(false);

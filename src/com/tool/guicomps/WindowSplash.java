@@ -8,6 +8,8 @@ use
 package com.tool.guicomps;
 
 
+import com.tool.utils.*;
+
 import java.awt.Container;
 import java.awt.Color;
 import java.awt.Font;
@@ -19,7 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JWindow;
 import javax.swing.BorderFactory;
 
-public class WindowSplash extends JWindow
+public class WindowSplash extends JWindow// implements Constants
 {
     //LabelGradient 
     JLabel lblMain;
@@ -39,8 +41,8 @@ public class WindowSplash extends JWindow
         lblMain = new JLabel();//LabelGradient(lblBack.getBackground().darker(),lblBack.getBackground().brighter(),60);     
         lblMain.setText("<html><table>"
                 //+ "<tr><td></td></tr>"
-                + "<tr><td>"+s+"</td></tr>"
-                //+ "<tr><td></td></tr>"
+                + "<tr><td>"+s+"</td><td>"+VariablesGlobal.appUseName+"</td></tr>"
+                //+ "<tr><td>"+VariablesGlobal.appUseName+"</td></tr>"
                 + "</table></html>");
         lblMain.setIcon(i);
         lblMain.setVerticalTextPosition(JLabel.BOTTOM);

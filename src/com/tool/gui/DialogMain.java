@@ -130,7 +130,7 @@ public class DialogMain extends JxFrame implements Constants
                     
         
         
-        super(VariablesGlobal.appName);//+" "+VariablesGlobal.appSubVersion);
+        super(VariablesGlobal.appName+"  "+ VariablesGlobal.appUseName);//+" "+VariablesGlobal.appSubVersion);
         //System.out.println("loading DialogMain");
         initialize();
         //System.out.println("loaded DialogMain");
@@ -253,6 +253,7 @@ public class DialogMain extends JxFrame implements Constants
         panelBottomLeft.add(new JLabel(VariablesGlobal.appName));
         panelBottomLeft.add(new JLabel(VariablesGlobal.appProductCaption));
         panelBottomLeft.add(new JLabel(VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion));
+        panelBottomLeft.add(new JLabel(VariablesGlobal.appUseName));
        //panelBottomLeft.add(panelSeparator1);
         panelBottomLeft.add(lblUserCaption);
         panelBottomLeft.add(lblUser);

@@ -50,9 +50,10 @@ public class VariablesGlobal
 
     public static String columnNameInc="inc"; //  incremental number   aa   or   date on invoices
 
-    public static  String appName = "BusinessEye (χρήση μόνο για εκπαιδευτικούς σκοπούς)";
+    public static  String appName = "BusinessEye";
+    public static  String appUseName = "(χρήση μόνο για εκπαιδευτικούς σκοπούς)";
     public static  String appLeadVersion = "1";
-    public static  String appSubVersion = "0.2589";
+    public static  String appSubVersion = "1.2590";
     public static  String appVersionYear = "2020/01";
     public static  String appProduct = "0"; // 0 all
     public static  String appProductCaption = "";
