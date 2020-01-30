@@ -1713,8 +1713,8 @@ private String getTitleCaption(int row)
 
 
 
-                   String isPrintedValue = rs.getString(fieldName);  
-                   if(isPrintedValue.equalsIgnoreCase("1"))
+                   int isPrintedValue = rs.getInt(fieldName);  
+                   if(isPrintedValue>1)
                    {
                           isReadOnly=true;
                           break;                       

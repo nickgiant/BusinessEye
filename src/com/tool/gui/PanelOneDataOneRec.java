@@ -1063,9 +1063,10 @@ import javax.swing.text.JTextComponent;
        boolean isReadOnly = false;
            for(int p=0;p<listPanelOneDataOneRecData.size();p++)
            {
-               //System.out.println("PanelODOR.rowNew p:"+p);
+               
                PanelOneDataOneRecData pnl = (PanelOneDataOneRecData)listPanelOneDataOneRecData.get(p);
               isReadOnly =  pnl.checkIfAllComponentsShouldBeReadOnly();
+              System.out.println("PanelODOR.rowDelete p:"+p+"  isReadOnly:"+isReadOnly);
               if(isReadOnly)
               {
                   break;

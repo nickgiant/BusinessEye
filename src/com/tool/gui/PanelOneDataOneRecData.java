@@ -9657,7 +9657,7 @@ ps.setBytes(i, b);
    	    rs=db.getRS();   
             //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue);
             selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfIsPrinted",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
-            //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   selectedRow"+selectedRow+"    query:"+query);
+            System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   selectedRow"+selectedRow+"   primKeyValue:"+primKeyValue+"  query:"+query);
             if(selectedRow != 0) 
             {
                  rs.absolute(selectedRow); 
@@ -9678,6 +9678,10 @@ ps.setBytes(i, b);
                    {
                          isPrinted = false;
                    }
+                   
+                   System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue+" isPrintedValue:"+isPrintedValue);
+                   
+                   
                 }
           }       
        }

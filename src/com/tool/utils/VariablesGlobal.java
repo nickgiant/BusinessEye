@@ -52,7 +52,7 @@ public class VariablesGlobal
 
     public static  String appName = "BusinessEye";
     public static  String appLeadVersion = "1";
-    public static  String appSubVersion = "0.2587";
+    public static  String appSubVersion = "0.2588";
     public static  String appVersionYear = "2020/01";
     public static  String appProduct = "0"; // 0 all
     public static  String appProductCaption = "";
