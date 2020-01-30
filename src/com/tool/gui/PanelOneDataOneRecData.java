@@ -6454,7 +6454,7 @@ ps.setBytes(i, b);
                     // if(pnlODMRData.getRowCount()>0)
                     //{
                     System.out.println("   o=OOO=o   PanelOneDataOneRecData.rowUpdateTables        columnName:"+columnName+"     classtype:"+classtype+"     boolIsFromCopyOfRecord:"+boolIsFromCopyOfRecord);
-                       ret = pnlODMRData.saveChanges(dbTransaction,boolIsFromCopyOfRecord);    
+                       ret = pnlODMRData.saveChanges(dbTransaction,boolIsFromCopyOfRecord,isNewRecIn);    
                    /* }
                     else
                     {
@@ -8865,7 +8865,7 @@ ps.setBytes(i, b);
    private boolean rowInsertTables(Database dbTransaction,boolean isNewRecIn,String pkFromOnePanelForTables)throws SQLException
    {
        boolean ret=false;
-       //System.out.println("PanelOneDataOneRecData.rowInsertTables    isNewRecIn:"+isNewRecIn+"  pkFromOnePanelForTables:"+pkFromOnePanelForTables);    
+       //System.out.println("PanelOneDataOneRecData.rowInsertTables  ===  isNewRecIn:"+isNewRecIn+"  pkFromOnePanelForTables:"+pkFromOnePanelForTables);    
        ret = rowUpdateTables(dbTransaction,isNewRecIn,pkFromOnePanelForTables); 
        return ret;
    }

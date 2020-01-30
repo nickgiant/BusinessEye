@@ -1963,7 +1963,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
    	 return listMessages;
    }
  
-  public boolean checkIfThereAreAnyChanges()
+  private boolean checkIfThereAreAnyChanges()
   {
       boolean ret =false;
       
@@ -2026,7 +2026,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   		   else //if different ie new
   		   {
                        ret =true;
-                      // System.out.println(" -- tableModelRS.checkIfThereAreAnyChanges NEW B r "+r+" "+ch+" when a new is created when the user is inside a record");
+                       System.out.println(" -- tableModelRS.checkIfThereAreAnyChanges NEW B r "+r+" "+ch+"  "+row.hashCode()+" !=  "+checksums.get(ch)+" when a new is created when the user is inside a record");
                         break;
   		   }
   		}// for checksums
@@ -2132,14 +2132,14 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   }
   
   // called by PanelOneDataManyRecData.saveChanges
-  public boolean saveChanges(Database dbTransaction, boolean insertAllRecs) throws SQLException  // insertAllRecs ie copy and template
+  public boolean saveChanges(Database dbTransaction, boolean insertAllRecs, boolean isNewRecIn) throws SQLException  // insertAllRecs ie copy and template
   {
   	boolean hasBeenSaved=true;
        // boolean hasBeenInserted = false;
        // boolean hasBeenUpdated = false;
         //boolean hasBeenDeleted = false;
   	//System.out.println("tableModelRS.saveChanges "+getValueAt(1,2)+" "+((Object[])this.getTableDataVector().elementAt(1))[2]);
-
+   
 
     
        deleteEmptyRowIfThereIsOne();
@@ -2156,7 +2156,11 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   }
   else
   {    
-      System.out.println("tableModelRS.saveChanges  --->>>>A checksums.size:"+checksums.size());  
+      if(isNewRecIn)
+      {
+          insertAllRecs = true;
+      }
+      System.out.println("tableModelRS.saveChanges  --->>>>A checksums.size:"+checksums.size()+"   isNewRecIn:"+isNewRecIn+"   insertAllRecs:"+insertAllRecs);  
       if(checkIfThereAreDoubleEntries())
       {
           System.out.println("TableModelResultSet.saveChanges  ThereAreDoubleEntries:"+checkIfThereAreDoubleEntries() );
@@ -2170,10 +2174,15 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   	   if(checksums.size()>0)	
            {    
                 //check each checksum row
+               
+              
+               
   		for(int ch=0;ch<checksums.size();ch++)
   		{
+                    System.out.println("tableModelRS.saveChanges compare -----======> "+r+" "+ch+"  "+row.hashCode()+" !=  "+checksums.get(ch)+"  isNewRecIn:"+isNewRecIn);
   		   if (row.hashCode() == checksums.get(ch) && r==ch)
     	           {
+                        
                        System.out.println("tableModelRS.saveChanges compare -----> NO CHANGE r"+r+"=ch"+ch+" "+row.hashCode()+"     row.hashCode() == checksums.get(ch)");
               		for(int co = 0 ;co<listTableColumns.size(); co++)
               		{
@@ -2208,7 +2217,8 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                    }
                    else if(row.hashCode() != checksums.get(ch) && r==ch)
                    {//see bellow,deletes and inserts later than updates
-                                  
+                       System.out.println("tableModelRS.saveChanges -compare --elseif-->   r:"+r+" ch:"+ch+"    "+row.hashCode() +" "+ checksums.get(ch)+"  isNewRecIn:"+isNewRecIn);
+                       
                    }
                    else if(row.hashCode() != checksums.get(ch) && r>ch && r==this.getTableDataVector().size()-1 && ch==checksums.size()-1)
                    {
@@ -2218,7 +2228,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                    }                   
   		   else //if different ie new
   		   {
-                       // System.out.println("tableModelRS.saveChanges compare --else-->   r:"+r+" ch:"+ch+"    row.hashCode() != checksums.get(ch)");
+                        System.out.println("tableModelRS.saveChanges compare --else-->   r:"+r+" ch:"+ch+"    "+row.hashCode() +" "+ checksums.get(ch)+"  isNewRecIn:"+isNewRecIn);
   		   }
   		   	   
   		}// for checksums
@@ -2238,7 +2248,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   	
         
         
-    System.out.println("tableModelRS.saveChanges  --->>>>B checksums.size:"+checksums.size());  
+    System.out.println("tableModelRS.saveChanges  --->>>>B checksums.size:"+checksums.size()+"  isNewRecIn:"+isNewRecIn+"  insertAllRecs:"+insertAllRecs);
    if(checksums.size()>0)
    {        
                 //ArrayList listRowToBeDeleted = new ArrayList();

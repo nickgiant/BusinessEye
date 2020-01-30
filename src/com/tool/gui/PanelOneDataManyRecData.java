@@ -3437,7 +3437,7 @@ public int getRowCountFromReadOnlyTable()
    
    
   //called by PanelODORData.rowUpdateTables
-  public boolean saveChanges(Database dbTransaction,boolean insertAllRecs)throws SQLException
+  public boolean saveChanges(Database dbTransaction,boolean insertAllRecs,boolean isNewRecIn)throws SQLException
   {
       boolean ret = false;
       showExtendedSummaryForWritable();
@@ -3446,7 +3446,7 @@ public int getRowCountFromReadOnlyTable()
           panelODORData.calculateSumFields();
       }
       
-        if(tableModelResultSet.saveChanges(dbTransaction,insertAllRecs))
+        if(tableModelResultSet.saveChanges(dbTransaction,insertAllRecs,isNewRecIn))
         {
             ret=true;
            
