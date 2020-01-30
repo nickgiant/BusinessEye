@@ -3445,6 +3445,7 @@ public int getRowCountFromReadOnlyTable()
       {
           panelODORData.calculateSumFields();
       }
+      
         if(tableModelResultSet.saveChanges(dbTransaction,insertAllRecs))
         {
             ret=true;

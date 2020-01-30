@@ -1675,7 +1675,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
            // {
             valThisCell = getValueAt(row,col).toString();
            // }
-        System.out.println(" --+--- TableModelResultSet.dbFieldsCalculateSet  col:"+col+"  row:"+row+"  colName:"+colName+"   calculateField:"+calculateField+"   val:"+val+"   v:"+v+"  valThisCell:"+valThisCell);
+ //       System.out.println(" --+--- TableModelResultSet.dbFieldsCalculateSet  col:"+col+"  row:"+row+"  colName:"+colName+"   calculateField:"+calculateField+"   val:"+val+"   v:"+v+"  valThisCell:"+valThisCell);
             if(val!= null && !val.trim().equalsIgnoreCase("") && !val.equalsIgnoreCase("0"))
             {
                          //String valueFromTable = getValueAt(row,calculateField).toString(); 
@@ -1699,7 +1699,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                              {
                                  if(calculateCategoryField==FIELDSCALCULATION_CATEGORY_SAME)//0 for current fields
                                  {                                 
-                                  System.out.println("  -  TableModelResultSet.dbFieldsCalculateSet "+calculateCategoryField+" colName:"+colName+"   calculateField:"+calculateField+"  col:"+col+"  val:"+val+"  v:"+v+"  value:"+value+"   valThisCell:"+valThisCell);
+                //                  System.out.println("  -  TableModelResultSet.dbFieldsCalculateSet "+calculateCategoryField+" colName:"+colName+"   calculateField:"+calculateField+"  col:"+col+"  val:"+val+"  v:"+v+"  value:"+value+"   valThisCell:"+valThisCell);
                                        //  if(utilsDouble.getDoubleSaving(value.toString()).toString().equalsIgnoreCase(valueFromTable))
                                      //if(col==this.getColumnCount() && isCellEditable(row,col))
                                      //{
@@ -1732,7 +1732,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
             }
             else
             {
-                System.out.println(" O TableModelResultSet.dbFieldsCalculateSet ELSE "+calculateCategoryField+"  colName:"+colName+"    calculateField:"+calculateField+"  col:"+col+" val:"+val+"=v:"+v);
+      //          System.out.println(" O TableModelResultSet.dbFieldsCalculateSet ELSE "+calculateCategoryField+"  colName:"+colName+"    calculateField:"+calculateField+"  col:"+col+" val:"+val+"=v:"+v);
             }
           //}
              }
@@ -1967,16 +1967,18 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   {
       boolean ret =false;
       
-   
+   //System.out.println("tableModelRS.checkIfThereAreAnyChanges check:"+getTableDataVector().size()+" = "+checksums.size());
    if(this.getTableDataVector().size()== 0 &&  checksums.size()== 0)
    {// not called from PanelODORData.rowUpdateTables. It checks there
       //utilsGui.showMessageInfo("Error. You should insert a record in the table.");
+       System.out.println("tableModelRS.checkIfThereAreAnyChanges check:"+getTableDataVector().size()+" = "+checksums.size()+"  no changes");
       ret =false;
    }
    else
    {
        if(this.getTableDataVector().size()!=checksums.size())
        {
+           System.out.println("tableModelRS.checkIfThereAreAnyChanges there are changes check:"+getTableDataVector().size()+" != "+checksums.size()+"  changes");
            ret =true;
        }
        else
@@ -1998,7 +2000,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
               	       {
               		  if(((Object[])dataVector.elementAt(r))[co]!=null && ((Object[])initialTableDataVector.elementAt(ch))[co]!=null)
               		  {		
-              //System.out.println("tableModelRS.saveChanges change "+co);
+             // System.out.println("tableModelRS.saveChanges change "+co);
               		if(((Object[])dataVector.elementAt(r))[co].equals(((Object[])initialTableDataVector.elementAt(ch))[co]))
               	       {
               		     //System.out.println("tableModelRS.saveChanges no change "+((Object[])dataVector.elementAt(r))[co]);
@@ -2015,13 +2017,17 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
               		  }
                           else
                           {
-                              //System.out.println(" -- tableModelRS.checkIfThereAreAnyChanges NEW r "+r+" "+ch+" ");
+                             
+                              //System.out.println(" -- tableModelRS.checkIfThereAreAnyChanges NEW A r "+r+" "+ch+" ");
+                              
                           }
                       }// for
   		   }
   		   else //if different ie new
   		   {
-                       //System.out.println(" -- tableModelRS.checkIfThereAreAnyChanges NEW r "+r+" "+ch+" ");
+                       ret =true;
+                      // System.out.println(" -- tableModelRS.checkIfThereAreAnyChanges NEW B r "+r+" "+ch+" when a new is created when the user is inside a record");
+                        break;
   		   }
   		}// for checksums
            }
@@ -2140,12 +2146,12 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
      ArrayList listSaveChangesQueries = new ArrayList();
 
    
-     //System.out.println("TableModelResultSet.saveChanges  ===   this.getTableDataVector().size()"+this.getTableDataVector().size()+"  checksums.size()"+checksums.size());
+    //System.out.println("TableModelResultSet.saveChanges  ===   this.getTableDataVector().size()"+this.getTableDataVector().size()+"  checksums.size()"+checksums.size()+"   checkIfThereAreAnyChanges:"+checkIfThereAreAnyChanges());
 
   if(!checkIfThereAreAnyChanges())
   {
       
-
+  System.out.println("TableModelResultSet.saveChanges  === checkIfThereAreAnyChanges:"+checkIfThereAreAnyChanges());   
     
   }
   else

@@ -6453,7 +6453,7 @@ ps.setBytes(i, b);
                   // 
                     // if(pnlODMRData.getRowCount()>0)
                     //{
-                    System.out.println("  o=OOO=o PanelOneDataOneRecData.rowUpdateTables        columnName:"+columnName+"     classtype:"+classtype+"     boolIsFromCopyOfRecord:"+boolIsFromCopyOfRecord);
+                    System.out.println("   o=OOO=o   PanelOneDataOneRecData.rowUpdateTables        columnName:"+columnName+"     classtype:"+classtype+"     boolIsFromCopyOfRecord:"+boolIsFromCopyOfRecord);
                        ret = pnlODMRData.saveChanges(dbTransaction,boolIsFromCopyOfRecord);    
                    /* }
                     else
@@ -8865,6 +8865,7 @@ ps.setBytes(i, b);
    private boolean rowInsertTables(Database dbTransaction,boolean isNewRecIn,String pkFromOnePanelForTables)throws SQLException
    {
        boolean ret=false;
+       //System.out.println("PanelOneDataOneRecData.rowInsertTables    isNewRecIn:"+isNewRecIn+"  pkFromOnePanelForTables:"+pkFromOnePanelForTables);    
        ret = rowUpdateTables(dbTransaction,isNewRecIn,pkFromOnePanelForTables); 
        return ret;
    }
@@ -9657,7 +9658,7 @@ ps.setBytes(i, b);
    	    rs=db.getRS();   
             //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue);
             selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfIsPrinted",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
-            System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   selectedRow"+selectedRow+"   primKeyValue:"+primKeyValue+"  query:"+query);
+            //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   selectedRow"+selectedRow+"   primKeyValue:"+primKeyValue+"  query:"+query);
             if(selectedRow != 0) 
             {
                  rs.absolute(selectedRow); 
@@ -9679,7 +9680,7 @@ ps.setBytes(i, b);
                          isPrinted = false;
                    }
                    
-                   System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue+" isPrintedValue:"+isPrintedValue);
+                   //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue+" isPrintedValue:"+isPrintedValue);
                    
                    
                 }
