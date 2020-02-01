@@ -82,7 +82,9 @@ public interface Constants
        
        */
        
-        public final int FONT_SIZE_NOT_SET = 0;
+       public static final String STR_VERSIONSUB_START = "0.2561";
+       
+       public final int FONT_SIZE_NOT_SET = 0;
        
        public static final int CHECK_ON_ENTRY = 1;
        public static final int CHECK_ON_INSERT_OR_ON_UPDATE = 2;
