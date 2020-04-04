@@ -950,7 +950,7 @@ try {
                     }
                    // }
                    
-                   System.out.println("PanelDataImportExport.setFileToImport "+sheet.getColumns()+"     "+i+"  "+cellColumnHeader.getContents()+"  "+fieldNameAutoInc);
+                   //System.out.println("PanelDataImportExport.setFileToImport "+sheet.getColumns()+"     "+i+"  "+cellColumnHeader.getContents()+"  "+fieldNameAutoInc);
                    if(i>=sheet.getColumns()-1) 
                    {
                        
@@ -965,7 +965,7 @@ try {
                 }//for cols
                 
                 String query =  "INSERT INTO "+strTable+"  ("+subQueryColumns+") VALUES ("+subQueryValues+")";
-                System.out.println("PanelDataImportExport.fileImport   "+query);
+               // System.out.println("PanelDataImportExport.fileImport   "+query);
                            int retCount =   db.transactionUpdateQuery(query,"PanelDataImportExport.fileImport",true);
                             if(retCount!=1)
                             {

@@ -68,7 +68,7 @@ import java.util.logging.Logger;
 public class UpdateInfo implements Constants
 {
     private final static String versionURL = "http://www.businesseye.gr/upd.txt";//http://h3r3t1cupdate.bravehost.com/version.html";
-    private final static String historyURL = "http://www.businesseye.gr/hist.html";//"http://h3r3t1cupdate.bravehost.com/history.html";
+    private final static String historyURL = "http://www.businesseye.gr/hist.html"; //"https://businesseye737389149.wordpress.com/";////"http://h3r3t1cupdate.bravehost.com/history.html";
    
     private static UtilsGui utilsGui;
     
