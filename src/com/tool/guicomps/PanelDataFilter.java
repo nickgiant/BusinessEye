@@ -942,6 +942,8 @@ import javax.swing.event.*;
         		
         		txtFilterSetting1 = new JTextField(intSizeOfTextBox);
         		txtFilterSetting2 = new JTextField(intSizeOfTextBox);
+                        txtFilterSetting1.setToolTipText("χαρακτήρες μπαλαντέρ % και _");
+                         txtFilterSetting2.setToolTipText("χαρακτήρες μπαλαντέρ % και _");
                 //txtFilterSetting1.setColumns(15);
         		   txtFilterSetting1.setText(entityFilterSettings[s].getValue());  
         		   txtFilterSetting2.setText(entityFilterSettings[s].getValue()); 
