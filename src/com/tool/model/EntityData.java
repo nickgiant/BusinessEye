@@ -231,7 +231,7 @@ public class EntityData implements Constants
      
                 EntityMenu emCat2 = new EntityMenu();
         emCat2.setEntityType(ENTITY_TYPE_SECTION);
-        emCat2.setEntitySection("ΦΠΑ αγροτών",loadAndGetFarmersVatDataTreeNode(),ICO_MENUFARMERSVAT);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
+        emCat2.setEntitySection(PRODUCT_FARMERSVAT_CAPTION,loadAndGetFarmersVatDataTreeNode(),ICO_MENUFARMERSVAT);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
         listSections.add(emCat2);       
         
    }
