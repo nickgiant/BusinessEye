@@ -366,6 +366,22 @@ public class EntityDataSerSales extends EntityData implements Constants
         
 
 
+        
+        EntityDBFields[] companySetSerSalesDBFields = new EntityDBFields[9];
+
+        EntityGroupOfComps[] companySetSerSalesEntityGroupOfComps = new EntityGroupOfComps[6];
+        EntityGroupOfPanels[] companySetSerSalesEntityGroupOfPanels = null;
+        
+        
+        String companySetSerSalesQueryEditable ="SELECT * FROM dbcompanyset";
+        String[] companySetSerSalesFieldsOnTitle ={"dbCompanyId"};
+        String[] companySetSerSalesFieldsOnTitleCaption  ={"Νο"}; 
+        String[] companySetSerSalesFieldsUnique = null;  
+        EntityCheckFields[] companySetSerSalesEntityCheckFields = null;
+        EntityPanel companySetSerSalesEntityPanelDataentry = new EntityPanel("ODOR","dbcompanyset",companySetSerSalesDBFields,companySetSerSalesEntityGroupOfComps,companySetSerSalesEntityGroupOfPanels,"dbcompanyid","","dbcompanyid",companySetSerSalesQueryEditable,"βασικά στοιχεία",null, false, true,companySetSerSalesFieldsUnique,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,companySetSerSalesEntityCheckFields,null);      
+        EntityPanel[] companySetSerSalesEntityPanel = new EntityPanel[] { companySetSerSalesEntityPanelDataentry};
+       
+        
        
         /*EntityGroupOfComps[] dbDeliveryEntityGroupOfComps =null;
         EntityGroupOfPanels[] dbDeliveryEntityGroupOfPanels = null;
@@ -910,7 +926,24 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         
         vatCatEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);       
                 
-
+       //----------------------------------------------service sales prefs below------------------
+        companySetSerSalesDBFields[0] = new EntityDBFields("dbCompanySet","dbCompanyId","Νο εταιρίας",0,"java.lang.Integer",4, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,VariablesGlobal.globalCompanyId);
+        companySetSerSalesDBFields[1] = new EntityDBFields("dbCompanySet","sersaleCodeOfDocumentsLength","μήκος κωδικού παραστατικών",1,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"7","");
+        companySetSerSalesDBFields[2] = new EntityDBFields("dbCompanySet","sersaleWithHoldingTaxAmountGreaterThan","ελαχιστο σύνολο για υπολογισμό % φόρου παρακράτησης",1,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"300","");
+        companySetSerSalesDBFields[3] = new EntityDBFields("dbCompanySet","sersaleWithHoldingTaxRate","% φόρου παρακράτησης",1,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"20","");
+        companySetSerSalesDBFields[4] = new EntityDBFields("dbCompanySet","sersaleRetailCustomer","προτεινόμενος πελάτης λιανικής",2,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"customer", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,null,"");
+        companySetSerSalesDBFields[5] = new EntityDBFields("dbCompanySet","sersaleCheckAFMOfSaleAndComp","ενημέρωση καταχώρησης παραστατικού με πελάτη την εταιρία εργασίας",3,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                
+        companySetSerSalesDBFields[6] = new EntityDBFields("dbCompanySet","sersaleMaxOfCashCheck","ενημέρωση για ποσό εξόφλησης μέσω τράπεζικού τρόπου",4,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                
+        companySetSerSalesDBFields[7] = new EntityDBFields("dbCompanySet","sersaleMaxOfCashNetValue","ελαχιστο ποσό για εξόφληση μέσω τράπεζικού τρόπου",4,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"500","");
+        companySetSerSalesDBFields[8] = new EntityDBFields("dbCompanySet","sersaleCopyCustomerNameToSaleComment","πρόταση επωνυμίας πελάτη στην αιτιολογία πώλησης",5,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                
+        
+        
+        companySetSerSalesEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);    
+        companySetSerSalesEntityGroupOfComps[1] = new EntityGroupOfComps("παράμετροι",6,0,FONT_SIZE_NOT_SET);
+        companySetSerSalesEntityGroupOfComps[2] = new EntityGroupOfComps("λιανική",4,0,FONT_SIZE_NOT_SET);
+        companySetSerSalesEntityGroupOfComps[3] = new EntityGroupOfComps("έλεγχοι",4,0,FONT_SIZE_NOT_SET);
+        companySetSerSalesEntityGroupOfComps[4] = new EntityGroupOfComps("εξόφληση",4,0,FONT_SIZE_NOT_SET);      
+         companySetSerSalesEntityGroupOfComps[5] = new EntityGroupOfComps("προτιμήσεις",4,0,FONT_SIZE_NOT_SET);
         
          //-------------------------        
          printFormDBFields[0] = new EntityDBFields("printform","printFormId","Νο φόρμας",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
@@ -1652,7 +1685,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
 
 
         //------------------------------------------------------------
-       int[] currencyFieldsOrderby ={2};
+/*       int[] currencyFieldsOrderby ={2};
        String[] fieldsForSumsCurrency=null;
        EntityParameter pb = new EntityParameter("currency", "SELECT currencyId AS \"Νο νομίσματος\",name AS \"ονομασία\", active FROM currency ORDER BY currencyId" ,"SELECT currencyId AS \"Νο νομίσματος\",name AS \"ονομασία\",countOfDecimals ,active","FROM currency","",fieldsForSumsCurrency,currencyDBFields,"νομίσματα","DORM","Νο νομίσματος","currencyId", null,null,"νομίσματος", "νομισμάτων",entityPanelCurrency,null,fieldsOnTitleCurrency,fieldsOnTitleCaptionCurrency,currencyFieldsOrderby,-1,-1,globalYearPlusOne);
         EntityMenu empb = new EntityMenu();
@@ -1713,7 +1746,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         empf.setEntityType(ENTITY_TYPE_PARAMETER);
         //DataTreeNode nodeempf = new DataTreeNode(empf);
         //nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeempf);        
-
+*/
         //------------------------------------------------------------
         
     /*   EntityFilterSettings[] dbCompanyErs = new EntityFilterSettings[3];       
@@ -1792,8 +1825,14 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
         nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeempk);
   */      
   
-  
-  
+         int[] companySetSerSalesFieldsOrderby ={2};
+       String[] companySetSerSalesFieldsForSums=null;
+       EntityParameter pq = new EntityParameter("dbcompanyset", "SELECT dbCompanyId AS \"Νο\" FROM dbcompanyset ORDER BY dbCompanyId" ,"SELECT dbCompanyId AS \"Νο\" ","FROM dbcompanyset","",companySetSerSalesFieldsForSums,companySetSerSalesDBFields,"ρυθμ. παροχής υπηρεσιών","DORO","Νο","dbcompanyid", null,null,"παρ. υπηρεσίας", "παρ. υπηρεσιών",companySetSerSalesEntityPanel,null,companySetSerSalesFieldsOnTitle,companySetSerSalesFieldsOnTitleCaption,companySetSerSalesFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityMenu empq = new EntityMenu();
+        empq.setEntityParameter(pq,ICO_SETTINGS);
+        empq.setEntityType(ENTITY_TYPE_PARAMETER);//ENTITY_TYPE_PARAMETER);
+          DataTreeNode nodeemq = new DataTreeNode(empq);
+        nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeemq); 
         //-------------------------------------transaction types below-------------
    
         
@@ -1830,10 +1869,10 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
         
         int[] serviceCatFieldsOrderby ={2};
         String[] fieldsForSumsServiceCat=null;//                                in query: because it has the same table 2 times, we use the 1st table as it is, in order to be queried correct in title fields
-        EntityParameter pq = new EntityParameter("stockcat", "SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId FROM stockcat WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY stockcat.catDescr","SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId","FROM stockcat","WHERE dbCompanyID LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsServiceCat,serviceCatDBFields ,"κατηγορίες υπηρεσίας","DORM","Νο κατηγορίας υπηρεσίας","stockCatId",null,null,"κατηγορίας της υπηρεσίας", "κατηγοριών των υπηρεσιών",entityPanelServiceCat,null,fieldsOnTitleServiceCat,fieldsOnTitleCaptionServiceCat,serviceCatFieldsOrderby,-1,-1,globalYearPlusOne);
-        EntityMenu empq = new EntityMenu();
-        empq.setEntityParameter(pq,ICO_TABLE16);
-        empq.setEntityType(ENTITY_TYPE_PARAMETER);
+        EntityParameter pqc = new EntityParameter("stockcat", "SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId FROM stockcat WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY stockcat.catDescr","SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId","FROM stockcat","WHERE dbCompanyID LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsServiceCat,serviceCatDBFields ,"κατηγορίες υπηρεσίας","DORM","Νο κατηγορίας υπηρεσίας","stockCatId",null,null,"κατηγορίας της υπηρεσίας", "κατηγοριών των υπηρεσιών",entityPanelServiceCat,null,fieldsOnTitleServiceCat,fieldsOnTitleCaptionServiceCat,serviceCatFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityMenu empqc = new EntityMenu();
+        empqc.setEntityParameter(pqc,ICO_TABLE16);
+        empqc.setEntityType(ENTITY_TYPE_PARAMETER);
        // DataTreeNode nodeempm = new DataTreeNode(empm);
        // nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeempm);         
         

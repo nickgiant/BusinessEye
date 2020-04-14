@@ -343,7 +343,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
  
         //----------------------------------------------------------------
         //EntityDBFields[] actionTypeLineDBFields = new EntityDBFields[7];
-        EntityDBFields[] esoexoTypeDBFields = new EntityDBFields[9];
+    /*    EntityDBFields[] esoexoTypeDBFields = new EntityDBFields[9];
 
         
         EntityGroupOfComps[] actionTypeEntityGroupOfComps = new EntityGroupOfComps[2];
@@ -357,7 +357,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
         EntityCheckFields[] entityCheckFieldsActionType = null;
         EntityPanel entityPanelActionTypeDataentry = new EntityPanel("ODOR","sxactiontype",esoexoTypeDBFields,actionTypeEntityGroupOfComps,actionTypeEntityGroupOfPanels,"Νο τυπου παραστατικού","","sxActionTypeId",actionTypeQueryEditable,"βασικά στοιχεία",null, false, true,fieldsUniqueActionType,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,entityCheckFieldsActionType,null);  
         EntityPanel[] entityPanelActionType = new EntityPanel[] {entityPanelActionTypeDataentry};        
-        
+        */
         //----------------------------------------------------------------
         //EntityDBFields[] actionTypeLineDBFields = new EntityDBFields[7];
         EntityDBFields[] printFormDBFields = new EntityDBFields[9];
@@ -512,7 +512,22 @@ public class EntityDataEsoExo extends EntityData implements Constants
         EntityPanel entityPanelBankDataentry = new EntityPanel("ODOR","bank",bankDBFields,bankEntityGroupOfComps,bankEntityGroupOfPanels,"Νο τράπεζας","","bankId",bankQueryEditable,"βασικά στοιχεία",null, false, true,fieldsUniqueBank,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,entityCheckFieldsBank,null);     
         EntityPanel[] entityPanelBank = new EntityPanel[] { entityPanelBankDataentry};  
         
+
+        //----------------------------------prefs-----------------------------------------
+         EntityDBFields[] companySetEsoExoDBFields = new EntityDBFields[5];
+
+        EntityGroupOfComps[] companySetEsoExoEntityGroupOfComps = new EntityGroupOfComps[4];
+        EntityGroupOfPanels[] companySetEsoExoEntityGroupOfPanels = null;
         
+        
+        String companySetEsoExoQueryEditable ="SELECT * FROM dbcompanyset";
+        String[] companySetEsoExoFieldsOnTitle ={"dbCompanyId"};
+        String[] companySetEsoExoFieldsOnTitleCaption  ={"Νο"}; 
+        String[] companySetEsoExoFieldsUnique = null;  
+        EntityCheckFields[] companySetEsoExoEntityCheckFields = null;
+        EntityPanel companySetEsoExoEntityPanelDataentry = new EntityPanel("ODOR","dbcompanyset",companySetEsoExoDBFields,companySetEsoExoEntityGroupOfComps,companySetEsoExoEntityGroupOfPanels,"dbcompanyid","","dbcompanyid",companySetEsoExoQueryEditable,"βασικά στοιχεία",null, false, true,companySetEsoExoFieldsUnique,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,companySetEsoExoEntityCheckFields,null);      
+        EntityPanel[] companySetEsoExoEntityPanel = new EntityPanel[] { companySetEsoExoEntityPanelDataentry};        
+                
         
         //-----------------------------
        
@@ -1106,7 +1121,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
                 
         //------------------------- 
 
-         esoexoTypeDBFields[0] = new EntityDBFields("sxactiontype","sxActionTypeId","Νο τύπου εσόδων εξόδων",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+      /*   esoexoTypeDBFields[0] = new EntityDBFields("sxactiontype","sxActionTypeId","Νο τύπου εσόδων εξόδων",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
          esoexoTypeDBFields[1] = new EntityDBFields("sxactiontype","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,VariablesGlobal.globalCompanyId,"");
          esoexoTypeDBFields[2] = new EntityDBFields("sxactiontype","actionTypeDescription","ονομασία",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
          esoexoTypeDBFields[3] = new EntityDBFields("sxactiontype","actionTypeCode","κωδικός παραστατικού",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
@@ -1120,7 +1135,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
         
         actionTypeEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET);       
         actionTypeEntityGroupOfComps[1] = new EntityGroupOfComps("εκτύπωση",4,0,FONT_SIZE_NOT_SET);  
-
+         */
         
          //-------------------------        
          printFormDBFields[0] = new EntityDBFields("printform","printFormId","Νο φόρμας",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
@@ -1597,7 +1612,16 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         myfHeaderEntityGroupOfPanels[4] = new EntityGroupOfPanels("λοιπές δαπάνες",1);
         
 
+       companySetEsoExoDBFields[0] = new EntityDBFields("dbCompanySet","dbCompanyId","Νο εταιρίας",0,"java.lang.Integer",4, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,VariablesGlobal.globalCompanyId);
+        companySetEsoExoDBFields[1] = new EntityDBFields("dbCompanySet","esoexoCheckAFMOfEsoExoAndComp","ενημέρωση καταχώρησης εσόδων - εξόδων με συναλλασόμενο την εταιρία εργασίας",1,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                
+        companySetEsoExoDBFields[2] = new EntityDBFields("dbCompanySet","esoexoMaxOfCashCheck","ενημέρωση για ποσό εξόφλησης μέσω τράπεζικού τρόπου",2,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                
+        companySetEsoExoDBFields[3] = new EntityDBFields("dbCompanySet","esoexoMaxOfCashNetValue","ελαχιστο ποσό για εξόφληση μέσω τράπεζικού τρόπου",2,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"500","");        
+        companySetEsoExoDBFields[4] = new EntityDBFields("dbCompanySet","esoexoCopyTraderNameToEsoexoComment","πρόταση επωνυμίας συναλλασσόμενου στην αιτιολογία καταχώρησης",3,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                
         
+        companySetEsoExoEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);   
+        companySetEsoExoEntityGroupOfComps[1] = new EntityGroupOfComps("έλεγχοι",4,0,FONT_SIZE_NOT_SET); 
+        companySetEsoExoEntityGroupOfComps[2] = new EntityGroupOfComps("εξόφληση",4,0,FONT_SIZE_NOT_SET);
+        companySetEsoExoEntityGroupOfComps[3] = new EntityGroupOfComps("προτιμήσεις",4,0,FONT_SIZE_NOT_SET);        
         
      //   entReportEsExDoc = new EntityReport("servicesaledoc", REPORT_CAT_2,reportBandtraderEsExDoc,"SELECT * FROM sxtrader, sxesoexoheader, esoexoline, sxaccount WHERE sxesoexoheader.traderId = sxtrader.traderId AND sxesoexoheader.esoexoheaderId = esoexoline.esoexoheaderId AND esoexoline.accountId = sxaccount.accountId",/*"ORDER BY sxtrader.name"*/"","FORM","εντυπα πωλήσεων","",salesDocumentErs,saleDocumentGroupOfComps,invoicesaSelected, null,fileOrderby,intSettingsReporttraderfile,boolSettingsReportDoc,globalYearPlusOne) ;
         
@@ -2298,7 +2322,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
 
      //------------------------------------------------------------------ 
 
-         EntityFilterSettings[] actionTypeErs = new EntityFilterSettings[1];       
+     /*    EntityFilterSettings[] actionTypeErs = new EntityFilterSettings[1];       
         actionTypeErs[0]=new EntityFilterSettings("ονομασία","","string","equals","actionTypeDescription","sxactiontype",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         //actionTypeErs[1]=new EntityFilterSettings("τύπος","checkboxTable","string","","sxActionTypeCatId","servicecat","sxaccount","",-1,-1,-1,FIELD_NOCOMPLETION);
        
@@ -2306,7 +2330,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         String[] lookUpFieldActionType={"actionTypeDescription"};                   
     
      entities.add(entityLookUp = new EntityLookUp("sxactiontype","sxactiontype","SELECT sxactiontype.sxActionTypeId AS\"Νο τύπου εσόδων εξόδων\", sxactiontype.actionTypeCode AS\"κωδικός\", sxactiontype.actionTypeDescription AS \"ονομασία τύπου παραστατικού\", lookupconstants.name, isCredit, myfCatId AS\"ΜΥΦ\"  FROM sxactiontype  INNER JOIN lookupconstants ON sxactiontype.sxActionTypeCatId = lookupconstants.lookupconstantsId","WHERE lookupconstants.constantstypeId = 4 AND sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"AND sxactiontype.active LIKE 1","ORDER BY sxactiontype.sxActionTypeCatId, sxactiontype.sxActionTypeId","","sxActionTypeId","Νο τύπου εσόδων εξόδων","sxActionTypeId","τύπος παραστατικού",3,lookUpFieldActionType,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,actionTypeQueryEditable,"τυπου παραστατικού","τύπων παραστατικών",null,entityPanelActionType,fieldsOnTitleActionType,fieldsOnTitleCaptionActionType,actionTypeErs,2,1,null,true,-1,-1,null));    	 	
-
+     */
      //------------------------------------------------------------------ 
 
          EntityFilterSettings[] printFormErs = new EntityFilterSettings[1];       
@@ -2500,16 +2524,26 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
         DataTreeNode nodeempk = new DataTreeNode(empk);
         nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeempk);
   */      
-         //------------------------------------------------------------
-        int[] actionTypeFieldsOrderby ={2};
+         //-----------------------sxactiontype-------------------------------------
+      /*  int[] actionTypeFieldsOrderby ={2};
         String[] fieldsForSumsActionType=null;
         EntityParameter pl = new EntityParameter("sxactiontype", "SELECT sxActionTypeId AS \"Νο τύπου εσόδων εξόδων\", actionTypeCode, actionTypeDescription AS \"ονομασία\",sxactiontype.active, lookupconstants.name, isCredit, myfCatId AS \"ΜΥΦ\" FROM sxactiontype INNER JOIN lookupconstants ON sxactiontype.sxActionTypeCatId = lookupconstants.lookupconstantsId WHERE lookupconstants.constantstypeId = 4 AND sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT sxActionTypeId AS \"Νο τύπου εσόδων εξόδων\", actionTypeCode, actionTypeDescription AS \"ονομασία\", sxactiontype.active","FROM sxactiontype","WHERE sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsActionType,esoexoTypeDBFields ,"τύποι εσόδων εξόδων","DORM","Νο τύπου εσόδων εξόδων","sxActionTypeId",null,null,"τύπου εσόδων εξόδων", "τύπων εσόδων εξόδων",entityPanelActionType,null,fieldsOnTitleActionType,fieldsOnTitleCaptionActionType,actionTypeFieldsOrderby,-1,-1,globalYearPlusOne);
         EntityMenu empl = new EntityMenu();
         empl.setEntityParameter(pl,ICO_TABLE16);
         empl.setEntityType(ENTITY_TYPE_PARAMETER);
         DataTreeNode nodeempl = new DataTreeNode(empl);
-        nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeempl);   
-        
+        nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeempl);  */ 
+
+
+       //------------esoexo prefs---------------------------------------------------------------------------------------
+     int[] companySetEsoExoFieldsOrderby ={2};
+       String[] companySetEsoExoFieldsForSums=null;
+       EntityParameter pr = new EntityParameter("dbcompanyset", "SELECT dbCompanyId AS \"Νο\" FROM dbcompanyset ORDER BY dbCompanyId" ,"SELECT dbCompanyId AS \"Νο\" ","FROM dbcompanyset","",companySetEsoExoFieldsForSums,companySetEsoExoDBFields,"ρυθμ. εσόδων εξόδων","DORO","Νο","dbcompanyid", null,null,"εσόδων εξόδων", "εσόδων εξόδων",companySetEsoExoEntityPanel,null,companySetEsoExoFieldsOnTitle,companySetEsoExoFieldsOnTitleCaption,companySetEsoExoFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityMenu empr = new EntityMenu();
+        empr.setEntityParameter(pr,ICO_SETTINGS);
+        empr.setEntityType(ENTITY_TYPE_PARAMETER);//ENTITY_TYPE_PARAMETER);
+        DataTreeNode nodeempr = new DataTreeNode(empr);
+        nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeempr);           
          //------------------------------------------------------------
          
         int[] printFormFieldsOrderby ={2};

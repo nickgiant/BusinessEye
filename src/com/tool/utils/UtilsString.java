@@ -186,7 +186,7 @@ import java.util.regex.Pattern;
     	{
     	    queryWhere = query.substring(indexWhere,query.length());
     	    queryBeforeWhere = query.substring(0,indexWhere);
-    	  //    queryWhere = queryWhere.replace('*','%');  //    disabled because there might be a subclause with another select
+    	  //    queryWhere = queryWhere.replace('*','%');  //    disabled because there might be a subclause with another 'select'
     	
     	    ret=queryBeforeWhere+queryWhere;    		
     	}

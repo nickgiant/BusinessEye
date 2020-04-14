@@ -50,8 +50,8 @@ public interface Constants
        public static final String PRODUCT_FARMERSVAT = "3";
 
        public static final String PRODUCT_OLA_CAPTION = "";
-       public static final String PRODUCT_TIMOLOGIA_CAPTION = "παροχή υπηρεσίας";
-       public static final String PRODUCT_TIMOLOGIA_CAPTION_OF = "παροχής υπηρεσίας";
+       public static final String PRODUCT_TIMOLOGIA_CAPTION = "τιμολόγηση";
+       public static final String PRODUCT_TIMOLOGIA_CAPTION_OF = "τιμολόγησης";
        public static final String PRODUCT_APLOGRAFIKA_CAPTION = "έσοδα - έξοδα";       
        public static final String PRODUCT_APLOGRAFIKA_CAPTION_OF = "εσόδων - εξόδων";       
        public static final String PRODUCT_FARMERSVAT_CAPTION = "ΦΠΑ αγροτών";   

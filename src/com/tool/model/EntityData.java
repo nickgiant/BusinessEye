@@ -202,7 +202,7 @@ public class EntityData implements Constants
    {
         EntityMenu emCat0 = new EntityMenu();
         emCat0.setEntityType(ENTITY_TYPE_SECTION);
-        emCat0.setEntitySection("έσοδα έξοδα",loadAndGetEsodaExodaDataTreeNode(),ICO_MENUESODAEXODA);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
+        emCat0.setEntitySection(PRODUCT_APLOGRAFIKA_CAPTION,loadAndGetEsodaExodaDataTreeNode(),ICO_MENUESODAEXODA);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
         listSections.add(emCat0);  
    }
    else if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA))
@@ -210,7 +210,7 @@ public class EntityData implements Constants
         
         EntityMenu emCat1 = new EntityMenu();
         emCat1.setEntityType(ENTITY_TYPE_SECTION);
-        emCat1.setEntitySection("παροχή υπηρεσίας",loadAndGetServiceSalesDataTreeNode(),ICO_MENUSERVICESALES);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
+        emCat1.setEntitySection(PRODUCT_TIMOLOGIA_CAPTION,loadAndGetServiceSalesDataTreeNode(),ICO_MENUSERVICESALES);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
         listSections.add(emCat1);
    }  
    else if( VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
@@ -219,13 +219,13 @@ public class EntityData implements Constants
        
                EntityMenu emCat1 = new EntityMenu();
         emCat1.setEntityType(ENTITY_TYPE_SECTION);
-        emCat1.setEntitySection("παροχή υπηρεσίας",loadAndGetServiceSalesDataTreeNode(),ICO_MENUSERVICESALES);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
+        emCat1.setEntitySection(PRODUCT_TIMOLOGIA_CAPTION,loadAndGetServiceSalesDataTreeNode(),ICO_MENUSERVICESALES);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
         listSections.add(emCat1);
        
        
                EntityMenu emCat0 = new EntityMenu();
         emCat0.setEntityType(ENTITY_TYPE_SECTION);
-        emCat0.setEntitySection("έσοδα έξοδα",loadAndGetEsodaExodaDataTreeNode(),ICO_MENUESODAEXODA);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
+        emCat0.setEntitySection(PRODUCT_APLOGRAFIKA_CAPTION,loadAndGetEsodaExodaDataTreeNode(),ICO_MENUESODAEXODA);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
         listSections.add(emCat0);
         
      
