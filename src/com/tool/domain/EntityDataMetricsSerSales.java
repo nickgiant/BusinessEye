@@ -3,9 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tool.model;
+package com.tool.domain;
 
 import com.tool.guicomps.*;
+import com.tool.model.EntityDockableGraph;
+import com.tool.model.EntityFilterSettings;
+import com.tool.model.EntityGroupOfComps;
+import com.tool.model.EntityMenu;
+import com.tool.model.EntityScoreBoard;
+import com.tool.model.EntityStatistics;
 import com.tool.utils.*;
 
 

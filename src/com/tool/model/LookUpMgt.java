@@ -1,5 +1,6 @@
 package com.tool.model;
 
+import com.tool.domain.EntityData;
 import com.tool.model.EntityFilterSettings;
 import com.tool.model.EntityPanel;
 import com.tool.model.*;

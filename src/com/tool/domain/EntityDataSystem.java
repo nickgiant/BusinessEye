@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tool.model;
+package com.tool.domain;
 
 /**
  *
@@ -11,6 +11,21 @@ package com.tool.model;
  */
 
 import com.tool.guicomps.*;
+import com.tool.model.EntityCheckFields;
+import com.tool.model.EntityDBFields;
+import com.tool.model.EntityFilterSettings;
+import com.tool.model.EntityGroupOfComps;
+import com.tool.model.EntityGroupOfPanels;
+import com.tool.model.EntityLookUp;
+import com.tool.model.EntityLookupTableConstants;
+import com.tool.model.EntityLookupTableConstantsData;
+import com.tool.model.EntityManyDataManyRec;
+import com.tool.model.EntityMenu;
+import com.tool.model.EntityPanel;
+import com.tool.model.EntityParameter;
+import com.tool.model.EntityReportBand;
+import com.tool.model.EntityTool;
+import com.tool.model.EntityUpdateAdditional;
 import com.tool.utils.*;
 import java.util.ArrayList;
 

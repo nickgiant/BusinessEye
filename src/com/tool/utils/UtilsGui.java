@@ -3,6 +3,7 @@ package com.tool.utils;
 import com.tool.model.EntityMessage;
   import com.tool.guicomps.*;
   import com.tool.gui.*;
+import static com.tool.guicomps.Constants.FILE_CONFIG;
 
   import java.util.*;
  
@@ -22,6 +23,7 @@ import com.tool.model.EntityMessage;
   import java.io.File;
   import java.io.IOException;
   import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import java.util.Properties;
   
@@ -290,7 +292,7 @@ public class UtilsGui implements Constants
 
         
         if (laf.equals(""))
-        {   laf = UIManager.getSystemLookAndFeelClassName() ;   }
+        {   laf = UIManager.getSystemLookAndFeelClassName() ;   }  //  com.sun.java.swing.plaf.windows.WindowsLookAndFeel
  
         if (laf.equals("java"))
         {      }
@@ -317,6 +319,60 @@ public class UtilsGui implements Constants
 
    }
 
+   /*
+  *  called from dialog main
+  */
+  public void createUiConfigToFile()
+	{
+	
+         String dateFormat="dd-MM-yyyy";
+         String dateFormatEdit="dd-MM-yyyy";
+		
+		Properties fileProperties = new Properties();
+        
+        fileProperties.setProperty("LookAndFeel", "");//    com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+        
+        //String dateFormatSelection = cmbDateFormat.getSelectedItem().toString();
+        fileProperties.setProperty("date.format", dateFormat);
+        fileProperties.setProperty("date.formatEdit", dateFormatEdit);
+        //String proposeDateSelection = cmbProposeDate.getSelectedItem().toString();
+     /*   if (proposeCurrentDate == true )
+        {   fileProperties.setProperty("date.proposeCurrentProgramDate", "y");  }
+        else if (proposeCurrentDate == false )
+        {   fileProperties.setProperty("date.proposeCurrentProgramDate", "n");  }
+     */   //fileProperties.setProperty("number.decimalNumbers", decimalNumbers);
+        //fileProperties.setProperty("number.decimalFormat", decimalFormat);
+        //fileProperties.setProperty("textDelimiter", txtTextDelimiter.getText());
+ 
+ //		System.out.println(VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_CONFIG) ;
+
+        
+ 
+        File file = new File(VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+FILE_CONFIG);
+        // Create file if it does not exist
+        boolean exists= file.exists();
+        if(!exists)
+        {
+                 try
+             {
+        boolean success = false;
+        success = file.createNewFile();
+        if (success)
+        {
+            // File did not exist and was created
+           System.out.println(VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+FILE_CONFIG+ " did not found and created.") ;
+            fileProperties.store(new FileOutputStream(file), null);
+        }
+        else
+        {
+            // File already exists
+            fileProperties.store(new FileOutputStream(file), null);
+        }
+            }catch (IOException e)
+            { System.err.println("DialogMain.setConfigToFile (cannot find file) "+e+" "+VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+FILE_CONFIG);    }
+        }
+
+    } 
 
 public class MessagePanelError extends JPanel
 {

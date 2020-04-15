@@ -5,10 +5,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tool.model;
+package com.tool.domain;
 
 import com.tool.utils.*;
 import com.tool.guicomps.*;
+import com.tool.model.EntityLookupTableConstants;
+import com.tool.model.EntityMenu;
 
 import java.util.*;
 

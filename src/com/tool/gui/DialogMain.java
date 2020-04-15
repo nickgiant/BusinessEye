@@ -1,5 +1,6 @@
  package com.tool.gui;
  
+import com.tool.domain.EntityData;
  import com.tool.utils.*;
  import com.tool.guicomps.*;
 import static com.tool.guicomps.Constants.ICO_USER16;
@@ -89,7 +90,7 @@ public class DialogMain extends JxFrame implements Constants
     
     private DialogSystemInfo dialogSystemInfo;
     private PanelManagement panelManagement;
-    private DialogProgramConfiguration dialogProgramConfiguration;
+    //private DialogProgramConfiguration dialogProgramConfiguration;
     
     private JButton btnExit;
     
@@ -779,13 +780,13 @@ public class DialogMain extends JxFrame implements Constants
         }  
     }
 
-    private void displayDialogConfiguration()
+    /*private void displayDialogConfiguration()
     {
        dialogProgramConfiguration = new DialogProgramConfiguration(this); 
         //dialogConfiguration.setSize(360,300);
        dialogProgramConfiguration.locateOnCenterOfTheScreen();
         dialogProgramConfiguration.setVisible(true);
-    }
+    }*/
 
     //create a window listener to respond to the window close click
    private void setCloseClick()
@@ -1219,7 +1220,7 @@ public class DialogMain extends JxFrame implements Constants
     {
         
     
-        JMenuItem mitemConfigOptions = new JMenuItem();
+        //JMenuItem mitemConfigOptions = new JMenuItem();
     //private JCheckBoxMenuItem mitemVisTreeMenu = new  JCheckBoxMenuItem();
      //private JCheckBoxMenuItem mitemVisToolbarMain = new  JCheckBoxMenuItem();
      JMenuItem mitemDbConnect = new JMenuItem(); 
@@ -1236,8 +1237,8 @@ public class DialogMain extends JxFrame implements Constants
     	
               
             // tools menu -------------------------------------------------------
-            menuTools = new JMenu("tools");       
-
+           menuTools = new JMenu("tools");       
+           /*
               mitemConfigOptions.setIcon(ICO_CONFIG16);
             mitemConfigOptions.setText("options");
             mitemConfigOptions.setAccelerator(KeyStroke.getKeyStroke('R', KeyEvent.CTRL_DOWN_MASK));
@@ -1246,7 +1247,7 @@ public class DialogMain extends JxFrame implements Constants
             public void actionPerformed(ActionEvent e)
             {    displayDialogConfiguration();  }
             });
-            
+            */
   
             
           mitemBackupRestore.setText("back up/restore");
@@ -1291,11 +1292,11 @@ public class DialogMain extends JxFrame implements Constants
        
           
             
-          menuTools.addSeparator();
+         // menuTools.addSeparator();
         //  menuTools.add(mitemDbConnect);
           menuTools.add(mitemBackupRestore); 
           menuTools.add(mitemQueryBrowser);
-          menuTools.add(mitemConfigOptions);
+          //menuTools.add(mitemConfigOptions);
           
           
           menuBarIn.add(menuTools);  
@@ -1991,7 +1992,7 @@ manager.addChangeListener(updateListener);*/
       private JButton btnCompanyLogin = new JButton();
       private JButton btnUserLogin = new JButton();
       //private JButton btnManagement = new JButton();
-      private JButton btnConfig = new JButton();
+      //private JButton btnConfig = new JButton();
 
       //private JToggleButton btnModule1 = new JToggleButton();
       //private JButton btnModule1 = new JButton();   // is in initialization
@@ -2155,7 +2156,7 @@ manager.addChangeListener(updateListener);*/
 
           //btnConfig.setText("<html>ρυθμίσεις <b>ctrl+P</b></html>");
           //btnConfig.setText("<html><b>P</b>υθμίσεις</html>");
-          btnConfig.setText("ρυθμίσεις");
+         /* btnConfig.setText("ρυθμίσεις");
           btnConfig.setOpaque(false);
           btnConfig.setToolTipText("ρυθμίσεις");
           btnConfig.setIcon(ICO_CONFIG16);
@@ -2166,7 +2167,7 @@ manager.addChangeListener(updateListener);*/
 	        public void actionPerformed(ActionEvent e) 
 	        {   displayDialogConfiguration(); // displayMessageDialog("ρυθμίσεις","ρυθμίσεις που αφορουν το πρόγραμμα, \n όπως εμφάνιση κτλ...");    
 	        }//displayCalendarDialog(btnConfig);
-	      });
+	      });*/
 
          /* btnParameters.setText("<html><b>Π</b>αραμετροποίηση</html>");
           btnParameters.setOpaque(false);
@@ -2334,7 +2335,7 @@ manager.addChangeListener(updateListener);*/
           add(btnCompanyLogin);
           add(btnUserLogin);
           addSeparator();
-          add(btnConfig);
+          //add(btnConfig);
          // addSeparator();
           //add(btnParameters);
           add(btnBackupRestore);
@@ -3076,11 +3077,14 @@ manager.addChangeListener(updateListener);*/
         systemDirectorySymbol=System.getProperty("file.separator");
         VariablesGlobal.globalDirConfiguration = curDir;
  
+        utilsGui.createUiConfigToFile();
+        utilsGui.setLookAndFeel();      
         
-         utilsGui.setLookAndFeel();
          //  new ImageIcon(Constants.class.getResource("/images/logo.png")
   	WindowSplash splashScr = new WindowSplash(VariablesGlobal.appName+"  (εκδ "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+")",ICO_BACK);///APP_LOGO );   //  APP_LOGO
         DialogMain dialogMain = new DialogMain();
+       
+
         dialogMain.readFromFileDbSettings();
      	DatabaseMeta dbMeta = new DatabaseMeta();
   	String running = dbMeta.isDBrunning();
@@ -3211,5 +3215,5 @@ manager.addChangeListener(updateListener);*/
          
      }
      
-   
+  
 }

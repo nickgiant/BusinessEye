@@ -1,8 +1,27 @@
 // created 06-07-2007
 // FarmersVat
-package com.tool.model;
+package com.tool.domain;
 
 import com.tool.guicomps.*;
+import com.tool.model.EntityDBFields;
+import com.tool.model.EntityDockableGraph;
+import com.tool.model.EntityFilterSettings;
+import com.tool.model.EntityGroupOfComps;
+import com.tool.model.EntityGroupOfPanels;
+import com.tool.model.EntityInfo;
+import com.tool.model.EntityLookUp;
+import com.tool.model.EntityLookupTableConstants;
+import com.tool.model.EntityManyDataManyRec;
+import com.tool.model.EntityMenu;
+import com.tool.model.EntityPanel;
+import com.tool.model.EntityParameter;
+import com.tool.model.EntityQuery;
+import com.tool.model.EntityReport;
+import com.tool.model.EntityReportBand;
+import com.tool.model.EntityReportBandField;
+import com.tool.model.EntityScoreBoard;
+import com.tool.model.EntityStatistics;
+import com.tool.model.EntityTask;
 import com.tool.utils.*;
 
 

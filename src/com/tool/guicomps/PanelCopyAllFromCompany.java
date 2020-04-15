@@ -15,8 +15,8 @@ import com.tool.utils.*;
 import java.sql.*;
 
 import com.tool.model.EntityDBFields;
-import com.tool.model.EntityDataEsoExo;
-import com.tool.model.EntityDataSerSales;
+import com.tool.domain.EntityDataEsoExo;
+import com.tool.domain.EntityDataSerSales;
 import com.tool.utils.DataTree;
 import com.tool.utils.EventQueueTxtRightClick;
 import com.tool.utils.GridLayoutVariable;

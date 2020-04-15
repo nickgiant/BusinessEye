@@ -2,6 +2,7 @@
 
 package com.tool.gui;
 
+import com.tool.domain.EntityData;
 import com.tool.model.EntityStatistics;
 import com.tool.model.EntityParameter;
 //import com.tool.model.EntityInfoMany;

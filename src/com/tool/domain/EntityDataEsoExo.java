@@ -1,6 +1,26 @@
-package com.tool.model;
+package com.tool.domain;
 
 import com.tool.guicomps.*;
+import com.tool.model.EntityCalculate;
+import com.tool.model.EntityCheckFields;
+import com.tool.model.EntityDBFields;
+import com.tool.model.EntityDBFieldsCalculation;
+import com.tool.model.EntityFilterSettings;
+import com.tool.model.EntityGroupOfComps;
+import com.tool.model.EntityGroupOfPanels;
+import com.tool.model.EntityInfo;
+import com.tool.model.EntityLookUp;
+import com.tool.model.EntityLookupTableConstants;
+import com.tool.model.EntityLookupTableConstantsData;
+import com.tool.model.EntityManyDataManyRec;
+import com.tool.model.EntityMenu;
+import com.tool.model.EntityPanel;
+import com.tool.model.EntityParameter;
+import com.tool.model.EntityReport;
+import com.tool.model.EntityReportBand;
+import com.tool.model.EntityReportBandField;
+import com.tool.model.EntityTemplate;
+import com.tool.model.EntityUpdateAdditional;
 import com.tool.utils.*;
 import java.util.ArrayList;
 

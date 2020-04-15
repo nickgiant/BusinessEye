@@ -8,6 +8,7 @@
 package com.tool.model;
 
 
+import com.tool.domain.EntityData;
 import com.tool.model.*;
 import java.util.ArrayList;
 /**

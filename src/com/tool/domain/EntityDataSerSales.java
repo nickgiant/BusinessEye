@@ -1,6 +1,24 @@
-package com.tool.model;
+package com.tool.domain;
 
 import com.tool.guicomps.*;
+import com.tool.model.EntityCheckFields;
+import com.tool.model.EntityDBFields;
+import com.tool.model.EntityDBFieldsCalculation;
+import com.tool.model.EntityFilterSettings;
+import com.tool.model.EntityGroupOfComps;
+import com.tool.model.EntityGroupOfPanels;
+import com.tool.model.EntityInfo;
+import com.tool.model.EntityLookUp;
+import com.tool.model.EntityLookupTableConstants;
+import com.tool.model.EntityLookupTableConstantsData;
+import com.tool.model.EntityManyDataManyRec;
+import com.tool.model.EntityMenu;
+import com.tool.model.EntityPanel;
+import com.tool.model.EntityParameter;
+import com.tool.model.EntityReport;
+import com.tool.model.EntityReportBand;
+import com.tool.model.EntityReportBandField;
+import com.tool.model.EntityUpdateAdditional;
 import com.tool.utils.*;
 import java.util.ArrayList;
 
@@ -1827,11 +1845,11 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
   
          int[] companySetSerSalesFieldsOrderby ={2};
        String[] companySetSerSalesFieldsForSums=null;
-       EntityParameter pq = new EntityParameter("dbcompanyset", "SELECT dbCompanyId AS \"Νο\" FROM dbcompanyset ORDER BY dbCompanyId" ,"SELECT dbCompanyId AS \"Νο\" ","FROM dbcompanyset","",companySetSerSalesFieldsForSums,companySetSerSalesDBFields,"ρυθμ. παροχής υπηρεσιών","DORO","Νο","dbcompanyid", null,null,"παρ. υπηρεσίας", "παρ. υπηρεσιών",companySetSerSalesEntityPanel,null,companySetSerSalesFieldsOnTitle,companySetSerSalesFieldsOnTitleCaption,companySetSerSalesFieldsOrderby,-1,-1,globalYearPlusOne);
-        EntityMenu empq = new EntityMenu();
-        empq.setEntityParameter(pq,ICO_SETTINGS);
-        empq.setEntityType(ENTITY_TYPE_PARAMETER);//ENTITY_TYPE_PARAMETER);
-          DataTreeNode nodeemq = new DataTreeNode(empq);
+       EntityParameter pqs = new EntityParameter("dbcompanyset", "SELECT dbCompanyId AS \"Νο\" FROM dbcompanyset ORDER BY dbCompanyId" ,"SELECT dbCompanyId AS \"Νο\" ","FROM dbcompanyset","",companySetSerSalesFieldsForSums,companySetSerSalesDBFields,"ρυθμ. παροχής υπηρεσιών","DORO","Νο","dbcompanyid", null,null,"παρ. υπηρεσίας", "παρ. υπηρεσιών",companySetSerSalesEntityPanel,null,companySetSerSalesFieldsOnTitle,companySetSerSalesFieldsOnTitleCaption,companySetSerSalesFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityMenu empqs = new EntityMenu();
+        empqs.setEntityParameter(pqs,ICO_SETTINGS);
+        empqs.setEntityType(ENTITY_TYPE_PARAMETER);//ENTITY_TYPE_PARAMETER);
+          DataTreeNode nodeemq = new DataTreeNode(empqs);
         nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeemq); 
         //-------------------------------------transaction types below-------------
    
@@ -1857,16 +1875,17 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
          //------------------------------------------------------------         
          
          
-         
+      /*   
         int[] vatCatFieldsOrderby ={3};
         String[] fieldsForSumsVatCat=null;//                                in query: because it has the same table 2 times, we use the 1st table as it is, in order to be queried correct in title fields
         EntityParameter pm = new EntityParameter("vatcat", "SELECT vatcat.vatCatId AS \"Νο κατηγορίας ΦΠΑ\", vatcat.vatDescr AS \"ονομασία\", vatcat.vatPercentage AS \"ποσοστό\", vatcat.vatReducedCat AS \"μειωμένος συντελεστής\" , vcr.vatDescr AS \"ονομασία μειωμ. συντ.\", vatcat.active  FROM vatcat LEFT JOIN vatcat vcr ON vatcat.vatReducedCat=vcr.vatCatId ORDER BY vatcat.vatCatId","SELECT vatCatId AS \"Νο κατηγορίας ΦΠΑ\", vatDescr AS \"ονομασία\", vatPercentage AS \"ποσοστό\"","FROM vatcat","",fieldsForSumsVatCat,vatCatDBFields ,"κατηγορίες ΦΠΑ","DORM","Νο κατηγορίας ΦΠΑ","vatCatId",null,null,"κατηγορίας ΦΠΑ", "κατηγοριών ΦΠΑ",entityPanelVatCat,null,fieldsOnTitleVatCat,fieldsOnTitleCaptionVatCat,vatCatFieldsOrderby,-1,-1,globalYearPlusOne);
         EntityMenu empm = new EntityMenu();
         empm.setEntityParameter(pm,ICO_TABLE16);
         empm.setEntityType(ENTITY_TYPE_PARAMETER);
-       // DataTreeNode nodeempm = new DataTreeNode(empm);
+       // DataTreeNode nodeempm = new DataTreeNode(empm);*/
        // nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeempm);     
         
+        //---------------------------------------------
         int[] serviceCatFieldsOrderby ={2};
         String[] fieldsForSumsServiceCat=null;//                                in query: because it has the same table 2 times, we use the 1st table as it is, in order to be queried correct in title fields
         EntityParameter pqc = new EntityParameter("stockcat", "SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId FROM stockcat WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY stockcat.catDescr","SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId","FROM stockcat","WHERE dbCompanyID LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsServiceCat,serviceCatDBFields ,"κατηγορίες υπηρεσίας","DORM","Νο κατηγορίας υπηρεσίας","stockCatId",null,null,"κατηγορίας της υπηρεσίας", "κατηγοριών των υπηρεσιών",entityPanelServiceCat,null,fieldsOnTitleServiceCat,fieldsOnTitleCaptionServiceCat,serviceCatFieldsOrderby,-1,-1,globalYearPlusOne);
@@ -1875,16 +1894,12 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
         empqc.setEntityType(ENTITY_TYPE_PARAMETER);
        // DataTreeNode nodeempm = new DataTreeNode(empm);
        // nodeRoot.getChildFromCaption(PARAMETERS).addChild(nodeempm);         
-        
-        
-        //--------------------------------------------------------
 
-       EntityParameter[] pz = {pq};
-        EntityMenu[] empza = {empq};
+       EntityParameter[] pz = {pqc};
+        EntityMenu[] empza = {empqc};
         //empz.setEntityParameter(pz,ICO_TABLE16);
         //empza.setEntityType(ENTITY_TYPE_PARAMETER);
-        
-        
+
         EntityManyDataManyRec pza = new EntityManyDataManyRec("πίνακες", "κατηγορίες υπηρεσιών",pz,empza);
         EntityMenu empz = new EntityMenu();
         empz.setEntityManyDataManyRec(pza,ICO_TABLE16);

@@ -730,7 +730,9 @@ public class DialogProgramConfiguration extends JDialog implements Constants
 
 	private void setConfigToFile()
 	{
-		
+	
+         String dateFormat="dd-MM-yyyy";
+         String dateFormatEdit="dd-MM-yyyy";
 		
 		Properties fileProperties = new Properties();
         
