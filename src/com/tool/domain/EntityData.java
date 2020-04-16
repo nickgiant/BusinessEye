@@ -28,7 +28,7 @@ public class EntityData implements Constants
        EntityDataFarmersVat entityDataFarmersVat;
        //EntityDataTam entityDataTam;
        EntityDataSystem entityDataSystem;
-       EntityDataMetricsSerSales entityDataMetricsSerSales;
+       EntityDataMetrics entityDataMetricsSerSales;
        //EntityDataMetricsEsoExo entityDataMetricsEsoExo;
     
     public EntityData()
@@ -47,7 +47,7 @@ public class EntityData implements Constants
         
    //     entityDataSersal = new EntityDataSerSales();
    //     entityDataSystem = new EntityDataSystem();
-   //     entityDataMetrics = new EntityDataMetricsSerSales();
+   //     entityDataMetrics = new EntityDataMetrics();
         
         
     }
@@ -143,7 +143,7 @@ public class EntityData implements Constants
     
     private DataTree loadAndGetMetricsSerSalesDataTreeNode()
     {
-        entityDataMetricsSerSales = new EntityDataMetricsSerSales();
+        entityDataMetricsSerSales = new EntityDataMetrics();
         
        boolean[] isNodeVisible ={true, true, true, true,true};
         entityDataMetricsSerSales.addMainNavigationNodes(isNodeVisible);
