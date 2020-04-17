@@ -1,12 +1,25 @@
-// created 26-05-2007
 
-package com.tool.guicomps;
+
+package com.tool.rpt;
 
 //import com.tool.rpt.PanelReportFormDesign;
 //import com.tool.rpt.PanelReportFormData;
 import com.tool.model.EntityGroupOfComps;
 import com.tool.model.EntityFilterSettings;
 import com.tool.gui.*;
+import com.tool.guicomps.Constants;
+import com.tool.guicomps.JButtonForPanelDecorated;
+import com.tool.guicomps.JPanelDecorated;
+import com.tool.guicomps.JTextBoxWithEditButtons;
+import com.tool.guicomps.JxPanel;
+import com.tool.guicomps.JxTabbedPane;
+import com.tool.guicomps.PanelDataFilter;
+import com.tool.guicomps.PanelDataFilterSettings;
+import com.tool.guicomps.PanelDataViewNOrder;
+import com.tool.guicomps.PanelExportToFileSettings;
+import com.tool.guicomps.PanelManagement;
+import com.tool.guicomps.RecColumn;
+import com.tool.guicomps.WindowLookUpMultipleCheck;
 import com.tool.jdbc.*;
 import com.tool.utils.*;
 import com.tool.model.*;
@@ -818,10 +831,10 @@ import javax.swing.border.BevelBorder;
 
         
         JxPanel panelOrientation = new JxPanel();
-              panelOrientation.setBorder( new TitledBorder(BorderFactory.createTitledBorder(null, "προσανατολισμός εκτύπωσης",TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       
+              panelOrientation.setBorder( new TitledBorder(BorderFactory.createTitledBorder(null, "προσανατολισμός",TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       
        
         
-        panelOrientation.setLayout(new BoxLayout(panelOrientation, BoxLayout.PAGE_AXIS));
+        panelOrientation.setLayout(new BoxLayout(panelOrientation, BoxLayout.LINE_AXIS));
                
 
         panelOrientation.add(radioPortrait);

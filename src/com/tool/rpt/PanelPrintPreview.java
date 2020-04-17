@@ -1,7 +1,12 @@
-package com.tool.guicomps;
+package com.tool.rpt;
 
 import com.tool.jdbc.*;
 import com.tool.gui.*;
+import com.tool.guicomps.Constants;
+import com.tool.guicomps.JListDec;
+import com.tool.guicomps.JxPanel;
+import com.tool.guicomps.PlainDocumentInsertText;
+import com.tool.guicomps.RecColumn;
 import com.tool.model.*;
 import com.tool.utils.*;
 //import prt.*;

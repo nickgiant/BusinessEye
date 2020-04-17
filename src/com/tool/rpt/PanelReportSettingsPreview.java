@@ -1,8 +1,12 @@
-package com.tool.guicomps;
+package com.tool.rpt;
 
 import com.tool.model.EntityGroupOfComps;
 import com.tool.model.EntityFilterSettings;
 import com.tool.gui.*;
+import com.tool.guicomps.Constants;
+import com.tool.guicomps.JxPanel;
+import com.tool.guicomps.PanelManagement;
+import com.tool.guicomps.WindowWait;
 import com.tool.jdbc.*;
 import com.tool.utils.*;
 import com.tool.model.*;

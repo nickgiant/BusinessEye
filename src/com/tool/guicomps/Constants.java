@@ -291,8 +291,8 @@ public interface Constants
    public final String STRPAGESIZE_A3="A3";
     public final String[] STRARRAYPAGESIZELASER = { STRPAGESIZE_A5,STRPAGESIZE_A4,STRPAGESIZE_B4, STRPAGESIZE_A3};
 
-    public final  String ORIENTATION_LANDSCAPE="landscape";
-    public final String ORIENTATION_PORTRAIT="portrait";
+    public final  String ORIENTATION_LANDSCAPE="επίπεδη σελίδα";
+    public final String ORIENTATION_PORTRAIT="κατακόρυφη σελίδα";
    
     
     public final String FILE_REPORTFORMTEMPLATE_DOTMATRIX = "dotmatrix.txt";
@@ -343,8 +343,8 @@ public interface Constants
     public static final String METRICSOF_ESOEXO = "δείκτες εσόδων εξόδων";
     public static final String METRICSOF_ESOEXO_ACC = "δείκτες λογαριασμών";    
     
-    public static final String PARAMETERS = "παραμετροι";   
-    public static final String PARAMETERSOFSYSTEM = "παραμετροι"; //  συστήματος
+    public static final String PARAMETERS = "παράμετροι";   
+    public static final String PARAMETERSOFSYSTEM = "παράμετροι"; //  συστήματος
     public static final String TOOLS = "εργαλεία";  
     public static final String MAINTENANCE = "συντήρηση";
     public static final String MAINTENANCEOFSYSTEM = "συντήρηση"; // συστήματος

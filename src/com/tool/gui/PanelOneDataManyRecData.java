@@ -1,5 +1,6 @@
 package com.tool.gui;
 
+import com.tool.rpt.PanelReportSettingsPreview;
 import com.tool.model.LookUpMgt;
 import com.tool.model.EntityGroupOfComps;
 import com.tool.model.EntityMessage;

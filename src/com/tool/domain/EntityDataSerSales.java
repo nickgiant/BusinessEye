@@ -2300,9 +2300,7 @@ boolean[] boolSettingsSaleHeaderΒ = {true,true,true,true};
         //nodeCat = nodeRoot.getChildFromCaption(REPORTS).getChildFromCaption(REPORT_CAT_1);
         nodeReports.getChildFromCaption(REPORT_CAT_2).addChild(nodeemrb);                 
 
-        
-       // --------------------------------- REPORT_CAT_3 ---------------------
-       
+
        EntityFilterSettings[] customerErs = new EntityFilterSettings[4];   
        //customerErs[0]=new EntityFilterSettings("εταιρία","onelookup","string","","dbCompanyId","dbcompany","customer",VariablesGlobal.globalCompanyId,0,-1,-1,FIELD_OBLIGATORY);
        //invoiceErs[1]=new EntityFilterSettings("χρήση","onelookup","string","","dbyearId","dbyear","customer", VariablesGlobal.globalYearId,0,0,-1,FIELD_OBLIGATORY);
@@ -2339,22 +2337,8 @@ boolean[] boolSettingsSaleHeaderΒ = {true,true,true,true};
        */
        int[] invoicesSelected =null;//{1,2,3,4,0,0,0,0,0,0,11,12,0,14,};        
        int[] invoiceFieldOrderby = {3,4,2};
-       
-       //boolean[] boolSettingsInvoice = {false,false,true,true};
-       //EntityQuery[] invoiceEntQuery = new EntityQuery[1]; 
-       //invoiceEntQuery[0]= new EntityQuery("SELECT customer.customerId,customer.customerAfm, customer.surname,customer.name,invoice.* FROM invoice, customer, application WHERE application.customerId = customer.customerId AND invoice.customerId = customer.customerId",false,0,null,null,null,null,null);
-  
-       //EntityQuery[] deliveryCheckEntQuery = new EntityQuery[1]; 
-       //deliveryCheckEntQuery[0]= new EntityQuery("SELECT invoice.customerId,buyer.buyerTitle , invoice.paymentTypeId,invoice.invoiceNo,invoice.date,invoice.dbyear, invoice.productId, invoice.value, invoice.valueReturn FROM invoice, customer, application, buyer WHERE buyer.buyerId=invoice.buyerId AND invoice.customerId = customer.customerId AND application.customerId=customer.customerId AND application.customerId=invoice.customerId ORDER BY customer.surname,customer.name",false,0,null,null,null,null,null);
-//-----        
-       // same as entityInfoMany the read only of list
-       //String deliveryCheckHeaderEntQuery="SELECT f.customerId AS\"Νο πελάτη\", f.surname AS\"επίθετο\", f.name AS\"όνομα\", f.fatherName AS\"πατρόνυμο\",f.customerAfm AS\"Α.Φ.Μ.\", permanent AS \"υπολ\" , d.dateOfApplication AS \"ημ/νια αίτησης\" , COUNT(i.value) AS \"πλήθος\", SUM(i.value) AS \"αξία\", SUM(retValueAccordingToType(1, i.currencyId, i.valueReturn)) AS \"κατ 1\", SUM(retValueAccordingToType(2, i.currencyId, i.valueReturn)) AS \"κατ 2\", SUM(retValueAccordingToType(3, i.currencyId, i.valueReturn)) AS \"κατ 3\", d.valueReturn AS \"συν επιστρ\", d.payment AS \"κράτηση\" FROM application d, customer f, invoice i WHERE i.customerId = f.customerId AND d.customerId = f.customerId AND i.deliveryId = d.deliveryId AND i.dbyear=d.dbyear AND i.dbCompanyId=d.dbCompanyId GROUP BY f.customerId, d.permanent, d.dateOfApplication ORDER BY f.surname, f.name";
-  //     EntityReportGroup[] deliveryEntityReportGroup = new EntityReportGroup[2];
- //      deliveryEntityReportGroup[0] = new EntityReportGroup("αγρότες","SELECT f.customerId AS\"Νο πελάτη\", f.surname AS\"επίθετο\", f.name AS\"όνομα\", f.fatherName AS\"πατρόνυμο\",f.customerAfm AS\"Α.Φ.Μ.\", permanent AS \"υπολ\" ,a.deliveryId, a.dateOfApplication AS \"ημ/νια αίτησης\" , COUNT(i.value) AS \"πλήθος\", SUM(i.value) AS \"αξία\", SUM(retValueAccordingToType(1, i.currencyId, i.valueReturn)) AS \"κατ 1\", SUM(retValueAccordingToType(2, i.currencyId, i.valueReturn)) AS \"κατ 2\", SUM(retValueAccordingToType(3, i.currencyId, i.valueReturn)) AS \"κατ 3\", a.valueReturn AS \"συν επιστρ\", a.payment AS \"κράτηση\" FROM application a, customer f, invoice i WHERE i.customerId = f.customerId AND a.customerId = f.customerId AND i.deliveryId = a.deliveryId AND i.dbyear=a.dbyear AND i.dbCompanyId=a.dbCompanyId GROUP BY f.customerId, a.permanent, a.dateOfApplication, a.valuereturn", "ORDER BY f.surname, f.name","application",ENTITYREPORT_QUERY_TYPE_MAIN,0,"customerId",boolSettingsCustomer);  // header
- //      deliveryEntityReportGroup[1] = new EntityReportGroup("παραστατικά","SELECT i.aa AS\"α/α\", i.customerId,i.deliveryId,b.buyerTitle AS\"αγοραστής\", it.abbreviation  AS\"παρ/κο\", i.invoiceNo  AS\"αριθμός\",i.date  AS\"ημερομηνία\",i.dbyear, p.productName  AS\"προϊόν\", i.value  AS\"αξία\", i.valueReturn  AS\"επιστροφή\" FROM invoice i, customer f, application a, buyer b, product p, currency pt, paymentType it WHERE i.productId=p.productId AND pt.currencyId=p.currencyId AND b.buyerId=i.buyerId AND i.customerId = f.customerId AND a.customerId=f.customerId AND a.customerId=i.customerId AND a.dbyear=i.dbyear AND a.dbCompanyId=i.dbCompanyId AND a.deliveryId=i.deliveryId AND i.paymentTypeId=it.paymentTypeId","ORDER BY f.surname,f.name","appinvoice",ENTITYREPORT_QUERY_TYPE_MAIN,1,null,boolSettingsInvoice);  // many
+      
 
-        /*public EntityReportBandField(String nameIn,  String captionIn, String tableNameIn ,String dbFieldNameIn,int groupOfCompsIn,String colClassNameIn,int colWidthIn,
-              String defaultValueIn, EntityDBFieldsCalculation[] fieldsCalculationIn)*/
        boolean[] boolSettingsCustomer = {true,true,true,true};
        
        EntityReportBandField[] entityReportBandFieldsCustomer =new EntityReportBandField[6];
@@ -2381,7 +2365,26 @@ boolean[] boolSettingsSaleHeaderΒ = {true,true,true,true};
         emra.setEntityType(ENTITY_TYPE_REPORT);
         DataTreeNode nodeemra = new DataTreeNode(emra);
         //nodeCat = nodeRoot.getChildFromCaption(REPORTS).getChildFromCaption(REPORT_CAT_1);
-        nodeReports.getChildFromCaption(REPORT_CAT_3).addChild(nodeemra);
+        nodeReports.getChildFromCaption(REPORT_CAT_2).addChild(nodeemra);        
+       // --------------------------------- REPORT_CAT_3 ---------------------
+       
+ 
+       //boolean[] boolSettingsInvoice = {false,false,true,true};
+       //EntityQuery[] invoiceEntQuery = new EntityQuery[1]; 
+       //invoiceEntQuery[0]= new EntityQuery("SELECT customer.customerId,customer.customerAfm, customer.surname,customer.name,invoice.* FROM invoice, customer, application WHERE application.customerId = customer.customerId AND invoice.customerId = customer.customerId",false,0,null,null,null,null,null);
+  
+       //EntityQuery[] deliveryCheckEntQuery = new EntityQuery[1]; 
+       //deliveryCheckEntQuery[0]= new EntityQuery("SELECT invoice.customerId,buyer.buyerTitle , invoice.paymentTypeId,invoice.invoiceNo,invoice.date,invoice.dbyear, invoice.productId, invoice.value, invoice.valueReturn FROM invoice, customer, application, buyer WHERE buyer.buyerId=invoice.buyerId AND invoice.customerId = customer.customerId AND application.customerId=customer.customerId AND application.customerId=invoice.customerId ORDER BY customer.surname,customer.name",false,0,null,null,null,null,null);
+//-----        
+       // same as entityInfoMany the read only of list
+       //String deliveryCheckHeaderEntQuery="SELECT f.customerId AS\"Νο πελάτη\", f.surname AS\"επίθετο\", f.name AS\"όνομα\", f.fatherName AS\"πατρόνυμο\",f.customerAfm AS\"Α.Φ.Μ.\", permanent AS \"υπολ\" , d.dateOfApplication AS \"ημ/νια αίτησης\" , COUNT(i.value) AS \"πλήθος\", SUM(i.value) AS \"αξία\", SUM(retValueAccordingToType(1, i.currencyId, i.valueReturn)) AS \"κατ 1\", SUM(retValueAccordingToType(2, i.currencyId, i.valueReturn)) AS \"κατ 2\", SUM(retValueAccordingToType(3, i.currencyId, i.valueReturn)) AS \"κατ 3\", d.valueReturn AS \"συν επιστρ\", d.payment AS \"κράτηση\" FROM application d, customer f, invoice i WHERE i.customerId = f.customerId AND d.customerId = f.customerId AND i.deliveryId = d.deliveryId AND i.dbyear=d.dbyear AND i.dbCompanyId=d.dbCompanyId GROUP BY f.customerId, d.permanent, d.dateOfApplication ORDER BY f.surname, f.name";
+  //     EntityReportGroup[] deliveryEntityReportGroup = new EntityReportGroup[2];
+ //      deliveryEntityReportGroup[0] = new EntityReportGroup("αγρότες","SELECT f.customerId AS\"Νο πελάτη\", f.surname AS\"επίθετο\", f.name AS\"όνομα\", f.fatherName AS\"πατρόνυμο\",f.customerAfm AS\"Α.Φ.Μ.\", permanent AS \"υπολ\" ,a.deliveryId, a.dateOfApplication AS \"ημ/νια αίτησης\" , COUNT(i.value) AS \"πλήθος\", SUM(i.value) AS \"αξία\", SUM(retValueAccordingToType(1, i.currencyId, i.valueReturn)) AS \"κατ 1\", SUM(retValueAccordingToType(2, i.currencyId, i.valueReturn)) AS \"κατ 2\", SUM(retValueAccordingToType(3, i.currencyId, i.valueReturn)) AS \"κατ 3\", a.valueReturn AS \"συν επιστρ\", a.payment AS \"κράτηση\" FROM application a, customer f, invoice i WHERE i.customerId = f.customerId AND a.customerId = f.customerId AND i.deliveryId = a.deliveryId AND i.dbyear=a.dbyear AND i.dbCompanyId=a.dbCompanyId GROUP BY f.customerId, a.permanent, a.dateOfApplication, a.valuereturn", "ORDER BY f.surname, f.name","application",ENTITYREPORT_QUERY_TYPE_MAIN,0,"customerId",boolSettingsCustomer);  // header
+ //      deliveryEntityReportGroup[1] = new EntityReportGroup("παραστατικά","SELECT i.aa AS\"α/α\", i.customerId,i.deliveryId,b.buyerTitle AS\"αγοραστής\", it.abbreviation  AS\"παρ/κο\", i.invoiceNo  AS\"αριθμός\",i.date  AS\"ημερομηνία\",i.dbyear, p.productName  AS\"προϊόν\", i.value  AS\"αξία\", i.valueReturn  AS\"επιστροφή\" FROM invoice i, customer f, application a, buyer b, product p, currency pt, paymentType it WHERE i.productId=p.productId AND pt.currencyId=p.currencyId AND b.buyerId=i.buyerId AND i.customerId = f.customerId AND a.customerId=f.customerId AND a.customerId=i.customerId AND a.dbyear=i.dbyear AND a.dbCompanyId=i.dbCompanyId AND a.deliveryId=i.deliveryId AND i.paymentTypeId=it.paymentTypeId","ORDER BY f.surname,f.name","appinvoice",ENTITYREPORT_QUERY_TYPE_MAIN,1,null,boolSettingsInvoice);  // many
+
+        /*public EntityReportBandField(String nameIn,  String captionIn, String tableNameIn ,String dbFieldNameIn,int groupOfCompsIn,String colClassNameIn,int colWidthIn,
+              String defaultValueIn, EntityDBFieldsCalculation[] fieldsCalculationIn)*/
+
 
          
        

@@ -1,5 +1,6 @@
 package com.tool.gui;
 
+import com.tool.rpt.PanelReportSettingsPreview;
 import com.tool.model.EntityStatistics;
 //import com.tool.guicomps.PanelReportSettingsAndPreview;
   import com.tool.guicomps.*;

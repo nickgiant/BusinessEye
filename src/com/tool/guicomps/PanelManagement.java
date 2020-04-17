@@ -1,5 +1,6 @@
 package com.tool.guicomps;
 
+import com.tool.rpt.PanelReportSettingsPreview;
 import com.tool.gui.PanelScoreBoard;
 import com.tool.gui.PanelOneDataManyRec;
 import com.tool.gui.PanelOneDataOneRec;
