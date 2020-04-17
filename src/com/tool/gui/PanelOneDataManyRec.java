@@ -407,7 +407,9 @@ import javax.swing.border.BevelBorder;
        	 btnPreferences.setVisible(false);
        	 btnPrintPreview.setVisible(false);
          btnCopy.setVisible(false);
-       	 btnExport.setVisible(false);
+         btnCopyFromOtherCompany.setVisible(false);
+       	 //btnExport.setVisible(true);
+         
        	// lblIcoSeparator3.setVisible(false);
        }
 
@@ -486,8 +488,15 @@ import javax.swing.border.BevelBorder;
        }   
        
        if(hasDbCompanyId)
-       {
-          btnCopyFromOtherCompany.setVisible(true);
+       { 
+           if (isLookUpDialog)
+           {
+               btnCopyFromOtherCompany.setVisible(false);
+           }
+           else
+           {
+              btnCopyFromOtherCompany.setVisible(true);
+           }
        }
        else
        {

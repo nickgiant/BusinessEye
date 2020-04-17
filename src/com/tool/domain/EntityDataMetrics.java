@@ -19,14 +19,14 @@ import com.tool.utils.*;
  *
  * @author user
  */
-public class EntityDataMetricsSerSales  extends EntityData implements Constants 
+public class EntityDataMetrics  extends EntityData implements Constants 
 {
      DataTree dTree;
        DataTreeNode nodeRoot ;
               String globalYearPlusOne="";
        int intYearPlusOne=0;
        
-    public EntityDataMetricsSerSales()
+    public EntityDataMetrics()
    {      
       
           	  dTree = new DataTree();
