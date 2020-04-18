@@ -1149,7 +1149,7 @@ lblMainMenu.setHorizontalAlignment(SwingConstants.LEFT);*/
     	 if(dTreeNodeChild.hasNodeChildren())//----------- level 1
     	 {
     	
-             System.out.println("     child caption:"+dTreeNodeChild.toString());
+            // System.out.println("     child caption:"+dTreeNodeChild.toString());
     	     for(int v=0;v<dTreeNodeChild.getNumberOfChildren();v++)
       	     {
 
@@ -1164,7 +1164,7 @@ lblMainMenu.setHorizontalAlignment(SwingConstants.LEFT);*/
 
     	              JLabel lbl = new JLabel("<html><b>"+dTreeNodeChild2.toString()+"</b></html>");  // subcategories
           //            JButton btnSub2 = new JButton("<html><b>"+dTreeNodeChild2.toString()+"</b></html>");  // subcategories
-                      System.out.println("     child2 caption:"+dTreeNodeChild2.toString());
+                      //System.out.println("     child2 caption:"+dTreeNodeChild2.toString());
                       //JLabel lbl = new JLabel(dTreeNodeChild2.toString());
     	              //lbl.setPreferredSize(new Dimension(22,22));
     	 //             btnSub2.setIcon(entityMenu.getEntityIcon());

@@ -713,7 +713,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         saleDBFields[0] = new EntityDBFields("saleheader","saleHeaderId","Νο πώλησης",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
         
         int[] inputActionTypeCategory ={FIELDSCALCULATION_CATEGORY_SAME};
-        int[] inputActionType ={1};
+        int[] inputActionType ={3};
        
         EntityDBFieldsCalculation[] fieldsCalculationActionTypeUpdate = new EntityDBFieldsCalculation[2];
         fieldsCalculationActionTypeUpdate[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,4,inputActionTypeCategory,inputActionType,"UPDATE saleheader SET saleCodeNo = (SELECT actionseries.seriesNextNumber FROM actionseries WHERE  actionseries.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND actionseries.actionseriesId LIKE #) WHERE saleheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND saleheader.saleHeaderId LIKE ");
@@ -721,13 +721,14 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         
         EntityDBFieldsCalculation[] fieldsCalculationActionTypeSelect = new EntityDBFieldsCalculation[1];
        fieldsCalculationActionTypeSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputActionTypeCategory,inputActionType,"SELECT dbcompanyset.sersaleRetailCustomer FROM dbcompanyset,actiontype,actionseries WHERE actionseries.actionTypeId = actiontype.actiontypeId AND actionseries.dbCompanyId = actiontype.dbCompanyId AND dbcompanyset.dbCompanyId = actionseries.dbCompanyId AND dbcompanyset.dbcompanyId = actiontype.dbcompanyId AND dbcompanyset.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND actiontype.actionTypeCatId LIKE 2 AND actionseries.actionseriesId LIKE #");
-        
-        saleDBFields[1] = new EntityDBFields("saleheader","actionseriesId","σειρά - τύπος παρ/κού",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"actionseries",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,fieldsCalculationActionTypeUpdate,fieldsCalculationActionTypeSelect,"");// variable before last: 'false' means update
-        saleDBFields[2] = new EntityDBFields("saleheader","saleCodeNo","saleCodeNo",0,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
-        saleDBFields[3] = new EntityDBFields("saleheader","saleCodeOfDocument","κωδικός παρ/κού",0,"java.lang.String",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);
-        saleDBFields[4] = new EntityDBFields("saleheader","dateOfSale","ημερομηνία παρ/κού",0, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalDate,"");
-        saleDBFields[5] = new EntityDBFields("saleheader","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalCompanyId,"");
-        saleDBFields[6] = new EntityDBFields("saleheader","dbYearId","dbYearId",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalYearId,"");        
+        saleDBFields[1] = new EntityDBFields("saleheader","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalCompanyId,"");//FIELD_NOT_VISIBLE  //FIELD_VISIBLE_AND_EDITABLE
+        saleDBFields[2] = new EntityDBFields("saleheader","dbYearId","dbYearId",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalYearId,"");  //FIELD_NOT_VISIBLE   // FIELD_VISIBLE_AND_EDITABLE          
+        saleDBFields[3] = new EntityDBFields("saleheader","actionseriesId","σειρά - τύπος παρ/κού",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"actionseries",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,fieldsCalculationActionTypeUpdate,fieldsCalculationActionTypeSelect,"");// variable before last: 'false' means update
+        saleDBFields[4] = new EntityDBFields("saleheader","saleCodeNo","saleCodeNo",0,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+        saleDBFields[5] = new EntityDBFields("saleheader","saleCodeOfDocument","κωδικός παρ/κού",0,"java.lang.String",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);
+        saleDBFields[6] = new EntityDBFields("saleheader","dateOfSale","ημερομηνία παρ/κού",0, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalDate,"");
+       // saleDBFields[5] = new EntityDBFields("saleheader","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalCompanyId,"");
+      //  saleDBFields[6] = new EntityDBFields("saleheader","dbYearId","dbYearId",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalYearId,"");        
         int[] inputCustomerCategory ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputCustomer ={7};
         //10,inputService,"SELECT vatcat.vatPercentage FROM stock, vatcat  WHERE stock.vatCatId=vatcat.vatCatId AND stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND stock.stockId=");
@@ -743,7 +744,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         saleDBFields[9] = new EntityDBFields("saleheader","paymentTypeId","τρόπος πληρωμής",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"paymenttype", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         
         int[] inputPreVatCategory ={FIELDSCALCULATION_CATEGORY_BACKWARD,12,12};// 12 is no of table
-        int[] inputPreVat ={9,4,4};//field
+        int[] inputPreVat ={10,4,4};//field
         EntityDBFieldsCalculation[] fieldsCalculationVatCatSelect = new EntityDBFieldsCalculation[1];
         fieldsCalculationVatCatSelect[0] = new EntityDBFieldsCalculation(12,10,inputPreVatCategory,inputPreVat,calculationVatPercentageSql);//12 is no of table
                 

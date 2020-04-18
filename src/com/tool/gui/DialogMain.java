@@ -126,6 +126,9 @@ public class DialogMain extends JxFrame implements Constants
     private final String TXTCHECKFORNEWVERSION=  "έλεγχος για νέα έκδοση";
     private String userId;
     private Database db= new Database();
+    
+    private int intModuleSelected=-1;
+    
     public DialogMain() 
     {   
                     
@@ -1029,8 +1032,22 @@ public class DialogMain extends JxFrame implements Constants
     
     private void setSectionActive(int intSection)
     {
+       /* JToggleButton listSelectedModuleBtn = (JToggleButton)listBtnModule.get(intSection);
+     if(listSelectedModuleBtn.isSelected()){
+    System.out.println("button intSection:"+intSection+"  is selected");
+} else {
+    System.out.println("button intSection:"+intSection+"  is not selected");
+    panelManagement.setSectionActive(listSections,intSection);
+}*/   
+        if(intModuleSelected==intSection)
+        {
     
-        panelManagement.setSectionActive(listSections,intSection);
+        }
+        else
+        {
+            panelManagement.setSectionActive(listSections,intSection);
+            intModuleSelected=intSection;
+        }
 
     }
     
@@ -1377,6 +1394,7 @@ public class DialogMain extends JxFrame implements Constants
     
 //      listBtnModule.removeAll();
       ButtonGroup buttonGroup = new ButtonGroup();
+      // ActionListener listener = actionEvent -> System.out.println(actionEvent.getActionCommand() + " Selected");
       for(int n=0;n<countChildren;n++) // -------- level 0
       {
           btnModule = new JToggleButton();
@@ -1384,6 +1402,8 @@ public class DialogMain extends JxFrame implements Constants
           //EntityMenu emCat = (EntityMenu)dtnr.getData();//dTreeNodeRoot.getChildFromIndex(n);
           
           EntityMenu emCat = (EntityMenu)listSections.get(n);
+
+         
           
           btnModule.setText(emCat.getEntityCaption());
           btnModule.setOpaque(false);
@@ -1393,22 +1413,35 @@ public class DialogMain extends JxFrame implements Constants
           btnModule.setFocusable(false);
           listSectionEntityMenu.add(n,emCat);
           listBtnModule.add(n,btnModule);
+          buttonGroup.add(btnModule);
+          /*JToggleButton listSelectedModuleBtn = (JToggleButton)listBtnModule.get(n);
+ listSelectedModuleBtn.addItemListener(new ItemListener() {
+   public void itemStateChanged(ItemEvent ev) {
+      if(ev.getStateChange()==ItemEvent.SELECTED){
+        System.out.println("button is selected");
+      } else if(ev.getStateChange()==ItemEvent.DESELECTED){
+        System.out.println("button is not selected");
+      }
+   }
+});  */        
           //final JButton btnModuleFinal=  btnModule;
           final int finalN = n;
           //final DataTreeNode finalDtnr = dtnr;
           //final ArrayList listSectionEntityMenuFinal = listSectionEntityMenu;
+         
+          
+          
+         // btnModule.addActionListener(listener);
           btnModule.addActionListener(new ActionListener()
           {
 	        public void actionPerformed(ActionEvent e) 
 	        {  
-                   
-                    setSectionActive(finalN);
-                    
-                  
+                                  setSectionActive(finalN);
+
 	        }
-	   });    
+	   });  
           
-          buttonGroup.add(btnModule);
+          
          toolBarMain.add(btnModule,n);
 
       }

@@ -741,8 +741,9 @@ int flds = 0;
                  }
                  else
                  {
+                     //if()
                      fieldTxts.add(new JTextField());
-                     System.out.println("PanelODORData.setEntity NOT IDENTIFIED CLASS for  =  ("+i+")  "+fields[i]+"    "+columnClass);
+                     System.out.println("PanelODORData.setEntity     NOT IDENTIFIED CLASS    for  =  ("+i+")  "+fields[i]+"    "+columnClass);
                  }
            //       System.out.println("PanelODORData.setEntity for  =  ("+i+") "+fields[i]+"    "+columnClass+"   fieldTxts.size"+fieldTxts.size()+"    dbFieldsInGroupOfPanels.length:"+dbFieldsInGroupOfPanels.length);   
                  
@@ -2668,10 +2669,12 @@ catch(Exception e)
                        }
                        else 
                        {
-                          JTextComponent tbToGet = (JTextComponent)fieldTxts.get(textsInput[c]);
-                          textString[c] = tbToGet.getText(); 
-                          listTextString.add(textString[c]);
-                            System.out.println("  error PanelOneDataOneRecData.dbFieldsCalculateSet  isCalculationInputHasTable"+isCalculationInputHasTable+"  textsInput[c]:"+textsInput[c]+" UNKNOWN  getLookupType:"+dbFieldsInGroupOfPanels[textsInput[c]].getLookupType());
+                           // LOOKUPTYPE_NOLOOKUP   is 0
+                           System.out.println("  error PanelOneDataOneRecData.dbFieldsCalculateSet  isCalculationInputHasTable:"+isCalculationInputHasTable+"    c:"+c+"    textsCategoryInput:"+textsCategoryInput[c]+" (-1 is backwards) textsInput[c]:"+textsInput[c]+" UNKNOWN  getLookupType:"+dbFieldsInGroupOfPanels[textsInput[c]].getLookupType()+" no look up is 0 ");
+                         // JTextComponent tbToGet = (JTextComponent)fieldTxts.get(textsInput[c]);
+                         // textString[c] = tbToGet.getText(); 
+                         // listTextString.add(textString[c]);
+                            
                        }                             
                        
                         //cellString[c]= getValueAt(row,textsInput[c]).toString();
@@ -2686,8 +2689,8 @@ catch(Exception e)
                                                     //JTextComponent tbToGet = (JTextComponent)fieldTxts.get(c);
                                                     //JTextComponent tbToGet1 = (JTextComponent)fieldTxts.get(c);
                           
-                          //System.out.println("PanelODORData.dbFieldsCalculateSet  inside isCalculationHasTable   ELSE  =OOOOOOOOOO=  c:"+c+"    textsCategoryInput:"+textsCategoryInput[c]+"    fieldTxts.size"+fieldTxts.size()+"   textsInput[c]:"+textsInput[c]+"   textsInput[0]:"+textsInput[0]+"   textsInput[1]:"+textsInput[1]+"   textsInput[2]:"+textsInput[2]+"   textsInput.length"+textsInput.length+"  sql calculation:"+calculation);
-                          
+                          //System.out.println("PanelODORData.dbFieldsCalculateSet  inside isCalculationHasTable   ELSE  =OOOOOOOOOO=  c:"+c+"    textsCategoryInput:"+textsCategoryInput[c]+"    fieldTxts.size"+fieldTxts.size()+"   textsInput[c]:"+textsInput[c]+" getGroupOfComps:"+dbFieldsInGroupOfPanels[c].getGroupOfComps()+"  (textsInput[0]:"+textsInput[0]+"   textsInput[1]:"+textsInput[1]+"   textsInput[2]:"+textsInput[2]+")   textsInput.length"+textsInput.length+"  sql calculation:"+calculation);
+
                           PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(textsCategoryInput[c]);
                           ArrayList listTextStringTableRow = new ArrayList();
                          for(int r = 0;r<pnlODMRData.getRowCount();r++)
@@ -2708,13 +2711,15 @@ catch(Exception e)
                             
                          }                                 
                             listTextStringTableRow.add(valueFromTable);
-                            
-                            //System.out.println("PanelODORData.dbFieldsCalculateSet  table r("+r+")  c:"+c+"         textStringTable[c]:"+textStringTable[r][c]+"         textsInput[c]:"+ textsInput[c] +" for category:"+ textsCategoryInput[c]);
+                    //        System.out.println("PanelODORData.dbFieldsCalculateSet  table r("+r+")  c:"+c+"   textsCategoryInput[c]:"+ textsCategoryInput[c]+ "     textsInput[c]:"+textsInput[c]+" valueFromTable:"+valueFromTable);
+                            //System.out.println("PanelODORData.dbFieldsCalculateSet  table r("+r+")  c:"+c+"   textsCategoryInput[c]+       textStringTable[c]:"+textStringTable[r][c]+"         textsInput[c]:"+ textsInput[c] +" for category:"+"    "+valueFromTable  );
                          }
                          //System.out.println("PanelOneDataOneRecData.dbFieldsCalculateSet add  listTextStringHasTablesContainer  textsCategoryInput[c]:"+textsCategoryInput[c]);
                          listTextStringHasTablesContainer.add(listTextStringTableRow);
 
-                     }
+                        }
+
+                      
                      
                     }
                     else // no calculation of table
@@ -2873,6 +2878,7 @@ catch(Exception e)
              }            
              else  // is FIELDSCALCULATION_CATEGORY_SAME true
              {
+
                 int indexOfHashChar = calculation.indexOf("#");// to find # look also below
                 boolean hasQueryEmptyString = false;
                // System.out.println("PanelODORData.dbFieldsCalculateSet  FIELDSCALCULATION_CATEGORY_SAME  col:"+col+"    fc:"+fc+"    calculation:"+calculation);        
@@ -2947,11 +2953,11 @@ catch(Exception e)
                  }               
   
                    
-             System.out.println("PanelODORData.dbFieldsCalculateSet  + col:"+col+"  textString.length:"+textString.length+"  calculateField:"+calculateField+"   calculation:"+calculation+"     val:"+val);
+             System.out.println("PanelODORData.dbFieldsCalculateSet  +++++++++++++++++ col:"+col+"  textString.length:"+textString.length+"  calculateField:"+calculateField+"   calculation:"+calculation+"     val:"+val);
 
            ifHasValueChangedChangeOtherFieldsOrNot(col, colName, classtype, calculateField, val );
                    //is it different when changing lookup by key -or- by selecting in dialog with mouse?
-
+                         
             } //  is FIELDSCALCULATION_CATEGORY_SAME true
            //System.out.println("error: PanelODORData.dbFieldsCalculateSet closeDB()  is after fc:"+fc+"   FIELDSCALCULATION_CATEGORY_SAME:"+FIELDSCALCULATION_CATEGORY_SAME);
 //        closeDB(); // not use because in servicesales when in 'combo constants' the db is closed but the field after needs to get value from db
@@ -2988,7 +2994,12 @@ catch(Exception e)
        
   
        String v = "";
-                        
+       /*  if(!dbFieldsInGroupOfPanels[col].getColClassName().equalsIgnoreCase("table"))//.getGroupOfComps() ==-1)
+         {
+                          
+         }
+         else
+         {*/
            if(dbFieldsInGroupOfPanels[calculateField].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD || dbFieldsInGroupOfPanels[calculateField].getLookupType()==LOOKUPTYPE_NOLOOKUP)
           {
                 JTextComponent tbToGet = (JTextComponent)fieldTxts.get(calculateField);//i-1);
@@ -3066,174 +3077,10 @@ catch(Exception e)
                    System.out.println(" ELSE ELSE NOT Changed - PanelODORData.ifHasValueChangedChangeOtherFieldsOrNot col:("+col+")   colName:"+colName+"   classtype:"+classtype + "     val:"+val+"   lookupType:"+dbFieldsInGroupOfPanels[calculateField].getLookupType());
                }       
        
-       
+      //}
        
        
    }
-   
-   // todo
-   /*private void dbFieldsChildCalculateSet(EntityDBFields[] dbFieldsInGroupOfPanelsIn,int col,int calculateCategoryField,int calculateField)
-   {
-      // System.out.println("- PanelODORData.dbFieldsChildCalculateSet    calculateCategoryField:"+calculateCategoryField +"  calculateField:"+calculateField+"  "+dbFieldsInGroupOfPanelsIn.length+"="+fieldTxts.size());
-       //EntityDBFields dbFieldParent = dbFieldsInGroupOfPanelsIn[calculateCategoryField];
-      // EntityDBFields[] dbFieldChild = dbFieldParent.getDbChildFields();
-
-      //JTextComponent tbToGetVal = (JTextComponent)fieldTxts.get(col);//i-1);
-        //String value = tbToGetVal.getText();
-        
-        EntityDBFields dbField = dbFieldsInGroupOfPanelsIn[col];
-        
-        EntityDBFieldsCalculation[] fieldsCalculation = dbField.getFieldsCalculation();
-        
-        
-        //System.out.println("PanelODORData.dbFieldsCalculateSet  OOOOOOOOOOOO     col:"+col);
-        if(dbField!=null && fieldsCalculation!=null)
-        {
-        try
-        {
-            for(int fc=0; fc<fieldsCalculation.length;fc++)
-            {
-                //int calculateCategoryField =  fieldsCalculation[fc].getWhenSetThenCalculateCategoryField();
-               // int calculateField =  fieldsCalculation[fc].getWhenSetThenCalculateField();
-        	int[] textsCategoryInput = fieldsCalculation[fc].getCalculationInputCategoryFields();
-                int[] textsInput = fieldsCalculation[fc].getCalculationInputFields();
-        	String calculation =  fieldsCalculation[fc].getCalculation();
-                //int calculateCategoryField =  fieldsCalculation[fc].getWhenSetThenCalculateCategoryField();
-               // int calculateField =  fieldsCalculation[fc].getWhenSetThenCalculateField();                   
-               
-        	String val = "";    
-                ResultSet rs;
-                //calculation= calculation+value;
-                
-                //String[] textCategoryString = new String[textsCategoryInput.length];
-                String[] textString = new String[textsInput.length];
-             
-                ArrayList listInputTableEachRow = new ArrayList();
-             
-                for(int c=0;c<textsCategoryInput.length;c++)
-                {
-                    if(textsCategoryInput[c]  == FIELDSCALCULATION_CATEGORY_SAME)
-                    {
-                     //cellString[c]= getValueAt(row,textsInput[c]).toString();
-                     JTextComponent tbToGet = (JTextComponent)fieldTxts.get(textsInput[c]);
-                     textString[c] = tbToGet.getText();
-                     System.out.println("PanelODORData.dbFieldsChildCalculateSet  table if  c("+c+")   textsCategoryInput:"+ textsCategoryInput[c]+"   textsInput[c]:"+textsInput[c]);
-                     listInputTableEachRow.add(textString);// for only row
-                             
-                        
-                    }
-                    else//is table , textsCategoryInput[c]
-                    {
-                       System.out.println("PanelODORData.dbFieldsChildCalculateSet  table else c("+c+")        textsCategoryInput:"+ textsCategoryInput[c]);
-                        PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(textsCategoryInput[c]);
-                      for(int r = 0;r<pnlODMRData.getRowCount();r++)
-                      {
-                        textString[r] = pnlODMRData.getTableValueAt(r, textsInput[c]);
-                        System.out.println("PanelODORData.dbFieldsChildCalculateSet  table r("+r+")  c:"+c+"       textsInput[c]:"+ textsInput[c] +" for category:"+ textsCategoryInput[c]);
-                     
-                      }        
-                        listInputTableEachRow.add(textString);
-                      
-                    }
-                }
-                
-                for(int l = 0; l<listInputTableEachRow.size();l++)
-                {
-                
-                     calculation = utilsString.replaceTextOfAStringWithText("#", calculation, (String[])listInputTableEachRow.get(l));
-
-                     System.out.println("PanelODORData.dbFieldsChildCalculateSet table list:("+l+") "+ calculation);
-                     
-                     db.retrieveDBDataFromQuery(calculation,"PanelODORData.dbFieldsChildCalculateSet "+l);
-   	             rs=db.getRS();
-   	          
-            
-                      if (rs.first())
-                      {
-                        rs = db.retrieveRow(rs, 1);// go to the only row  
-                         //System.out.println(PanelODORData.dbFieldsCalculateSet   calculation "+calculation);
-                         val = rs.getString(1);// get field data	 
-
-                        /*PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(calculateCategoryField);
-                        for(int r=0;r<pnlODMRData.getRowCount();r++)
-                        {
-                            System.out.println("PanelODORData.dbFieldsChildCalculationSet table list:("+l+") r:"+r+" calculateField:"+ calculateField +"  val:"+val);
-                              pnlODMRData.setTableValueAt(val,r,calculateField);
-                        }*/
-     //                 }
-                      
-               //JTextComponent tbToGet = (JTextComponent)fieldTxts.get(calculateField);//i-1);
-               //String v = tbToGet.getText();                      
-                      
- /*              if(Boolean.parseBoolean(fieldTxtsKeyChanged.get(col).toString()))//used in order not to recalculate ie APY2 when  the existing record is edited,but calculate when new is inserted
-               {
-                 if(calculateCategoryField==FIELDSCALCULATION_CATEGORY_SAME)//0 for current fields
-                 {
-                   // JTextComponent tbToSet = (JTextComponent)fieldTxts.get(calculateField);
-                   // tbToSet.setText(val);
-                 }
-                 else// for child tables
-                 {
-                        PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(calculateCategoryField);
-                        for(int r=0;r<pnlODMRData.getRowCount();r++)
-                        {
-                   System.out.println("PanelODORData.dbFieldsChildCalculateSet table list:("+l+") r:"+r+" calculateField:"+ calculateField +"  val:"+val);         
-                              pnlODMRData.setTableValueAt(val,r,calculateField);
-                        }
-                 }
-                 
-                 //keyChanged=false;
-               }
-               else
-               {
-                   System.out.println("error PanelODORData.dbFieldsChildCalculateSet table list:("+l+")  col:"+col+"   fieldTxtsKeyChanged.get(col)"+fieldTxtsKeyChanged.get(col).toString());
-               }
-  
-            } // for  list
-            fieldTxtsKeyChanged.set(col, false); //---                      
-                      
-                      
-               // }// for list
-     
-       
-            }
-         }//try
-         catch ( SQLException sqlex)
-         {
-             System.out.println("error:PanelODORData.dbFieldsChildCalculateSet  "+sqlex.getMessage());
-         }
-        }
-        
-        this.setVisibleOrEditableFields();
-       
-       /*for (int i = 0; i < dbFieldsInGroupOfPanelsIn.length; i++)
-       {
-              String columnClass =  dbFieldsInGroupOfPanelsIn[i].getColClassName();
-              
-              if(columnClass.equalsIgnoreCase("table") && i==calculateCategoryField)
-              {
-                  
-                     EntityDBFields dbFieldParent[] = dbFieldsInGroupOfPanelsIn;
-                     //EntityDBFields[] dbFieldChild = dbFieldParent.getDbChildFields();
-                   // EntityDBFieldsCalculation[] fieldsCalculation = dbFieldParent.getFieldsCalculation();
-                 System.out.println("--- PanelODORData.dbFieldsChildCalculationSet ("+i+") columnClass:"+columnClass+"  ");
-
-                 EntityDBFields[] dbFieldChild = dbFieldParent[i].getDbChildFields();
-                     //dbFieldChild[i].getFieldsCalculation()[fc].getCalculation();
-                // EntityDBFields dbFieldMany = dbFieldParent[calculateField];
-                 //EntityDBFieldsCalculation[] fieldsCalculation = dbFieldMany.getFieldsCalculation();
-                 
-                  System.out.println("- - - PanelODORData.dbFieldsChildCalculationSet  ("+i+")="+calculateCategoryField +"  calculateField:"+calculateField +"   fieldsCalculation:"+fieldsCalculation);
-                  
-                  
-                  PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(i);
-
-                  
-  
-              }
-       }*/
-       
-  // }
    
    
    /*
@@ -4618,6 +4465,12 @@ catch(Exception e)
                  String columnName = fields[i]; //get colunm name  	           	
 	         String classtype = dbFieldsInGroupOfPanels[i].getColClassName();  // if integer then not add ' and ' between values 
                //  System.out.println("PanelODORData.calculateSumFields   ("+i+")    columnName:"+columnName+"   classtype:"+classtype+"   intTable:"+intTable+"     fieldTxts.size:"+fieldTxts.size());
+                  if( !dbFieldsInGroupOfPanels[i].getColClassName().equalsIgnoreCase("table"))//.getGroupOfComps() ==-1)
+                  {
+                          
+                   }
+                   else
+                  {
                    PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(intTable);
                    int rowCount = pnlODMRData.getRowCount();
                    int intFieldOfTable =  dbFieldsInGroupOfPanels[i].getFieldOfTableThatWillBeSummed();
@@ -4692,6 +4545,7 @@ catch(Exception e)
                        }
                        
             //System.out.println(" error  PanelODORData.calculateSumFields  intTable:"+intTable+"       rowCount:"+rowCount);
+                  }
          }
          else
          {
@@ -5612,14 +5466,14 @@ catch(Exception e)
        {
         int intFieldToGetTheValue = utilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1(dbFieldsAll);  
         
-        System.out.println("ooooooo>>  panelODORData.calculateTextForLookupsAfterKeyIsSet       col:"+col+"     ?    intFieldToGetTheValue:"+intFieldToGetTheValue);
+        System.out.println("ooooooo>>  panelODORData.calculateVarFromPreFieldAndSetGlobal       col:"+col+"     ?    intFieldToGetTheValue:"+intFieldToGetTheValue);
         
          if(col==intFieldToGetTheValue)  
          {
                 String fieldVariableFromPreField = dbFieldsInGroupOfPanels[col].getFormVariableFromField();
                 String colName = dbFieldsInGroupOfPanels[col].getDbField();
                 
-          System.out.println("ooooooo>>  panelODORData.calculateTextForLookupsAfterKeyIsSet  colName:"+colName+"  fieldVariableFromPreField:'"+fieldVariableFromPreField+"'");
+          System.out.println("ooooooo>>  panelODORData.calculateVarFromPreFieldAndSetGlobal  colName:"+colName+"  fieldVariableFromPreField:'"+fieldVariableFromPreField+"'");
                 /*if(fieldVariableFromPreField!=null && !fieldVariableFromPreField.equalsIgnoreCase("") )
                 {
                             JTextField tbf = (JTextField) fieldTxts.get(intFieldToGetTheValue);
@@ -5628,7 +5482,7 @@ catch(Exception e)
                 }  
                 else
                 {
-                      System.out.println("ooooooo>>  panelODORData.calculateTextForLookupsAfterKeyIsSet     not set   colName:"+colName+"  fieldVariableFromPreField:'"+fieldVariableFromPreField+"'");      
+                      System.out.println("ooooooo>>  panelODORData.calculateVarFromPreFieldAndSetGlobal     not set   colName:"+colName+"  fieldVariableFromPreField:'"+fieldVariableFromPreField+"'");      
                 }*/
                 
                             JTextField tbf = (JTextField) fieldTxts.get(intFieldToGetTheValue);
@@ -5636,7 +5490,7 @@ catch(Exception e)
                             setVariablesGlobal1(strValueFromField);
                 
          }
-      //System.out.println("ooooooo>>  panelODORData.calculateTextForLookupsAfterKeyIsSet       col:"+col+"   colName:"+colName+"  fieldVariableFromPreField:"+fieldVariableFromPreField+" =  strValueFromField:"+strValueFromField+"       strValueFromField:"+strValueFromField);       
+      //System.out.println("ooooooo>>  panelODORData.calculateVarFromPreFieldAndSetGlobal       col:"+col+"   colName:"+colName+"  fieldVariableFromPreField:"+fieldVariableFromPreField+" =  strValueFromField:"+strValueFromField+"       strValueFromField:"+strValueFromField);       
        }
        else
        {
@@ -11150,7 +11004,7 @@ ps.setBytes(i, b);
 
                                 fieldTxtsKeyChanged.set(no, true);
          		    	keyChanged=true; // ie farmerid 
-            System.out.println("PanelODORData.DocumentHandler.changeText  ("+no+")   keyChanged:"+fieldTxtsKeyChanged.get(no) +"   txtIndex:"+txtIndex);                          
+            //System.out.println("PanelODORData.DocumentHandler.changeText  ("+no+")   keyChanged:"+fieldTxtsKeyChanged.get(no) +"   txtIndex:"+txtIndex);                          
          		}
          		else if(txtIndex==1)
          		{
