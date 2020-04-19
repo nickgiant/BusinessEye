@@ -631,10 +631,24 @@ public class DialogMain extends JxFrame implements Constants
     
     private void displayWebsite()
     {
-         pnlBrowser = new PanelHtmlBrowser();
+        
+        if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                try {
+                    URI uri = new URI("http://www.businesseye.gr");
+                    desktop.browse(uri);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (URISyntaxException ex) {
+                    ex.printStackTrace();
+                }
+        
+        }
+        
+        /* pnlBrowser = new PanelHtmlBrowser();
         pnlBrowser.showUrlText(false);
         pnlBrowser.loadURL("http://www.businesseye.gr");
-        panelManagement.addShowTabWithPanel("ιστοσελίδα", null, pnlBrowser , 0);
+        panelManagement.addShowTabWithPanel("ιστοσελίδα", null, pnlBrowser , 0);*/
     }
 
     

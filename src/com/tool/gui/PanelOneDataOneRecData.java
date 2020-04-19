@@ -159,6 +159,7 @@ import org.xml.sax.SAXException;
     private PanelOneDataManyRecData panelOneDataManyRecData;
     
     private final int COLWIDTH_FOR_BIGTEXTBOX = 101;
+    private final int COLWIDTH_FOR_HTML = 499;
     private EntityUpdateAdditional[] updateAdditional;
     
     private String filePrefsUniqueFields;
@@ -1655,17 +1656,41 @@ int flds = 0;
 	        });
                  
                  
-                 
-                   if(columnWidth>COLWIDTH_FOR_BIGTEXTBOX) //if change 40 change and later in adding it to panel, and in showrow, and in rowUpdate
+                   // java.lang.String
+                   if(columnClass.equalsIgnoreCase("java.lang.String") && columnWidth>COLWIDTH_FOR_BIGTEXTBOX) //if change 40 change and later in adding it to panel, and in showrow, and in rowUpdate
                    {
-                   	if(columnWidth>499) // like printform html // look also bellow
+                   	if(columnWidth>COLWIDTH_FOR_HTML) // like printform html // look also bellow
                         {
-                            textArea = new JTextArea(30, 96);
+                            //textArea = new JTextArea(30, 96);
+                          lbl = new JLabel(columnLabel);
+                          System.out.println("setEntity  columnLabel:"+columnLabel+"   i:"+i+"  columnDbName:"+columnDbName+" columnWidth:"+columnWidth+"    columnClass:"+columnClass);
+                           PanelHtmlEditor htmlTxtArea = new PanelHtmlEditor();//(PanelHtmlEditor)fieldTxts.get(i);//this is for html
+                   //        fieldValue = htmlTxtArea.getTextAreaString();
+                                                    
+                    //scrollPaneTextArea.setOpaque(false);
+                    htmlTxtArea.setDocument(new PlainDocumentInsertText(columnWidth,columnClass));//limiting the capacity of txt	
+                   	htmlTxtArea.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null,columnDbName));                          
+                      
+                        final PanelHtmlEditor htmlTextAreaFinal = htmlTxtArea;
+                    htmlTxtArea.addFocusListener(new FocusListener()  // look in showRow for focus gained in tb
+                    {
+                    	public void focusLost(FocusEvent e)
+                        {  // if entered nothing or spaces on textbox
+                           
+                        }
+
+                    	public void focusGained(FocusEvent e)
+                        {  // if entered nothing or spaces on textbox
+                             htmlTextAreaFinal.setSelectionStart(0);
+                             htmlTextAreaFinal.setSelectionEnd(htmlTextAreaFinal.getText().length());                            
+                            //textArea.remove(lblIcoAttention);
+                        }
+                    });                                       
                         }
                         else
                         {
                             textArea = new JTextArea(6, 96);
-                        }
+                        
                    	
                    	lbl = new JLabel(columnLabel);
                    	textArea.setFont(lbl.getFont());
@@ -1688,7 +1713,7 @@ int flds = 0;
                             //textArea.remove(lblIcoAttention);
                         }
                     });                   
-                   
+                        }
                    }
                    else if (columnWidth<COLWIDTH_FOR_BIGTEXTBOX)// string or something else
                    {
@@ -1856,24 +1881,24 @@ int flds = 0;
                     
                    	  tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass, null,columnDbName)); 
                            	    	
-          	  }                  
+          	  }     //  java.lang.String//     html             
                   else if(columnDbName!=null && columnWidth>COLWIDTH_FOR_BIGTEXTBOX)
                   {
 
                  	JPanel panelTextArea =new JPanel(new BorderLayout());
                   	panelTextArea.setOpaque(false);
-                       scrollPaneTextArea.setViewportView(textArea);
+                       
+                        System.out.println(" ********************************* panelHtmlEditor  i:"+i+"  columnLabel:"+columnLabel+"  columnWidth:"+columnWidth);
                       
                       
-                        if(columnWidth>499) // like printform html // look also above
+                        if(columnWidth>COLWIDTH_FOR_HTML) // like printform html // look also above
                         {
-                            
-                        //JTextArea textAreaHtml = new JTextArea();
-                                                    
-                            
-   	 
+
                          PanelHtmlEditor panelHtmlEditor = new PanelHtmlEditor();
                          panelHtmlEditor.setPreferredSize(new Dimension(670,480));
+                   eachDataFieldPanel.add(panelHtmlEditor);
+                   System.out.println(" ********************************* panelHtmlEditor  i:"+i+"  columnLabel:"+columnLabel);
+                                            
                    /* panelHtmlEditor.addFocusListener(new FocusListener()  
                     {
                     	public void focusLost(FocusEvent e)
@@ -1916,23 +1941,57 @@ int flds = 0;
                         }                    
                     });*/
                     
-                            JLabel lblArea = new JLabel();
+             /*               JLabel lblArea = new JLabel();
                             lblArea.setBackground(Color.white);
                             lblArea.setOpaque(true);
 
+                            panelHtmlEditor.setFocusable(true);
+                        
+                             JTextComponent txtFieldArea = (JTextComponent)fieldTxts.get(i);   //this is for html
+                           final JTextComponent txtArea = txtFieldArea;
+            panelHtmlEditor.addFocusListener(new FocusListener(){
+            @Override
+            public void focusGained(FocusEvent arg0)
+            {
+                System.out.println("panel focus");
+                 
+              panelHtmlEditor.setTextAreaString(txtArea.getText());
+              panelHtmlEditor.revalidate();                
+            }
+ 
+            @Override
+            public void focusLost(FocusEvent arg0) 
+            {
+                // TODO Auto-generated method stub
+                 txtArea.setText(panelHtmlEditor.getTextAreaString());  
+            }
+             
+        });        */                    
+                            
+          panelHtmlEditor.requestFocusInWindow();
+                            
+                            
+                            
+                            
+                            
 
 
+              
+              
+ 
+              
+              
+              
                 JButton btnLoad  = new JButton("φόρτωση φόρμας");
                 btnLoad.setToolTipText("απαραίτητη επιλογή για την προβολή της φόρμας μετά το άνοιγμα");
        btnLoad.addActionListener(new ActionListener()
        {       	
           public void actionPerformed(ActionEvent e)
           {
-              panelHtmlEditor.setTextAreaString(textArea.getText());
+              panelHtmlEditor.setText(textArea.getText());
               panelHtmlEditor.revalidate();
               
-                           // finPanelHtmlEditor.setHtmlText(textArea.getText());
-          	
+                           // finPanelHtmlEditor.setHtmlText(textArea.getText());	
           }
        });                     
                 
@@ -1943,10 +2002,9 @@ int flds = 0;
        {       	
           public void actionPerformed(ActionEvent e)
           {
-              textArea.setText(panelHtmlEditor.getTextAreaString());
+              textArea.setText(panelHtmlEditor.getText());
  
                            // finPanelHtmlEditor.setHtmlText(textArea.getText());
-          	
           }
        });                
                JxPanel pnlButtons = new JxPanel();
@@ -1955,14 +2013,14 @@ int flds = 0;
                pnlButtons.add(btnSet);
 
                             
-                         JxPanel pnlPreview = new JxPanel();
+  ///                       JxPanel pnlPreview = new JxPanel();
                          //pnlPreview.setLayout(new BorderLayout());
                          //pnlPreview.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-                         pnlPreview.setLayout(new BorderLayout());//new BoxLayout(pnlPreview, BoxLayout.LINE_AXIS));
+   //                      pnlPreview.setLayout(new BorderLayout());//new BoxLayout(pnlPreview, BoxLayout.LINE_AXIS));
                         //  pnlPreview.setLayout(new FlowLayout());
           //               pnlPreview.add(scrollPaneTextArea);
-                          pnlPreview.add(pnlButtons,BorderLayout.PAGE_START);
-                          pnlPreview.add(panelHtmlEditor,BorderLayout.CENTER);
+    //                      pnlPreview.add(pnlButtons,BorderLayout.PAGE_START);
+    //                      pnlPreview.add(panelHtmlEditor,BorderLayout.CENTER);
                            
 
 
@@ -1993,38 +2051,7 @@ int flds = 0;
        });     
 
 
-       JRadioButton radioHtml = new JRadioButton("επεξεργασία html");
-        radioHtml.addActionListener(new ActionListener()
-       {       	
-          public void actionPerformed(ActionEvent e)
-          {
-                           //finJscrlPanel.setText(getText());
-                           finJscrlPanel.setVisible(false);
-                           finPanelHtmlEditor.setVisible(true);
-                            finLblArea.setVisible(false);
-                            
-        //                    finPanelHtmlEditor.setTextAreaString(textArea.getText());
-          	
-          }
-       });
-        
-       JRadioButton radioPreview = new JRadioButton("προεπισκόπηση");
-        radioPreview.addActionListener(new ActionListener()
-       {       	
-          public void actionPerformed(ActionEvent e)
-          {
-                           finJscrlPanel.setVisible(false);
-                            finPanelHtmlEditor.setVisible(false);
-                            finLblArea.setVisible(true);
-                            
-          	//boolean isPortrait = false;
-               StringBuilder contentBuilder = new StringBuilder();
-                            contentBuilder.append(textArea.getText());                     
-                            finLblArea.setText("<html>"+contentBuilder.toString()+"</html>");                             
-                
-          	
-          }
-       });     
+ 
        	
        	//radioPreview.setSelected(true); 
         radioText.doClick();
@@ -2054,12 +2081,14 @@ int flds = 0;
                //             panelTextArea.add(panelRadios, BorderLayout.PAGE_START);
                             
                //             panelTextArea.add(panelHtmlEditor,BorderLayout.PAGE_START);
-                            panelTextArea.add(pnlPreview, BorderLayout.CENTER);//.LINE_START);
+                            panelTextArea.add(panelHtmlEditor, BorderLayout.CENTER);//.LINE_START);
                             panelTextArea.setBackground(Color.DARK_GRAY);
-                            fieldTxts.set(i,textArea);//this is for html
+                            fieldTxts.set(i,panelHtmlEditor);
+          //-                  fieldTxts.set(i,textArea);//this is for html
                         }
                         else
                         {
+                            scrollPaneTextArea.setViewportView(textArea);
                             panelTextArea.add(scrollPaneTextArea);
                             fieldTxts.set(i,textArea);
                         }
@@ -2489,9 +2518,16 @@ catch(Exception e)
               else
               {
                   //System.out.println("PanelOneDataOneRecData.dbFieldsCalculateSet  ("+col+")  colName:"+colName+"   classtype:"+classtype);
-              	   JTextComponent tb = (JTextComponent) fieldTxts.get(col);
-              	   value = tb.getText();
-                 
+              	        if(columnWidth>COLWIDTH_FOR_HTML) // like printform html // look also above
+                        {
+                         PanelHtmlEditor panelHtmlEditor = new PanelHtmlEditor();
+                         value=panelHtmlEditor.getText();
+                         }
+                        else
+                        {
+                           JTextComponent tb = (JTextComponent) fieldTxts.get(col);
+              	           value = tb.getText();
+                        }
          ////////////////////////////////    formGlobalVariable1
             //System.out.println("PanelOneDataOneRecData.showRow   -----====--=====----   i:"+i+"   entity:"+entity+"    table.field:"+colTableName+"."+colName+"    formGlobalField1:"+formGlobalField1+"  formGlobalVariable1:"+formGlobalVariable1);          
          /* if(!entity.equalsIgnoreCase(entity) && formGlobalField1.equalsIgnoreCase(colName) )
@@ -3099,6 +3135,7 @@ catch(Exception e)
          {
               String columnClass =  dbFieldsInGroupOfPanels[i].getColClassName();
               String fieldName = dbFieldsInGroupOfPanels[i].getDbField();
+             
               int isVisOrEdit = dbFieldsInGroupOfPanels[i].getIsVisibleOrEditable();
       //System.out.println("   PanelOneDataOnRecData.setFocusInPageComponent     --("+i+")--    "+fieldName+"    columnClass:"+columnClass+"    fieldTxts.size()"+fieldTxts.size());
                        
@@ -3125,7 +3162,7 @@ catch(Exception e)
               {
                   String columnClassFocus = dbFieldsInGroupOfPanels[firstFieldThatIsEditable].getColClassName();
                   String  fieldNameFocus = dbFieldsInGroupOfPanels[firstFieldThatIsEditable].getDbField();
-              
+                   int columnWidthFocus = dbFieldsInGroupOfPanels[firstFieldThatIsEditable].getColWidth();
          if(columnClassFocus.equalsIgnoreCase("java.sql.Date") || columnClassFocus.equalsIgnoreCase("java.lang.Date"))
          {
 	
@@ -3177,6 +3214,25 @@ catch(Exception e)
          else if(columnClassFocus.equalsIgnoreCase("java.lang.String")|| columnClassFocus.equalsIgnoreCase("java.lang.Double") || columnClassFocus.equalsIgnoreCase("java.lang.Integer"))//if(colWidth>40)
          {                  
                
+                        if(columnWidthFocus>COLWIDTH_FOR_HTML) // like printform html // look also above
+                        {                 
+                 
+                         final  PanelHtmlEditor htmlEditor = (PanelHtmlEditor)fieldTxts.get(firstFieldThatIsEditable);//this is for html
+    	        //final JTextComponent jc = (JTextComponent)fieldTxts.get(firstFieldThatIsEditable);
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                  public void run()
+                  {
+                  htmlEditor.requestFocus();
+                  setGuiLoaded(true);
+                 
+                  }
+                });  
+                        }
+                        else
+                        {
+             
+             
       	        final JTextComponent jc = (JTextComponent)fieldTxts.get(firstFieldThatIsEditable);
                 SwingUtilities.invokeLater(new Runnable()
                 {
@@ -3187,6 +3243,7 @@ catch(Exception e)
                  
                   }
                 });  
+                        }
                 
          }
          else if(columnClassFocus.equalsIgnoreCase("table"))
@@ -5350,11 +5407,16 @@ catch(Exception e)
               }
               else if(columnWidth>40) // text area
               {
-              	   JTextComponent ta = (JTextComponent) fieldTxts.get(i);
-              	   ta.setText(field);
+                  
 
+              	  
+              	  
+                    if(columnWidth<COLWIDTH_FOR_HTML) // text area
+                    {
+                         JTextComponent ta = (JTextComponent) fieldTxts.get(i);
                   // select all the text if focus gained
                   final JTextComponent taFinal=ta;
+                   ta.setText(field);
                   taFinal.addFocusListener(new FocusListener()
                    {
                     	public void focusLost(FocusEvent e)
@@ -5367,8 +5429,34 @@ catch(Exception e)
                              taFinal.setSelectionEnd(taFinal.getText().length());
                         }                    	
                     });    
-                                        
-              }             
+                    
+                    }
+                    else
+                    {
+                           PanelHtmlEditor htmlEditor = (PanelHtmlEditor) fieldTxts.get(i);
+                  // select all the text if focus gained
+                  htmlEditor.setText(field);
+                       final String fieldFinal=field;
+                  final PanelHtmlEditor taFinal=htmlEditor;
+                  taFinal.addFocusListener(new FocusListener()
+                   {
+                    	public void focusLost(FocusEvent e)
+                        {  // if entered nothing or spaces on textbox
+                            //fieldFinal = taFinal.getText();
+                        }
+                        public void focusGained(FocusEvent e)
+                        {    //System.out.println("panelODORData.showRow focus gained");
+                             //taFinal.setText(fieldFinal);
+                            //JTextComponent txtFieldArea = (JTextComponent)fieldTxts.get(i);
+                            taFinal.setSelectionStart(0);
+                            taFinal.setSelectionEnd(taFinal.getText().length());
+                        }                    	
+                    });                         
+                    }
+                   
+              
+                  
+              }
               else
               {
              	   JTextComponent tbe = (JTextComponent) fieldTxts.get(i);
@@ -5674,7 +5762,7 @@ catch(Exception e)
     
     
     
-   private int rowUpdate(Database dbTransaction) throws SQLException
+   private int rowUpdate(Database dbTransaction,String pkFromOnePanelForTables) throws SQLException
    { 
        int ret=0;
       
@@ -5807,9 +5895,34 @@ ps.setBytes(i, b);
              }
              else
              {
+                 
+                  if( classtype.equalsIgnoreCase("java.lang.String") && columnWidth>COLWIDTH_FOR_BIGTEXTBOX)
+                  {
+
+                 	//JPanel panelTextArea =new JPanel(new BorderLayout());
+                  	//panelTextArea.setOpaque(false);
+
+                      
+                        if(columnWidth>COLWIDTH_FOR_HTML) // like printform html // look also above
+                        {                 
+                 
+                           PanelHtmlEditor htmlEditor = (PanelHtmlEditor)fieldTxts.get(i);//this is for html
+                           fieldValue = htmlEditor.getText();
+                        }
+                        else
+                        {
+                           tb = (JTextComponent) fieldTxts.get(i);
+              
+                           fieldValue = tb.getText();                            
+                        }
+                  }
+                  else
+                  {
+                 
                  tb = (JTextComponent) fieldTxts.get(i);
               
                  fieldValue = tb.getText();
+                  }
                //System.out.println("PanelOneDataOneRecData.rowUpdate "+fieldValue);
              	
              }
@@ -5979,9 +6092,9 @@ ps.setBytes(i, b);
 
                     
                  if(columnName.equalsIgnoreCase(primKeyDb))
-                 {
-                     
+                 {                  
                      primKeyValue=fieldValue.trim();
+     
                  }                    
                     
           	  
@@ -6016,10 +6129,17 @@ ps.setBytes(i, b);
                 //System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' "+primKeys[i]+"="+primKeysValue[i]); 
 
               
-               //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue);   
+               System.out.println("PanelOneDataOneRecData.rowUpdate ------------ subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue+"   pkFromOnePanelForTables:"+pkFromOnePanelForTables);   
                if(primKeys[i].equalsIgnoreCase(primKeyDb))
                {
-                subqueryWhere = subqueryWhere+"("+primKeys[i]+" LIKE '"+primKeyValue+"')"; // when is updating if a second time after insert is selected
+                   if(pkFromOnePanelForTables == null || pkFromOnePanelForTables.equalsIgnoreCase(""))
+                   {
+                       subqueryWhere = subqueryWhere+"("+primKeys[i]+" LIKE '"+primKeyValue+"')";
+                   }
+                    else
+                   {
+                       subqueryWhere = subqueryWhere+"("+primKeys[i]+" LIKE '"+pkFromOnePanelForTables+"')";
+                   }  //primKeyValue+"')"; // when is updating if a second time after insert is selected
                }
                else
                {
@@ -6209,6 +6329,7 @@ ps.setBytes(i, b);
    
    
    // called by
+   ///                                                                        // String pkFromOnePanelForTables for second panel (ie in second panel of form )
     private int rowUpdateAll(Database dbTransaction,boolean isNewRecIn,String pkFromOnePanelForTables) throws SQLException //taken and adapted from panelTwoDataOneRec
     {
         
@@ -6224,7 +6345,7 @@ ps.setBytes(i, b);
                     {
                          //System.out.println("PanelOneDataOneRecData.rowUpdateAll     IF  IF ");
                     // boolean retBool = this.rowInsertAndUpdateImage(dbTransaction);    is inside    this.rowUpdate(dbTransaction);
-                     ret = this.rowUpdate(dbTransaction);
+                     ret = this.rowUpdate(dbTransaction, pkFromOnePanelForTables);  // String pkFromOnePanelForTables for second panel (ie in second panel of form )
                      
                  
                    // if (ret==0)
@@ -6791,29 +6912,34 @@ ps.setBytes(i, b);
                 }           
         
  
-             //System.out.println("PanelODORData.checkFieldsIfThenElse  FIELDSCALCULATION_CATEGORY_SAME      fc:"+fc+"    calculation:"+calculation);        
+             System.out.println("PanelODORData.checkFieldsIfThenElse  FIELDSCALCULATION_CATEGORY_SAME   colOfTxtField:"+colOfTxtField+" textString.length:"+textString.length+"      queryCheck:"+queryCheck);        
                for(int s=0;s<textString.length;s++)
                {   
                    int indexOfHashChar = queryCheck.indexOf("#");
                     //if does not have an empty string inside textString then continue
                    if(!textString[s].equalsIgnoreCase(""))
                    {
-                       //System.out.println("   if  textString  s:"+s+"  textString:"+textString[s]);
+                       System.out.println("   if  textString  s:"+s+"  textString:"+textString[s]+"    indexOfHashChar:"+indexOfHashChar);
                         if(indexOfHashChar!=-1)
                        { 
  
                            
                           queryCheck = utilsString.replaceTextOfAStringWithText("#", queryCheck, textString, null);
-                          //System.out.println("PanelODORData.checkFieldsIfThenElse   s:"+s+"   indexOfHashChar:"+indexOfHashChar+"      textString.length:"+textString.length);
+                          //System.out.println("PanelODORData.checkFieldsIfThenElse   s:"+s+"   indexOfHashChar:"+indexOfHashChar+"      textString.length:"+textString.length+"    queryCheck:"+queryCheck);
                        }
                
                 
                    }
+                   else
+                   {
+                        System.out.println(" error  PanelOneDataOnRecData.checkFieldsIfThenElse  error  else  textString  s:"+s+"  textString[s]:"+textString[s]+"(is nothing)    indexOfHashChar:"+indexOfHashChar);
+                   }
                }        
 
-        System.out.println("PanelOneDataOnRecData.checkFieldsIfThenElse         -      queryCheck:"+queryCheck);
   
-    String retStringA="";
+        if(queryCheck.indexOf("#")==-1)// if there is no # continue
+        {
+          String retStringA="";
           try
           {
             db.retrieveDBDataFromQuery(queryCheck,"PanelOneDataOnRecData.checkFieldsIfThenElse");
@@ -6840,6 +6966,12 @@ ps.setBytes(i, b);
       {
      String textMessageWhenTrue = entityCheckFields[f].getTextMessageWhenTrue();
      utilsGui.showMessageInfo(textMessageWhenTrue);
+      }
+        }
+      else
+      {
+                  System.out.println("error PanelOneDataOnRecData.checkFieldsIfThenElse     has #     queryCheck:"+queryCheck);
+
       }
      
     }
@@ -7905,7 +8037,7 @@ ps.setBytes(i, b);
    	 {
              // also called below in getPkOfAutoIncInsertedRecord
               pkFromOnePanelForTables = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsAll,entity,null,null,0);// used for table, last 
-   	 	  if(intPanelODORData==0)
+   	 	  if(intPanelODORData==0)  // also is 1 for second panel (ie in second panel of form )
                   {
                       
                       System.out.println("PanelODORData.rowSaveAll INSERT - - - -- - -  -  pkFromOnePanelForTables:"+pkFromOnePanelForTables+"   isNewRec:"+isNewRec+"     title:"+title+"    intPanelODORData:"+intPanelODORData);
@@ -7914,7 +8046,7 @@ ps.setBytes(i, b);
                        isNewRec=false;     
                        
                   }
-                  else
+                  else  // String pkFromOnePanelForTables also for second panel (ie in second panel of form )
                   {
                       System.out.println("PanelODORData.rowSaveAll   UPDATE    isNewRecIn:"+isNewRecIn+"     title:"+title+"    pkFromOnePanelForTables:"+pkFromOnePanelForTables+"    intPanelODORData:"+intPanelODORData);
                       ret = rowUpdateAll(dbTransaction,isNewRecIn,pkFromOnePanelForTables);
@@ -7979,7 +8111,7 @@ ps.setBytes(i, b);
                   
                   
           	  	 JTextComponent tb=null;
-                  String fieldValue;
+                  String fieldValue = "";
                 // System.out.println("PanelODORData.rowInsert  "+i+"  "+classtype+"  "+columnDbName);
           	 if (classtype.equalsIgnoreCase("java.sql.Date") || classtype.equalsIgnoreCase("java.lang.Date"))
           	 {
@@ -8036,8 +8168,34 @@ ps.setBytes(i, b);
                  }   
                  else    
                  {
+                     
+                  if( classtype.equalsIgnoreCase("java.lang.String") && columnWidth>COLWIDTH_FOR_BIGTEXTBOX)
+                  {
+
+                 	//JPanel panelTextArea =new JPanel(new BorderLayout());
+                  	//panelTextArea.setOpaque(false);
+
+                      
+                        if(columnWidth>COLWIDTH_FOR_HTML) // like printform html // look also above
+                        {                 
+                 
+                           PanelHtmlEditor txtArea = (PanelHtmlEditor)fieldTxts.get(i);//this is for html
+                           fieldValue = txtArea.getText();
+                        } 
+                        else
+                        {
+                           tb = (JTextComponent) fieldTxts.get(i);
+	                   fieldValue = tb.getText().trim();                            
+                        }
+                 
+
+                        //}
+                  }
+                  else
+                  {                       
                     tb = (JTextComponent) fieldTxts.get(i);
 	            fieldValue = tb.getText().trim();
+                  }
                  }         	  	
 
                   if (classtype.equalsIgnoreCase("table"))
@@ -8070,11 +8228,15 @@ ps.setBytes(i, b);
           	             {*/
           	      	         subqueryValues = subqueryValues+"'"+fieldValue+"'";
           //	             }
-                    }
-                    else
-          	           {                    	
-                    	subqueryValues = subqueryValues+" null ";
-          	           }
+                   }
+                   else
+          	   {                    	
+                     subqueryValues = subqueryValues+" null ";
+          	   }
+                    
+                    
+                    System.out.println(">>>>>>>>>>>>>>>>>>>A  panelOneDataOneRecData.rowInsert for:"+classtype+" "+subqueryValues); 
+                    
           	      }
           	      else if (classtype.equalsIgnoreCase("java.lang.Integer"))
           	      {
@@ -8180,7 +8342,7 @@ ps.setBytes(i, b);
           	  else
           	  { 
           	      
-          	  	   System.out.println("error panelOneDataOneRecData.rowInsert classtype "+classtype+" not supported");
+          	  	   System.out.println("error panelOneDataOneRecData.rowInsert >>>>>> classtype "+classtype+" not supported");
           	  }
           	      
           	      //if (i < rsmd.getColumnCount() && rsmd.getColumnCount()>1) 
@@ -8290,8 +8452,10 @@ ps.setBytes(i, b);
    	     
           String insertQuery = "INSERT INTO "+entity+" "+subqueryfieldTxts+" VALUES "+ subqueryValues;
           
-          if (VariablesGlobal.globalShowSQLEdit)
-          { System.out.println("PanelODORData.rowInsert insertQuery: "+insertQuery);}
+         // if (VariablesGlobal.globalShowSQLEdit)
+         // { 
+              System.out.println("PanelODORData.rowInsert ------ insertQuery: "+insertQuery);
+         // }
            
            // //return 1 there is already one record with the same keys
           ret = dbTransaction.transactionUpdateQuery(insertQuery,"PanelODORData.rowInsert",showDialogOnError);
@@ -9079,7 +9243,11 @@ ps.setBytes(i, b);
    {
        return primKeyValue;
    }
-           
+   
+   public String getPKeyFromOnePanelForTables()
+   {
+       return   pkFromOnePanelForTables;
+   }      
    /*
    *  called by TableModelResulySet.dbFieldsCalculateSet
    */
@@ -9702,6 +9870,7 @@ ps.setBytes(i, b);
           for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)
           {
               String columnClass =  dbFieldsInGroupOfPanels[i].getColClassName();
+              int columnWidth =  dbFieldsInGroupOfPanels[i].getColWidth();
               String fieldName = dbFieldsInGroupOfPanels[i].getDbField();
               int visibilityEditability = dbFieldsInGroupOfPanels[i].getIsVisibleOrEditable();
            //System.out.println("PanelOneDataOnRecData.setVisibleOrEditableFields     --("+i+")--    "+fieldName+"     fieldTxts.size()"+fieldTxts.size()+"     isVisOrEdit:"+isVisOrEdit+" (is false "+FIELD_VISIBLE_NOT_EDITABLE_ALWAYS+")");
@@ -10010,7 +10179,21 @@ ps.setBytes(i, b);
                                        cb.setFocusable(true); 
                                   }
                                   else
-                                  {                             
+                                  { 
+                                      
+                                   if(columnClass.equalsIgnoreCase("java.lang.String") && columnWidth>COLWIDTH_FOR_HTML) //if change 40 change and later in adding it to panel, and in showrow, and in rowUpdate
+                                   {
+                                      
+                           PanelHtmlEditor htmlEditorArea = (PanelHtmlEditor)fieldTxts.get(i);//this is for html
+                      	               htmlEditorArea.setEditable(true);
+                                       htmlEditorArea.setFocusable(true);
+                                       htmlEditorArea.setBackground(t.getBackground());                                     
+                                       
+                                       
+                                       
+                                   }
+                                   else
+                                    {
                                        JTextComponent txtb = (JTextComponent)fieldTxts.get(i);//i-1);
                       	               txtb.setEditable(true);
                                        txtb.setFocusable(true);
@@ -10024,7 +10207,8 @@ ps.setBytes(i, b);
                                   JTextComponent txtb3 = (JTextComponent)fieldTxts3.get(i);//i-1);
                       	          txtb3.setEditable(true);
                                   txtb3.setFocusable(true);
-                                  txtb3.setBackground(t.getBackground());                                   
+                                  txtb3.setBackground(t.getBackground());     
+                                      }
                                 }
                               }
                          }
@@ -10279,7 +10463,7 @@ ps.setBytes(i, b);
       //    databaseTableMeta.retrievePrimKs(entity); // first retrieve them
           for (int p = 0; p< primKeysCount; p++) // i=0 and i< because arraylist starts from 0
           {             
-                System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' "+primKeys[p]+"="+primKeysValue[p]); 
+                //System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' "+primKeys[p]+"="+primKeysValue[p]); 
 
               
                //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue);   
@@ -10538,6 +10722,25 @@ ps.setBytes(i, b);
                               }
                               else
                               {
+                                  
+                                  
+                                   if( columnWidth>COLWIDTH_FOR_HTML) //if change 40 change and later in adding it to panel, and in showrow, and in rowUpdate
+                                   {
+                                      
+                                       PanelHtmlEditor htmlEditorArea = (PanelHtmlEditor)fieldTxts.get(i);//this is for html 
+                           
+                                       if(defaultValue[i]==null)
+                                       {
+                                           htmlEditorArea.setText("");     
+                                       }
+                                        else
+                                       {
+                                           htmlEditorArea.setText(defaultValue[i]);     // like global variables 
+                                    //System.out.println("PanelOneDataOneRecData.rowNewForFieldsExceptUniqueKeys "+defaultValue[i]);
+                                       }
+                                   }
+                                   else
+                                   {
    	                        tb = (JTextComponent) fieldTxts.get(i);
    	                        
                                 
@@ -10549,7 +10752,8 @@ ps.setBytes(i, b);
                                 {
                                     tb.setText(defaultValue[i]);     // like global variables 
                                     //System.out.println("PanelOneDataOneRecData.rowNewForFieldsExceptUniqueKeys "+defaultValue[i]);
-                                }                                  
+                                }
+                                   }
                               }
 
                                 

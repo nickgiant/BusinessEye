@@ -1716,10 +1716,17 @@ import javax.swing.text.JTextComponent;
                    {
                     //   primKeyOfNewRecord="";
                    }                        
-                       
-                   
-                   
-                    strTitleCaptionHTML = setTitle(false,pnlODORData.getPrimKeyValue());
+                     
+                   String pkFromOne = pnlODORData.getPKeyFromOnePanelForTables();
+                   if(pkFromOne== null || pkFromOne.equalsIgnoreCase(""))
+                   {
+                      strTitleCaptionHTML = setTitle(false,pnlODORData.getPrimKeyValue());
+                   }
+                   else
+                   {
+                       strTitleCaptionHTML = setTitle(false,pkFromOne);
+                   }
+                    
                    }                   
              }
              dbTransaction.updateShowWindowSuccessSave(strTitleCaptionHTML);    //+" saved successfully."   
@@ -1872,7 +1879,7 @@ import javax.swing.text.JTextComponent;
                //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue);   
                if(primKeys[i].equalsIgnoreCase(primKeyDb))
                {
-                subqueryWhere = subqueryWhere+"("+sqlEntity+"."+primKeys[i]+" LIKE '"+pkValue+"')"; // when is updating if a second time after insert is selected
+                   subqueryWhere = subqueryWhere+"("+sqlEntity+"."+primKeys[i]+" LIKE '"+pkValue+"')"; // when is updating if a second time after insert is selected
                }
                else
                {
@@ -1959,7 +1966,7 @@ import javax.swing.text.JTextComponent;
            }//try
            catch ( SQLException sqlex)
            {
-               System.out.println("error:  PanelODOR.setTitle:  "+sqlex.getMessage()+"    title:" +title+"        query:"+ query+"       queryForTitle:"+queryForTitle);
+               System.out.println("error:  PanelODOR.setTitle:  "+sqlex.getMessage()+"    title:" +title+"   pkValue:"+pkValue+"     query:"+ query+"       queryForTitle:"+queryForTitle);
                if(VariablesGlobal.globalShowPrintStackTrace)
                {
                    sqlex.printStackTrace();

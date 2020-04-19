@@ -23,6 +23,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.event.AncestorListener;
+import javax.swing.text.Document;
 import net.atlanticbb.tantlinger.shef.HTMLEditorPane;
 import novaworx.textpane.SyntaxTextPane;
 /**
@@ -79,18 +80,43 @@ public class PanelHtmlEditor extends JxPanel
         
 }
 
-    public void setTextAreaString(String strHtml)
+    public void setText(String strHtml)
     {
         
         editor.setText(strHtml);
     }
     
     
-    public String getTextAreaString()
+    public String getText()
     {
         return editor.getText();
     }
     
+    
+    public void setDocument(Document doc)
+    {
+        editor.getEditor().setDocument(doc);
+    }
+ 
+    public Document getDocument()
+    {
+        return editor.getEditor().getDocument();
+    }
+    
+    public void setSelectionStart(int i)
+    {
+        editor.getEditor().setSelectionStart(i);
+    
+    }   
+     public void setSelectionEnd(int i)
+    {
+        editor.getEditor().setSelectionEnd(i);
+    }
+     
+     public void setEditable(boolean editable)
+     {
+         editor.getEditor().setEditable(editable);
+     }
    /* @Override
     public void focusGained(FocusEvent fe) {
     System.out.println("-------------------Focus gained in JPanel");
@@ -169,7 +195,7 @@ public void mouseExited(MouseEvent me) {}   */
         String html ="             ";
         
         
-        p.setTextAreaString(html);
+        p.setText(html);
         f.add(p,BorderLayout.CENTER);
         f.pack();
         f.setVisible(true);

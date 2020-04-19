@@ -4,9 +4,11 @@ package com.tool.guicomps;
 import javax.swing.text.PlainDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.html.HTMLDocument;
 
   // limiting the capacity of jtextfield and limiting the format only in numbers
-  public class PlainDocumentInsertText extends PlainDocument 
+  public class PlainDocumentInsertText extends HTMLDocument //extends  PlainDocument     //implements javax.swing.text.html.HTMLDocument 
+          //implements javax.swing.text.html.HTMLDocument 
   {
   	int maxSize;
   	String type;
