@@ -405,7 +405,7 @@ import javax.swing.BorderFactory;
         
           //setPageDimensions();
    	  generatePageStart();  
-          generateMain(page,queryFormForPrinting,formField);
+          generateMain(page,queryForForm, /*queryFormForPrinting,*/formField);
  
   
    }

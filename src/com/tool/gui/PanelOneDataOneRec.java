@@ -1267,7 +1267,7 @@ import javax.swing.text.JTextComponent;
        
        
        // get query with 'where' clause
-       String queryToGetForm = entityPanel.getEntityReportForm().getFormQueryForPrinting();
+       String queryToGetForm = entityPanel.getEntityReportForm().getQuery();     //.getFormQueryForPrinting();
               String queryWhereAnd = "";
              if(arrayOfNameOfPksOfRecordToShow!=null)
              {
@@ -1288,7 +1288,7 @@ import javax.swing.text.JTextComponent;
        {
        
        db.getConnection();
-       db.retrieveDBDataFromQuery(queryToGetForm, "PanelODOR.showPrintPreviewForm   queryToGetForm");
+       db.retrieveDBDataFromQuery(queryToGetForm, "PanelODOR.showPrintPreviewForm   queryToGetForm ");
        ResultSet rsForm = db.getRS();
        hasData = rsForm.next();
        db.getRecordCount();
@@ -1406,7 +1406,7 @@ import javax.swing.text.JTextComponent;
              }
        
            
-           String queryForPrint = entityReportForm.getFormQueryForPrinting();
+           String queryForPrint = entityReportForm.getQuery();        // .getFormQueryForPrinting();
           
            String queryWithoutWhere = utilsString.getQueryWithoutWhere(queryForPrint);
             String queryWhereAnd = " AND "+entityPanel.getEntity()+"."+primKeyDb+" LIKE "+primKeyValue;// maybe not only one primarykey, but it already filters it

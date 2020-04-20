@@ -144,12 +144,13 @@ import java.io.*;
   //System.out.println("ReportAreaForm.setEntity  -o-  isDotmatrix:"+isDotmatrix+"    nameOfFormIn:"+nameOfFormIn +"     pageIn:"+pageIn+"        listRecords.size:"+listRecords.size());
            if(arrayOfNameOfPksOfRecordToShow!=null)// when one print form
            {
+               System.out.println("  ===== IF ReportAreaForm.setEntity   (only one rec form) formField:"+formField+"    formQuery:"+formQuery); 
                String strForm = getFormDataString(isDotmatrix, formQuery, formField);
                ret = generateForm( nameOfFormIn, isDotmatrix, pageIn, listOfListOfColumns, listRecords, strForm,NUMBER_OF_FORMROWS_PER_PAGE);
                System.out.println("  ===== IF ReportAreaForm.setEntity      entityReportIn:"+entityReportIn+" (only one rec form)");   // only one, else mass form printing // only one, else mass form printing
            }
            else// when mass print of form  //exists with modifications in PanelPrintPreniew.getPageTotal and in  ReportAreaForm.setEntity
-           {      
+           {
 
              
               String lastVal = "";

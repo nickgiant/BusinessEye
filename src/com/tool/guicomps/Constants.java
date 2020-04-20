@@ -291,7 +291,7 @@ public interface Constants
    public final String STRPAGESIZE_A3="A3";
     public final String[] STRARRAYPAGESIZELASER = { STRPAGESIZE_A5,STRPAGESIZE_A4,STRPAGESIZE_B4, STRPAGESIZE_A3};
 
-    public final  String ORIENTATION_LANDSCAPE="επίπεδη σελίδα";
+    public final  String ORIENTATION_LANDSCAPE="οριζόντια σελίδα";
     public final String ORIENTATION_PORTRAIT="κατακόρυφη σελίδα";
    
     
