@@ -1752,7 +1752,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
         else
         {
             
-            System.out.println("TableModelResultSet.dbFieldsCalculateSet ELSE NOT DEFINED row:"+row+" col:"+col+"  fieldsCalculationSelect:"+fieldsCalculationSelect+"   dbField:"+dbFieldMany+"    value:"+value);  
+    //        System.out.println("TableModelResultSet.dbFieldsCalculateSet ELSE NOT DEFINED row:"+row+" col:"+col+"  fieldsCalculationSelect:"+fieldsCalculationSelect+"   dbField:"+dbFieldMany+"    value:"+value);  
             //    if(dbFieldMany!=null && fieldsCalculation!=null && value!=null && !value.toString().equalsIgnoreCase(""))
         }
 //          closeDB();       

@@ -212,6 +212,7 @@ import javax.swing.text.JTextComponent;
       
         panelOneDataOneRecDataSetEntity = new PanelOneDataOneRecData(frame);
      	
+         
        if (VariablesGlobal.globalShowInitialisations)
        {    System.out.println("panelODOR initialized");   }   
     }
@@ -361,7 +362,13 @@ import javax.swing.text.JTextComponent;
             { this.removeAll(); }//erases all components placed during initialization
         toolBarData.setVisible(showToolBar);
         
-
+        entityCalculate = entityPanel.getEntityCalculate();
+     
+        if(entityCalculate!= null && btnCalculation.isVisible())
+        {
+        btnCalculation.setText("<html>"+entityCalculate.getCaption()+"</html>");//entityCalculate.getCaption())
+        btnCalculation.setToolTipText(entityCalculate.getCaption());
+        }
         //lblTitle.setBackground(java.awt.SystemColor.activeCaption);
       //listPanelOneDataOneRec.clear();
     //System.out.println("PanelODOR.setEntity ----ooooooooooooooooo------     entityType:"+entityType+"          entityPanel.getEntityReportForm bands 0 :"+entityPanel.getEntityReportForm().getEntityReportBands()[0]+"         primKeyValue:"+primKeyValue+"     queryReadOnly="+queryReadOnly+"     query"+query  );
@@ -2201,7 +2208,7 @@ import javax.swing.text.JTextComponent;
         btnNext = new JButton();
         //btnFind = new JButton();
         
-        btnCalculation = new JButton();
+        btnCalculation = new JButton();// init
         btnCalculation.setHorizontalTextPosition(SwingConstants.CENTER);
         btnCalculation.setVerticalTextPosition(SwingConstants.BOTTOM);           
         

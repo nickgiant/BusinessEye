@@ -1,4 +1,4 @@
-// created 19-05-2007
+
 package com.tool.utils;
 
 import com.tool.model.LookUpMgt;
@@ -1276,7 +1276,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                 {
                     primkeyFixedArray[intPrimkeyFixed]=dbFieldsAll[c].getDbField();
                     primkeyFixedValueArray[intPrimkeyFixed]=dbFieldsAll[c].getDefaultValue();
-                    System.out.println("   -ELSE-   UtilPanelReport.getNoOfPKAutoIncOfNewRecord  c:"+c+"   FIELD_PRIMARY_KEY   primkeyFixedArray:"+primkeyFixedArray[intPrimkeyFixed]+"="+primkeyFixedValueArray[intPrimkeyFixed]+"  "+intPrimkeyFixed);
+ //                   System.out.println("   -ELSE-   UtilPanelReport.getNoOfPKAutoIncOfNewRecord  c:"+c+"   FIELD_PRIMARY_KEY   primkeyFixedArray:"+primkeyFixedArray[intPrimkeyFixed]+"="+primkeyFixedValueArray[intPrimkeyFixed]+"  "+intPrimkeyFixed);
                     intPrimkeyFixed++;
                 }
                 else if(dbFieldsAll[c].getPrimaryKeyIntegerAutoInc()==FIELD_PRIMARY_KEY_FROM_PARENTTABLE)// 

@@ -340,7 +340,7 @@ import org.xml.sax.SAXException;
         
         updateAdditional=entityPanel.getUpdateAdditional();
         entityTemplate = entityPanel.getEntityTemplate();
-     
+
         //query=entityPanel.getQuery();
         query=queryIn;// or sqlOne
 
@@ -7456,77 +7456,94 @@ ps.setBytes(i, b);
           // --------------------------------------------
                 String fieldClass = "htmlfile";
                 //String fieldName = "vatDocHtml";
-                String sqlQueryVat = "SELECT sxaccount.vatDocCode, sxaccount.vatDocCodeVat, sxesoexoheader.dateOfesoexo, COUNT(sxesoexoLine.priceBeforeVat) AS cnt, SUM(sxesoexoLine.priceBeforeVat) AS sumpre,  SUM(sxesoexoLine.vatValue) AS sumvat, "
+     /*           String sqlQueryVat = "SELECT sxaccount.vatDocCode, sxaccount.vatDocCodeVat, sxesoexoheader.dateOfesoexo, COUNT(sxesoexoLine.priceBeforeVat) AS cnt, SUM(sxesoexoLine.priceBeforeVat) AS sumpre,  SUM(sxesoexoLine.vatValue) AS sumvat, "
                         + "SUM(sxesoexoLine.valueWithVat) AS sumtotal "
                         + "FROM sxaccount,sxesoexoheader, sxesoexoline "
                         + "WHERE sxesoexoLine.accountId = sxaccount.accountId AND sxesoexoheader.esoexoheaderId = sxesoexoLine.esoexoheaderId"
                         + "  AND sxesoexoLine.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoLine.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "
                         + "GROUP BY sxaccount.vatDocCode";
-               String fieldNamePreffix ="f" ;
-              String fieldName = "sxaccount.vatDocCode";
-              String fieldNameValue = "sumpre";
+    */  
+          String[] sqlQueryCalcArray  = entityCalculate.getQueryArray();
+          if( sqlQueryCalcArray.length==1)
+          {
+             String fieldNamePreffix ="f" ;
+              String rsFieldName = "sxaccount.vatDocCode";
+              String rsFieldNameValue = "sumpre";
               
-              String fieldNameVat = "sxaccount.vatDocCodeVat";
-              String fieldNameValueVat = "sumvat";
-             // ArrayList listDocFieldNames = new ArrayList();
-               //listDocFieldNames.add("sxaccount.vatDocCode"); 
-               //listDocFieldNames.add("361"); 
+              String rsFieldNameVat = "sxaccount.vatDocCodeVat";
+              String rsFieldNameValueVat = "sumvat";
 
 
-                
-               String qr =   pnlDataFilter.getSubquery(sqlQueryVat/*,0*/);// int reportgroup
+               
+               
+               String sqlQuery =  sqlQueryCalcArray[0];
+               String qr =   pnlDataFilter.getSubquery(sqlQuery/*,0*/);// int reportgroup
                
                      db.retrieveDBDataFromQuery(qr, "PanelODORecData.calculationFromToolBarButton.");
                      ResultSet rsDocument = db.getRS();                
                     try
                     {
-                        
+                     System.out.println("PanelODORData.calculationFromToolBarButton            qr:"+qr);   
               //for (int i = 0; i < listDocFieldNames.size(); i++)//  i = fieldTxts
               while(rsDocument.next())
               {
 
-              //{
-                // System.out.println("PanelODORData.setEntity for  =  ("+i+") "+fields[i]);
-                 
-                 /*String columnLabel = fieldsTranslation[i]; //get colunm name
-                 String columnDbName = fields[i];
-                 System.out.println("PanelODORData.setEntity for  =  ("+i+") "+columnDbName+"  "+columnLabel);
-                 //System.out.println("panelODORData.setEntity col:");
-                 
-                 int columnWidth = colWidth[i];//get column width
-                 //columnWidth=columnWidth+2;
-                 
-                 String columnClass = colClassName[i]; 
-                 int intPKAutoInc = primaryKeyIntegerAutoInc[i];// 
-                 
-                 int columnFieldObligatoryOrSuggest=fieldObligatoryOrSuggest[i];     	
-                 int columnFieldValidation =  fieldValidation[i];
-                 if(fieldClass!=null && !fieldClass.trim().equalsIgnoreCase(""))// && columnClass.equalsIgnoreCase(fieldClass))
-                 {
-                     if(fieldName!=null && !fieldName.trim().equalsIgnoreCase(""))// && columnDbName.equalsIgnoreCase(fieldName))
-                     {   */    
-                        //String columnName = listDocFieldNames.get(1).toString();                 
-                        String strField = rsDocument.getString(fieldName);
-                        String strValue = rsDocument.getString(fieldNameValue);
+                        String strField = rsDocument.getString(rsFieldName);
+                        String strValue = rsDocument.getString(rsFieldNameValue);
                         
-                        String strFieldVat = rsDocument.getString(fieldNameVat);
-                        String strValueVat = rsDocument.getString(fieldNameValueVat);                        
+                        String strFieldVat = rsDocument.getString(rsFieldNameVat);
+                        String strValueVat = rsDocument.getString(rsFieldNameValueVat);
+
+                     int fromToInstances=1;// from to like date                        
            for(int col=0;col < dbFieldsInGroupOfPanels.length;col++)             
            {
+               String colCaption =   dbFieldsInGroupOfPanels[col].getCaption();
           String colName =   dbFieldsInGroupOfPanels[col].getDbField();
+          String colTableName =   dbFieldsInGroupOfPanels[col].getTableName();
           int columnWidth = dbFieldsInGroupOfPanels[col].getColWidth();
-      	 //System.out.println("panelODORData.showRow i ("+i+") colName:"+colName+" class:"+dbFieldsInGroupOfPanels[i].getColClassName());
-          String classtype = dbFieldsInGroupOfPanels[col].getColClassName();  
+      	 
+          String className = dbFieldsInGroupOfPanels[col].getColClassName();  
+          //System.out.println("panelODORData.showRow  col ("+col+")  className"+className+"    colTableName:"+colTableName+" .  colName:"+colName+"  ==  fieldName:"+fieldName+"    f+strField:"+fieldNamePreffix+strField);             
+                      
                        
+                        String filterCaption = pnlDataFilter.getFilterCaption(0);
+                        String filterVariableType = pnlDataFilter.getFilterVariableType(0);
+                        String tb1Text = pnlDataFilter.getFilterValue(0);
+                        String tb2Text = pnlDataFilter.getFilterValueTwo(0);
+                        
+                       if(className.toLowerCase().indexOf(filterVariableType.toLowerCase())!=-1)// if has the same class type
+                       {
+                      //System.out.println("PanelODORData.calculationFromToolBarButton  TRUE colCaption:"+colCaption+"   filterCaption:"+filterCaption+"   className:"+className+"  filterVariableType:"+filterVariableType+"   tb1Text:"+tb1Text +"tb2Text:"+tb2Text+"  fromToInstances:"+fromToInstances);    
+                      
+                       JTextBoxWithEditButtons txb = (JTextBoxWithEditButtons) fieldTxts.get(col);
+                       //txb.setEmptyDate();
+                       txb.setText(tb1Text);
+                       
+                       
+                       if(fromToInstances>1)
+                      {
+                        JTextBoxWithEditButtons txb2 = (JTextBoxWithEditButtons) fieldTxts.get(col);
+                        //txb2.setEmptyDate();
+                        txb2.setText(tb2Text);
+                        
+                       }
+                       
+                       fromToInstances++;
+                       }
+                       else
+                       {
+                           //System.out.println("PanelODORData.calculationFromToolBarButton  colCaption:"+colCaption+"   filterCaption:"+filterCaption+"   className:"+className+"  filterVariableType:"+filterVariableType+"   tb1Text:"+tb1Text +"tb2Text:"+tb2Text+"  fromToInstances:"+fromToInstances);    
+                       }
+                       
+                        //System.out.println("PanelODORData.calculationFromToolBarButton starting tne doubles");   
                        if(colName.equalsIgnoreCase(fieldNamePreffix+strField))
                        {
-                           System.out.println("PanelODORecData.calculationFromToolBarButton      col:"+col+"       colName:"+ colName+"="+utilsDouble.getDoubleReading(strValue, true));
+                           //System.out.println("PanelODORecData.calculationFromToolBarButton      col:"+col+"       colName:"+ colName+"="+utilsDouble.getDoubleReading(strValue, true));
                              JTextComponent txb = (JTextComponent) fieldTxts.get(col);
-                              if(classtype.equalsIgnoreCase("java.lang.Double"))
+                              if(className.equalsIgnoreCase("java.lang.Double"))
                              {
                                    txb.requestFocus();
-              	                   txb.setText(utilsDouble.getDoubleReading(strValue, true));
-                                   
+              	                   txb.setText(utilsDouble.getDoubleReading(strValue, true));         
                              }
                              else
                              {
@@ -7540,7 +7557,7 @@ ps.setBytes(i, b);
                        if(colName.equalsIgnoreCase(fieldNamePreffix+strFieldVat))
                        {
                              JTextComponent txbVat = (JTextComponent) fieldTxts.get(col);
-                              if(classtype.equalsIgnoreCase("java.lang.Double"))
+                              if(className.equalsIgnoreCase("java.lang.Double"))
                              {
                                    txbVat.requestFocus();
               	                   txbVat.setText(utilsDouble.getDoubleReading(strValueVat, true));
@@ -7555,141 +7572,44 @@ ps.setBytes(i, b);
                               txbVatLast.requestFocus();                           
                        }
 
-                        
+                     
            }              
-                        System.out.println("PanelODORecData.calculationFromToolBarButton.  fieldName:"+fieldName+":"+strField+"  -  fieldNameValue:"+fieldNameValue+":"+strValue);
+              System.out.println("PanelODORecData.calculationFromToolBarButton.     fieldName:"+rsFieldName+":"+strField+"  -  fieldNameValue:"+rsFieldNameValue+":"+strValue);               
                    /*  }
                  }*/
               }
+
                     }
                     catch(SQLException e)
                     {
                         System.out.println("PanelODORecData.calculationFromToolBarButton.    qr:"+qr+"    "+e.getMessage());
                         e.printStackTrace();
-                    }         
+                    } 
+                    finally
+                    {
+                        closeDB(); 
+                    }   
+                   // System.out.println("PanelODORData.calculationFromToolBarButton     af       qr:"+qr);   
+          }// if sqlQueryCalcArray
+          //System.out.println("PanelODORData.calculationFromToolBarButton     after       ");   
          //----------------------------------------------
       int tableCount =intPanel + 1 ;
                 
               for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)//  i = fieldTxts
               {
 
-              //{
-                // System.out.println("PanelODORData.setEntity for  =  ("+i+") "+fields[i]);
-                 
-                 String columnLabel = fieldsTranslation[i]; //get colunm name
+     
+//                 String columnLabel = fieldsTranslation[i]; //get colunm name
                  String columnDbName = fields[i];
                  //System.out.println("panelODORData.setEntity col:");
-                 
-                 int columnWidth = colWidth[i];//get column width
-                 //columnWidth=columnWidth+2;
-                 
+           
                  String columnClass = colClassName[i]; 
-                 int intPKAutoInc = primaryKeyIntegerAutoInc[i];// 
-                 
-                 int columnFieldObligatoryOrSuggest=fieldObligatoryOrSuggest[i];     	
-                 int columnFieldValidation =  fieldValidation[i];
-                 if(fieldClass!=null && !fieldClass.trim().equalsIgnoreCase(""))// && columnClass.equalsIgnoreCase(fieldClass))
-                 {
-                     if(fieldName!=null && !fieldName.trim().equalsIgnoreCase(""))// && columnDbName.equalsIgnoreCase(fieldName))
-                     {
-         //     System.out.println("PanelODORData.calculationFromToolBarButton   "+i+"   columnDbName:"+columnDbName+"    columnClass:"+columnClass);
-                 if(columnClass.equalsIgnoreCase("htmlfile"))// like old html vatdoc
-                 {
+   
 
-                     //-------------------            
-                String strDocField = "declaration.document.content.f";
-                String strFieldWhere = "sxaccount.vatDocCode";
-                String strFieldValue = "SUM(sxesoexoLine.priceBeforeVat)";
-                
-                String strDocField2 = "declaration.document.content.f";
-                String strFieldWhere2 = "sxaccount.vatDocCodeVat";
-                String strFieldValue2 = "SUM(sxesoexoLine.vatValue)";                          
-
-                                String[] strFieldsNValuesAdditional = {"declaration.document.content.f001B","declaration.document.content.f004","declaration.document.content.f002","declaration.document.content.f005A",
-                    "declaration.document.content.f005B","declaration.document.content.f101","declaration.document.content.f102", "declaration.document.content.f103"};
-                String[] strFieldsNValuesAdditionalValue = {VariablesGlobal.globalYearDescr,VariablesGlobal.globalYearDescr,VariablesGlobal.globalDate,"",
-                    "", VariablesGlobal.globalCompanyName, "",""};
-                     //--------------------
-                     
-                     
-                     
-               if(checkIsCanceled)// == null || listUncompletedFields.size()==0)     
-               {
-                    //System.out.println("PanelODORData.calculationFromToolBarButton     checkToClose:"+checkIsCanceled);
-               }
-               else
-               {
-               String q =   pnlDataFilter.getSubquery(sqlQueryVat/*,0*/);// int reportgroup
-               
-                     db.retrieveDBDataFromQuery(q, "PanelODORecData.calculationFromToolBarButton htmlfile");
-                     ResultSet rsDoc = db.getRS();
-                     //ResultSetMetaData rsmdDoc = db.getRSMetaData();
-                     int intDocCount = db.getRecordCount();
-                     listHtmlFieldsAndValues.clear();
-                     listFields.clear();
-                    try
-                    {
-                        rsDoc.first();
-                        
-                     
-                     for(int f =0; f<strFieldsNValuesAdditional.length; f++)
-                     {
-                         String strJs =   "document.getElementsByName('" + strFieldsNValuesAdditional[f] + "')[0].value='" + strFieldsNValuesAdditionalValue[f] + "';";
-                         //panelHtmlBrowser.addFieldsToTextFieldsList(strFieldsNValuesAdditional[f],strFieldsNValuesAdditionalValue[f]); 
-                         listFields.add(strFieldsNValuesAdditional[f]);
-                         listHtmlFieldsAndValues.add(strJs);
-                         //
-                     }
-                                            
-                        for(int d = 1;d<=intDocCount;d++)
-                        {
-                           rsDoc.absolute(d);
-                     //System.out.println("   strFieldWhere:"+strFieldWhere+"   strFieldValue:"+strFieldValue);
-                     String strField = rsDoc.getString(strFieldWhere);
-                     String strValue = rsDoc.getString(strFieldValue);
-                     String strField2 = rsDoc.getString(strFieldWhere2);
-                     String strValue2 = rsDoc.getString(strFieldValue2);                     
-                    // System.out.println("calculationFromToolBarButton   strField:"+strField+"   strValue:"+strValue);
-                    
-                    if(strField==null || strField2==null || strField.equalsIgnoreCase("") || strField.equalsIgnoreCase("null") || strField2.equalsIgnoreCase("") || strField2.equalsIgnoreCase("null"))
-                    {
-                         System.out.println("-----ERROR-----   PanelODORecData.calculationFromToolBarButton  htmlfile   "+d+"   strField: "+strField+" or strField2:"+strField2+" are empty");
-                    }
-                    else
-                    {
-                   // if(panelHtmlBrowser.isPageLoaded())
-                     //{
-                         String strJs =   "document.getElementsByName('" +strDocField+strField + "')[0].value='" + strValue + "';";
-                     //panelHtmlBrowser.addFieldsToTextFieldsList(strDocField+strField, strValue); // for one text, ie subject to vat
-                     listHtmlFieldsAndValues.add(strJs);
-                     listFields.add(strDocField+strField );
-                         String strJs2 =   "document.getElementsByName('" +strDocField2+strField2 + "')[0].value='" + strValue2 + "';";    
-                    // panelHtmlBrowser.addFieldsToTextFieldsList(strDocField2+strField2, strValue2); // for two text, ie vat
-                     listHtmlFieldsAndValues.add(strJs2);
-                     listFields.add(strDocField2+strField2 );
-                     //}
-                     //panelHtmlBrowser.setTextTofield("declaration.document.content.f303", "1000.10");                            
-                      }// else
-                        }//for
-
-                    }
-                    catch(SQLException e)
-                    {
-                        System.out.println("PanelODORecData.calculationFromToolBarButton  htmlfile "+e.getMessage());
-                        e.printStackTrace();
-                    }
-                     
-                    
-                    PanelHtmlBrowser panelHtmlBrowser = (PanelHtmlBrowser)fieldTxts.get(i);
-                    panelHtmlBrowser.setListOfFieldsAndValues(listHtmlFieldsAndValues);
-//                    panelHtmlBrowser.displayFromListTextToField();
-                    
-                
-              }   // checkIsCanceled is false                       
-                          
-                           closeDB();
-                 }// is htmlfile
-                 else if(columnClass.equalsIgnoreCase("table"))// calculation of ie myf
+               /*  if(columnClass.equalsIgnoreCase("htmlfile"))// like old html vatdoc
+                 {*/
+          
+                 if(columnClass.equalsIgnoreCase("table"))// calculation of ie myf
                  {
 
          String[] sqlQueryTableCalcArray  = entityCalculate.getQueryArray();
@@ -7755,11 +7675,11 @@ ps.setBytes(i, b);
                              //System.out.println("PanelODORecData.calculationFromToolBarButton table "+(m-1)+"  colName[m-1]:"+colName[m-1]+"    strValues[m-1]:"+strValues[m-1]+"   type:"+rsMyf.getType()      );
                           //   intColumns[m-1]=m-1+5;
                             }
-                          System.out.println("PanelODORecData.calculationFromToolBarButton table A  r:"+r+"   colName:"+colName[r]+"   strValues:"+strValues[r]);
+            //              System.out.println("PanelODORecData.calculationFromToolBarButton table A  r:"+r+"   colName:"+colName[r]+"   strValues:"+strValues[r]);
                          pnlODMRData.addNewRowIfThereIsnt(true);
                          
                          //pnlODMRData.setTableValuesAtRow(strValues, r, colName,dbFieldsInGroupOfPanels);
-                        System.out.println("PanelODORecData.calculationFromToolBarButton table  B  r:"+r+"   colName:"+colName[r]+"   strValues:"+strValues[r]);
+            //            System.out.println("PanelODORecData.calculationFromToolBarButton table  B  r:"+r+"   colName:"+colName[r]+"   strValues:"+strValues[r]);
                          tableModelResultSet.setValuesAtRow(strValues,r,colName);
                           
                          r++;
@@ -7772,6 +7692,10 @@ ps.setBytes(i, b);
                         System.out.println("error PanelODORecData.calculationFromToolBarButton table "+ e.getMessage());
                         e.printStackTrace();
                     }
+                    finally
+                    {
+                        closeDB(); 
+                    }
                     //  //System.out.println("PanelODORData.calculationFromToolBarButton   table   ELSE name: "+columnDbName+" "+columnClass);
                }  
 
@@ -7780,10 +7704,10 @@ ps.setBytes(i, b);
                  {
                      //System.out.println("PanelODORData.calculationFromToolBarButton: ELSE class:  "+columnClass+"  "+columnDbName);
                  }
-               closeDB(); 
-            }
+               //closeDB(); 
+//            }
            //} 
-              }// for
+ //             }// for
                } // checkIsCanceled else
     }
 

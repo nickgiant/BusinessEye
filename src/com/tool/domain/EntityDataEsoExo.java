@@ -250,7 +250,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         EntityGroupOfComps[] entityGroupOfFilterCompsVatDoc = null; // if not null creates tabs, and nothing is shown
         String [] sqlQueryTableCalcVatDoc = new String[1];          
-        EntityCalculate entityCalculateVatDoc = new EntityCalculate("calculatevatdoc","υπολογισμός","",null,eCalculateFilterVatDoc,entityGroupOfFilterCompsVatDoc,sqlQueryTableCalcVatDoc,false,null);
+        EntityCalculate entityCalculateVatDoc = new EntityCalculate("calculatevatdoc","υπολογ. περιοδικής ΦΠΑ","",null,eCalculateFilterVatDoc,entityGroupOfFilterCompsVatDoc,sqlQueryTableCalcVatDoc,false,null);
         
         // same as second (and the rest) query in etityParameters
         EntityGroupOfComps[] sxVatDocEntityGroupOfComps =new EntityGroupOfComps[8];
@@ -675,8 +675,12 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
         eCalculateFilterVatDoc[0] = new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",-1,-1,-1,FIELD_OBLIGATORY);     
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         EntityGroupOfComps[] entityGroupOfFilterCompsVatDoc = null; // if not null creates tabs, and nothing is shown
-        sqlQueryTableCalcVatDoc[0] = "";  
-
+        sqlQueryTableCalcVatDoc[0] =  "SELECT sxaccount.vatDocCode, sxaccount.vatDocCodeVat, sxesoexoheader.dateOfesoexo, COUNT(sxesoexoLine.priceBeforeVat) AS cnt, SUM(sxesoexoLine.priceBeforeVat) AS sumpre,  SUM(sxesoexoLine.vatValue) AS sumvat, "
+                        + "SUM(sxesoexoLine.valueWithVat) AS sumtotal "
+                        + "FROM sxaccount,sxesoexoheader, sxesoexoline "
+                        + "WHERE sxesoexoLine.accountId = sxaccount.accountId AND sxesoexoheader.esoexoheaderId = sxesoexoLine.esoexoheaderId"
+                        + "  AND sxesoexoLine.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoLine.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "
+                        + "GROUP BY sxaccount.vatDocCode";
 //-----------------------------------------------------------calc vat doc
        /*
     FIELD_NOCOMPLETION = 0;

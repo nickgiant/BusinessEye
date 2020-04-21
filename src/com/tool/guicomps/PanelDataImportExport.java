@@ -963,7 +963,7 @@ try {
                     
                 }// when there is no value
                 }//for cols
-                
+                //VariablesGlobal.globalShowSQLEdit = false;
                 String query =  "INSERT INTO "+strTable+"  ("+subQueryColumns+") VALUES ("+subQueryValues+")";
                // System.out.println("PanelDataImportExport.fileImport   "+query);
                            int retCount =   db.transactionUpdateQuery(query,"PanelDataImportExport.fileImport",true);
@@ -974,7 +974,7 @@ try {
                     wwe.setComment("γραμμή: "+j);
                     countRows=j;
                 
-                    
+                  //  VariablesGlobal.globalShowSQLEdit = true;
             }//  j!=0
             }// for rows 
         } catch (BiffException e) {

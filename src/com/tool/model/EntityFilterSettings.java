@@ -68,4 +68,5 @@ public class EntityFilterSettings
       public String getCaption() { return caption; } 
       public int getForEntityReportGroup() { return forEntityReportGroup; } 
       public int getFieldObligatoryOrSuggest() {return fieldObligatoryOrSuggest;}
+      public String getVariableType() { return variableType; } 
 }

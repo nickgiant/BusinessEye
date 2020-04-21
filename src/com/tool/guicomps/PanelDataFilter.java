@@ -2086,6 +2086,62 @@ public ArrayList getListOfFieldsUncompleted()
    	
    	return ret;
    }  */  
+   
+     public String getFilterVariableType(int intFilterSetting)
+   {
+         return entityFilterSettings[intFilterSetting].getVariableType();
+   }  
+    
+   public String getFilterCaption(int intFilterSetting)
+   {
+         return entityFilterSettings[intFilterSetting].getCaption();
+   }
+    
+   
+     public String getFilterValueTwo(int intFilterSetting)
+   {
+       String text2 ="";
+       
+   	 if(entityFilterSettings!=null && fieldFilterTxts1!=null && fieldFilterTxts2!=null && (entityFilterSettings.length==fieldFilterTxts1.size() && entityFilterSettings.length==fieldFilterTxts2.size()))
+   	 {
+
+   //	    for(int f=0;f<entityFilterSettings.length;f++)
+   //	    {
+   	    	
+                int fieldObligatoryOrSuggest = entityFilterSettings[intFilterSetting].getFieldObligatoryOrSuggest();  	 	   
+                if(fieldFilterTxts2.size()>0)  
+                {
+       
+
+      JTextComponent ta1 =null;
+      if(fieldFilterTxts2.get(intFilterSetting) instanceof JTextComponent)
+      {
+      	//System.out.println("PanelDataFilter.JTextComponent");
+         ta1 = (JTextComponent)fieldFilterTxts2.get(intFilterSetting);
+         text2 = ta1.getText().trim(); 
+       
+      }
+      else if(fieldFilterTxts2.get(intFilterSetting) instanceof JTextBoxWithEditButtons)
+      {
+      	//System.out.println("PanelDataFilter.JTextBoxWithEditButtons");
+      	JTextBoxWithEditButtons tbEb1 = (JTextBoxWithEditButtons)fieldFilterTxts2.get(intFilterSetting);
+        ta1 = tbEb1.getTextComp();
+
+        //System.out.println("PanelODORData.getListOfFieldsUncompleted isDateEmpty1="+isDateEmpty1+" for f"+f+" "+entityFilterSettings[f].caption);
+      	text2 = ta1.getText().trim();   
+      }
+      else
+      {
+      	System.out.println("error PanelDataFilter.getFilterValue for ta2     intFilterSetting: "+intFilterSetting+" "+fieldFilterTxts2.get(intFilterSetting));
+      }
+                }
+    //        }
+         }
+       
+       
+       return text2;
+   }  
+    
     
    public String getFilterValue(int intFilterSetting)
    {
@@ -2094,9 +2150,9 @@ public ArrayList getListOfFieldsUncompleted()
    	 if(entityFilterSettings!=null && fieldFilterTxts1!=null && fieldFilterTxts2!=null && (entityFilterSettings.length==fieldFilterTxts1.size() && entityFilterSettings.length==fieldFilterTxts2.size()))
    	 {
 
-   	    for(int f=0;f<entityFilterSettings.length;f++)
-   	    {
-   	    	
+   //	    for(int f=0;f<entityFilterSettings.length;f++)
+   //	    {
+   	   int f=intFilterSetting; 	
                 int fieldObligatoryOrSuggest = entityFilterSettings[f].getFieldObligatoryOrSuggest();  	 	   
                 if(fieldFilterTxts1.size()>0)  
                 {
@@ -2124,7 +2180,7 @@ public ArrayList getListOfFieldsUncompleted()
       	System.out.println("error PanelDataFilter.getFilterValue for ta1 "+f+" "+fieldFilterTxts1.get(f));
       }
                 }
-            }
+    //        }
          }
        
        

@@ -2480,7 +2480,7 @@ import javax.swing.text.JTextComponent;
        }
        else
        {
-           System.out.println("panelODMRData.rowClearAll  NOT SUPPORTED   hasEmptyRow:"+tableModelResultSet.hasEmptyRow()+"    isEditable:"+isEditable+"    isNewRec:"+isNewRec);
+ //          System.out.println("panelODMRData.rowClearAll  NOT SUPPORTED   hasEmptyRow:"+tableModelResultSet.hasEmptyRow()+"    isEditable:"+isEditable+"    isNewRec:"+isNewRec);
        }        
 
        
