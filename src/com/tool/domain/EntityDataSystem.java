@@ -1344,7 +1344,18 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
      entities.add(entityLookUp = new EntityLookUp("actiontrader","actiontrader","SELECT actiontraderId AS\"Νο\", descr AS\"ονομασία\" FROM actiontrader","WHERE actiontrader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"","ORDER BY actiontraderId","","actiontraderId","Νο","actiontraderId","κινήσεις συναλλασσόμενου",2,actiontraderLookUpField,"ονομασία",18,"java.lang.String",0,null,null,0,null,null,actiontraderQueryEditable,"του κίνησης συναλλασσόμενου","τύπων συναλ.",null,actiontraderEntityPanel,actiontraderFieldsOnTitle, actiontraderFieldsOnTitleCaption,actiontraderErs,2,1,null,true,-1,-1,null));     	 	
            //--------------------------------------- transaction types above----------        
 
-           
+
+      //---------------------------------------------------------
+        EntityFilterSettings[] sxMyfTypeErs=null; 
+      // EntityFilterSettings[] sxMyfTypeErs = new EntityFilterSettings[1];       
+        //sxMyfTypeErs[0]=new EntityFilterSettings("ονομασία","","string","equals","name","lookupconstants",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        //actionTypeErs[1]=new EntityFilterSettings("τύπος","checkboxTable","string","","sxActionTypeCatId","servicecat","sxaccount","",-1,-1,-1,FIELD_NOCOMPLETION);
+       
+        
+        String[] lookUpFieldsxMyfType= null;//{"actionTypeDescription"};                   
+    
+     entities.add(entityLookUp = new EntityLookUp("sxmyftype","sxmyftype","SELECT lookupconstantsId AS \"id \",  name AS \"είδος ΜΥΦ \"  FROM lookupconstants  ","WHERE constantstypeId =3 AND lookupconstantsId NOT LIKE 1","","ORDER BY constantsorder","","lookupconstantsId","Νο τύπου ΜΥΦ","lookupconstantsId","τύπος ΜΥΦ",3,lookUpFieldsxMyfType,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,null,"τυπου ΜΥΦ","τύπων ΜΥΦ",null,null/*entityPanelsxActionType*/,null,null,sxMyfTypeErs,2,1,null,true,-1,-1,null));    	 	
+               
            
            //------------------------------------------------------------------ 
 
@@ -1357,7 +1368,8 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
     
      entities.add(entityLookUp = new EntityLookUp("sxactiontype","sxactiontype","SELECT sxactiontype.sxActionTypeId AS\"Νο τύπου εσόδων εξόδων\", sxactiontype.actionTypeCode AS\"κωδικός\", sxactiontype.actionTypeDescription AS \"ονομασία τύπου παραστατικού\", lookupconstants.name, isCredit, myfCatId AS\"ΜΥΦ\"  FROM sxactiontype  INNER JOIN lookupconstants ON sxactiontype.sxActionTypeCatId = lookupconstants.lookupconstantsId","WHERE lookupconstants.constantstypeId = 4 AND sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"AND sxactiontype.active LIKE 1","ORDER BY sxactiontype.sxActionTypeCatId, sxactiontype.sxActionTypeId","","sxActionTypeId","Νο τύπου εσόδων εξόδων","sxActionTypeId","τύπος παραστατικού",3,lookUpFieldsxActionType,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,sxactionTypeQueryEditable,"τυπου παραστατικού","τύπων παραστατικών",null,entityPanelsxActionType,fieldsOnTitlesxActionType,fieldsOnTitlesxCaptionActionType,sxactionTypeErs,2,1,null,true,-1,-1,null));    	 	
     
-     
+
+          
      return entities;
    }
   

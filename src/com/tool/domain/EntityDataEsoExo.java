@@ -180,7 +180,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
         
         EntityDBFields[] sxVatDocDBFields = new EntityDBFields[34];
         
-        EntityFilterSettings[] eCalculateFilterVatDoc = new EntityFilterSettings[1];       
+        EntityFilterSettings[] eCalculateFilterVatDoc = new EntityFilterSettings[2];       
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         EntityGroupOfComps[] entityGroupOfFilterCompsVatDoc = null; // if not null creates tabs, and nothing is shown
         String [] sqlQueryTableCalcVatDoc = new String[1];  
@@ -214,7 +214,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
         EntityDBFields[] sxIncomeDocDBFields = new EntityDBFields[8];
         
         
-        EntityFilterSettings[] eCalculateFilterIncome = new EntityFilterSettings[1];       
+        EntityFilterSettings[] eCalculateFilterIncome = new EntityFilterSettings[2];       
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         EntityGroupOfComps[] entityGroupOfFilterCompsIncome = null; // if not null creates tabs, and nothing is shown
         String [] sqlQueryTableCalcIncome = new String[1];  
@@ -256,7 +256,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
         EntityGroupOfPanels[] myfHeaderEntityGroupOfPanels = new EntityGroupOfPanels[5];
         
         
-        EntityFilterSettings[] eCalculateFilterMyf = new EntityFilterSettings[1];       
+        EntityFilterSettings[] eCalculateFilterMyf = new EntityFilterSettings[2];       
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         EntityGroupOfComps[] entityGroupOfFilterCompsMyf = null; // if not null creates tabs, and nothing is shown
         String [] sqlQueryTableCalcMyf = new String[4]; 
@@ -440,14 +440,16 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
        //System.out.println("EntityData"+entityPaneltrader[0].getType());
 
        
-       eCalculateFilterMyf[0]=new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",-1,-1,-1,FIELD_OBLIGATORY);
-   
+    eCalculateFilterMyf[0]=new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",-1,-1,-1,FIELD_OBLIGATORY);
+    eCalculateFilterMyf[1]=new EntityFilterSettings( "τύποι παραστατικού","checkboxTable","string","","lookupconstantsId","sxmyftype","lookupconstants","",-1,-1,-1,FIELD_NOCOMPLETION);
                sqlQueryTableCalcMyf[0] = "SELECT sxtrader.vatNo AS 'ΑΦΜ',  sxtrader.title AS 'συναλλασσόμενος', sxactiontype.isCredit AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
-"INNER JOIN sxtrader ON sxtrader.traderId = sxesoexoheader.traderId "+
+"INNER JOIN sxtrader ON sxtrader.traderId = sxesoexoheader.traderId ,"+
+"lookupconstants "+
 "WHERE sxesoexoline.dbCompanyId = sxesoexoheader.dbCompanyId AND sxactiontype.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "+
+"AND lookupconstants.lookupconstantsId = sxactiontype.myfCatId AND lookupconstants.constantstypeId = 3 "+
 "AND sxesoexoheader.dbYearId = sxesoexoline.dbYearId AND sxesoexoheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" "+
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
@@ -458,8 +460,10 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
-"INNER JOIN sxtrader ON sxtrader.traderId = sxesoexoheader.traderId "+
+"INNER JOIN sxtrader ON sxtrader.traderId = sxesoexoheader.traderId ,"+
+"lookupconstants "+
 "WHERE sxesoexoline.dbCompanyId = sxesoexoheader.dbCompanyId AND sxactiontype.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "+
+"AND lookupconstants.lookupconstantsId = sxactiontype.myfCatId AND lookupconstants.constantstypeId = 3 "+
 "AND sxesoexoheader.dbYearId = sxesoexoline.dbYearId AND sxesoexoheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" "+
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
@@ -470,8 +474,10 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
-"INNER JOIN sxtrader ON sxtrader.traderId = sxesoexoheader.traderId "+
+"INNER JOIN sxtrader ON sxtrader.traderId = sxesoexoheader.traderId ,"+
+"lookupconstants "+
 "WHERE sxesoexoline.dbCompanyId = sxesoexoheader.dbCompanyId AND sxactiontype.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "+
+"AND lookupconstants.lookupconstantsId = sxactiontype.myfCatId AND lookupconstants.constantstypeId = 3 "+
 "AND sxesoexoheader.dbYearId = sxesoexoline.dbYearId AND sxesoexoheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" "+
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
@@ -482,8 +488,10 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
-"INNER JOIN sxtrader ON sxtrader.traderId = sxesoexoheader.traderId "+
+"INNER JOIN sxtrader ON sxtrader.traderId = sxesoexoheader.traderId ,"+
+"lookupconstants "+
 "WHERE sxesoexoline.dbCompanyId = sxesoexoheader.dbCompanyId AND sxactiontype.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "+
+"AND lookupconstants.lookupconstantsId = sxactiontype.myfCatId AND lookupconstants.constantstypeId = 3 "+
 "AND sxesoexoheader.dbYearId = sxesoexoline.dbYearId AND sxesoexoheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" "+
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
@@ -493,6 +501,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 //---------------------------------------------------------------             
         
 eCalculateFilterIncome[0]=new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",-1,-1,-1,FIELD_OBLIGATORY);
+eCalculateFilterIncome[1]=new EntityFilterSettings( "τύποι παραστατικού","checkboxTable","string","","myfCatId","sxactiontype","sxactiontype","",-1,-1,-1,FIELD_NOCOMPLETION);
 
 sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσόμενος', sxincomedocsettings.typeId, sxincomedocsettings.codeId, count(valueWithVat) AS 'πλήθος παρ/κων', sum(valueWithVat) AS 'incomeGross', sum(priceBeforeVat) AS 'incomeNet' " +
 "FROM sxesoexoline, sxesoexoheader, sxactiontype, sxaccount, sxtrader, sxincomedocsettings " +
@@ -511,6 +520,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
 
 //-----------------------------------------------------------calc vat doc
         eCalculateFilterVatDoc[0] = new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",-1,-1,-1,FIELD_OBLIGATORY);     
+        eCalculateFilterVatDoc[1]=new EntityFilterSettings( "τύποι παραστατικού","checkboxTable","string","","sxactionTypeId","sxactiontype","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         EntityGroupOfComps[] entityGroupOfFilterCompsVatDoc = null; // if not null creates tabs, and nothing is shown
         sqlQueryTableCalcVatDoc[0] =  "SELECT sxaccount.vatDocCode, sxaccount.vatDocCodeVat, sxesoexoheader.dateOfesoexo, COUNT(sxesoexoLine.priceBeforeVat) AS cnt, SUM(sxesoexoLine.priceBeforeVat) AS sumpre,  SUM(sxesoexoLine.vatValue) AS sumvat, "
@@ -1008,7 +1018,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
        // esoexoHeaderTempDBFields[2] = new EntityDBFields("sxesoexoheader","dbYearId","dbYearId",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,VariablesGlobal.globalYearId,"");
         
 
-      esoexoHeaderTempDBFields[2] = new EntityDBFields("sxesoexoheader","titleOfTemplate","titleOfTemplate",0,"java.lang.String",40,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//fieldsCalculationtrader);
+      esoexoHeaderTempDBFields[2] = new EntityDBFields("sxesoexoheader","titleOfTemplate","titleOfTemplate",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//fieldsCalculationtrader);
       esoexoHeaderTempDBFields[3] = new EntityDBFields("sxesoexoheader","sxActionTypeId","τύπος παρ/κού",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"sxactiontype",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");// variable before last: 'false' means update
         
         esoexoHeaderTempDBFields[4] = new EntityDBFields("sxesoexoheader","esoexoCodeOfDocument","κωδικός παρ/κού",0,"java.lang.String",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);

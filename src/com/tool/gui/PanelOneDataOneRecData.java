@@ -7597,7 +7597,7 @@ ps.setBytes(i, b);
           }// if sqlQueryCalcArray               
           else
           {
-               System.out.println("PanelODORecData.calculationFromToolBarButton.   colName:"+colName+" columnClass:"+columnClass+"    sqlQueryCalcArray.length:"+sqlQueryCalcArray.length);
+              // System.out.println("PanelODORecData.calculationFromToolBarButton.   colName:"+colName+" columnClass:"+columnClass+"    sqlQueryCalcArray.length:"+sqlQueryCalcArray.length);
           }
                }
                else if(columnClass.equalsIgnoreCase("table"))// calculation of ie myf
