@@ -21,11 +21,13 @@ public class EntityCalculate
        // public String tableForFilters; // if different than EntityFilterSettings
         public EntityGroupOfComps[] entityGroupOfComps;
         public String yearEnforce;
-        
-    
+        String prefixOfFields;  // like f in periodic of vat
+        String[] arrayFieldAndValue1;
+        String[] arrayFieldAndValue2;
+                
         public EntityCalculate(String nameIn,String captionIn,String subTitleIn, String[] calculationTypeIn,
         EntityFilterSettings[] entityFilterSettingsIn,EntityGroupOfComps[] entityGroupOfCompsIn,
-        String[] queryIn, boolean isNullifyIn, String yearEnforceIn)
+        String[] queryIn, boolean isNullifyIn, String yearEnforceIn, String prefixOfFieldsIn, String[] arrayFieldAndValue1In,String[] arrayFieldAndValue12In)
         {
          name=nameIn;
          caption=captionIn;
@@ -37,6 +39,9 @@ public class EntityCalculate
          isNullify=isNullifyIn;
         
          yearEnforce=yearEnforceIn;
+         prefixOfFields=prefixOfFieldsIn;
+         arrayFieldAndValue1 = arrayFieldAndValue1In;
+         arrayFieldAndValue2=arrayFieldAndValue12In;
         }   
          
         public String toString()
@@ -67,5 +72,8 @@ public class EntityCalculate
         public String[] getQueryArray()  {   return query;  }  
         public boolean getIsNullify()  {   return isNullify;  }
         public String getYearEnforce()  {   return yearEnforce;  }
+        public String getPrefixOfFields()  {   return prefixOfFields;  }
+        public String[] getArrayFieldAndValue1()  {   return arrayFieldAndValue1;  }  
+        public String[] getArrayFieldAndValue2()  {   return arrayFieldAndValue2;  }  
             
 }

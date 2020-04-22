@@ -7459,29 +7459,54 @@ ps.setBytes(i, b);
    
     
     
+    private void setValuesInFieldsFromCalculation(ResultSet rsDocument,int i, String colName, String columnClass,String fieldNamePreffix, String[] arrayFieldAndValue)throws SQLException
+    {
+        
+                       for(int f = 0; f<arrayFieldAndValue.length;f++)
+                      {
+                        String strField = rsDocument.getString(arrayFieldAndValue[f]);
+                        String strValue = rsDocument.getString(arrayFieldAndValue[f]);
+                        
+;
+
+                    // int fromToInstances=1;// from to like date                        
+                       if(colName.equalsIgnoreCase(fieldNamePreffix+strField))
+                       {
+                           //System.out.println("PanelODORecData.calculationFromToolBarButton      col:"+col+"       colName:"+ colName+"="+utilsDouble.getDoubleReading(strValue, true));
+                             JTextComponent txb = (JTextComponent) fieldTxts.get(i);
+                              if(columnClass.equalsIgnoreCase("java.lang.Double"))
+                             {
+                                   txb.requestFocus();
+              	                   txb.setText(utilsDouble.getDoubleReading(strValue, true));         
+                             }
+                             else
+                             {
+                                 txb.requestFocus();
+                                 txb.setText(strValue);
+                             }
+                              JTextComponent txbLast = (JTextComponent) fieldTxts.get(dbFieldsInGroupOfPanels.length-1);
+                              txbLast.requestFocus();
+                       }
+                      }
+        
+        
+        
+        
+        
+        
+    }
+    
+    
     /*
     * calculation from PanelOneDataOneRec toolbar button 'calculation'
     */
     public void calculationFromToolBarButton(int intPanel, PanelDataFilter pnlDataFilter, boolean checkIsCanceled, EntityCalculate entityCalculate)
     {
        
-        
-          // --------------------------------------------
-                String fieldClass = "htmlfile";
-                //String fieldName = "vatDocHtml";
-     /*           String sqlQueryVat = "SELECT sxaccount.vatDocCode, sxaccount.vatDocCodeVat, sxesoexoheader.dateOfesoexo, COUNT(sxesoexoLine.priceBeforeVat) AS cnt, SUM(sxesoexoLine.priceBeforeVat) AS sumpre,  SUM(sxesoexoLine.vatValue) AS sumvat, "
-                        + "SUM(sxesoexoLine.valueWithVat) AS sumtotal "
-                        + "FROM sxaccount,sxesoexoheader, sxesoexoline "
-                        + "WHERE sxesoexoLine.accountId = sxaccount.accountId AND sxesoexoheader.esoexoheaderId = sxesoexoLine.esoexoheaderId"
-                        + "  AND sxesoexoLine.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoLine.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "
-                        + "GROUP BY sxaccount.vatDocCode";
-    */  
+
           String[] sqlQueryCalcArray  = entityCalculate.getQueryArray();
           
-          //System.out.println("PanelODORData.calculationFromToolBarButton     after       ");   
-         //---------------------do the dates start  B-------------------------
-      //int tableCount =intPanel + 1 ;
-                
+         
       int fromToInstances=1;
               for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)//  i = fieldTxts
               {
@@ -7530,17 +7555,16 @@ ps.setBytes(i, b);
                if(!columnClass.equalsIgnoreCase("table"))// calculation of ie myf
                {
                
-    if( sqlQueryCalcArray.length==1)
+          if( sqlQueryCalcArray.length==1)
           {
-             String fieldNamePreffix ="f" ;
-              String rsFieldName = "sxaccount.vatDocCode";
-              String rsFieldNameValue = "sumpre";
-              
-              String rsFieldNameVat = "sxaccount.vatDocCodeVat";
-              String rsFieldNameValueVat = "sumvat";
-
 
                
+               
+             String fieldNamePreffix = entityCalculate.getPrefixOfFields();//"f" ;
+             
+             String[] arrayFieldAndValue1 = entityCalculate.getArrayFieldAndValue1();//{"sxaccount.vatDocCode","sumpre"};
+             String[] arrayFieldAndValue2 = entityCalculate.getArrayFieldAndValue2();//{"sxaccount.vatDocCodeVat","sumvat"}; 
+ 
                
                String sqlQuery =  sqlQueryCalcArray[0];
                String qr =   pnlDataFilter.getSubquery(sqlQuery/*,0*/);// int reportgroup
@@ -7554,49 +7578,9 @@ ps.setBytes(i, b);
               while(rsDocument.next())
               {
 
-                        String strField = rsDocument.getString(rsFieldName);
-                        String strValue = rsDocument.getString(rsFieldNameValue);
-                        
-                        String strFieldVat = rsDocument.getString(rsFieldNameVat);
-                        String strValueVat = rsDocument.getString(rsFieldNameValueVat);
-
-                    // int fromToInstances=1;// from to like date                        
-                       if(colName.equalsIgnoreCase(fieldNamePreffix+strField))
-                       {
-                           //System.out.println("PanelODORecData.calculationFromToolBarButton      col:"+col+"       colName:"+ colName+"="+utilsDouble.getDoubleReading(strValue, true));
-                             JTextComponent txb = (JTextComponent) fieldTxts.get(i);
-                              if(columnClass.equalsIgnoreCase("java.lang.Double"))
-                             {
-                                   txb.requestFocus();
-              	                   txb.setText(utilsDouble.getDoubleReading(strValue, true));         
-                             }
-                             else
-                             {
-                                 txb.requestFocus();
-                                 txb.setText(strValue);
-                             }
-                              JTextComponent txbLast = (JTextComponent) fieldTxts.get(dbFieldsInGroupOfPanels.length-1);
-                              txbLast.requestFocus();
-                       }
-                       
-                       if(colName.equalsIgnoreCase(fieldNamePreffix+strFieldVat))
-                       {
-                             JTextComponent txbVat = (JTextComponent) fieldTxts.get(i);
-                              if(columnClass.equalsIgnoreCase("java.lang.Double"))
-                             {
-                                   txbVat.requestFocus();
-              	                   txbVat.setText(utilsDouble.getDoubleReading(strValueVat, true));
-                                   
-                             }
-                             else
-                             {
-                                 txbVat.requestFocus();
-                                 txbVat.setText(strValueVat);
-                             }
-                              JTextComponent txbVatLast = (JTextComponent) fieldTxts.get(dbFieldsInGroupOfPanels.length-1);
-                              txbVatLast.requestFocus();                           
-                       } 
-                 
+                       setValuesInFieldsFromCalculation( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue1); 
+                       setValuesInFieldsFromCalculation( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue2); 
+    
               }
 
                     }
@@ -7611,9 +7595,10 @@ ps.setBytes(i, b);
                     }   
                    
           }// if sqlQueryCalcArray               
-                     
-
-               
+          else
+          {
+               System.out.println("PanelODORecData.calculationFromToolBarButton.   colName:"+colName+" columnClass:"+columnClass+"    sqlQueryCalcArray.length:"+sqlQueryCalcArray.length);
+          }
                }
                else if(columnClass.equalsIgnoreCase("table"))// calculation of ie myf
                {
@@ -7634,7 +7619,7 @@ ps.setBytes(i, b);
                if(checkIsCanceled)// == null || listUncompletedFields.size()==0)     
                {
                     //System.out.println("PanelODORData.calculationFromToolBarButton     checkToClose:"+checkIsCanceled);
-                    //dlgTableFilter.dispose();
+                    
                }
                else
                {          
@@ -7645,13 +7630,7 @@ ps.setBytes(i, b);
                     PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(i);
                    
                      TableModelResultSet tableModelResultSet = pnlODMRData.getTableModelResultSet();
-                    //JTableDec table = pnlODMRData.getTable();
-                    //pnlODMRData.getDbFieldsChild()
-                   
-    //        System.out.println("PanelODORecData.calculationFromToolBarButton     table  i:"+i+"      intPanel:"+intPanel+"       sqlQueryTableCalc:"+sqlQueryTableCalc); 
-           //public void retrieveDataFromWritableTable(String queryIn,String entityIn,String primKeyDbIn, String primKeyValueIn,
-            //boolean isEditableIn, boolean isNewRecIn, boolean isQuery2In)                                    
-                
+             
                      db.retrieveDBDataFromQuery(q, "PanelODORecData.calculationFromToolBarButton table"); 
                      
                     try
@@ -7664,7 +7643,7 @@ ps.setBytes(i, b);
         //   System.out.println("-- PanelODORecData.calculationFromToolBarButton table  "+i+"   intMyfColCount:"+ intMyfColCount+"    intMyfRecCount:"+intMyfRecCount+"    tableCount:"+tableCount);
                      
                        String[] strValues = new String[intMyfColCount];
-                      // int[] intColumns = new int[intMyfColCount];
+
                        //rsMyf.first(); // NOT
                        String[] columnName = new String[intMyfColCount];
                       tableModelResultSet.deleteAllTableRows();
@@ -8158,7 +8137,10 @@ ps.setBytes(i, b);
           	       }
           	       else
           	       {*/
+                           if(!fieldValue.equalsIgnoreCase("0"))
+                           {  
                            System.out.println("PanelODORData.rowInsert:"+fieldValue);
+                           }
                 	   subqueryValues = subqueryValues+"'"+utilsDouble.getDoubleSaving(fieldValue.trim())+"'";
    //                }
                  }
@@ -9724,69 +9706,7 @@ ps.setBytes(i, b);
        return ret;
    }
    
- 
-   public void setVisibleGroupOfFields()
-   {
-   
-        if(entityGroupOfComps ==null)
-        {
-        
-        }
-        else
-        {
-            
-        for(int f=0;f<dbFieldsInGroupOfPanels.length;f++)
-        {
-          if(entityGroupOfComps!=null)  
-          {
-             for(int egc = 0; egc<entityGroupOfComps.length; egc++)
-             {
-               
-               if(entityGroupOfComps[egc]!= null && intGroupOfPanelsToShow == entityGroupOfComps[egc].getIncludedInGroupOfPanels())
-               {
-                        if(dbFieldsInGroupOfPanels[f].getGroupOfComps() == egc)
-                        {
-      //System.out.println("PanelODORData.setEntity  --  ("+f+") "+dbFieldsInGroupOfPanels[f].getDbField()+"  "+entityGroupOfCompsIn[egc].getCaption()+"   "+entityGroupOfCompsIn[egc].getIncludedInGroupOfPanels()+"    "+intGroupOfPanelsToShow);                                          
-                   //System.out.println("PanelODORData.setEntity f:"+f+" "+dbFieldsIn[f].getDbField()+"  f group :"+dbFieldsIn[f].getGroupOfComps()+" egc group :"+entityGroupOfCompsIn[egc].getIncludedInGroupOfPanels() +"  intGroupOfComps" + intGroupOfPanelsToShow );
-                   
-                fields[f] = dbFieldsInGroupOfPanels[f].getDbField();
-        	fieldsTranslation[f] = dbFieldsInGroupOfPanels[f].getCaption();
-        	groupOfComps[f] = dbFieldsInGroupOfPanels[f].getGroupOfComps();  
-                colClassName[f] = dbFieldsInGroupOfPanels[f].getColClassName();
-                colWidth[f] = dbFieldsInGroupOfPanels[f].getColWidth();
-            
-            
-            
-                    for(int g= 0; g<entityGroupOfComps.length;g++)
-                    {
-                        if(entityGroupOfComps[g].getPanelVisible()==GROUP_OF_PANEL_NOT_VISIBLE)
-                        {
-                            JPanel panelGroup = (JPanel)listPanelGroups.get(groupOfComps[f]);
-                            panelGroup.setVisible(false);
-                                 //panelAllOnIt.setVisible(false);
-                        }
-                        else if(entityGroupOfComps[g].getPanelVisible()==GROUP_OF_PANEL_VISIBLE)
-                        {
-                           JPanel panelGroup = (JPanel)listPanelGroups.get(groupOfComps[f]);
-                            panelGroup.setVisible(true);
-                        }
-                        else
-                        {
-                            System.out.println("   errorPanelODORData.setVisibleGroupOfFields     g:"+g+"   UNKNOWN entityGroupOfComps is visible:"+entityGroupOfComps[g].getPanelVisible());
-                        }
-                    }
-                        }
-               }
-             }
-          }
-        }
-        
-        }
-       
-       
-   }
-   
-   
+
    /*
    * In table cell: editable is defined in tableModelResultSet.isCellEditable, visible is defned in PanelODMRData.packColumnsWritable
    * and FIELD_VISIBLE_NOT_EDITABLE_WHENEDIT_BUT_EDITABLE_ON_NEW not defined
