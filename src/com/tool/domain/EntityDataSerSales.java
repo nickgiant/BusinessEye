@@ -513,9 +513,9 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        
         
        EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
-       saleDocumentGroupOfComps[0] = new EntityGroupOfComps("χρήση",6,0,FONT_SIZE_NOT_SET);
-       saleDocumentGroupOfComps[1] = new EntityGroupOfComps("παραστατικό",4,0,FONT_SIZE_NOT_SET);
-       saleDocumentGroupOfComps[2] = new EntityGroupOfComps("υπηρεσίες",4,0,FONT_SIZE_NOT_SET);      
+       saleDocumentGroupOfComps[0] = new EntityGroupOfComps("χρήση",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       saleDocumentGroupOfComps[1] = new EntityGroupOfComps("παραστατικό",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       saleDocumentGroupOfComps[2] = new EntityGroupOfComps("υπηρεσίες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);      
        int[] invoicesaSelected = null;//{1,2,3,4,0,0,0,0,0,0,11,12,0,14,};        
         
         
@@ -618,13 +618,13 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         
         
         
-        customerEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET);
-        customerEntityGroupOfComps[1] = new EntityGroupOfComps("επικοινωνία",6,0,FONT_SIZE_NOT_SET);
-       // customerEntityGroupOfComps[2] = new EntityGroupOfComps("επικοινωνία",4,1,FONT_SIZE_NOT_SET);
-        customerEntityGroupOfComps[2] = new EntityGroupOfComps("χρηματικά",6,1,FONT_SIZE_NOT_SET);
-        customerEntityGroupOfComps[3] = new EntityGroupOfComps("σημειώσεις",1,0,FONT_SIZE_NOT_SET);
+        customerEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        customerEntityGroupOfComps[1] = new EntityGroupOfComps("επικοινωνία",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       // customerEntityGroupOfComps[2] = new EntityGroupOfComps("επικοινωνία",4,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        customerEntityGroupOfComps[2] = new EntityGroupOfComps("χρηματικά",6,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        customerEntityGroupOfComps[3] = new EntityGroupOfComps("σημειώσεις",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         //customerEntityGroupOfComps[5] = new EntityGroupOfComps("επαφές",1,1); // if CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE then placed in bottom of form
-        customerEntityGroupOfComps[4] = new EntityGroupOfComps("λογαριασμοί τραπεζών",1,1,FONT_SIZE_NOT_SET);// if CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE then placed in bottom of form
+        customerEntityGroupOfComps[4] = new EntityGroupOfComps("λογαριασμοί τραπεζών",1,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);// if CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE then placed in bottom of form
         
         
         
@@ -816,12 +816,12 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
     //    fieldsCalculationWithholdingTaxTotal[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputWithholdingTaxRateTotalCategory,inputWithholdingTaxRateTotal,"SELECT # + #");                                
         saleDBFields[20] = new EntityDBFields("saleheader","priceTotalAfterWithholdingTax","τελικό σύνολο",4,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//null,true,fieldsCalculationWithholdingTaxTotal);//,11,12,DBFIELD_TYPE_OF_SUM_SUM);             
         
-        saleEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",6,0,FONT_SIZE_NOT_SET);
-        saleEntityGroupOfComps[1] = new EntityGroupOfComps("πελάτης",2,0,FONT_SIZE_NOT_SET);
-        saleEntityGroupOfComps[2] = new EntityGroupOfComps("λοιπά",8,0,FONT_SIZE_NOT_SET);
+        saleEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        saleEntityGroupOfComps[1] = new EntityGroupOfComps("πελάτης",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        saleEntityGroupOfComps[2] = new EntityGroupOfComps("λοιπά",8,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         //saleEntityGroupOfComps[3] = new EntityGroupOfComps("αιτιολογία",6,0);
-        saleEntityGroupOfComps[3] = new EntityGroupOfComps("παρεχόμενες υπηρεσίες",1,0,FONT_SIZE_NOT_SET);
-        saleEntityGroupOfComps[4] = new EntityGroupOfComps("σύνολα",8,0,FONT_SIZE_NOT_SET);
+        saleEntityGroupOfComps[3] = new EntityGroupOfComps("παρεχόμενες υπηρεσίες",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        saleEntityGroupOfComps[4] = new EntityGroupOfComps("σύνολα",8,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
          
         saleEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1);
 
@@ -841,9 +841,9 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         
         serviceDBFields[10] = new EntityDBFields("stock","notes","σημειώσεις",2,"java.lang.String",220,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");     
 
-        serviceEntityGroupOfComps[0]= new EntityGroupOfComps("βασικά",6,0,FONT_SIZE_NOT_SET);
-        serviceEntityGroupOfComps[1]= new EntityGroupOfComps("προτεινόμενες τιμές",8,0,FONT_SIZE_NOT_SET);
-        serviceEntityGroupOfComps[2]= new EntityGroupOfComps("σημειώσεις",1,0,FONT_SIZE_NOT_SET);
+        serviceEntityGroupOfComps[0]= new EntityGroupOfComps("βασικά",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        serviceEntityGroupOfComps[1]= new EntityGroupOfComps("προτεινόμενες τιμές",8,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        serviceEntityGroupOfComps[2]= new EntityGroupOfComps("σημειώσεις",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
    
         
 
@@ -920,7 +920,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         //dbyearEntityGroupOfComps[1] = new EntityGroupOfComps("αποστολές έτους",1,0);
        */
        dbyearDBFields[0] = new EntityDBFields("dbyear","dbYearId","Νο χρήσης",0,"java.lang.Integer",15, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
-        dbyearEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET);
+        dbyearEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
      
         
         
@@ -932,7 +932,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        	serviceCatLineDBFields[1] = new EntityDBFields("stockcat","catDescr","ονομασία",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         serviceCatLineDBFields[2] = new EntityDBFields("stockcat","dbCompanyId","dbCompanyId",0,"java.lang.String",3, FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,VariablesGlobal.globalCompanyId,"");
         serviceCatDBFields[0] = new EntityDBFields("servicecatheader","stockcat","κατηγορίες υπηρεσίας",0,"table",FIELD_VISIBLE_AND_EDITABLE,"stockcat",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,serviceCatLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId FROM stockcat WHERE stockcat.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY stockcat.catDescr",null,null);     
-        serviceCatEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);          
+        serviceCatEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);          
         
         vatCatLineDBFields[0] = new EntityDBFields("vatcat","vatCatId","Νο κατηγορίας ΦΠΑ",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
        	vatCatLineDBFields[1] = new EntityDBFields("vatcat","vatDescr","ονομασία",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");               
@@ -943,7 +943,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         
         vatCatDBFields[0] = new EntityDBFields("vatcatheader","vatcat","κατηγορίες ΦΠΑ",0,"table",FIELD_VISIBLE_AND_EDITABLE,"vatcat",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,vatCatLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT * FROM vatcat ORDER BY vatCatId",null,null);     //String[] childTableFieldsForSumsIn   
         
-        vatCatEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);       
+        vatCatEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);       
                 
        //----------------------------------------------service sales prefs below------------------
         companySetSerSalesDBFields[0] = new EntityDBFields("dbCompanySet","dbCompanyId","Νο εταιρίας",0,"java.lang.Integer",4, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,VariablesGlobal.globalCompanyId);
@@ -957,12 +957,12 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         companySetSerSalesDBFields[8] = new EntityDBFields("dbCompanySet","sersaleCopyCustomerNameToSaleComment","πρόταση επωνυμίας πελάτη στην αιτιολογία πώλησης",5,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                
         
         
-        companySetSerSalesEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);    
-        companySetSerSalesEntityGroupOfComps[1] = new EntityGroupOfComps("παράμετροι",6,0,FONT_SIZE_NOT_SET);
-        companySetSerSalesEntityGroupOfComps[2] = new EntityGroupOfComps("λιανική",4,0,FONT_SIZE_NOT_SET);
-        companySetSerSalesEntityGroupOfComps[3] = new EntityGroupOfComps("έλεγχοι",4,0,FONT_SIZE_NOT_SET);
-        companySetSerSalesEntityGroupOfComps[4] = new EntityGroupOfComps("εξόφληση",4,0,FONT_SIZE_NOT_SET);      
-         companySetSerSalesEntityGroupOfComps[5] = new EntityGroupOfComps("προτιμήσεις",4,0,FONT_SIZE_NOT_SET);
+        companySetSerSalesEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);    
+        companySetSerSalesEntityGroupOfComps[1] = new EntityGroupOfComps("παράμετροι",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        companySetSerSalesEntityGroupOfComps[2] = new EntityGroupOfComps("λιανική",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        companySetSerSalesEntityGroupOfComps[3] = new EntityGroupOfComps("έλεγχοι",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        companySetSerSalesEntityGroupOfComps[4] = new EntityGroupOfComps("εξόφληση",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);      
+         companySetSerSalesEntityGroupOfComps[5] = new EntityGroupOfComps("προτιμήσεις",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         
          //-------------------------        
          printFormDBFields[0] = new EntityDBFields("printform","printFormId","Νο φόρμας",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
@@ -977,10 +977,10 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
          
         
         
-        printFormEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET);
-        printFormEntityGroupOfComps[1] = new EntityGroupOfComps("εκτύπωση για laser - γραφικά",2,1,FONT_SIZE_NOT_SET);
-        printFormEntityGroupOfComps[2] = new EntityGroupOfComps("εκτύπωση για dot matrix - κρουστικός",2,2,FONT_SIZE_NOT_SET);
-        printFormEntityGroupOfComps[3] = new EntityGroupOfComps("εικόνες για laser",2,3,FONT_SIZE_NOT_SET);
+        printFormEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        printFormEntityGroupOfComps[1] = new EntityGroupOfComps("εκτύπωση για laser - γραφικά",2,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        printFormEntityGroupOfComps[2] = new EntityGroupOfComps("εκτύπωση για dot matrix - κρουστικός",2,2,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        printFormEntityGroupOfComps[3] = new EntityGroupOfComps("εικόνες για laser",2,3,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         
         
         printFormEntityGroupOfPanels[0] = new EntityGroupOfPanels("ιδιότητες",1);
@@ -999,7 +999,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        	//paymenttypeDBFields[2] = new EntityDBFields("paymentType","abbreviation","συντομογραφία",0,"java.lang.String",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,true,FIELD_SUGGEST,FIELD_VALIDATION_NO,false,null);
 
         paymenttypeDBFields[0] = new EntityDBFields("paymentTypeheader","paymentType","τύποι πληρωμής",0,"table",FIELD_VISIBLE_AND_EDITABLE,"paymentType",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,paymenttypeLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT paymentTypeId AS \"Νο\", description AS \"τρόπος πληρωμής\" FROM paymentType ORDER BY description",null,null);     //String[] childTableFieldsForSumsIn   
-        paymenttypeEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);
+        paymenttypeEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         
         currencyLineDBFields[0] = new EntityDBFields("currency","currencyId","Νο νομίσματος",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
         currencyLineDBFields[1] = new EntityDBFields("currency","name","ονομασία",0,"java.lang.String",18,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
@@ -1008,7 +1008,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
    	// sample-> vatCatLineDBFields[4] = new EntityDBFields("vatcat","active","ενεργός",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true");                        
         
         currencyDBFields[0] = new EntityDBFields("currencyheader","currency","νομίσματα",0,"table",FIELD_VISIBLE_AND_EDITABLE,"currency",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,currencyLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT currencyId , name , active FROM currency ORDER BY currencyId",null,null);     //String[] childTableFieldsForSumsIn   
-        currencyEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET); 
+        currencyEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE); 
         
         
         townLineDBFields[0] = new EntityDBFields("geocat","geoCatId","Νο πόλης",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
@@ -1019,7 +1019,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
 
         townDBFields[0] = new EntityDBFields("townheader","geocat","πόλεις/χωριά",0,"table",FIELD_VISIBLE_AND_EDITABLE,"geocat",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,townLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT geoCatId AS\"Νο πόλης\", geoCatName AS\"πόλη/χωριό\", state AS\"νομός\", postCode AS\"ΤΚ\", phoneCode AS\"κωδ τηλ\" FROM geocat ORDER BY geoCatName",null,null);     //String[] childTableFieldsForSumsIn   
         
-        townEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);   
+        townEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);   
         
         
         
@@ -1036,7 +1036,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         
         doyDBFields[0] = new EntityDBFields("doyheader","doy","ΔΟΥ",0,"table",FIELD_VISIBLE_AND_EDITABLE,"doy",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,doyLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT doyId AS \"Νο Δ.Ο.Υ.\", doyName AS \"ονομασία\", address AS \"διεύθυνση\", town AS \"πόλη/χωριό\", pc AS \"ΤΚ\", tel1 AS \"τηλ 1\", tel2 AS \"τηλ 2\", fax AS \"φαξ\" FROM doy ORDER BY doyId",null,null);     //String[] childTableFieldsForSumsIn   
         
-        doyEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);         
+        doyEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);         
         
             
         
@@ -1049,7 +1049,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         bankLineDBFields[2] = new EntityDBFields("bank","bic","BIC",0,"java.lang.String",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
 
         bankDBFields[0] = new EntityDBFields("bankheader","bank","τράπεζες",0,"table",FIELD_VISIBLE_AND_EDITABLE,"bank",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,bankLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT bankId AS \"Νο τράπεζας\", bankBranch AS \"ονομασία τράπεζας\", bic AS \"BIC\" FROM bank ORDER BY bankId",null,null);     //String[] childTableFieldsForSumsIn   
-        bankEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);
+        bankEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         //dbDeliveryDBFields[0] = new EntityDBFields("dbDelivery","deliveryId","Νο αποστολής",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
         //dbDeliveryDBFields[1] = new EntityDBFields("dbDelivery","description","περιγραφή",0,"java.lang.String",28,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
 
@@ -1951,10 +1951,10 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
         //---------------------------------------------------------------------
        
        EntityGroupOfComps[] salelineEntityGroupOfComps = new EntityGroupOfComps[4];
-       salelineEntityGroupOfComps[0] = new EntityGroupOfComps("χρήση",6,0,FONT_SIZE_NOT_SET);
-       salelineEntityGroupOfComps[1] = new EntityGroupOfComps("πελάτης",4,0,FONT_SIZE_NOT_SET);
-       salelineEntityGroupOfComps[2] = new EntityGroupOfComps("παραστατικό",4,0,FONT_SIZE_NOT_SET);
-       salelineEntityGroupOfComps[3] = new EntityGroupOfComps("υπηρεσίες",4,0,FONT_SIZE_NOT_SET);      
+       salelineEntityGroupOfComps[0] = new EntityGroupOfComps("χρήση",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       salelineEntityGroupOfComps[1] = new EntityGroupOfComps("πελάτης",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       salelineEntityGroupOfComps[2] = new EntityGroupOfComps("παραστατικό",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       salelineEntityGroupOfComps[3] = new EntityGroupOfComps("υπηρεσίες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);      
         
        EntityFilterSettings[] invoiceServiceErs = new EntityFilterSettings[5];   
       
@@ -2147,9 +2147,9 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
        salesErs[3]=new EntityFilterSettings("υπηρεσία","checkboxTable","string","","stockId","stock","saleline","",2,-1,-1,FIELD_NOCOMPLETION);
 
        EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
-       saleDocumentGroupOfComps[0] = new EntityGroupOfComps("χρήση",6,0,FONT_SIZE_NOT_SET);
-       saleDocumentGroupOfComps[1] = new EntityGroupOfComps("παραστατικό",4,0,FONT_SIZE_NOT_SET);
-       saleDocumentGroupOfComps[2] = new EntityGroupOfComps("υπηρεσίες",4,0,FONT_SIZE_NOT_SET);
+       saleDocumentGroupOfComps[0] = new EntityGroupOfComps("χρήση",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       saleDocumentGroupOfComps[1] = new EntityGroupOfComps("παραστατικό",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       saleDocumentGroupOfComps[2] = new EntityGroupOfComps("υπηρεσίες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
        //applicationEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0);
        
        int[] invoicesaSelected = null;//{1,2,3,4,0,0,0,0,0,0,11,12,0,14,};
@@ -2221,9 +2221,9 @@ EntityParameter ph = new EntityParameter("dbyear", "SELECT dbyear.dbYearId AS \"
 
         
        EntityGroupOfComps[] saleheaderEntityGroupOfComps = new EntityGroupOfComps[3];
-       saleheaderEntityGroupOfComps[0] = new EntityGroupOfComps("χρήση",6,0,FONT_SIZE_NOT_SET);
-       saleheaderEntityGroupOfComps[1] = new EntityGroupOfComps("πελάτης",4,0,FONT_SIZE_NOT_SET);
-       saleheaderEntityGroupOfComps[2] = new EntityGroupOfComps("παραστατικό",4,0,FONT_SIZE_NOT_SET);
+       saleheaderEntityGroupOfComps[0] = new EntityGroupOfComps("χρήση",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       saleheaderEntityGroupOfComps[1] = new EntityGroupOfComps("πελάτης",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       saleheaderEntityGroupOfComps[2] = new EntityGroupOfComps("παραστατικό",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
        //invoiceEntityGroupOfComps[3] = new EntityGroupOfComps("υπηρεσίες",4,0);        
         
        EntityFilterSettings[] invoiceErs = new EntityFilterSettings[7];   
@@ -2326,7 +2326,7 @@ boolean[] boolSettingsSaleHeaderΒ = {true,true,true,true};
        
        EntityGroupOfComps[] customerEntityGroupOfComps = new EntityGroupOfComps[1];
        //customerEntityGroupOfComps[0] = new EntityGroupOfComps("χρήση",6,0);
-       customerEntityGroupOfComps[0] = new EntityGroupOfComps("πελάτης",4,0,FONT_SIZE_NOT_SET);
+       customerEntityGroupOfComps[0] = new EntityGroupOfComps("πελάτης",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
        //invoiceEntityGroupOfComps[2] = new EntityGroupOfComps("παραστατικό",4,0);
        //invoiceEntityGroupOfComps[3] = new EntityGroupOfComps("υπηρεσίες",4,0);
        /*

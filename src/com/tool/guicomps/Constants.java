@@ -112,6 +112,9 @@ public interface Constants
        public static final int DBFIELD_TYPE_OF_SUM_SUM = 0;
        public static final int DBFIELD_TYPE_OF_SUM_COUNT = 1;
        
+       public static final int GROUP_OF_PANEL_NOT_VISIBLE = 0;
+       public static final int GROUP_OF_PANEL_VISIBLE = 1;
+       
        public static final int FIELD_VISIBLE_AND_EDITABLE = 0;
        public static final int FIELD_VISIBLE_NOT_EDITABLE_ALWAYS = 1;
        //public static final int FIELD_VISIBLE_NOT_EDITABLE_WHENNEW = 0;

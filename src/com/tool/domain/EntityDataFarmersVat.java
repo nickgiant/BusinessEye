@@ -375,11 +375,11 @@ public class EntityDataFarmersVat implements Constants
         
         
         
-        farmerEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET);
-        farmerEntityGroupOfComps[1] = new EntityGroupOfComps("κατοικία - τηλέφωνα",4,0,FONT_SIZE_NOT_SET);
-        farmerEntityGroupOfComps[2] = new EntityGroupOfComps("σημειώσεις",1,0,FONT_SIZE_NOT_SET);
-        farmerEntityGroupOfComps[3] = new EntityGroupOfComps("τράπεζα - λογαριασμός",4,1,FONT_SIZE_NOT_SET);
-        farmerEntityGroupOfComps[4] = new EntityGroupOfComps("τηλέφωνα",1,1,FONT_SIZE_NOT_SET); // if CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE then placed in bottom of form
+        farmerEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        farmerEntityGroupOfComps[1] = new EntityGroupOfComps("κατοικία - τηλέφωνα",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        farmerEntityGroupOfComps[2] = new EntityGroupOfComps("σημειώσεις",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        farmerEntityGroupOfComps[3] = new EntityGroupOfComps("τράπεζα - λογαριασμός",4,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        farmerEntityGroupOfComps[4] = new EntityGroupOfComps("τηλέφωνα",1,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE); // if CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE then placed in bottom of form
 
         
 
@@ -429,10 +429,10 @@ public class EntityDataFarmersVat implements Constants
               
         
         
-        applicationHeaderGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET);
-        applicationHeaderGroupOfComps[1] = new EntityGroupOfComps("αίτηση",4,0,FONT_SIZE_NOT_SET);
-        applicationHeaderGroupOfComps[2] = new EntityGroupOfComps("παραστατικά",1,0,FONT_SIZE_NOT_SET);
-        applicationHeaderGroupOfComps[3] = new EntityGroupOfComps("σύνολα",6,0,FONT_SIZE_NOT_SET);
+        applicationHeaderGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        applicationHeaderGroupOfComps[1] = new EntityGroupOfComps("αίτηση",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        applicationHeaderGroupOfComps[2] = new EntityGroupOfComps("παραστατικά",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        applicationHeaderGroupOfComps[3] = new EntityGroupOfComps("σύνολα",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
         
         buyerDBFields[0] = new EntityDBFields("frvbuyer","buyerId","Νο αγοραστή",0,"java.lang.Integer",5, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
@@ -446,9 +446,9 @@ public class EntityDataFarmersVat implements Constants
         buyerDBFields[7] = new EntityDBFields("frvbuyer","notes","σημειώσεις",2,"java.lang.String",220,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         
 
-        buyerEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET);
-        buyerEntityGroupOfComps[1] = new EntityGroupOfComps("προτεινόμενα στοιχεία κατα την καταχώρηση παραστατικών",4,0,FONT_SIZE_NOT_SET);
-        buyerEntityGroupOfComps[2] = new EntityGroupOfComps("σημειώσεις",1,0,FONT_SIZE_NOT_SET);
+        buyerEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        buyerEntityGroupOfComps[1] = new EntityGroupOfComps("προτεινόμενα στοιχεία κατα την καταχώρηση παραστατικών",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        buyerEntityGroupOfComps[2] = new EntityGroupOfComps("σημειώσεις",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
         buyerEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1);
         //buyerEntityGroupOfPanels[1] = new EntityGroupOfPanels("σημειώσεις",1);        
@@ -464,7 +464,7 @@ public class EntityDataFarmersVat implements Constants
         // 'line' should be upper// , frvproducttype.producttypeName AS \"τύπος προϊόντος\", frvproducttype.returnVat AS \"επιστρ φόρου\", frvproducttype.returnFuel AS \"επιστρ πετρελαίου\" 
         productDBFields[0] = new EntityDBFields("productheader","frvproduct","προϊόντα",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvproduct",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,productLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT frvproduct.productId AS \"Νο προϊόντος\", frvproduct.productName AS \"ονομασία\", frvproduct.productTypeId AS \"Νο τύπου\" FROM frvproduct LEFT JOIN frvproducttype ON frvproduct.productTypeId=frvproducttype.productTypeId ORDER BY frvproduct.productName",null,null);     //String[] childTableFieldsForSumsIn   
         
-        productEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);
+        productEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
         //--------------
         
@@ -474,7 +474,7 @@ public class EntityDataFarmersVat implements Constants
         
         invoicetypeDBFields[0] = new EntityDBFields("invoiceTypeheader","frvinvoicetype","τύποι παραστατικών",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvinvoicetype",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,invoicetypeLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT invoiceTypeId AS \"Νο τύπου παραστατικού\", invoicetypeName AS \"ονομασία\",abbreviation AS \"συντομογραφία\" FROM frvinvoicetype ORDER BY invoiceTypeId",null,null);     //String[] childTableFieldsForSumsIn   
         
-        invoicetypeEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);
+        invoicetypeEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
         //--------------   
         producttypeLineDBFields[0] = new EntityDBFields("frvproducttype","productTypeId","Νο τύπου προϊόντος",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
@@ -484,7 +484,7 @@ public class EntityDataFarmersVat implements Constants
    	
         producttypeDBFields[0] = new EntityDBFields("producttypeheader","frvproducttype","τύποι προϊόντων",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvproducttype",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,producttypeLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT productTypeId AS \"Νο τύπου προϊόντος\",producttypeName AS \"ονομασία\",returnVat AS \"ποσοστό επιστροφής φόρου\",returnFuel AS \"ποσοστό επιστροφής πετρελαίου\" FROM frvproducttype ORDER BY productTypeId",null,null);     //String[] childTableFieldsForSumsIn   
         
-        producttypeEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);
+        producttypeEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         //-----------------
         townLineDBFields[0] = new EntityDBFields("frvtown","townId","Νο πόλης",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
         townLineDBFields[1] = new EntityDBFields("frvtown","townName","πόλη/χωριό",0,"java.lang.String",25,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
@@ -494,7 +494,7 @@ public class EntityDataFarmersVat implements Constants
    	
         townDBFields[0] = new EntityDBFields("townheader","frvtown","πόλεις/χωριά",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvtown",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,townLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT townId AS\"Νο πόλης\", townName AS\"πόλη/χωριό\", state AS\"νομός\", postCode AS\"ΤΚ\", phoneCode AS\"κωδ τηλ\" FROM frvtown ORDER BY townName",null,null);     //String[] childTableFieldsForSumsIn   
         
-        townEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);
+        townEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
         //---------------------
         /*doyLineDBFields[0] = new EntityDBFields("doy","doyId","Νο Δ.Ο.Υ.",0,"java.lang.Integer",4, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
@@ -566,7 +566,7 @@ public class EntityDataFarmersVat implements Constants
         dbYearDeliveryDBFields[4] = new EntityDBFields("frvyeardelivery","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalCompanyId,"");
         dbYearDeliveryDBFields[5] = new EntityDBFields("frvyeardelivery","dbYearId","Νο χρήσης",0,"java.lang.Integer",10, FIELD_PRIMARY_KEY_FROM_PARENTTABLE,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         
-        dbYearDeliveryEntityGroupOfComps[0]= new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET);
+        dbYearDeliveryEntityGroupOfComps[0]= new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         
         dbYearDBFields[0] = new EntityDBFields("dbyear","dbYearId","Νο χρήσης",0,"java.lang.Integer",7, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         dbYearDBFields[1] = new EntityDBFields("dbyear","dbyear","χρήση",0,"java.lang.String",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
@@ -574,8 +574,8 @@ public class EntityDataFarmersVat implements Constants
         dbYearDBFields[3] = new EntityDBFields("dbyear","frvyeardelivery","αποστολές του έτους",1,"table",FIELD_VISIBLE_AND_EDITABLE,"frvyeardelivery",350,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,dbYearDeliveryDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT dbYearDeliveryId, dbYearId,inc,description,printFormId,dbCompanyId FROM frvyeardelivery WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+"  ORDER BY inc",null,null);// this last null is childTableFieldsForSumsIn
         
         
-        dbyearEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET);
-        dbyearEntityGroupOfComps[1] = new EntityGroupOfComps("αποστολές",1,0,FONT_SIZE_NOT_SET);
+        dbyearEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        dbyearEntityGroupOfComps[1] = new EntityGroupOfComps("αποστολές",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
        
 
         //dbDeliveryDBFields[0] = new EntityDBFields("dbDelivery","deliveryId","Νο αποστολής",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
@@ -1312,9 +1312,9 @@ public class EntityDataFarmersVat implements Constants
        
        
        EntityGroupOfComps[] applicationlineEntityGroupOfComps = new EntityGroupOfComps[3];
-       applicationlineEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET);
-       applicationlineEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0,FONT_SIZE_NOT_SET);
-       applicationlineEntityGroupOfComps[2] = new EntityGroupOfComps("άιτηση",4,0,FONT_SIZE_NOT_SET);
+       applicationlineEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       applicationlineEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       applicationlineEntityGroupOfComps[2] = new EntityGroupOfComps("άιτηση",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
       // applicationlineEntityGroupOfComps[3] = new EntityGroupOfComps("παραστατικά",4,0);
        /*
        String[] applicationlineCaptionOfGroupOfComps = {"αποστολή","αγρότης","άιτηση"};
@@ -1404,10 +1404,10 @@ public class EntityDataFarmersVat implements Constants
        
        
        EntityGroupOfComps[] controlEntityGroupOfComps = new EntityGroupOfComps[4];
-       controlEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET);
-       controlEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0,FONT_SIZE_NOT_SET);
-       controlEntityGroupOfComps[2] = new EntityGroupOfComps("άιτηση",4,0,FONT_SIZE_NOT_SET);
-       controlEntityGroupOfComps[3] = new EntityGroupOfComps("παραστατικά",4,0,FONT_SIZE_NOT_SET);
+       controlEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       controlEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       controlEntityGroupOfComps[2] = new EntityGroupOfComps("άιτηση",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       controlEntityGroupOfComps[3] = new EntityGroupOfComps("παραστατικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
        /*
        String[] applicationlineCaptionOfGroupOfComps = {"αποστολή","αγρότης","άιτηση"};
        int[] applicationlineColumnsOfObjects = {6,4,4};
@@ -1503,9 +1503,9 @@ public class EntityDataFarmersVat implements Constants
         
 //------------------------------------------------------------        
        EntityGroupOfComps[] applicationlineReturnEntityGroupOfComps = new EntityGroupOfComps[3];
-       applicationlineReturnEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET);
-       applicationlineReturnEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0,FONT_SIZE_NOT_SET);
-       applicationlineReturnEntityGroupOfComps[2] = new EntityGroupOfComps("άιτηση",4,0,FONT_SIZE_NOT_SET);
+       applicationlineReturnEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       applicationlineReturnEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       applicationlineReturnEntityGroupOfComps[2] = new EntityGroupOfComps("άιτηση",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
 
 
@@ -1725,7 +1725,7 @@ public class EntityDataFarmersVat implements Constants
        
              
        EntityGroupOfComps[] applicationheaderEntityGroupOfComps = new EntityGroupOfComps[1];
-       applicationheaderEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET);
+       applicationheaderEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
        //applicationheaderEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0);
        
        int[] applicationlinesaSelected = null;//{1,2,3,4,0,0,0,0,0,0,11,12,0,14,};
@@ -1777,9 +1777,9 @@ public class EntityDataFarmersVat implements Constants
        
        
        EntityGroupOfComps[] applicationheaderFormEntityGroupOfComps = new EntityGroupOfComps[3];
-       applicationheaderFormEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET);
-       applicationheaderFormEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0,FONT_SIZE_NOT_SET);
-       applicationheaderFormEntityGroupOfComps[2] = new EntityGroupOfComps("άιτηση",4,0,FONT_SIZE_NOT_SET);     
+       applicationheaderFormEntityGroupOfComps[0] = new EntityGroupOfComps("εταιρία/χρήση/αποστολή",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       applicationheaderFormEntityGroupOfComps[1] = new EntityGroupOfComps("αγρότης",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       applicationheaderFormEntityGroupOfComps[2] = new EntityGroupOfComps("άιτηση",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);     
        
        
        
