@@ -1354,7 +1354,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         
         String[] lookUpFieldsxMyfType= null;//{"actionTypeDescription"};                   
     
-     entities.add(entityLookUp = new EntityLookUp("sxmyftype","sxmyftype","SELECT lookupconstantsId AS \"id \",  name AS \"είδος ΜΥΦ \"  FROM lookupconstants  ","WHERE constantstypeId =3 AND lookupconstantsId NOT LIKE 1","","ORDER BY constantsorder","","lookupconstantsId","Νο τύπου ΜΥΦ","lookupconstantsId","τύπος ΜΥΦ",3,lookUpFieldsxMyfType,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,null,"τυπου ΜΥΦ","τύπων ΜΥΦ",null,null/*entityPanelsxActionType*/,null,null,sxMyfTypeErs,2,1,null,true,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("sxmyftype","sxmyftype","SELECT lookupconstantsId AS \"id \",  name AS \"είδος ΜΥΦ \"  FROM lookupconstants  ","WHERE constantstypeId =3 AND lookupconstantsId NOT LIKE 5","","ORDER BY constantsorder","","lookupconstantsId","Νο τύπου ΜΥΦ","lookupconstantsId","τύπος ΜΥΦ",3,lookUpFieldsxMyfType,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,null,"τυπου ΜΥΦ","τύπων ΜΥΦ",null,null/*entityPanelsxActionType*/,null,null,sxMyfTypeErs,2,1,null,true,-1,-1,null));    	 	
                
            
            //------------------------------------------------------------------ 

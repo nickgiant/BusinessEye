@@ -541,6 +541,7 @@ int flds = 0;
                if(pnlvisible==GROUP_OF_PANEL_NOT_VISIBLE)
                {
                   panelGroup.setVisible(false);
+                  panelGroup.setPreferredSize(new Dimension(0,0));
                }
                else if(pnlvisible==GROUP_OF_PANEL_VISIBLE)
                {
@@ -7519,7 +7520,13 @@ ps.setBytes(i, b);
           String columnClass = dbFieldsInGroupOfPanels[i].getColClassName();  
           //System.out.println("panelODORData.showRow  col ("+col+")  className"+className+"    colTableName:"+colTableName+" .  colName:"+colName+"  ==  fieldName:"+fieldName+"    f+strField:"+fieldNamePreffix+strField);             
                       
-                       
+                if(checkIsCanceled)// == null || listUncompletedFields.size()==0)     
+               {
+                    //System.out.println("PanelODORData.calculationFromToolBarButton     checkToClose:"+checkIsCanceled);
+                    
+               }
+               else
+               {         
                         String filterCaption = pnlDataFilter.getFilterCaption(0);
                         String filterVariableType = pnlDataFilter.getFilterVariableType(0);
                         String tb1Text = pnlDataFilter.getFilterValue(0);
@@ -7548,7 +7555,7 @@ ps.setBytes(i, b);
                        {
                            //System.out.println("PanelODORData.calculationFromToolBarButton  colCaption:"+colCaption+"   filterCaption:"+filterCaption+"   className:"+className+"  filterVariableType:"+filterVariableType+"   tb1Text:"+tb1Text +"tb2Text:"+tb2Text+"  fromToInstances:"+fromToInstances);    
                        }    
-
+               }
             //---------------------do the dates finish-------------------------
                /*  if(columnClass.equalsIgnoreCase("htmlfile"))// like old html vatdoc
                  {*/
@@ -7558,7 +7565,14 @@ ps.setBytes(i, b);
           if( sqlQueryCalcArray.length==1)
           {
 
-               
+                //checkIsCanceled = dlgFilter.getIsCancelClicked();
+               if(checkIsCanceled)// == null || listUncompletedFields.size()==0)     
+               {
+                    //System.out.println("PanelODORData.calculationFromToolBarButton     checkToClose:"+checkIsCanceled);
+                    
+               }
+               else
+               {                
                
              String fieldNamePreffix = entityCalculate.getPrefixOfFields();//"f" ;
              
@@ -7593,6 +7607,7 @@ ps.setBytes(i, b);
                     {
                         closeDB(); 
                     }   
+               }
                    
           }// if sqlQueryCalcArray               
           else

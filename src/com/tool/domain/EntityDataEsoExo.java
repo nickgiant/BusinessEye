@@ -453,7 +453,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "AND sxesoexoheader.dbYearId = sxesoexoline.dbYearId AND sxesoexoheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" "+
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
-"AND sxactiontype.myfCatId LIKE 2 "+  //tableCount
+"AND sxactiontype.myfCatId LIKE 1 "+  //tableCount
 "GROUP BY sxtrader.traderId, sxactiontype.isCredit";
 
              sqlQueryTableCalcMyf[1] = "SELECT sxtrader.vatNo AS 'ΑΦΜ',  sxtrader.title AS 'συναλλασσόμενος', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
@@ -467,7 +467,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "AND sxesoexoheader.dbYearId = sxesoexoline.dbYearId AND sxesoexoheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" "+
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
-"AND sxactiontype.myfCatId LIKE 3 "+  //tableCount
+"AND sxactiontype.myfCatId LIKE 2 "+  //tableCount
 "GROUP BY sxtrader.traderId";
  
                sqlQueryTableCalcMyf[2] = "SELECT sxtrader.vatNo AS 'ΑΦΜ',  sxtrader.title AS 'συναλλασσόμενος', sxactiontype.isCredit AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
@@ -481,7 +481,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "AND sxesoexoheader.dbYearId = sxesoexoline.dbYearId AND sxesoexoheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" "+
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
-"AND sxactiontype.myfCatId LIKE 4 "+  //tableCount
+"AND sxactiontype.myfCatId LIKE 3 "+  //tableCount
 "GROUP BY sxtrader.traderId, sxactiontype.isCredit";
 
              sqlQueryTableCalcMyf[3] = "SELECT sxtrader.vatNo AS 'ΑΦΜ',  sxtrader.title AS 'συναλλασσόμενος', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
@@ -495,7 +495,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "AND sxesoexoheader.dbYearId = sxesoexoline.dbYearId AND sxesoexoheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" "+
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
-"AND sxactiontype.myfCatId LIKE 5 "+  //tableCount
+"AND sxactiontype.myfCatId LIKE 4 "+  //tableCount
 "GROUP BY sxtrader.traderId";   
              
 //---------------------------------------------------------------             
