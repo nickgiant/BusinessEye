@@ -44,7 +44,7 @@ public class EntityDataSerSales extends EntityData implements Constants
         EntityDBFields[] saleDBFields = new EntityDBFields[21];
         
         // same as second (and the rest) query in etityParameters
-        EntityGroupOfComps[] saleEntityGroupOfComps =new EntityGroupOfComps[5];
+        EntityGroupOfComps[] saleEntityGroupOfComps =new EntityGroupOfComps[6];
         EntityGroupOfPanels[] saleEntityGroupOfPanels = new EntityGroupOfPanels[1];
         
         
@@ -506,8 +506,11 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         String[] updateQueryFieldsSaleHeader ={"actionseriesId"};
         updateAdditionalActionType[0] = new EntityUpdateAdditional(UPDATE_ON_INSERT_ONLY,"UPDATE actionseries SET seriesNextNumber = (seriesNextNumber + 1 ) WHERE actionseriesId LIKE # AND dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,updateQueryFieldsSaleHeader);                
         
+
+        saleDBFields[0] = new EntityDBFields("saleheader","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,VariablesGlobal.globalCompanyId,"");//FIELD_NOT_VISIBLE  //FIELD_VISIBLE_AND_EDITABLE
+        saleDBFields[1] = new EntityDBFields("saleheader","dbYearId","dbYearId",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,VariablesGlobal.globalYearId,"");  //FIELD_NOT_VISIBLE   // FIELD_VISIBLE_AND_EDITABLE          
         
-        saleDBFields[0] = new EntityDBFields("saleheader","saleHeaderId","Νο πώλησης",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+        saleDBFields[2] = new EntityDBFields("saleheader","saleHeaderId","Νο πώλησης",1,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
         
         int[] inputActionTypeCategory ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputActionType ={3};
@@ -518,12 +521,10 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         
         EntityDBFieldsCalculation[] fieldsCalculationActionTypeSelect = new EntityDBFieldsCalculation[1];
        fieldsCalculationActionTypeSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputActionTypeCategory,inputActionType,"SELECT dbcompanyset.sersaleRetailCustomer FROM dbcompanyset,actiontype,actionseries WHERE actionseries.actionTypeId = actiontype.actiontypeId AND actionseries.dbCompanyId = actiontype.dbCompanyId AND dbcompanyset.dbCompanyId = actionseries.dbCompanyId AND dbcompanyset.dbcompanyId = actiontype.dbcompanyId AND dbcompanyset.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND actiontype.actionTypeCatId LIKE 2 AND actionseries.actionseriesId LIKE #");
-        saleDBFields[1] = new EntityDBFields("saleheader","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalCompanyId,"");//FIELD_NOT_VISIBLE  //FIELD_VISIBLE_AND_EDITABLE
-        saleDBFields[2] = new EntityDBFields("saleheader","dbYearId","dbYearId",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalYearId,"");  //FIELD_NOT_VISIBLE   // FIELD_VISIBLE_AND_EDITABLE          
-        saleDBFields[3] = new EntityDBFields("saleheader","actionseriesId","σειρά - τύπος παρ/κού",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"actionseries",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,fieldsCalculationActionTypeUpdate,fieldsCalculationActionTypeSelect,"");// variable before last: 'false' means update
-        saleDBFields[4] = new EntityDBFields("saleheader","saleCodeNo","saleCodeNo",0,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
-        saleDBFields[5] = new EntityDBFields("saleheader","saleCodeOfDocument","κωδικός παρ/κού",0,"java.lang.String",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);
-        saleDBFields[6] = new EntityDBFields("saleheader","dateOfSale","ημερομηνία παρ/κού",0, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalDate,"");
+        saleDBFields[3] = new EntityDBFields("saleheader","actionseriesId","σειρά - τύπος παρ/κού",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"actionseries",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,fieldsCalculationActionTypeUpdate,fieldsCalculationActionTypeSelect,"");// variable before last: 'false' means update
+        saleDBFields[4] = new EntityDBFields("saleheader","saleCodeNo","saleCodeNo",1,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+        saleDBFields[5] = new EntityDBFields("saleheader","saleCodeOfDocument","κωδικός παρ/κού",1,"java.lang.String",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);
+        saleDBFields[6] = new EntityDBFields("saleheader","dateOfSale","ημερομηνία παρ/κού",1, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalDate,"");
        // saleDBFields[5] = new EntityDBFields("saleheader","dbCompanyId","dbCompanyId",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalCompanyId,"");
       //  saleDBFields[6] = new EntityDBFields("saleheader","dbYearId","dbYearId",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalYearId,"");        
         int[] inputCustomerCategory ={FIELDSCALCULATION_CATEGORY_SAME};
@@ -536,16 +537,16 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         //fieldsCalculationCustomer[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputCustomerCategory,inputCustomer,"SELECT customer.currencyId FROM customer  WHERE customer.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND customer.customerId LIKE #");
         
         
-        saleDBFields[7] = new EntityDBFields("saleheader","customerId","πελάτης",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"customer", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationCustomerSelect,"");
-        saleDBFields[8] = new EntityDBFields("saleheader","comments","σχόλια",2,"java.lang.String",32,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);
-        saleDBFields[9] = new EntityDBFields("saleheader","paymentTypeId","τρόπος πληρωμής",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"paymenttype", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        saleDBFields[7] = new EntityDBFields("saleheader","customerId","πελάτης",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"customer", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationCustomerSelect,"");
+        saleDBFields[8] = new EntityDBFields("saleheader","comments","σχόλια",3,"java.lang.String",32,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);
+        saleDBFields[9] = new EntityDBFields("saleheader","paymentTypeId","τρόπος πληρωμής",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"paymenttype", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         
         int[] inputPreVatCategory ={FIELDSCALCULATION_CATEGORY_BACKWARD,12,12};// 12 is no of table
         int[] inputPreVat ={10,4,4};//field
         EntityDBFieldsCalculation[] fieldsCalculationVatCatSelect = new EntityDBFieldsCalculation[1];
         fieldsCalculationVatCatSelect[0] = new EntityDBFieldsCalculation(12,10,inputPreVatCategory,inputPreVat,calculationVatPercentageSql);//12 is no of table
                 
-        saleDBFields[10] = new EntityDBFields("saleheader","typeofVatExclusionId","καθεστώς ΦΠΑ",2,"java.lang.Integer",7,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCVatExclusion",FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"1",null,fieldsCalculationVatCatSelect,"");
+        saleDBFields[10] = new EntityDBFields("saleheader","typeofVatExclusionId","καθεστώς ΦΠΑ",3,"java.lang.Integer",7,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCVatExclusion",FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"1",null,fieldsCalculationVatCatSelect,"");
         //int[] inputPreVatCategory ={9};
         //int[] inputPreVat ={9};//field
         //10,inputService,"SELECT vatcat.vatPercentage FROM stock, vatcat  WHERE stock.vatCatId=vatcat.vatCatId AND stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND stock.stockId=");
@@ -554,17 +555,17 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         
         //fieldsCalculationCurrency[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,8,inputCustomerCategory,inputCustomer,"SELECT customer.currencyId FROM customer  WHERE customer.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND customer.customerId LIKE #");
                  
-        saleDBFields[11] = new EntityDBFields("saleheader","isPrinted","εκτυπωμένο",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,"1","");         
+        saleDBFields[11] = new EntityDBFields("saleheader","isPrinted","εκτυπωμένο",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,"1","");         
         String[] childTableFieldsForSumsSalelines=null;//{"προ ΦΠΑ","αξία ΦΠΑ","αξία"};
        
-        saleDBFields[12] = new EntityDBFields("saleheader","salelines","υπηρεσίες",3,"table",FIELD_VISIBLE_AND_EDITABLE,"saleline",120,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,saleLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM saleline WHERE saleline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY saleline.inc",null,childTableFieldsForSumsSalelines);        
+        saleDBFields[12] = new EntityDBFields("saleheader","salelines","υπηρεσίες",4,"table",FIELD_VISIBLE_AND_EDITABLE,"saleline",120,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,saleLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM saleline WHERE saleline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY saleline.inc",null,childTableFieldsForSumsSalelines);        
          
-        saleDBFields[13] = new EntityDBFields("saleheader","countTotal","πλήθος",4,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,null,null,null,12,6,DBFIELD_TYPE_OF_SUM_COUNT);        
-        saleDBFields[14] = new EntityDBFields("saleheader","quantityTotal","ποσότητα",4,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,12,6,DBFIELD_TYPE_OF_SUM_SUM);        
+        saleDBFields[13] = new EntityDBFields("saleheader","countTotal","πλήθος",5,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,12,6,DBFIELD_TYPE_OF_SUM_COUNT);        
+        saleDBFields[14] = new EntityDBFields("saleheader","quantityTotal","ποσότητα",5,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,12,6,DBFIELD_TYPE_OF_SUM_SUM);        
   
         
-        saleDBFields[15] = new EntityDBFields("saleheader","pricePreVat","προ ΦΠΑ",4,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,12,9,DBFIELD_TYPE_OF_SUM_SUM);        
-        saleDBFields[16] = new EntityDBFields("saleheader","priceVat","ΦΠΑ",4,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,12,11,DBFIELD_TYPE_OF_SUM_SUM);        
+        saleDBFields[15] = new EntityDBFields("saleheader","pricePreVat","προ ΦΠΑ",5,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,12,9,DBFIELD_TYPE_OF_SUM_SUM);        
+        saleDBFields[16] = new EntityDBFields("saleheader","priceVat","ΦΠΑ",5,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,12,11,DBFIELD_TYPE_OF_SUM_SUM);        
                 
     //    int[] inputCurrencyCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
     //    int[] inputCurrency ={16,20};         
@@ -590,7 +591,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
                 + "(SELECT dbcompanyset.sersaleWithHoldingTaxRate FROM dbcompanyset WHERE dbcompanyset.dbcompanyId LIKE "+VariablesGlobal.globalCompanyId+")  ,'')");
         fieldGetWithholdingTaxRateSelect[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputWithholdingTaxRateCategory,inputWithholdingTaxRate,"SELECT # * #/100");
         fieldGetWithholdingTaxRateSelect[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,20,inputWithholdingTaxRateTotalCategory,inputWithholdingTaxRateTotal,"SELECT IF ((# - # = 0), '' , (# - #) )");                                
-        saleDBFields[17] = new EntityDBFields("saleheader","priceTotal","σύνολο με ΦΠΑ",4,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,fieldGetWithholdingTaxRateSelect,12,12,DBFIELD_TYPE_OF_SUM_SUM);             
+        saleDBFields[17] = new EntityDBFields("saleheader","priceTotal","σύνολο με ΦΠΑ",5,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,fieldGetWithholdingTaxRateSelect,12,12,DBFIELD_TYPE_OF_SUM_SUM);             
         //EntityDBFieldsCalculation[] fieldsCalculationCurrency = new EntityDBFieldsCalculation[1];
         
     //    saleDBFields[17] = new EntityDBFields("saleheader","companyCurrencyId","companyCurrencyId",4,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null);
@@ -604,21 +605,22 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
     //    int[] inputWithholdingTaxRate ={16,17};         
     //    EntityDBFieldsCalculation[] fieldsCalculationWithholdingTax = new EntityDBFieldsCalculation[1];
     ///    fieldsCalculationWithholdingTax[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,18,inputWithholdingTaxRateCategory,inputWithholdingTaxRate,"SELECT # * #");                        
-        saleDBFields[18] = new EntityDBFields("saleheader","withholdingtaxRate","ποσοστό παρακράτησης",4,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//,null,true,fieldGetWithholdingTaxRate);        
-        saleDBFields[19] = new EntityDBFields("saleheader","withholdingtaxAmount","παρακράτηση",4,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//null,true,fieldsCalculationWithholdingTax);        //null);        
+        saleDBFields[18] = new EntityDBFields("saleheader","withholdingtaxRate","ποσοστό παρακράτησης",5,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//,null,true,fieldGetWithholdingTaxRate);        
+        saleDBFields[19] = new EntityDBFields("saleheader","withholdingtaxAmount","παρακράτηση",5,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//null,true,fieldsCalculationWithholdingTax);        //null);        
 
     //    int[] inputWithholdingTaxRateTotalCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
     //    int[] inputWithholdingTaxRateTotal ={16,18};         
     //    EntityDBFieldsCalculation[] fieldsCalculationWithholdingTaxTotal = new EntityDBFieldsCalculation[1];
     //    fieldsCalculationWithholdingTaxTotal[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputWithholdingTaxRateTotalCategory,inputWithholdingTaxRateTotal,"SELECT # + #");                                
-        saleDBFields[20] = new EntityDBFields("saleheader","priceTotalAfterWithholdingTax","τελικό σύνολο",4,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//null,true,fieldsCalculationWithholdingTaxTotal);//,11,12,DBFIELD_TYPE_OF_SUM_SUM);             
+        saleDBFields[20] = new EntityDBFields("saleheader","priceTotalAfterWithholdingTax","τελικό σύνολο",5,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//null,true,fieldsCalculationWithholdingTaxTotal);//,11,12,DBFIELD_TYPE_OF_SUM_SUM);             
         
-        saleEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        saleEntityGroupOfComps[1] = new EntityGroupOfComps("πελάτης",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        saleEntityGroupOfComps[2] = new EntityGroupOfComps("λοιπά",8,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        saleEntityGroupOfComps[0] = new EntityGroupOfComps("hidden",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_NOT_VISIBLE); //GROUP_OF_PANEL_NOT_VISIBLE
+        saleEntityGroupOfComps[1] = new EntityGroupOfComps("βασικά",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        saleEntityGroupOfComps[2] = new EntityGroupOfComps("πελάτης",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        saleEntityGroupOfComps[3] = new EntityGroupOfComps("λοιπά",8,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         //saleEntityGroupOfComps[3] = new EntityGroupOfComps("αιτιολογία",6,0);
-        saleEntityGroupOfComps[3] = new EntityGroupOfComps("παρεχόμενες υπηρεσίες",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        saleEntityGroupOfComps[4] = new EntityGroupOfComps("σύνολα",8,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        saleEntityGroupOfComps[4] = new EntityGroupOfComps("παρεχόμενες υπηρεσίες",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        saleEntityGroupOfComps[5] = new EntityGroupOfComps("σύνολα",8,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
          
         saleEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1);
 

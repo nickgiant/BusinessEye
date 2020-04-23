@@ -438,11 +438,18 @@ int flds = 0;
                 primaryKeyIntegerAutoInc[f] = dbFieldsInGroupOfPanels[f].getPrimaryKeyIntegerAutoInc();
                 listButtonValid.add(new JButton("l"));// add so when set or get have the same length              
                       }// if 
+               
+               //groupOfComps[f].
+               
+                     //  .getCompsFontSize(); 
                } // if
                else
                {
            //System.out.println("PanelODORData.setEntity  --oo--  ("+f+") "+dbFieldsInGroupOfPanels[f].getDbField()+"  "+entityGroupOfCompsIn[egc].getCaption()+"   "+entityGroupOfCompsIn[egc].getIncludedInGroupOfPanels()+"    "+intGroupOfPanelsToShow);                                                       
                }
+               
+
+               
                
                
             } //for egc    
@@ -469,28 +476,14 @@ int flds = 0;
           //System.out.println("PanelODORData.setEntity         f:("+f+") "+fields[f]+"    dbFieldsInGroupOfPanels[f].getColClassName():"+dbFieldsInGroupOfPanels[f].getColClassName()+"   fieldTxts.size"+fieldTxts.size()+"    dbFieldsInGroupOfPanels.length:"+dbFieldsInGroupOfPanels.length+"    dbFieldsAll.length:"+dbFieldsAll.length);   
           
         }
-        
-       // listLengthDbFieldsInGroupOfPanels.add(dbFieldsInGroupOfPanels.length);
-//System.out.println("PanelODORData.setEntity   >------>  "+title+" dbFieldsAll.length:"+dbFieldsAll.length+"   listADD = dbFieldsInGroupOfPanels.length:"+dbFieldsInGroupOfPanels.length+"  ["+(dbFieldsAll.length-dbFieldsInGroupOfPanels.length)+"]  intGroupOfPanelsToShowIn:"+intGroupOfPanelsToShowIn);           
 
         this.setLayout(new BorderLayout());
         this.add(panelAllOnIt, BorderLayout.CENTER);        
         
-       //System.out.println("PanelODORData.setEntity isNewRec"+isNewRec);
-        
-//System.out.println("");
-//           System.out.println("PanelODORData.setEntity   ->>>> B    entity:"+entity+"    dbFieldsAll.length:"+dbFieldsAll.length+"      dbFieldsInGroupOfPanels.length:"+dbFieldsInGroupOfPanels.length+"   intGroupOfPanelsToShowIn:"+intGroupOfPanelsToShowIn+"   intfields:"+intfields);           
-//System.out.println("");
-        
+
         boolean isFirstFieldAutoInc=false;
         //fieldsOnTitle=fieldsOnTitleIn;
-        //fieldsOnTitleCaption=fieldsOnTitleCaptionIn;
-        //System.out.println("panelODORData.setEntity "+primKeyValue);
-        
-       /* if(sql2WhereField!=null)
-        {
-           calculateCountOfUniqueKeys();	
-        }*/
+  
         
         
        if (panelAllOnIt != null)
@@ -1789,6 +1782,15 @@ int flds = 0;
                         Border borderTextField = BorderFactory.createLineBorder(CLR_PANEL_BORDER, 1);
                        // .setBorder(borderPanel);
                         tb.setBorder(borderTextField); 
+                      // System.out.println("PanelODORData.setEntity columnClass "+columnClass+"   columnDbName:"+columnDbName+"   i:"+i+"   lbl.getText():"+lbl.getText()); 
+                        if(lbl.getText().equalsIgnoreCase("000:")) // when is hidden  // hidden must be java.lang.String
+                        {
+                            lbl.setForeground(eachDataFieldPanel.getBackground());//Color.WHITE);
+                            Border borderTextNotField = BorderFactory.createLineBorder(eachDataFieldPanel.getBackground(), 1);
+                            tb.setBorder(borderTextNotField);
+                            tb.setOpaque(false);
+                           // tb.setBackground(eachDataFieldPanel.getBackground());
+                        }
                     }
                     
                   if((columnDbName!=null && columnClass.equalsIgnoreCase("java.lang.Integer")) || (columnDbName!=null && columnClass.equalsIgnoreCase("java.lang.Double")) )      
@@ -5246,7 +5248,7 @@ catch(Exception e)
               }              
               else
               {
-             	System.out.println("error panelODORData.showRow B field:"+field+" classtype "+classtype+" "+i+" not implemented");
+             	System.out.println("error panelODORData.showRow B field:"+field+"  classtype "+classtype+" "+i+" not implemented");
               }
                   /* if (classtype.equalsIgnoreCase("java.sql.Double") || classtype.equalsIgnoreCase("java.lang.Double") )
                   {
@@ -7466,14 +7468,15 @@ ps.setBytes(i, b);
                        for(int f = 0; f<arrayFieldAndValue.length;f++)
                       {
                         String strField = rsDocument.getString(arrayFieldAndValue[f]);
-                        String strValue = rsDocument.getString(arrayFieldAndValue[f]);
+                       // String strValue = rsDocument.getString(arrayFieldAndValue[1]);
                         
-;
+ //System.out.println("PanelODORecData.calculationFromToolBarButton      i:"+i+"  f:"+f+"     colName:"+ colName+"="+strValue);
 
                     // int fromToInstances=1;// from to like date                        
                        if(colName.equalsIgnoreCase(fieldNamePreffix+strField))
                        {
-                           //System.out.println("PanelODORecData.calculationFromToolBarButton      col:"+col+"       colName:"+ colName+"="+utilsDouble.getDoubleReading(strValue, true));
+                            String strValue = rsDocument.getString(arrayFieldAndValue[f+1]);
+     System.out.println("PanelODORecData.calculationFromToolBarButton      i:"+i+"  f:"+f+"     colName:"+ colName+"="+utilsDouble.getDoubleReading(strValue, true)+"   arrayFieldAndValue.length:"+arrayFieldAndValue.length);
                              JTextComponent txb = (JTextComponent) fieldTxts.get(i);
                               if(columnClass.equalsIgnoreCase("java.lang.Double"))
                              {
@@ -7487,6 +7490,7 @@ ps.setBytes(i, b);
                              }
                               JTextComponent txbLast = (JTextComponent) fieldTxts.get(dbFieldsInGroupOfPanels.length-1);
                               txbLast.requestFocus();
+                              
                        }
                       }
         
@@ -8082,7 +8086,14 @@ ps.setBytes(i, b);
                  }                   
                   else
                   {
-                      subqueryfieldTxts = subqueryfieldTxts+columnDbName;
+                          if(columnDbName.equalsIgnoreCase("hidden"))// hidden must be java.lang.String
+                          {
+                              
+                          }
+          	           else
+          	           {
+                               subqueryfieldTxts = subqueryfieldTxts+columnDbName;
+                           }
                   }
                   
                   
@@ -8090,22 +8101,29 @@ ps.setBytes(i, b);
         //System.out.println("PaneloDORData.rowInsert "+i+" "+columnDbName+" "+classtype+" "+fieldValue+" whereValueName:"+whereValueName);  	      
           	      if (classtype.equalsIgnoreCase("java.lang.String"))
           	      {
+                          
                     if(!fieldValue.equalsIgnoreCase(""))
                     { 
                     	   	       
-    /*      	             if(!whereValueName.equalsIgnoreCase("-"))
-          	             {// for global vars
-          	       	        //System.out.println("panelOneDataOneRecData.updateRow "+columnLabel+" "+getValueForVariable(whereValueName));
-          	                subqueryValues = subqueryValues+"'"+getValueForVariable(whereValueName)+"'";
-          	             }
-          	             else
-          	             {*/
+                          if(columnDbName.equalsIgnoreCase("hidden")) // hidden must be java.lang.String
+                          {
+                              
+                          }
+          	           else
+          	           {
           	      	         subqueryValues = subqueryValues+"'"+fieldValue+"'";
-          //	             }
+          	           }
                    }
                    else
-          	   {                    	
-                     subqueryValues = subqueryValues+" null ";
+          	   {    
+                          if(columnDbName.equalsIgnoreCase("hidden")) // hidden must be java.lang.String
+                          {
+                     
+                          }
+                          else
+                          {
+                              subqueryValues = subqueryValues+" null ";
+                          }
           	   }
                     
                     
@@ -8232,16 +8250,16 @@ ps.setBytes(i, b);
                       if (i < dbFieldsInGroupOfPanels.length-1 && dbFieldsInGroupOfPanels.length>1 && !dbFieldsInGroupOfPanels[i+1].getColClassName().equalsIgnoreCase("table") && !dbFieldsInGroupOfPanels[i+1].getColClassName().equalsIgnoreCase("htmlfile")) 
           	      // add comma but not on the last field(before where), also not when there is only one field
           	      { 
-                        /*  if (classtype.equalsIgnoreCase("htmlfile"))
+                          
+                          if(columnDbName.equalsIgnoreCase("hidden")) // hidden must be java.lang.String
                           {
-          	         subqueryfieldTxts = subqueryfieldTxts;   
-          	         subqueryValues = subqueryValues;                               
+                     
                           }
                           else
-                          {*/
+                          {
           	         subqueryfieldTxts = subqueryfieldTxts+", ";   
           	         subqueryValues = subqueryValues+", ";                               
-                         // }
+                          }
   
           	      }
                       else
@@ -8329,10 +8347,10 @@ ps.setBytes(i, b);
    	     
           String insertQuery = "INSERT INTO "+entity+" "+subqueryfieldTxts+" VALUES "+ subqueryValues;
           
-         // if (VariablesGlobal.globalShowSQLEdit)
-         // { 
+          if (VariablesGlobal.globalShowSQLEdit)
+          { 
               System.out.println("PanelODORData.rowInsert ------ insertQuery: "+insertQuery);
-         // }
+          }
            
            // //return 1 there is already one record with the same keys
           ret = dbTransaction.transactionUpdateQuery(insertQuery,"PanelODORData.rowInsert",showDialogOnError);

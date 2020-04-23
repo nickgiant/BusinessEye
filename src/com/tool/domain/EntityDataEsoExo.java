@@ -178,7 +178,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
  
         //----------------------------------------------------------------
         
-        EntityDBFields[] sxVatDocDBFields = new EntityDBFields[34];
+        EntityDBFields[] sxVatDocDBFields = new EntityDBFields[81];
         
         EntityFilterSettings[] eCalculateFilterVatDoc = new EntityFilterSettings[2];       
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
@@ -190,7 +190,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
         EntityCalculate entityCalculateVatDoc = new EntityCalculate("calculatevatdoc","υπολογ. περιοδικής ΦΠΑ","",null,eCalculateFilterVatDoc,entityGroupOfFilterCompsVatDoc,sqlQueryTableCalcVatDoc,false,null,fieldVatDocPreffix,arrayFieldVatDocAndValue1,arrayFieldVatDocAndValue2);
         
         // same as second (and the rest) query in etityParameters
-        EntityGroupOfComps[] sxVatDocEntityGroupOfComps =new EntityGroupOfComps[8];
+        EntityGroupOfComps[] sxVatDocEntityGroupOfComps =new EntityGroupOfComps[21];
         EntityGroupOfPanels[] sxVatDocEntityGroupOfPanels = null;
         
         
@@ -270,7 +270,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
     
         String myfHeaderQueryEditable = "SELECT * FROM myfheader"; //product.productId AS \"Νο προϊόντος\", product.productName AS \"ονομασία\", product.currencyId FROM product";
         String[] fieldsOnTitleMyfHeader ={"myfHeaderId","myfTitle"};
-        String[] fieldsOnTitleCaptionMyfHeader  ={"Νο myf","myfTitle"};      
+        String[] fieldsOnTitleCaptionMyfHeader  ={"Νο myf","περιγραφή"};      
         String[] strMyfHeaderCategories = {DATAENTRY,METRICS};
         String[] fieldsUniqueMyfHeader = null;
         EntityCheckFields[] entityCheckFieldsMyfHeader = null;
@@ -441,7 +441,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 
        
     eCalculateFilterMyf[0]=new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",-1,-1,-1,FIELD_OBLIGATORY);
-    eCalculateFilterMyf[1]=new EntityFilterSettings( "τύποι παραστατικού","checkboxTable","string","","lookupconstantsId","sxmyftype","lookupconstants","",-1,-1,-1,FIELD_NOCOMPLETION);
+    eCalculateFilterMyf[1]=new EntityFilterSettings( "τύποι ΜΥΦ","checkboxTable","string","","lookupconstantsId","sxmyftype","lookupconstants","",-1,-1,-1,FIELD_NOCOMPLETION);
                sqlQueryTableCalcMyf[0] = "SELECT sxtrader.vatNo AS 'ΑΦΜ',  sxtrader.title AS 'συναλλασσόμενος', sxactiontype.isCredit AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
@@ -1088,96 +1088,215 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
         sxVatDocDBFields[3] = new EntityDBFields("sxvatdocforperiod","vatDocDescr","ονομασία",0,"java.lang.String",28,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         sxVatDocDBFields[4] = new EntityDBFields("sxvatdocforperiod","vatForPeriodStartDate","ημερομηνία έναρξης περιόδου",0,"java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  
         sxVatDocDBFields[5] = new EntityDBFields("sxvatdocforperiod","vatForPeriodEndDate","ημερομηνία λήξης περιόδου",0,"java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  
-//sxVatDocDBFields[4] = new EntityDBFields("sxvatdocforperiod","dateSave","αποθήκευση",0,"java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,VariablesGlobal.globalDate);         
-//sxVatDocDBFields[4] = new EntityDBFields("sxvatdocforperiod","vatDocCatId","κατηγορία",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCTypeCat", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
-        //sxVatDocDBFields[5] = new EntityDBFields("sxvatdocforperiod","vatForPeriodStartDate","έναρξη περιόδου",0, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
-        //sxVatDocDBFields[6] = new EntityDBFields("sxvatdocforperiod","vatForPeriodEndDate","λήξη περιόδου",0, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
-        
-        /*String queryForHtmlFileDocRead =  "SELECT * FROM sxvatdocforperioddata"+    //  fieldName, fieldValue
-          " WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND dbYearId LIKE "+VariablesGlobal.globalYearId;//+" AND "+strTableDocDataForeignKey+" LIKE "+strTableDocDataForeignKeyValue;// int reportgroup
-        sxVatDocDBFields[4] = new EntityDBFields("sxvatdocforperiod","vatDocHtml","περιοδική ΦΠΑ (Φ2)",1,"htmlfile",FIELD_VISIBLE_AND_EDITABLE,"sxvatdocforperioddata",sxVatDocDataDBFields,FIELD_OBLIGATORY,queryForHtmlFileDocRead);
-        *///sxVatDocDBFields[8] = new EntityDBFields("sxvatdocforperiod","notes","σημειώσεις",2,"java.lang.String",220,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);        
-        
-       
+    
+
         
         
        int[] inputVatDocCatf307 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
        int[] inputVatDocf307 ={6,10,14,18,22,26};        
         
-        
+        int[] inputVatDocCatf337 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+       int[] inputVatDocf337 ={7,11,15,19,23,27};  
+       
         int[] inputVatDocCatf301 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf301 ={6};
-       EntityDBFieldsCalculation[] fieldsCalculationVatDoc301 = new EntityDBFieldsCalculation[2];
+       EntityDBFieldsCalculation[] fieldsCalculationVatDoc301 = new EntityDBFieldsCalculation[3];
        fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
        fieldsCalculationVatDoc301[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#"); 
+       fieldsCalculationVatDoc301[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
        
         int[] inputVatDocCatf302 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf302 ={10};
-        EntityDBFieldsCalculation[] fieldsCalculationVatDoc302 = new EntityDBFieldsCalculation[2];
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc302 = new EntityDBFieldsCalculation[3];
        fieldsCalculationVatDoc302[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,11,inputVatDocCatf302,inputVatDocf302,"SELECT #*6/100");//SELECT #+#"); 
-       fieldsCalculationVatDoc302[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");        
+       fieldsCalculationVatDoc302[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");
+       fieldsCalculationVatDoc302[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
        
        int[] inputVatDocCatf303 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf303 ={14}; 
-        EntityDBFieldsCalculation[] fieldsCalculationVatDoc303 = new EntityDBFieldsCalculation[2];
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc303 = new EntityDBFieldsCalculation[3];
        fieldsCalculationVatDoc303[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,15,inputVatDocCatf303,inputVatDocf303,"SELECT #*24/100");//SELECT #+#"); 
       fieldsCalculationVatDoc303[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");        
-       
-         int[] inputVatDocCatf304 ={FIELDSCALCULATION_CATEGORY_SAME};
+      fieldsCalculationVatDoc303[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#"); 
+      
+      int[] inputVatDocCatf304 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf304 ={18}; 
-        EntityDBFieldsCalculation[] fieldsCalculationVatDoc304 = new EntityDBFieldsCalculation[2];
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc304 = new EntityDBFieldsCalculation[3];
        fieldsCalculationVatDoc304[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputVatDocCatf304,inputVatDocf304,"SELECT #*9/100");//SELECT #+#"); 
       fieldsCalculationVatDoc304[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");        
-  
+       fieldsCalculationVatDoc304[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
+      
+      
+       int[] inputVatDocCatf305 ={FIELDSCALCULATION_CATEGORY_SAME};
+        int[] inputVatDocf305 ={22}; 
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc305 = new EntityDBFieldsCalculation[3];
+       fieldsCalculationVatDoc305[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,23,inputVatDocCatf305,inputVatDocf305,"SELECT #*4/100");//SELECT #+#"); 
+      fieldsCalculationVatDoc305[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");
+      fieldsCalculationVatDoc305[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
+      
+       
+         int[] inputVatDocCatf306 ={FIELDSCALCULATION_CATEGORY_SAME};
+        int[] inputVatDocf306 ={26}; 
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc306 = new EntityDBFieldsCalculation[3];
+       fieldsCalculationVatDoc306[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,27,inputVatDocCatf306,inputVatDocf306,"SELECT #*17/100");//SELECT #+#"); 
+      fieldsCalculationVatDoc306[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");        
+      fieldsCalculationVatDoc306[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
 
+      
+      
+       int[] inputVatDocCatf367 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+       int[] inputVatDocf367 ={8,12,16,20,24,28}; 
+       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo367 = new EntityDBFieldsCalculation[1];
+       //fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
+       fieldsCalculationVatDocSumTo367[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,32,inputVatDocCatf367,inputVatDocf367,"SELECT #+#+#+#+#+#");//SELECT #+#"); 
+        
+       
+       int[] inputVatDocCatf430 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+       int[] inputVatDocf430 ={33,41,57}; 
+       
+       int[] inputVatDocCatf387 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+       int[] inputVatDocf387 ={9,13,17,21,25,29}; 
+       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo387 = new EntityDBFieldsCalculation[2];
+       //fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
+       fieldsCalculationVatDocSumTo387[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,33,inputVatDocCatf387,inputVatDocf387,"SELECT #+#+#+#+#+#");//SELECT #+#"); 
+       fieldsCalculationVatDocSumTo387[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#+#");//SELECT #+#");            
+       
+         int[] inputVatDocCatf410 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+       int[] inputVatDocf410 ={36,40,44}; 
+       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo410 = new EntityDBFieldsCalculation[2];
+       //fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
+       fieldsCalculationVatDocSumTo410[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,41,inputVatDocCatf410,inputVatDocf410,"SELECT #+#+#");//SELECT #+#"); 
+       fieldsCalculationVatDocSumTo410[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#+#");//SELECT #+#");
+       
+         int[] inputVatDocCatf428 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+       int[] inputVatDocf428 ={52,56,60}; 
+       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo428 = new EntityDBFieldsCalculation[2];
+       //fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
+       fieldsCalculationVatDocSumTo428[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,57,inputVatDocCatf428,inputVatDocf428,"SELECT #+#+#");//SELECT #+#"); 
+       fieldsCalculationVatDocSumTo428[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#+#");//SELECT #+#");       
+       
        
             int lengthoftxts = 14;    
         
         sxVatDocDBFields[6] = new EntityDBFields("sxvatdocforperiod","f301","301",1,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDoc301,"");
         sxVatDocDBFields[7] = new EntityDBFields("sxvatdocforperiod","f331","331",1,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                    
-        sxVatDocDBFields[8] = new EntityDBFields("sxvatdocforperiod","f361","361",1,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                    
-        sxVatDocDBFields[9] = new EntityDBFields("sxvatdocforperiod","f381","381",1,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                    
+        sxVatDocDBFields[8] = new EntityDBFields("sxvatdocforperiod","f361","361",1,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo367,"");                    
+        sxVatDocDBFields[9] = new EntityDBFields("sxvatdocforperiod","f381","381",1,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo387,"");                    
         
         sxVatDocDBFields[10] = new EntityDBFields("sxvatdocforperiod","f302","302",2,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDoc302,"");
         sxVatDocDBFields[11] = new EntityDBFields("sxvatdocforperiod","f332","332",2,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                      
-        sxVatDocDBFields[12] = new EntityDBFields("sxvatdocforperiod","f362","362",2,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                    
-        sxVatDocDBFields[13] = new EntityDBFields("sxvatdocforperiod","f382","382",2,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                            
+        sxVatDocDBFields[12] = new EntityDBFields("sxvatdocforperiod","f362","362",2,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo367,"");                    
+        sxVatDocDBFields[13] = new EntityDBFields("sxvatdocforperiod","f382","382",2,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo387,"");                         
         
         sxVatDocDBFields[14] = new EntityDBFields("sxvatdocforperiod","f303","303",3,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDoc303,"");
         sxVatDocDBFields[15] = new EntityDBFields("sxvatdocforperiod","f333","333",3,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                      
-        sxVatDocDBFields[16] = new EntityDBFields("sxvatdocforperiod","f363","363",3,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                    
-        sxVatDocDBFields[17] = new EntityDBFields("sxvatdocforperiod","f383","383",3,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                                    
+        sxVatDocDBFields[16] = new EntityDBFields("sxvatdocforperiod","f363","363",3,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo367,"");                    
+        sxVatDocDBFields[17] = new EntityDBFields("sxvatdocforperiod","f383","383",3,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo387,"");                                     
         
         sxVatDocDBFields[18] = new EntityDBFields("sxvatdocforperiod","f304","304",4,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDoc304,"");            
         sxVatDocDBFields[19] = new EntityDBFields("sxvatdocforperiod","f334","334",4,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                       
-        sxVatDocDBFields[20] = new EntityDBFields("sxvatdocforperiod","f364","364",4,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                    
-        sxVatDocDBFields[21] = new EntityDBFields("sxvatdocforperiod","f384","384",4,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                                            
+        sxVatDocDBFields[20] = new EntityDBFields("sxvatdocforperiod","f364","364",4,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo367,"");                    
+        sxVatDocDBFields[21] = new EntityDBFields("sxvatdocforperiod","f384","384",4,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo387,"");                                             
         
-        sxVatDocDBFields[22] = new EntityDBFields("sxvatdocforperiod","f305","305",5,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                    
+        sxVatDocDBFields[22] = new EntityDBFields("sxvatdocforperiod","f305","305",5,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDoc305,"");                    
         sxVatDocDBFields[23] = new EntityDBFields("sxvatdocforperiod","f335","335",5,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                       
-        sxVatDocDBFields[24] = new EntityDBFields("sxvatdocforperiod","f365","365",5,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                    
-        sxVatDocDBFields[25] = new EntityDBFields("sxvatdocforperiod","f385","385",5,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                                    
+        sxVatDocDBFields[24] = new EntityDBFields("sxvatdocforperiod","f365","365",5,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo367,"");                    
+        sxVatDocDBFields[25] = new EntityDBFields("sxvatdocforperiod","f385","385",5,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo387,"");                                      
         
-        sxVatDocDBFields[26] = new EntityDBFields("sxvatdocforperiod","f306","306",6,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                    
+        sxVatDocDBFields[26] = new EntityDBFields("sxvatdocforperiod","f306","306",6,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDoc306,"");                    
         sxVatDocDBFields[27] = new EntityDBFields("sxvatdocforperiod","f336","336",6,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                     
-        sxVatDocDBFields[28] = new EntityDBFields("sxvatdocforperiod","f366","366",6,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                    
-        sxVatDocDBFields[29] = new EntityDBFields("sxvatdocforperiod","f386","386",6,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0","");                                            
+        sxVatDocDBFields[28] = new EntityDBFields("sxvatdocforperiod","f366","366",6,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo367,"");                    
+        sxVatDocDBFields[29] = new EntityDBFields("sxvatdocforperiod","f386","386",6,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo387,"");                                           
         
         sxVatDocDBFields[30] = new EntityDBFields("sxvatdocforperiod","f307","307",7,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                    
         sxVatDocDBFields[31] = new EntityDBFields("sxvatdocforperiod","f337","337",7,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                    
         sxVatDocDBFields[32] = new EntityDBFields("sxvatdocforperiod","f367","367",7,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                    
         sxVatDocDBFields[33] = new EntityDBFields("sxvatdocforperiod","f387","387",7,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                                                    
+ 
+        sxVatDocDBFields[34] = new EntityDBFields("sxvatdocforperiod","f342","342",8,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                    
+        sxVatDocDBFields[35] = new EntityDBFields("sxvatdocforperiod","hidden","000",8,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[36] = new EntityDBFields("sxvatdocforperiod","f400","400",8,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo410,"");                                                    
+        sxVatDocDBFields[37] = new EntityDBFields("sxvatdocforperiod","hidden","000",8,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+ 
+        sxVatDocDBFields[38] = new EntityDBFields("sxvatdocforperiod","f345","345",9,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                    
+        sxVatDocDBFields[39] = new EntityDBFields("sxvatdocforperiod","hidden","000",9,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[40] = new EntityDBFields("sxvatdocforperiod","f402","402",9,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo410,"");                                                    
+        sxVatDocDBFields[41] = new EntityDBFields("sxvatdocforperiod","f410","410",9,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
         
+        sxVatDocDBFields[42] = new EntityDBFields("sxvatdocforperiod","f348","348",10,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                    
+        sxVatDocDBFields[43] = new EntityDBFields("sxvatdocforperiod","hidden","000",10,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[44] = new EntityDBFields("sxvatdocforperiod","f407","407",10,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo410,"");                                                    
+        sxVatDocDBFields[45] = new EntityDBFields("sxvatdocforperiod","hidden","000",10,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+ 
+         sxVatDocDBFields[46] = new EntityDBFields("sxvatdocforperiod","f349","349",11,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                    
+        sxVatDocDBFields[47] = new EntityDBFields("sxvatdocforperiod","hidden","000",11,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[48] = new EntityDBFields("sxvatdocforperiod","hidden","000",11,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                                                    
+        sxVatDocDBFields[49] = new EntityDBFields("sxvatdocforperiod","hidden","000",11,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+  
+        sxVatDocDBFields[50] = new EntityDBFields("sxvatdocforperiod","f310","310",12,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                    
+        sxVatDocDBFields[51] = new EntityDBFields("sxvatdocforperiod","hidden","000",12,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[52] = new EntityDBFields("sxvatdocforperiod","f411","411",12,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo428,"");                                                    
+        sxVatDocDBFields[53] = new EntityDBFields("sxvatdocforperiod","hidden","000",12,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
         
+        sxVatDocDBFields[54] = new EntityDBFields("sxvatdocforperiod","f311","311",13,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                    
+        sxVatDocDBFields[55] = new EntityDBFields("sxvatdocforperiod","hidden","000",13,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[56] = new EntityDBFields("sxvatdocforperiod","f422","422",13,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo428,"");                                                    
+        sxVatDocDBFields[57] = new EntityDBFields("sxvatdocforperiod","f428","428",13,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+         
+        sxVatDocDBFields[58] = new EntityDBFields("sxvatdocforperiod","f312","312",14,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                    
+        sxVatDocDBFields[59] = new EntityDBFields("sxvatdocforperiod","hidden","000",14,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[60] = new EntityDBFields("sxvatdocforperiod","f423","423",14,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo428,"");                                                    
+        sxVatDocDBFields[61] = new EntityDBFields("sxvatdocforperiod","hidden","000",14,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+               
+        sxVatDocDBFields[62] = new EntityDBFields("sxvatdocforperiod","hidden","000",15,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                    
+        sxVatDocDBFields[63] = new EntityDBFields("sxvatdocforperiod","hidden","000",15,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[64] = new EntityDBFields("sxvatdocforperiod","hidden","000",15,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                                                    
+        sxVatDocDBFields[65] = new EntityDBFields("sxvatdocforperiod","f430","430",15,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+ 
+        
+        sxVatDocDBFields[66] = new EntityDBFields("sxvatdocforperiod","f470","470",16,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[67] = new EntityDBFields("sxvatdocforperiod","hidden","000",16,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                                                    
+        sxVatDocDBFields[68] = new EntityDBFields("sxvatdocforperiod","f480","480",16,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+    
+        sxVatDocDBFields[69] = new EntityDBFields("sxvatdocforperiod","f401","401",17,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[70] = new EntityDBFields("sxvatdocforperiod","hidden","000",17,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                                                    
+        sxVatDocDBFields[71] = new EntityDBFields("sxvatdocforperiod","f483","483",17,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+ 
+        sxVatDocDBFields[72] = new EntityDBFields("sxvatdocforperiod","f403","403",18,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[73] = new EntityDBFields("sxvatdocforperiod","hidden","000",18,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                                                    
+        sxVatDocDBFields[74] = new EntityDBFields("sxvatdocforperiod","f505","505",18,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+ 
+        sxVatDocDBFields[75] = new EntityDBFields("sxvatdocforperiod","f404","404",19,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[76] = new EntityDBFields("sxvatdocforperiod","hidden","000",19,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                                                    
+        sxVatDocDBFields[77] = new EntityDBFields("sxvatdocforperiod","hidden","000",19,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+ 
+        sxVatDocDBFields[78] = new EntityDBFields("sxvatdocforperiod","f502","502",20,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  //FIELD_NOT_VISIBLE   //FIELD_VISIBLE_NOT_EDITABLE_ALWAYS               
+        sxVatDocDBFields[79] = new EntityDBFields("sxvatdocforperiod","hidden","000",20,"java.lang.String",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                                                    
+        sxVatDocDBFields[80] = new EntityDBFields("sxvatdocforperiod","f511","511",20,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");    //FIELD_NOT_VISIBLE// FIELD_VISIBLE_NOT_EDITABLE_ALWAYS                                                
+ 
+        int intFontSize= 12;
         sxVatDocEntityGroupOfComps[0]= new EntityGroupOfComps("βασικά",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        sxVatDocEntityGroupOfComps[1]= new EntityGroupOfComps("τιμές",8,0,10, GROUP_OF_PANEL_VISIBLE);
-        sxVatDocEntityGroupOfComps[2]= new EntityGroupOfComps("τιμές",8,0,10, GROUP_OF_PANEL_VISIBLE);
-        sxVatDocEntityGroupOfComps[3]= new EntityGroupOfComps("τιμές",8,0,10, GROUP_OF_PANEL_VISIBLE);
-        sxVatDocEntityGroupOfComps[4]= new EntityGroupOfComps("τιμές",8,0,10, GROUP_OF_PANEL_VISIBLE);
-        sxVatDocEntityGroupOfComps[5]= new EntityGroupOfComps("τιμές",8,0,10, GROUP_OF_PANEL_VISIBLE);
-        sxVatDocEntityGroupOfComps[6]= new EntityGroupOfComps("τιμές",8,0,10, GROUP_OF_PANEL_VISIBLE);
-        sxVatDocEntityGroupOfComps[7]= new EntityGroupOfComps("σύνολα",8,0,10, GROUP_OF_PANEL_VISIBLE);
-        //sxVatDocEntityGroupOfComps[2]= new EntityGroupOfComps("-",1,0);        
+        sxVatDocEntityGroupOfComps[1]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[2]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[3]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[4]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[5]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[6]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[7]= new EntityGroupOfComps("σύνολα",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[8]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[9]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[10]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[11]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[12]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[13]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[14]= new EntityGroupOfComps("τιμές",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[15]= new EntityGroupOfComps("σύνολα",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[16]= new EntityGroupOfComps("σύνολα",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[17]= new EntityGroupOfComps("σύνολα",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[18]= new EntityGroupOfComps("σύνολα",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[19]= new EntityGroupOfComps("σύνολα",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+        sxVatDocEntityGroupOfComps[20]= new EntityGroupOfComps("σύνολα",8,0,intFontSize, GROUP_OF_PANEL_VISIBLE);
+               
         
         //---------------------------------------------------
         
@@ -1210,11 +1329,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
 //sxVatDocDBFields[4] = new EntityDBFields("sxvatdocforperiod","vatDocCatId","κατηγορία",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCTypeCat", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
         //sxVatDocDBFields[5] = new EntityDBFields("sxvatdocforperiod","vatForPeriodStartDate","έναρξη περιόδου",0, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
         //sxVatDocDBFields[6] = new EntityDBFields("sxvatdocforperiod","vatForPeriodEndDate","λήξη περιόδου",0, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
-       /*               String queryForHtmlFileDocRead =  "SELECT * FROM sxincomedocdata"+    //  fieldName, fieldValue
-          " WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND dbYearId LIKE "+VariablesGlobal.globalYearId;//+" AND "+strTableDocDataForeignKey+" LIKE "+strTableDocDataForeignKeyValue;// int reportgroup
-        sxIncomeDocDBFields[4] = new EntityDBFields("sxvatdocforperiod","vatDocHtml","περιοδική ΦΠΑ (Φ2)",1,"table",FIELD_VISIBLE_AND_EDITABLE,"sxvatdocforperioddata",sxVatDocDataDBFields,FIELD_OBLIGATORY,queryForHtmlFileDocRead);
-        //sxVatDocDBFields[8] = new EntityDBFields("sxvatdocforperiod","notes","σημειώσεις",2,"java.lang.String",220,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);        
-        */
+
         String[] childTableFieldsForSumsIncomeDoc=null;//{"προ ΦΠΑ","αξία ΦΠΑ","αξία"};
         sxIncomeDocDBFields[4] = new EntityDBFields("sxincomedoc","sxincomedocdata","εισοδήματα",1,"table",FIELD_VISIBLE_AND_EDITABLE,"sxincomedocdata",120,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,sxIncomeDocDataDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM sxincomedocdata WHERE sxincomedocdata.dbYearId LIKE "+VariablesGlobal.globalYearId+" AND sxincomedocdata.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY sxincomedocdata.inc",null,childTableFieldsForSumsIncomeDoc);        
         sxIncomeDocDBFields[5] = new EntityDBFields("sxincomedoc","totalCount","totalCount",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,4,9,DBFIELD_TYPE_OF_SUM_COUNT); 
@@ -1307,7 +1422,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         
         
         myfHeaderDBFields[0] = new EntityDBFields("myfheader","myfHeaderId","Νο ΜΥΦ",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
-        myfHeaderDBFields[1] = new EntityDBFields("myfheader","myfTitle","ονομασία",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");   
+        myfHeaderDBFields[1] = new EntityDBFields("myfheader","myfTitle","περιγραφή",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");   
         myfHeaderDBFields[2] = new EntityDBFields("myfheader","myfForPeriodStartDate","ημερομηνία έναρξης περιόδου",0,"java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  
         myfHeaderDBFields[3] = new EntityDBFields("myfheader","myfForPeriodEndDate","ημερομηνία λήξης περιόδου",0,"java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  
         
@@ -1478,7 +1593,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
   {
       
      //------------------------------------------------------------
-        EntityFilterSettings[] esoexoErs = new EntityFilterSettings[10];       
+        EntityFilterSettings[] esoexoErs = new EntityFilterSettings[11];       
         esoexoErs[0]=new EntityFilterSettings("χρήση","checkboxTable","string","","dbYearId","dbyear","sxesoexoheader",/*VariablesGlobal.globalYearId*/"",-1,-1,-1,FIELD_NOCOMPLETION);
         esoexoErs[1]=new EntityFilterSettings("αριθ. παρ/κού","","string","equals","esoexoCodeOfDocument","sxesoexoheader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         esoexoErs[2]=new EntityFilterSettings("τύπος","checkboxTable","string","","sxActionTypeId","sxactiontype","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
@@ -1487,10 +1602,11 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         esoexoErs[5]=new EntityFilterSettings("ημερομηνία","","date","fromto","dateOfEsoexo","","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
         //saleErs[6]=new EntityFilterSettings("ποσότητα","","double","fromto","quantityTotal","","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
         esoexoErs[6]=new EntityFilterSettings("τελική τιμή","","double","fromto","priceTotal","","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
-        esoexoErs[7]=new EntityFilterSettings("κωδ. λογαρ.","","string","equals","accountCode","sxaccount",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-        esoexoErs[8]=new EntityFilterSettings("ονομασία λογ.","","string","equals","accountDescr","sxaccount",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        esoexoErs[7]=new EntityFilterSettings( "τύποι ΜΥΦ","checkboxTable","string","","myfCatId","sxmyftype","sxactiontype","",-1,-1,-1,FIELD_NOCOMPLETION);
+        esoexoErs[8]=new EntityFilterSettings("κωδ. λογαρ.","","string","equals","accountCode","sxaccount",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        esoexoErs[9]=new EntityFilterSettings("ονομασία λογ.","","string","equals","accountDescr","sxaccount",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         //accountErs[2]=new EntityFilterSettings("τύπος","checkboxTable","string","","accountCatId","accountcat","sxaccount","",-1,-1,-1,FIELD_NOCOMPLETION);
-        esoexoErs[9]=new EntityFilterSettings("ΦΠΑ λογ.","checkboxTable","string","","vatCatId","vatcat","sxaccount","",-1,-1,-1,FIELD_NOCOMPLETION);        
+        esoexoErs[10]=new EntityFilterSettings("ΦΠΑ λογ.","checkboxTable","string","","vatCatId","vatcat","sxaccount","",-1,-1,-1,FIELD_NOCOMPLETION);        
         
        EntityGroupOfComps[] esoexoEntityGroupOfComps = null;
         
@@ -1501,7 +1617,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         // sxtrader.traderId AS \"Νο πελάτη\", 
                 
         //EntityInfo pg = new EntityInfo("sxesoexoheader", "SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\",  sxactiontype.actionTypeCode AS \"τύπος παραστατικού\", sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.dateOfEsoexo AS \"ημερομηνία\", sxesoexoheader.traderId, sxtrader.title AS \"συναλλασσόμενος\", COUNT(esoexoline.inc) AS \"πλήθος\", SUM(esoexoline.priceBeforeVat)AS \"προ ΦΠΑ\",SUM(esoexoline.vatValue)AS \"ΦΠΑ\", SUM(esoexoline.valueWithVat)AS \"τελική τιμή\" FROM sxesoexoheader LEFT JOIN esoexoline ON sxesoexoheader.esoexoheaderId = esoexoline.esoexoheaderId , sxtrader, sxactiontype WHERE sxesoexoheader.traderId = sxtrader.traderId AND actionType.sxActionTypeId = sxesoexoheader.sxActionTypeId AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxtrader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND actionType.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" GROUP BY sxesoexoheader.esoexoheaderId ORDER BY sxesoexoheader.dateOfEsoexo, sxesoexoheader.esoexoheaderId"  ,"SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxesoexoheader.sxActionTypeId , sxesoexoheader.salCodeNo, sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.dateOfEsoexo, sxesoexoheader.traderId, sxesoexoheader.wayOfPayment","FROM sxesoexoheader","WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId ,null,fieldsForSumsSale,esoexoHeaderDBFields,"πωλήσεις","DORM","","Νο εσόδων εξόδων","esoexoheaderId",saleErs,esoexoEntityGroupOfComps,"εσόδων εξόδων","πωλήσεων",strSaleCategories,entityPanelEsex,fieldsOnTitleEsex,fieldsOnTitleCaptionEsex,saleFieldsOrderby,-1,-1,globalYearPlusOne);    AND sxesoexoheader.dbYearId in ("+VariablesGlobal.globalYearId+")
-        EntityInfo pg = new EntityInfo("sxesoexoheader", "SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxactiontype.actionTypeCode AS \"τύπος\", sxactiontype.myfCatId AS myf, sxesoexoheader.esoexoCodeOfDocument AS \"αριθ. παρ.\", sxesoexoheader.dateOfEsoexo AS \"ημερομηνία\", sxesoexoheader.comments AS \"αιτιολογία\" ,sxtrader.vatNo AS \"Α.Φ.Μ.\",  sxtrader.title AS \"συναλλασσόμενος\", sxesoexoheader.countTotal AS \"πλήθος\", sxesoexoheader.pricePreVat AS \"προ ΦΠΑ\",sxesoexoheader.priceVat AS \"ΦΠΑ\", sxesoexoheader.priceTotal AS \"σύνολο μετά ΦΠΑ\",sxesoexoheader.isTemplate  "
+        EntityInfo pg = new EntityInfo("sxesoexoheader", "SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxactiontype.actionTypeCode AS \"τύπος\", sxactiontype.myfCatId AS \"ΜΥΦ\", sxesoexoheader.esoexoCodeOfDocument AS \"αριθ. παρ.\", sxesoexoheader.dateOfEsoexo AS \"ημερομηνία\", sxesoexoheader.comments AS \"αιτιολογία\" ,sxtrader.vatNo AS \"Α.Φ.Μ.\",  sxtrader.title AS \"συναλλασσόμενος\", sxesoexoheader.countTotal AS \"πλήθος\", sxesoexoheader.pricePreVat AS \"προ ΦΠΑ\",sxesoexoheader.priceVat AS \"ΦΠΑ\", sxesoexoheader.priceTotal AS \"σύνολο μετά ΦΠΑ\",sxesoexoheader.isTemplate  "
              //   + " FROM sxaccount, sxactiontype RIGHT JOIN sxesoexoheader ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId LEFT JOIN sxtrader ON sxesoexoheader.traderId = sxtrader.traderId INNER JOIN sxesoexoline ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "
              //   + " WHERE sxesoexoheader.dbCompanyId = sxactiontype.dbCompanyId AND  sxesoexoheader.dbCompanyId = sxesoexoline.dbCompanyId AND sxaccount.accountId = sxesoexoline.accountId AND sxesoexoheader.isTemplate = sxesoexoline.isTemplate AND sxesoexoheader.isTemplate='0' AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY sxesoexoheader.dateOfEsoexo, sxesoexoheader.esoexoheaderId"  ,"SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxesoexoheader.sxActionTypeId , sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.dateOfEsoexo, sxesoexoheader.traderId, sxesoexoheader.wayOfPayment","FROM sxesoexoheader","WHERE sxesoexoheader.isTemplate ='0' AND dbCompanyId LIKE "+VariablesGlobal.globalCompanyId ,null,fieldsForSumsSale,"εγγραφές εσόδων εξόδων","DORM","","Νο εσόδων εξόδων","esoexoheaderId",/*"sxactiontype"/*formGlobalTable1*//*,"sxaccount"/*formGlobalTableToApply1*//*"sxActionTypeId"*//*this table, formGlobalField1,*/esoexoErs,esoexoEntityGroupOfComps,"εσόδων εξόδων","εσόδων εξόδων",strSaleCategories,entityPanelEsex,fieldsOnTitleEsex,fieldsOnTitleCaptionEsex,saleFieldsOrderby,5/*AFM column*/,FIELD_VALIDATION_AFM,entReportEsExDoc,globalYearPlusOne);
 
@@ -2550,13 +2666,13 @@ boolean[] boolSettingsesoexoheader = {true,true,true,true};
         //sca[0] = new EntityStatistics("statMYF","myf","ΜΥΦ","SELECT dbyear.dbyear, COUNT(invoice.date) AS count, SUM(invoice.value) AS sum,SUM(invoice.valueReturn) AS sumret, AVG(invoice.value) AS average","FROM dbyear, invoice","WHERE dbyear.dbyear=invoice.dbyear AND dbyear.dbCompanyId=invoice.dbCompanyId","GROUP BY dbyear.dbyear","ORDER BY dbyear.dbyear",true,"dbyear.dbCompanyId",false,null,null,null,null,null,null);
 
         EntityFilterSettings[] myfErs = new EntityFilterSettings[1];       
-        myfErs[0]=new EntityFilterSettings("ονομασία","","string","equals","myfTitle","myfheader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        myfErs[0]=new EntityFilterSettings("περιγραφή","","string","equals","myfTitle","myfheader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         //myfErs[1] = new EntityFilterSettings("χρήση","checkboxTable","string","","dbYearId","dbyear","myfheader",VariablesGlobal.globalYearId,-1,-1,-1,FIELD_NOCOMPLETION);       
 // myfErs[1]=new EntityFilterSettings("ημερομηνία","","date","fromto","vatForPeriodStartDate","","sxvatdocforperiod","",-1,-1,-1,FIELD_NOCOMPLETION);
        int[] myfHeaderFieldsOrderby ={1};
        String[] fieldsForSumsMyfHeader=null;
         //EntityStatistics sb = new EntityStatistics("invoicesperyear","invoice","παραστατικά ανα χρήση","SELECT dbyear.dbyear, COUNT(invoice.date) AS count, SUM(invoice.value) AS sum,SUM(invoice.returnValue) AS sumret, AVG(invoice.value) AS average","FROM dbyear, invoice","WHERE dbyear.dbyear=invoice.dbyear AND dbyear.dbCompanyId=invoice.dbCompanyId","GROUP BY dbyear.dbyear","ORDER BY dbyear.dbyear",true,"dbyear.dbCompanyId",false,null,null,null);
-        EntityParameter pm = new EntityParameter("myfheader", "SELECT myfHeaderId AS \"Νο ΜΥΦ\", dbCompanyId,  dbYearId,  myfForPeriodStartDate, myfForPeriodEndDate , myfTitle, dateSave, count1 AS \"πωλήσεις\", count2 AS \"πωλ. λιανικής\", count3 AS \"αγορές-δαπάνες\", count4 AS \"λοιπές δαπάνες\" FROM myfheader WHERE  myfheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" AND myfheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT myfHeaderId, dbCompanyId,  dbYearId,  myfForPeriodStartDate, myfForPeriodEndDate, myfTitle, dateSave","FROM myfheader","WHERE myfheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" AND myfheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsMyfHeader,myfHeaderDBFields ,"καταστάσεις ΜΥΦ","DORM","Νο ΜΥΦ","myfheaderId",myfErs,null,"της ΜΥΦ", "των ΜΥΦ",entityPanelMyfHeader,null,fieldsOnTitleMyfHeader,fieldsOnTitleCaptionMyfHeader,myfHeaderFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityParameter pm = new EntityParameter("myfheader", "SELECT myfHeaderId AS \"Νο ΜΥΦ\", dbCompanyId,  dbYearId, myfTitle AS \"περιγραφή\", myfForPeriodStartDate, myfForPeriodEndDate , dateSave, count1 AS \"πωλήσεις\", count2 AS \"πωλ. λιανικής\", count3 AS \"αγορές-δαπάνες\", count4 AS \"λοιπές δαπάνες\" FROM myfheader WHERE  myfheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" AND myfheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT myfHeaderId, dbCompanyId,  dbYearId,  myfForPeriodStartDate, myfForPeriodEndDate, myfTitle, dateSave","FROM myfheader","WHERE myfheader.dbYearId LIKE "+VariablesGlobal.globalYearId+" AND myfheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsMyfHeader,myfHeaderDBFields ,"καταστάσεις ΜΥΦ","DORM","Νο ΜΥΦ","myfheaderId",myfErs,null,"της ΜΥΦ", "των ΜΥΦ",entityPanelMyfHeader,null,fieldsOnTitleMyfHeader,fieldsOnTitleCaptionMyfHeader,myfHeaderFieldsOrderby,-1,-1,globalYearPlusOne);
         EntityMenu empm = new EntityMenu();
         //empm.setEntityStatistics(pm,ICO_REPORTDOCUMENT);
         empm.setEntityParameter(pm,ICO_REPORTDOCUMENT);
