@@ -1283,7 +1283,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
      String[] lookUpFieldRoleDescr={"roleDescr"};
      //String[] lookUpFieldLabelPaymentType={"είδος παραστατικού","συντομογραφία",null};
      entities.add(entityLookUp = new EntityLookUp("dbuserrole","dbuserrole","SELECT userRoleId AS\"Νο ρόλου\" ,roleDescr AS\"περιγραφή\", isAccountant, lookupconstants.name FROM dbuserrole INNER JOIN lookupconstants ON dbuserrole.isAccountant = lookupconstants.lookupconstantsId ","WHERE lookupconstants.constantstypeId = 10","","ORDER BY roleDescr","","userRoleId","Νο ρόλου","userRoleId"," Νο ρόλου",2,lookUpFieldRoleDescr,"ρόλος",10,"java.lang.String",0,null,null,0,null,null,dbUserRolesQueryEditable,"ρόλου","ρόλων",null,dbUserRolesEntityPanel,dbUserRolesFieldsOnTitle, dbUserRolesFieldsOnTitleCaption,null,2,1,null,true,-1,-1,null)); 
-     //entities.add(entityLookUp = new EntityLookUp("paymenttype","SELECT paymentTypeId AS\"Νο τύπου παρ/κού\",paymentTypeName AS\"ονομασία τύπου παρ/κού\", abbreviation AS\"συντομογραφία\" FROM paymenttype","ORDER BY paymentTypeName","paymentTypeId","Νο τύπου παρ/κού",2,lookUpFieldPaymentType,"είδος παραστατικού",0,null,null,0,null,null,paymenttypeQueryEditable,"τύπου παραστατικού","τύπων παραστατικού",null,entityPanelPaymentType,fieldsOnTitlePaymentType, fieldsOnTitleCaptionPaymentType,null,2,1,null,true,-1,-1)); 
+    
 
 
 
@@ -1292,10 +1292,12 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
    
      //int[] lookUpFieldIndexPaymentType ={2,3,0};     
    
-     //int[] lookUpFieldIndexPaymentType ={2,3,0};     
-//     String[] lookUpFieldCurrency={"name"};
-//     entities.add(entityLookUp = new EntityLookUp("currency","currency","SELECT currencyId AS \"Νο νομίσματος\",name AS \"ονομασία\" FROM currency","WHERE currency.active LIKE 1","AND currency.active LIKE 1","ORDER BY currencyId","currencyId","Νο νομίσματος","currencyId","ονομασία",2,lookUpFieldCurrency,"νομίσματος",8,"java.lang.String",0,null,null,0,null,null,currencyQueryEditable,"του νομίσματος","νομισμάτων",null,entityPanelCurrency,fieldsOnTitleCurrency, fieldsOnTitleCaptionCurrency,null,2,1,null,true,-1,-1,null));	
+     //int[] lookUpFieldIndexPaymentType ={2,3,0};    
      
+          String[] lookUpFieldCurrency={"name"};
+     entities.add(entityLookUp = new EntityLookUp("currency","currency","SELECT currencyId AS \"Νο νομίσματος\",name AS \"ονομασία\" FROM currency","WHERE currency.active LIKE 1","AND currency.active LIKE 1","ORDER BY currencyId","","currencyId","Νο νομίσματος","currencyId","ονομασία",2,lookUpFieldCurrency,"νομίσματος",8,"java.lang.String",0,null,null,0,null,null,currencyQueryEditable,"του νομίσματος","νομισμάτων",null,entityPanelCurrency,fieldsOnTitleCurrency, fieldsOnTitleCaptionCurrency,null,2,1,null,true,-1,-1,null));	
+     
+   
       //int[] lookUpFieldIndexPaymentType ={2,3,0};     
 //     String[] lookUpFieldDelivery={"description"};    // deliveryId
 //     entities.add(entityLookUp = new EntityLookUp("dbdelivery","dbdelivery","SELECT deliveryId AS \"Νο αποστολής\", description  AS \"περιγραφή\" FROM dbdelivery","","","ORDER BY deliveryId","deliveryId","Νο αποστολής","deliveryId","αποστολής",2,lookUpFieldDelivery,"Νο αποστολής",8,"java.lang.String",0,null,null,0,null,null,dbDeliveryQueryEditable,"αποστολής","αποστολών",null,entityPanelDbDelivery,fieldsOnTitleDbDelivery,fieldsOnTitleCaptionDbDelivery,null,-1,1,ICO_PAPER,true,-1,-1,null));      	 	
