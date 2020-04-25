@@ -236,6 +236,53 @@ import javax.swing.event.*;
        intSizeOfTextBox=13;  
        intSizeOfTextBoxKey=5;
      }
+     else if(calledFromPanel==PANEL_FILTER_CALCULATE_DIALOG)
+     {     // is like  PANEL_FILTER_REPORT
+       panelReportFilters.setLayout(new GridLayoutVariable(GridLayoutVariable.FIXED_NUM_COLUMNS, 4));
+       if(entityGroupOfComps!=null)
+       {
+       	 
+        	JxPanel panelHolder = new JxPanel();
+        	panelHolder.setOpaque(false);
+        	GridLayoutVariable layout1 = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 1);
+        	panelHolder.setLayout(layout1);
+        	//System.out.println("PanelODORData.setEntity fields "+fields.length+" "+groupOfComps.length);
+        	
+        	 for(int gc=0;gc<entityGroupOfComps.length;gc++)
+        	 {
+        	 	 if(entityGroupOfComps[gc]==null)
+        	 	 {
+        	 	 	System.out.println("error PanelODORData.setEntity entityGroupOfComps is "+entityGroupOfComps[gc]);
+        	 	 }
+        	 	 
+        	 	 JxPanel panelGroup = new JxPanel();
+        	 	 
+        	 	 GridLayoutVariable layoutGroup = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, entityGroupOfComps[gc].getColumnsOfObjects());
+        	 	 panelGroup.setLayout(layoutGroup);
+        	 	 
+        	 	// PanelCollapsable panelCollapsable = new PanelCollapsable(panelGroup,entityGroupOfComps[gc].getCaption(),true);
+        	 	  //panelGroup.setBorder(new TitledBorder(new MatteBorder(1,0,0,0,this.getBackground().brighter()),entityGroupOfComps[gc].getCaption()));  // CLR_PANEL_BORDER
+          
+                          //  below is the only change
+                	 //	 panelGroup.setBorder( new TitledBorder(BorderFactory.createTitledBorder(lineBorder, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       
+                 panelGroup.setBorder( new TitledBorder(BorderFactory.createTitledBorder(null, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       	 	 
+           
+                 listPanelGroups.add(panelGroup);
+        	 	 panelHolder.add(panelGroup);
+        	 }
+       	  
+       	  panelMain.add(panelHolder);
+       }
+       else
+       {
+       	    //panelReportFilters.setBorder(new TitledBorder("φίλτρα εγγραφών")); 
+            panelReportFilters.setBorder( new TitledBorder(BorderFactory.createTitledBorder(null, "φίλτρα εγγραφών",TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       
+             //panelReportFilters.setBorder(new TitledBorder(new MatteBorder(1,0,0,0,this.getBackground().brighter()),"φίλτρα εγγραφών"));  // CLR_PANEL_BORDER
+       	    panelMain.add(panelReportFilters); 
+       }         
+        intSizeOfTextBox=16;
+       intSizeOfTextBoxKey=  5;	
+     }     
      else
      {
      	System.out.println("PanelDataFilter.setEntity calledFromPanel "+calledFromPanel);
@@ -883,7 +930,7 @@ import javax.swing.event.*;
                                 panelFilterLabel.add(lblTo);
                                 panelFilterSetting.add(txtdate2.getComponent());
                             }
-                                    else if(calledFromPanel==PANEL_FILTER_REPORT)
+                            else if(calledFromPanel==PANEL_FILTER_REPORT)
                             {             
                                    panelFilterLabel.add(lblFilterSetting);
         		           lblTo.setText("ως:");
@@ -892,6 +939,15 @@ import javax.swing.event.*;
         		            panelFilterSetting.add(lblTo);
         		           panelFilterSetting.add(txtdate2.getComponent());
                           }
+                          else if(calledFromPanel==PANEL_FILTER_CALCULATE_DIALOG)
+                          {        // is like PANEL_FILTER_REPORT
+                                                                 panelFilterLabel.add(lblFilterSetting);
+        		           lblTo.setText("ως:");
+                                   panelFilterSetting.add(btnDatePeriodListMenu);//           txtdate
+        		            panelFilterSetting.add(txtdate.getComponent());
+        		            panelFilterSetting.add(lblTo);
+        		           panelFilterSetting.add(txtdate2.getComponent());
+                          }                                        
                           else
                           {
      	                         System.out.println("PanelDataFilter.setEntity calledFromPanel "+calledFromPanel);

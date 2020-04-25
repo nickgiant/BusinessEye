@@ -182,7 +182,9 @@ public class EntityDataEsoExo extends EntityData implements Constants
         
         EntityFilterSettings[] eCalculateFilterVatDoc = new EntityFilterSettings[2];       
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-        EntityGroupOfComps[] entityGroupOfFilterCompsVatDoc = null; // if not null creates tabs, and nothing is shown
+        EntityGroupOfComps[] entityGroupOfFilterCompsVatDoc = new EntityGroupOfComps[1]; // if not null creates tabs, and nothing is shown
+        // entityGroupOfFilterCompsVatDoc[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+         
         String [] sqlQueryTableCalcVatDoc = new String[1];  
              String fieldVatDocPreffix ="f" ;
              String[] arrayFieldVatDocAndValue1 = {"sxaccount.vatDocCode","sumpre"};
@@ -258,7 +260,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
         
         EntityFilterSettings[] eCalculateFilterMyf = new EntityFilterSettings[2];       
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-        EntityGroupOfComps[] entityGroupOfFilterCompsMyf = null; // if not null creates tabs, and nothing is shown
+        EntityGroupOfComps[] entityGroupOfFilterCompsMyf = new EntityGroupOfComps[1]; // if not null creates tabs, and nothing is shown
         String [] sqlQueryTableCalcMyf = new String[4]; 
               String fieldMyfPreffix ="" ;
              String[] arrayFieldMyfAndValue1 = null;
@@ -440,9 +442,12 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
        //System.out.println("EntityData"+entityPaneltrader[0].getType());
 
        
-    eCalculateFilterMyf[0]=new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",-1,-1,-1,FIELD_OBLIGATORY);
-    eCalculateFilterMyf[1]=new EntityFilterSettings( "τύποι ΜΥΦ","checkboxTable","string","","lookupconstantsId","sxmyftype","lookupconstants","",-1,-1,-1,FIELD_NOCOMPLETION);
-               sqlQueryTableCalcMyf[0] = "SELECT sxtrader.vatNo AS 'ΑΦΜ',  sxtrader.title AS 'συναλλασσόμενος', sxactiontype.isCredit AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
+    eCalculateFilterMyf[0]=new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",0,-1,-1,FIELD_OBLIGATORY);
+    eCalculateFilterMyf[1]=new EntityFilterSettings( "τύποι ΜΥΦ","checkboxTable","string","","lookupconstantsId","sxmyftype","lookupconstants","",0,-1,-1,FIELD_NOCOMPLETION);
+         
+    entityGroupOfFilterCompsMyf[0] = new EntityGroupOfComps("φίλτρα εγγραφών εσόδων εξόδων",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+    
+         sqlQueryTableCalcMyf[0] = "SELECT sxtrader.vatNo AS 'ΑΦΜ',  sxtrader.title AS 'συναλλασσόμενος', sxactiontype.isCredit AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
@@ -519,10 +524,11 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
 
 
 //-----------------------------------------------------------calc vat doc
-        eCalculateFilterVatDoc[0] = new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",-1,-1,-1,FIELD_OBLIGATORY);     
-        eCalculateFilterVatDoc[1]=new EntityFilterSettings( "τύποι παραστατικού","checkboxTable","string","","sxactionTypeId","sxactiontype","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
+        eCalculateFilterVatDoc[0] = new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",0,-1,-1,FIELD_OBLIGATORY);     
+        eCalculateFilterVatDoc[1]=new EntityFilterSettings( "τύποι παραστατικού","checkboxTable","string","","sxactionTypeId","sxactiontype","sxesoexoheader","",0,-1,-1,FIELD_NOCOMPLETION);
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-        EntityGroupOfComps[] entityGroupOfFilterCompsVatDoc = null; // if not null creates tabs, and nothing is shown
+        //EntityGroupOfComps[] entityGroupOfFilterCompsVatDoc = new EntityGroupOfComps[1]; // if not null creates tabs, and nothing is shown
+                entityGroupOfFilterCompsVatDoc[0] = new EntityGroupOfComps("φίλτρα εγγραφών εσόδων εξόδων",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         sqlQueryTableCalcVatDoc[0] =  "SELECT sxaccount.vatDocCode, sxaccount.vatDocCodeVat, sxesoexoheader.dateOfesoexo, COUNT(sxesoexoLine.priceBeforeVat) AS cnt, SUM(sxesoexoLine.priceBeforeVat) AS sumpre,  SUM(sxesoexoLine.vatValue) AS sumvat, "
                         + "SUM(sxesoexoLine.valueWithVat) AS sumtotal "
                         + "FROM sxaccount,sxesoexoheader, sxesoexoline "

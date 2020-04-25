@@ -1565,7 +1565,7 @@ import javax.swing.text.JTextComponent;
          
          
                 PanelDataFilter pnlDataFilter = new PanelDataFilter(frame);
-                pnlDataFilter.setEntity(entityCalculate.getEntityFilterSettings(), entityCalculate.getEntityGroupOfComps(), PANEL_FILTER_SEARCH, /*entityCalculate.getYearEnforce(),*/ panelManagement);
+                pnlDataFilter.setEntity(entityCalculate.getEntityFilterSettings(), entityCalculate.getEntityGroupOfComps(), PANEL_FILTER_CALCULATE_DIALOG, /*entityCalculate.getYearEnforce(),*/ panelManagement);
 
                DialogMulti dlgFilter = new DialogMulti(frame);
                 dlgFilter.setEntity(pnlDataFilter,PANEL_TYPE_CALCULATIONDOCFILTER,entityCalculate.getCaption(),true);
