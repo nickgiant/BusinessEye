@@ -1,4 +1,3 @@
- // created 04-02-2010
 // http://www.coderanch.com/t/341737/Swing-AWT-SWT-JFace/java/Expand-Collapse-Panels
  
  package com.tool.guicomps;
@@ -19,7 +18,8 @@ public class PanelCollapsable extends JxPanel implements Constants
     //BufferedImage open, closed;
     //Rectangle target;
     JButtonSlideDecorated btnShow;
-    JSlidingPanel panelToContainOtherPanels;
+//    JSlidingPanel panelToContainOtherPanels
+        JxPanel panelToContainOtherPanels;
     JLabel lblTitle;
     //JScrollPane scrollContainOther;
     JxPanel panelContained;
@@ -45,7 +45,7 @@ public class PanelCollapsable extends JxPanel implements Constants
         this.setLayout(new BorderLayout());
         showPanel=showPanelIn;
         lblTitle =new JLabel();
-        Font fnt = new Font (lblTitle.getFont().getName(), Font.PLAIN,lblTitle.getFont().getSize()+1);//Font(String name, int style, int size) 
+        Font fnt = new Font (lblTitle.getFont().getName(), Font.BOLD,lblTitle.getFont().getSize()+1);//Font(String name, int style, int size) 
         
 
         
@@ -105,14 +105,32 @@ public class PanelCollapsable extends JxPanel implements Constants
        {
           panelButtons.add(panelTitleButtons);	
        }
+       else
+       {
+           
+      
+           
+           
+       }
        
+       
+         
+       /* JButtonSlideDecorated btn = new JButtonSlideDecorated();
+        btn.setFocusable(false);
+        //btnShow.setIconTextGap(0);
+        //btnShow.setMargin(new Insets(1, 2, 1, 2));
+        btn.setPreferredSize(new Dimension(20,19));// width, height
+       
+       panelButtons.add(btn);*/
        panelButtons.add(btnShow);
        
         //JPanel panelTitle = new JPanel();
-        PanelGradient panelTitle = new PanelGradient(colorPanelGradientEnd,colorPanelGradientStart,50);//(this.getBackground().brighter().brighter(), this.getBackground().darker(),23);
+        PanelGradient panelTitle = new PanelGradient(colorPanelGradientEnd,colorPanelGradientStart,19);//(this.getBackground().brighter().brighter(), this.getBackground().darker(),23);
         //panelTitle.setSize(new Dimension(12,12));
         panelTitle.setLayout(new BorderLayout());
-        panelToContainOtherPanels = new JSlidingPanel();
+        //panelTitle.setPreferredSize(new Dimension(panelTitle.getWidth(), 21));
+//        panelToContainOtherPanels = new JSlidingPanel();
+        panelToContainOtherPanels = new JxPanel();
         panelToContainOtherPanels.setBorder(BorderFactory.createLineBorder(CLR_PANEL_CARD_BORDER));  
         
         //LineBorder line = new LineBorder(CLR_PANEL_BORDER, 2, true);
@@ -126,6 +144,7 @@ public class PanelCollapsable extends JxPanel implements Constants
 
 
     	lblTitle.setText("    "+title);
+        lblTitle.setForeground(CLR_PANEL_BORDER);
     	//showPanel = show;
     	//panelContained= panel;
     	//panelToContainOtherPanels.add(panelContained,BorderLayout.CENTER);
@@ -133,8 +152,13 @@ public class PanelCollapsable extends JxPanel implements Constants
         panelTitle.add(lblTitle,BorderLayout.LINE_START);
         panelTitle.add(panelButtons,BorderLayout.LINE_END);
 
-        panelToContainOtherPanels.setComponent1(panelTitle);
-		panelToContainOtherPanels.setComponent2(panelContained);
+//        panelToContainOtherPanels.setComponent1(panelTitle);
+//	panelToContainOtherPanels.setComponent2(panelContained);
+
+
+        panelToContainOtherPanels.setLayout(new BorderLayout());
+        panelToContainOtherPanels.add(panelTitle, BorderLayout.PAGE_START);
+        panelToContainOtherPanels.add(panelContained,BorderLayout.CENTER);
 
         //this.add(panelTitle, BorderLayout.PAGE_START);
         this.add(panelToContainOtherPanels, BorderLayout.CENTER);
@@ -145,14 +169,17 @@ public class PanelCollapsable extends JxPanel implements Constants
     {
 
     	//showPanel = !showPanel;
-    	if(show)
+         panelToContainOtherPanels.getComponent(1).setVisible(show);
+        
+    	/*if(show)
     	{
-           panelToContainOtherPanels.showComponent();
+                      panelToContainOtherPanels.showComponent();
     	}
     	else
     	{
-           panelToContainOtherPanels.hideComponent();    		
-    	}
+
+               panelToContainOtherPanels.hideComponent();    		
+    	}*/
  
 
            //getParent().validate();
@@ -164,7 +191,8 @@ public class PanelCollapsable extends JxPanel implements Constants
     {
     	if(showPanel)
     	{
-    	   panelToContainOtherPanels.showComponentWhenGuiLoaded();
+             panelToContainOtherPanels.getComponent(1).setVisible(showPanel);
+ //   	   panelToContainOtherPanels.showComponentWhenGuiLoaded();
            //getParent().validate();
            revalidate();        
            repaint();     		

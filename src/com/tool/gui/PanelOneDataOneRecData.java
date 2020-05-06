@@ -66,7 +66,7 @@ import org.xml.sax.SAXException;
     private DatabaseTableMeta databaseTableMeta;
 
     private JPanel eachDataFieldPanel;
-    private JPanel dataPanel;
+    private JxPanelCollapsable dataPanel;
     private JPanelDecorated panelAllOnIt;
 
     private boolean guiLoaded = false;
@@ -76,6 +76,7 @@ import org.xml.sax.SAXException;
     private ArrayList fieldTxts4 = new ArrayList(); // to hold tb4
     private ArrayList listButtonValid = new ArrayList();
     private ArrayList listPanelGroups= new ArrayList();
+  
     
     private ArrayList fieldTxtsKeyChanged = new ArrayList(); // to hold tb the key
     //private ArrayList listPanelCollapsable;
@@ -489,25 +490,31 @@ int flds = 0;
        if (panelAllOnIt != null)
        { panelAllOnIt.removeAll(); } //erases all components placed during initialization
        
-       
+
+                        
         //this.setLayout(new BorderLayout());//new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
         // listPanelGroups= new ArrayList();
         listPanelGroups.clear();
         if(entityGroupOfComps ==null)
         {
-        	  dataPanel = new JPanel(); //panel that contains all components
-        	  
-   	          dataPanel.setOpaque(false);
+        	  dataPanel = new JxPanelCollapsable(); //panel that contains all components
+        	  dataPanel.setEntityCollapsable(entityPanel.getTitle(), true,CLR_PANEL_END,CLR_PANEL_START,4,SHOW_PANEL_COLLAPSE_NOT,SHOW_BORDER_BTN_ONLY_ONE,entityPanel.getTitle());//CLR_PANEL_START,CLR_PANEL_END);
+   	          
+                  dataPanel.setOpaque(false);
    	          GridLayoutVariable layout = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 4);
    	          dataPanel.setLayout(layout); //public FlowLayout(int alignment,int horizontalGap,int verticalGap)
                   
-                  dataPanel.setBorder(new TitledBorder(new MatteBorder(1,0,0,0,this.getBackground().brighter()))); //  CLR_PANEL_BORDER
-                  panelAllOnIt.add(dataPanel, BorderLayout.PAGE_START);
+                 // dataPanel.setBorder(new TitledBorder(new MatteBorder(1,0,0,0,this.getBackground().brighter()))); //  CLR_PANEL_BORDER
+
         }
         else
         {
-            JPanel panelHolder = new JPanel();
+           
+            JxPanel panelHolder = new JxPanel();
+            
+             
+            
             panelHolder.setOpaque(false);
         	GridLayoutVariable layout1 = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 1);
         	//GridLayout layout1 = new GridLayout(0,1);
@@ -517,28 +524,28 @@ int flds = 0;
         	 {
         	 	 //System.out.println("PanelODORData.setEntity fields "+gc+" "+fields.length+" "+groupOfComps.length+" "+entityGroupOfComps[gc].getColumnsOfObjects());
 
-                 JxPanel panelGroup = new JxPanel();
-        	 	
+                 JxPanelCollapsable panelGroup = new JxPanelCollapsable();
+                  panelGroup.setEntityCollapsable(entityGroupOfComps[gc].getCaption(), true,CLR_PANEL_END,CLR_PANEL_START,entityGroupOfComps[gc].getColumnsOfObjects(),SHOW_PANEL_COLLAPSE_NOT,SHOW_BORDER_BTN_ONLY_ONE,entityGroupOfComps[gc].getCaption());//CLR_PANEL_START,CLR_PANEL_END);
+          	 	
            // 	   panelGroup.setOpaque(false);
            GridLayoutVariable layoutGroup = null;
                 layoutGroup = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, entityGroupOfComps[gc].getColumnsOfObjects());
 
         	 	 
         	 	 panelGroup.setLayout(layoutGroup);
-        	 	 //panelGroup.setBorder(new TitledBorder(entityGroupOfComps[gc].getCaption())); 
                          
-         //         TitledBorder titledBorder = new TitledBorder(javax.swing.BorderFactory.createTitledBorder(null, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER));                // java.awt.Color.red 
-         //         panelGroup.setBorder(titledBorder);                         
      
                int pnlvisible = entityGroupOfComps[gc].getPanelVisible();
                if(pnlvisible==GROUP_OF_PANEL_NOT_VISIBLE)
                {
                   panelGroup.setVisible(false);
                   panelGroup.setPreferredSize(new Dimension(0,0));
+
                }
                else if(pnlvisible==GROUP_OF_PANEL_VISIBLE)
                {
                    panelGroup.setVisible(true);
+                   
                }
                else
                {
@@ -547,19 +554,21 @@ int flds = 0;
                                    int columnCompsFontSize= 8;
                  
                  columnCompsFontSize =  entityGroupOfComps [ gc].getCompsFontSize();
+                
                  
                  
-                 if(columnCompsFontSize == FONT_SIZE_NOT_SET)
+                  if(columnCompsFontSize == FONT_SIZE_NOT_SET)
                   {
                        panelGroup.setOpaque(false);
                        panelGroup.setLayout(layoutGroup);
                        
                        
                   //   CLR_PANEL_BORDER  
-                  TitledBorder lineBorder = javax.swing.BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, this.getBackground().darker()));
-                  TitledBorder titledBorder = new TitledBorder(javax.swing.BorderFactory.createTitledBorder(lineBorder, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER));                // java.awt.Color.red 
-                  panelGroup.setBorder(titledBorder);                         
+                 // TitledBorder lineBorder = javax.swing.BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, this.getBackground().darker()));
+                 // TitledBorder titledBorder = new TitledBorder(javax.swing.BorderFactory.createTitledBorder(lineBorder, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER));                // java.awt.Color.red 
+                // panelGroup.setBorder(titledBorder);                         
                 
+                  
                   // panelGroup.setBorder(new TitledBorder(entityGroupOfComps[gc].getCaption())); 
                   
                   }
@@ -576,26 +585,27 @@ int flds = 0;
                    //Border borderPanel = BorderFactory.createLineBorder(Color.WHITE);//.createLineBorder(CLR_PANEL_BORDER, 1);
                    panelGroup.setBorder(null);
                          
-                   
-                     
                   }
                   
-                  
-                  
-                  
-        	 	 listPanelGroups.add(panelGroup);   
-                  
-        	 	 	        	 	 
+               
+        	 	listPanelGroups.add(panelGroup);   
+	        	 	 
         	 	 if(entityGroupOfCompsIn[gc]!= null && entityGroupOfComps[gc].getIncludedInGroupOfPanels()== intGroupOfPanelsToShow || intGroupOfPanelsToShow==-1)
-        	 	 {        	 	
+        	 	 {
          	        //panelGroup.setVisible(true);
 
+                                   // panelHolder.add(pcl);
+        
+                                  
+                      
+                           // System.out.println("     gc"+gc+"  ");
          	        panelHolder.add(panelGroup);//keep
-        	 
-                  
+             
                          }
         	 	 else
         	 	 {
+                             // System.out.println("..     gc"+gc+"  ");
+
                      //panelGroup.setVisible(false);
         	 	 }
 
@@ -609,8 +619,12 @@ int flds = 0;
           
           utilsDate.readFromFileDateFormats();
 //          utilsDouble.getSettingsFromDb();
-        JxPanel pnlIncludeJTableAsInsideBorderLayoutSizable = new JxPanel();
-        pnlIncludeJTableAsInsideBorderLayoutSizable.setLayout(new BorderLayout());
+        JxPanelCollapsable pnlIncludeJTableAsInsideBorderLayoutSizable = new JxPanelCollapsable();
+       
+        
+        
+        
+        pnlIncludeJTableAsInsideBorderLayoutSizable.setLayout(new BorderLayout());  // must be because it has panel collapsable and the table
         //formatSpec = new JxFormattedTextFieldDate.FormatSpec("__-__-____", "**-**-****");
         //formatSpec = new JxFormattedTextFieldDate.FormatSpec();
           
@@ -1472,7 +1486,10 @@ int flds = 0;
                    {
                     	System.out.println("PanelODORData.setEntity lbl for table UNKNOWN "+columnFieldObligatoryOrSuggest);
                    }	                   
-                   
+
+
+
+
                    
                  if(dbFieldsInGroupOfPanels[i].getChildTableInPosition()==CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL)
                  {
@@ -1480,18 +1497,30 @@ int flds = 0;
                      BorderLayout blayout = new BorderLayout();     
                      eachDataFieldPanel.setLayout(blayout);
                      eachDataFieldPanel.add(pnlODMRData,BorderLayout.CENTER);
+                   //System.out.println("PanelODORData.setEntity -------- ChildTableInPosition ("+i+") a  "+dbFieldsInGroupOfPanels[i].getCaption());
                  }
                  else if(dbFieldsInGroupOfPanels[i].getChildTableInPosition()==CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE)
                  {// if CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE then placed in bottom of form
-                     pnlODMRData.setScrollPaneSize(dbFieldsInGroupOfPanels[i].getChildTableHeight());
-                     pnlIncludeJTableAsInsideBorderLayoutSizable.add(pnlODMRData, BorderLayout.CENTER);
-                     //panelAllOnIt.add(pnlODMRData, BorderLayout.CENTER);
+                    pnlODMRData.setScrollPaneSize(dbFieldsInGroupOfPanels[i].getChildTableHeight());// must be because it has panel collapsable and the table
+              
+                    JxPanelCollapsable pnlIncludeLabelFromJTable = new JxPanelCollapsable(); // must be because it has panel collapsable and the table
+                  String captionOfGroup =  entityGroupOfComps[dbFieldsInGroupOfPanels[i].getGroupOfComps()].getCaption();
+                    pnlIncludeLabelFromJTable.setEntityCollapsable(captionOfGroup, true,CLR_PANEL_END,CLR_PANEL_START,1,SHOW_PANEL_COLLAPSE_NOT,SHOW_BORDER_BTN_ONLY_ONE,captionOfGroup);//CLR_PANEL_START,CLR_PANEL_END);
+                  
+                    // must be because it has panel collapsable and the table
+                     pnlIncludeLabelFromJTable.add( pnlODMRData);// must be because it has panel collapsable and the table
+                     //eachDataFieldPanel.add(pnlODMRData,BorderLayout.CENTER);                    
+ //                    // must be because it has panel collapsable and the table
+                 pnlIncludeJTableAsInsideBorderLayoutSizable.add( pnlIncludeLabelFromJTable, BorderLayout.CENTER);// must be because it has panel collapsable and the table
+                   //  pnlIncludeJTableAsInsideBorderLayoutSizable.add(pnlODMRData, BorderLayout.CENTER);
                      
+                     //panelAllOnIt.add(pnlODMRData, BorderLayout.CENTER);
+                     //System.out.println("PanelODORData.setEntity ------- ChildTableInPosition ("+i+") b  "+dbFieldsInGroupOfPanels[i].getCaption());
                  }
                  else
                  {
                      
-                     System.out.println("PanelODORData.setEntity ChildTableInPosition ("+i+") A' NOT DEFINED:"+dbFieldsInGroupOfPanels[i].getChildTableInPosition()+" "+dbFieldsInGroupOfPanels[i].getCaption());
+                     //System.out.println("PanelODORData.setEntity ------- ChildTableInPosition  ("+i+") c NOT DEFINED:"+dbFieldsInGroupOfPanels[i].getChildTableInPosition()+" "+dbFieldsInGroupOfPanels[i].getCaption());
                  }
 
                    fieldTxts.set(i,pnlODMRData);
@@ -1904,7 +1933,7 @@ int flds = 0;
                  	JPanel panelTextArea =new JPanel(new BorderLayout());
                   	panelTextArea.setOpaque(false);
                        
-                        System.out.println(" ********************************* panelHtmlEditor  i:"+i+"  columnLabel:"+columnLabel+"  columnWidth:"+columnWidth);
+                        //System.out.println("  panelHtmlEditor  i:"+i+"  columnLabel:"+columnLabel+"  columnWidth:"+columnWidth);
                       
                       
                         if(columnWidth>COLWIDTH_FOR_HTML) // like printform html // look also above
@@ -1913,7 +1942,7 @@ int flds = 0;
                          PanelHtmlEditor panelHtmlEditor = new PanelHtmlEditor();
                          panelHtmlEditor.setPreferredSize(new Dimension(670,480));
                    eachDataFieldPanel.add(panelHtmlEditor);
-                   System.out.println(" ********************************* panelHtmlEditor  i:"+i+"  columnLabel:"+columnLabel);
+                   //System.out.println("  panelHtmlEditor  i:"+i+"  columnLabel:"+columnLabel);
                                             
                    /* panelHtmlEditor.addFocusListener(new FocusListener()  
                     {
@@ -1997,36 +2026,7 @@ int flds = 0;
  
               
               
-              
-                JButton btnLoad  = new JButton("φόρτωση φόρμας");
-                btnLoad.setToolTipText("απαραίτητη επιλογή για την προβολή της φόρμας μετά το άνοιγμα");
-       btnLoad.addActionListener(new ActionListener()
-       {       	
-          public void actionPerformed(ActionEvent e)
-          {
-              panelHtmlEditor.setText(textArea.getText());
-              panelHtmlEditor.revalidate();
-              
-                           // finPanelHtmlEditor.setHtmlText(textArea.getText());	
-          }
-       });                     
-                
-                
-               JButton btnSet  = new JButton("εφαρμογή αλλαγών φόρμας");
-               btnSet.setToolTipText("απαραίτητη επιλογή για την εφαρμογή των αλλαγών πριν την αποθήκευση");
-       btnSet.addActionListener(new ActionListener()
-       {       	
-          public void actionPerformed(ActionEvent e)
-          {
-              textArea.setText(panelHtmlEditor.getText());
- 
-                           // finPanelHtmlEditor.setHtmlText(textArea.getText());
-          }
-       });                
-               JxPanel pnlButtons = new JxPanel();
-               pnlButtons.setLayout(new FlowLayout());
-               pnlButtons.add(btnLoad);
-               pnlButtons.add(btnSet);
+           
 
                             
   ///                       JxPanel pnlPreview = new JxPanel();
@@ -2285,62 +2285,66 @@ int flds = 0;
                   	 else
                   	 {
                    // System.out.println("PanelODORData.setEntity "+groupOfComps.length+" "+(i)+" "+groupOfComps[i]);
-      
-                 if(dbFieldsInGroupOfPanels[i].getChildTableInPosition()==CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL)
+       // PanelCollapsable pcl = new PanelCollapsable(panelGroup,pnl, /*"panel first"*/ entityGroupOfComps[gc].getCaption(), true,CLR_PANEL_END,this.getBackground());//,CLR_PANEL_END); //this.getBackground(),
+ 
+                 
+                             
+                if(dbFieldsInGroupOfPanels[i].getChildTableInPosition()==CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL)
                  {
                      
-                  	        JPanel panelGroup = (JPanel)listPanelGroups.get(groupOfComps[i]);
+                  	        JxPanel panelGroup = (JxPanel)listPanelGroups.get(groupOfComps[i]);
                                  //panelGroup.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
                                 // lbl = new JLabel(columnLabel);
                                 lbl.setHorizontalAlignment(SwingConstants.CENTER);
                   	        panelGroup.add(lbl);
                   	        panelGroup.add(eachDataFieldPanel);  
-                                
+                        // System.out.println("PanelODORData.setEntity ChildTableInPosition ("+i+") A' columnDbName:"+columnDbName);        
                          if(isTheOnlyGroupPanelAfterThePanelJTableSizable)
                          {
-                             panelAllOnIt.add(panelGroup,BorderLayout.PAGE_END);// pnlIncludeJTableAsInsideBorderLayoutSizable
-                             isTheOnlyGroupPanelAfterThePanelJTableSizable=false;
+                         //PanelCollapsable pcl = new PanelCollapsable(panelGroup,pnl,  columnLabel, true,CLR_PANEL_END,this.getBackground());//,CLR_PANEL_END); //this.getBackground(),
+                           
+                         //panelAllOnIt.add(pcl,BorderLayout.PAGE_END);//
+                           
+                            panelAllOnIt.add(panelGroup,BorderLayout.PAGE_END);// 
+                             //System.out.println("PanelODORData.setEntity ChildTableInPosition ("+i+") A' IF  columnDbName:"+columnDbName);  
+                            isTheOnlyGroupPanelAfterThePanelJTableSizable=false;
+                            
+                         }
+                         else
+                         {
+                             //System.out.println("PanelODORData.setEntity ChildTableInPosition  NOT defined ("+i+") A' else  columnDbName:"+columnDbName); 
                          }
                                 
-                          
+                         
                  }
                  else if(dbFieldsInGroupOfPanels[i].getChildTableInPosition()==CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE)
                  {// if CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE then placed in bottom of form
-                                 JPanel panelGroup = (JPanel)listPanelGroups.get(groupOfComps[i]);
-                                 //panelGroup.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
+                                 JxPanelCollapsable panelGroup = (JxPanelCollapsable)listPanelGroups.get(groupOfComps[i]);
+                                 
+ 
                                  panelGroup.setLayout(new BorderLayout());
-                  	        panelGroup.add(lbl,BorderLayout.PAGE_START);
+                                 
+                                 
+                    
                                 panelGroup.add(pnlIncludeJTableAsInsideBorderLayoutSizable,BorderLayout.CENTER);
                      
                      panelAllOnIt.add(panelGroup,BorderLayout.CENTER);// pnlIncludeJTableAsInsideBorderLayoutSizable
-                     isTheOnlyGroupPanelAfterThePanelJTableSizable=true;
+                    
+  
+                        
+                         isTheOnlyGroupPanelAfterThePanelJTableSizable=true;
                  }
                  else
                  {
                   	        JPanel panelGroup = (JPanel)listPanelGroups.get(groupOfComps[i]);
                                  //panelGroup.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
-                                 
-                                 
-                     /*if(isVisibleOrEditable[i]==FIELD_NOT_VISIBLE)
-                     {                                 
-                       if(VariablesGlobal.globalFieldIsVisibleWhenSetNotVisible) // do not show
-                       {
-                  	        panelGroup.add(lbl);
-                  	        panelGroup.add(eachDataFieldPanel);                            
-                       } 
-                       else
-                       {
-                      
-                       }                                 
-                     }
-                     else
-                     { */          
+         
                   	        panelGroup.add(lbl);
                   	        panelGroup.add(eachDataFieldPanel); 
-                     //}          
-                     System.out.println("PanelODORData.setEntity ChildTableInPosition ("+i+") B' NOT DEFINED:"+dbFieldsInGroupOfPanels[i].getColClassName()+" "+dbFieldsInGroupOfPanels[i].getChildTableInPosition()+" "+dbFieldsInGroupOfPanels[i].getCaption());
+                            
+                     System.out.println("PanelODORData.setEntity ChildTableInPosition ("+i+") C' NOT DEFINED:"+dbFieldsInGroupOfPanels[i].getColClassName()+" "+dbFieldsInGroupOfPanels[i].getChildTableInPosition()+" "+dbFieldsInGroupOfPanels[i].getCaption());
                  }
-                                
+                               
 	
                   	 }
 
@@ -2355,21 +2359,6 @@ int flds = 0;
           {
              showSpecificRow(selectedRow,query);     // }	
           }     
-
-       //    closeDB();  // not here because rs is used also after insertrow
-           
-  //     guiLoaded=true; // used in DocumentHandler
-           
-//     }// try// try
- //    catch ( SQLException sqlex)
-//     {  // if the error is: Column index out of range then perhaps the LookUp is not registered
-//        System.out.println("error:PanelOneDataOneRecData.setEntity: SQLException if the error is: Column index out of range then perhaps the LookUp is not registered"	+sqlex.getMessage());
-//     }
-
-       //System.out.println("PanelOneDataOneRecData.setEntity   fieldTxts.size():"+fieldTxts.size());
-       // request focus in first textfield  from http://www.rgagnon.com/javadetails/java-0510.html
-       // focus also in rowNew
-        
 
 
    }

@@ -468,7 +468,7 @@ import javax.swing.border.BevelBorder;
             int btnMenuInt=0;
 //            askIfDataChangedToSave();
     //        panelOneDataOneRec.setGuiLoaded(false);
-           System.out.println("PanelEditOneDataRec.addVisibleMenuButtonsAndPanels  +++ entityPanel.length="+entityPanel.length+"  "+entityPanel[0].getSqlOne());
+          System.out.println("PanelEditOneDataRec.addVisibleMenuButtonsAndPanels  +++ entityPanel.length="+entityPanel.length+"  "+entityPanel[0].getSqlOne());
             
             
 

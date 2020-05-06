@@ -92,6 +92,13 @@ public interface Constants
        public static final String CAPTION_IMPORT_DATA = "εισαγωγή δεδομένων";
        public static final String CAPTION_EXPORT_DATA = "εξαγωγή δεδομένων";
       
+       public static final boolean SHOW_PANEL_COLLAPSE_NOT = false;
+       public static final boolean SHOW_PANEL_COLLAPSE = true;
+       
+        public static final int SHOW_BORDER_BTN_NONE = 0;
+        public static final int SHOW_BORDER_BTN_ONLY_ONE = 1;
+       
+       
        
        public static int IS_CALLED_BY_MULTIPLE_TABLES_MDMR = 0;
        public static int IS_CALLED_BY_ONE_TABLE_ODOR = 1;
