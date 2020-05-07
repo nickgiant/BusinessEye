@@ -17,6 +17,8 @@ import java.net.URISyntaxException;
 import javax.swing.*;
  
  import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.TitledBorder;
  
 public class JxPanelCollapsable extends JxPanel implements Constants
 {
@@ -31,7 +33,7 @@ public class JxPanelCollapsable extends JxPanel implements Constants
     JLabel lblTitle;
     //JScrollPane scrollContainOther;
     JxPanel panelContained;
-    PanelGradient panelTitle;
+     JxPanel panelTitle;  //PanelGradient
     JPanel panelTitleButtons;
      JxPanel panelButtons ;
     //final int
@@ -41,9 +43,7 @@ public class JxPanelCollapsable extends JxPanel implements Constants
     public JxPanelCollapsable()
     {
         super();
-        
-
-        
+ 
          panelContained = new JxPanel();
         
       //   panelContained.add(new JLabel("label1hfdh"));
@@ -52,21 +52,16 @@ public class JxPanelCollapsable extends JxPanel implements Constants
         boolean showPanelIn=true;
         Color colorPanelGradientStart =CLR_PANEL_END;
         Color colorPanelGradientEnd =CLR_PANEL_START;
-                                                
-     
+                                                    
         this.addComponentListener(new CompShowListener());
         
         this.setLayout(new BorderLayout());
         showPanel=showPanelIn;
         lblTitle =new JLabel();
-        Font fnt = new Font (lblTitle.getFont().getName(), Font.BOLD,lblTitle.getFont().getSize()+1);//Font(String name, int style, int size) 
-        
+        Font fnt = new Font (lblTitle.getFont().getName(), Font.PLAIN,lblTitle.getFont().getSize()+1);//Font(String name, int style, int size) 
 
-        
         lblTitle.setFont(fnt);
-        //lblTitle.setForeground(CLR_PANEL_BORDER);
-  
- 
+        lblTitle.setOpaque(false);
   
       btnShow = new JButtonSlideDecorated();
         btnShow.setFocusable(false);
@@ -103,27 +98,20 @@ public class JxPanelCollapsable extends JxPanel implements Constants
        panelButtons.setLayout(fl);
        
 
-       
-       
-         
-
-        panelTitle = new PanelGradient(colorPanelGradientEnd,colorPanelGradientStart,19);//(this.getBackground().brighter().brighter(), this.getBackground().darker(),23);
-        //panelTitle.setSize(new Dimension(12,12));
+//       panelTitle = new PanelGradient(colorPanelGradientEnd,colorPanelGradientStart,19);//(this.getBackground().brighter().brighter(), this.getBackground().darker(),23);
+        panelTitle = new JxPanel();
+        
         panelTitle.setLayout(new BorderLayout());
         //panelTitle.setPreferredSize(new Dimension(panelTitle.getWidth(), 21));
 //        panelToContainOtherPanels = new JSlidingPanel();
         panelToContainOtherPanels = new JxPanel();
-        panelToContainOtherPanels.setBorder(BorderFactory.createLineBorder(CLR_PANEL_CARD_BORDER));  
+                
+        panelToContainOtherPanels.setBorder(new TitledBorder(new MatteBorder(1,0,0,0,this.getBackground().darker())));//BorderFactory.createLineBorder(CLR_PANEL_CARD_BORDER));  
          
-
-    	//showPanel = show;
-    	//panelContained= panel;
-    	//panelToContainOtherPanels.add(panelContained,BorderLayout.CENTER);
-
         panelTitle.add(lblTitle,BorderLayout.LINE_START);
         panelTitle.add(panelButtons,BorderLayout.LINE_END);
 
-//        panelToContainOtherPanels.setComponent1(panelTitle);
+//      panelToContainOtherPanels.setComponent1(panelTitle);
 //	panelToContainOtherPanels.setComponent2(panelContained);
 
         panelTitle.add(panelButtons,BorderLayout.LINE_END);
@@ -137,6 +125,12 @@ public class JxPanelCollapsable extends JxPanel implements Constants
  
     }
    
+    
+    public void setHeadTitleVisible(boolean isVisible)
+    {
+        panelTitle.setVisible(isVisible);
+        panelToContainOtherPanels.setBorder(null);
+    }
     
     private void displayBrowserSearchForString(String butShowStrings)
     {
@@ -205,31 +199,15 @@ public class JxPanelCollapsable extends JxPanel implements Constants
         
     }
     
-    
- 
-       
-       
        if(isBtnCollapseVisible)
        {
           panelButtons.add(btnShow);
        }
-       
-        //JPanel panelTitle = new JPanel();*/
-         panelTitle = new PanelGradient(colorPanelGradientEnd,colorPanelGradientStart,19);//(this.getBackground().brighter().brighter(), this.getBackground().darker(),23);
-         //panelTitle.setColors(colorPanelGradientEnd, CLR_TOOLTIP, 19);
-//p     anelTitle.setSize(new Dimension(12,12));
-        panelTitle.setLayout(new BorderLayout());
+
 
         panelToContainOtherPanels = new JxPanel();
-        panelToContainOtherPanels.setBorder(BorderFactory.createLineBorder(CLR_PANEL_CARD_BORDER));  
-        
-        //LineBorder line = new LineBorder(CLR_PANEL_BORDER, 2, true);
-        panelTitle.setBorder(BorderFactory.createLineBorder(CLR_PANEL_CARD_BORDER));        
 
-        
-
-
-    	lblTitle.setText("  -   "+title);
+    	lblTitle.setText("     "+title);
         lblTitle.setForeground(CLR_PANEL_BORDER);
         
          panelContained.setLayout(new GridLayoutVariable(GridLayoutVariable.FIXED_NUM_COLUMNS, colsOfComps));//new GridLayout(0,2));
@@ -242,166 +220,14 @@ public class JxPanelCollapsable extends JxPanel implements Constants
         
         return panelContained.add(comp);
     }
-
-    
-    
-   /* @Override
-    public void setLayout(LayoutManager lm)
-    {
-        panelContained.setLayout(lm);
-    }*/
-    
- /*   public JxPanelCollapsable(JxPanel panelContained,JPanel panelTitleButtons, String title, boolean showPanelIn,Color colorPanelGradientStart, Color colorPanelGradientEnd)
-    {
-
-        
-        this.addComponentListener(new CompShowListener());
-        
-        this.setLayout(new BorderLayout());
-        showPanel=showPanelIn;
-        lblTitle =new JLabel();
-        Font fnt = new Font (lblTitle.getFont().getName(), Font.BOLD,lblTitle.getFont().getSize()+1);//Font(String name, int style, int size) 
-        
-
-        
-        lblTitle.setFont(fnt);
-        //lblTitle.setForeground(CLR_PANEL_BORDER);
   
-  
-       /*JButtonSlideDecorated btnTable = new JButtonSlideDecorated();
-       btnTable.setFocusable(false);
-       btnTable.setIcon(ICO_TABLE16);
-       //btnTable.setMargin(new Insets(1, 2, 1, 2));
-       btnTable.setPreferredSize(new Dimension(20,19));// width, height
-  
-       JButtonSlideDecorated btnHelp = new JButtonSlideDecorated();
-       btnHelp.setFocusable(false);
-       btnHelp.setIcon(ICO_UPDATE16);
-       //btnHelp.setMargin(new Insets(1, 2, 1, 2));
-       btnHelp.setPreferredSize(new Dimension(20,19));// width, height*/
-  
- /*       btnShow = new JButtonSlideDecorated();
-        btnShow.setFocusable(false);
-        //btnShow.setIconTextGap(0);
-        //btnShow.setMargin(new Insets(1, 2, 1, 2));
-        btnShow.setPreferredSize(new Dimension(20,19));// width, height
-        //btnShow.setText("v");
-        btnShow.setIcon(ICO_SHOWSLIDE);
-        //btnShow.setVisible(false);
-        btnShow.addActionListener(new ActionListener()
-        {
-	        public void actionPerformed(ActionEvent e) 
-	        {      
-	        	 showPanel = !showPanel;
-	        	  if(showPanel)
-	        	  {
-	        	  	 toggleShowPanel(showPanel);
-	        	  }
-	        	  else
-	        	  {
-	        	  	 toggleShowPanel(showPanel);
-	        	  }
-	        	  
-                 
-	        }
-	    });  
-
-
-       
-       JxPanel panelButtons = new JxPanel();
-       FlowLayout fl = new FlowLayout();
-       fl.setHgap(0);
-       fl.setVgap(0);
-       panelButtons.setLayout(fl);
-       
-       /*panelButtons.add(btnTable);
-       panelButtons.add(btnHelp);*/
-  /*     if(panelTitleButtons!=null)
-       {
-          panelButtons.add(panelTitleButtons);	
-       }
-       else
-       {
-           
-      
-           
-           
-       }
-       
-       
-         
-       /* JButtonSlideDecorated btn = new JButtonSlideDecorated();
-        btn.setFocusable(false);
-        //btnShow.setIconTextGap(0);
-        //btnShow.setMargin(new Insets(1, 2, 1, 2));
-        btn.setPreferredSize(new Dimension(20,19));// width, height
-       
-       panelButtons.add(btn);*/
-  /*     panelButtons.add(btnShow);
-       
-        //JPanel panelTitle = new JPanel();
-        PanelGradient panelTitle = new PanelGradient(colorPanelGradientEnd,colorPanelGradientStart,19);//(this.getBackground().brighter().brighter(), this.getBackground().darker(),23);
-        //panelTitle.setSize(new Dimension(12,12));
-        panelTitle.setLayout(new BorderLayout());
-        //panelTitle.setPreferredSize(new Dimension(panelTitle.getWidth(), 21));
-//        panelToContainOtherPanels = new JSlidingPanel();
-        panelToContainOtherPanels = new JxPanel();
-        panelToContainOtherPanels.setBorder(BorderFactory.createLineBorder(CLR_PANEL_CARD_BORDER));  
-        
-        //LineBorder line = new LineBorder(CLR_PANEL_BORDER, 2, true);
-        panelTitle.setBorder(BorderFactory.createLineBorder(CLR_PANEL_CARD_BORDER));        
-       // panelToContainOtherPanels.setBorder(BorderFactory.createLineBorder(CLR_PANEL_BORDER));
-        
-        //scrollContainOther= new JScrollPane();
-        //scrollContainOther.setSize(new Dimension(10,10));
-        //scrollContainOther.setBorder(null);
-        //scrollContainOther.setViewportView(panelToContainOtherPanels);
-
-
-    	lblTitle.setText("    "+title);
-        lblTitle.setForeground(CLR_PANEL_BORDER);
-    	//showPanel = show;
-    	//panelContained= panel;
-    	//panelToContainOtherPanels.add(panelContained,BorderLayout.CENTER);
-
-        panelTitle.add(lblTitle,BorderLayout.LINE_START);
-        panelTitle.add(panelButtons,BorderLayout.LINE_END);
-
-//        panelToContainOtherPanels.setComponent1(panelTitle);
-//	panelToContainOtherPanels.setComponent2(panelContained);
-
-
-        panelToContainOtherPanels.setLayout(new BorderLayout());
-        panelToContainOtherPanels.add(panelTitle, BorderLayout.PAGE_START);
-        panelToContainOtherPanels.add(panelContained,BorderLayout.CENTER);
-
-        //this.add(panelTitle, BorderLayout.PAGE_START);
-        this.add(panelToContainOtherPanels, BorderLayout.CENTER);
-
-    }*/
- 
-
-    
-    
     
     public void toggleShowPanel(boolean show)
     {
 
     	//showPanel = !showPanel;
          panelContained.setVisible(show);
-        
-    	/*if(show)
-    	{
-                      panelToContainOtherPanels.showComponent();
-    	}
-    	else
-    	{
 
-               panelToContainOtherPanels.hideComponent();    		
-    	}*/
- 
-
-           //getParent().validate();
            revalidate();        
            repaint();     
     }

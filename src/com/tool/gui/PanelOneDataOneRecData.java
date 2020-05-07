@@ -505,7 +505,7 @@ int flds = 0;
    	          GridLayoutVariable layout = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 4);
    	          dataPanel.setLayout(layout); //public FlowLayout(int alignment,int horizontalGap,int verticalGap)
                   
-                 // dataPanel.setBorder(new TitledBorder(new MatteBorder(1,0,0,0,this.getBackground().brighter()))); //  CLR_PANEL_BORDER
+               
 
         }
         else
@@ -561,16 +561,8 @@ int flds = 0;
                   {
                        panelGroup.setOpaque(false);
                        panelGroup.setLayout(layoutGroup);
-                       
-                       
-                  //   CLR_PANEL_BORDER  
-                 // TitledBorder lineBorder = javax.swing.BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, this.getBackground().darker()));
-                 // TitledBorder titledBorder = new TitledBorder(javax.swing.BorderFactory.createTitledBorder(lineBorder, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER));                // java.awt.Color.red 
-                // panelGroup.setBorder(titledBorder);                         
-                
-                  
-                  // panelGroup.setBorder(new TitledBorder(entityGroupOfComps[gc].getCaption())); 
-                  
+                       panelGroup.setHeadTitleVisible(true);
+          
                   }
                   else
                   {
@@ -579,7 +571,7 @@ int flds = 0;
                    FlowLayout groupFlowLayout = new FlowLayout();
                    groupFlowLayout.setVgap(1);
                    panelGroup.setLayout(groupFlowLayout);
-                  
+                   panelGroup.setHeadTitleVisible(false);
                   // panelGroup.setPreferredSize(new Dimension(100, 120));// width, height
                    //panelGroup.setMaximumSize(new Dimension(100, 120));// width, height
                    //Border borderPanel = BorderFactory.createLineBorder(Color.WHITE);//.createLineBorder(CLR_PANEL_BORDER, 1);
@@ -1508,10 +1500,12 @@ int flds = 0;
                     pnlIncludeLabelFromJTable.setEntityCollapsable(captionOfGroup, true,CLR_PANEL_END,CLR_PANEL_START,1,SHOW_PANEL_COLLAPSE_NOT,SHOW_BORDER_BTN_ONLY_ONE,captionOfGroup);//CLR_PANEL_START,CLR_PANEL_END);
                   
                     // must be because it has panel collapsable and the table
-                     pnlIncludeLabelFromJTable.add( pnlODMRData);// must be because it has panel collapsable and the table
+                    //pnlIncludeLabelFromJTable.add(lbl,BorderLayout.PAGE_START); 
+                    pnlIncludeLabelFromJTable.add( pnlODMRData);// must be because it has panel collapsable and the table
                      //eachDataFieldPanel.add(pnlODMRData,BorderLayout.CENTER);                    
  //                    // must be because it has panel collapsable and the table
-                 pnlIncludeJTableAsInsideBorderLayoutSizable.add( pnlIncludeLabelFromJTable, BorderLayout.CENTER);// must be because it has panel collapsable and the table
+                       
+                       pnlIncludeJTableAsInsideBorderLayoutSizable.add( pnlIncludeLabelFromJTable, BorderLayout.CENTER);// must be because it has panel collapsable and the table
                    //  pnlIncludeJTableAsInsideBorderLayoutSizable.add(pnlODMRData, BorderLayout.CENTER);
                      
                      //panelAllOnIt.add(pnlODMRData, BorderLayout.CENTER);
@@ -1806,6 +1800,7 @@ int flds = 0;
                         tb.setFont(fonttext);
                         Font fontlabel = new Font(tb.getFont().getFontName(), Font.PLAIN, columnCompsFontSize+1); //"SansSerif"                       
                         lbl.setFont(fontlabel);
+                       
                        eachDataFieldPanel.setOpaque(true);
                         eachDataFieldPanel.setBackground(Color.WHITE);
                         Border borderTextField = BorderFactory.createLineBorder(CLR_PANEL_BORDER, 1);
