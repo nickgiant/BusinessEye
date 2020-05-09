@@ -706,7 +706,7 @@ public class DialogMain extends JxFrame implements Constants
                 if(panelManagement.closeAllTabs())
                 {                
                 
-                    new DialogUpdateInformation(UpdateInfo.getLatestVersion(false),UpdateInfo.getNewDataSize(),UpdateInfo.getWhatsNewURL());
+                    new DialogUpdateInformation(UpdateInfo.getLatestVersion(false),UpdateInfo.getNewDataSize(),UpdateInfo.getVersionRssURL());
                 }
             }
             else

@@ -68,7 +68,7 @@ import java.util.logging.Logger;
 public class UpdateInfo implements Constants
 {
     private final static String versionURL = "http://www.businesseye.gr/upd.txt";//http://h3r3t1cupdate.bravehost.com/version.html";
-    private final static String historyURL = "http://www.businesseye.gr/hist.html"; //"https://businesseye737389149.wordpress.com/";////"http://h3r3t1cupdate.bravehost.com/history.html";
+    //private final static String historyURL = "http://www.businesseye.gr/hist.html"; //"https://businesseye737389149.wordpress.com/";////"http://h3r3t1cupdate.bravehost.com/history.html";
    
     private static UtilsGui utilsGui;
     
@@ -101,9 +101,47 @@ public class UpdateInfo implements Constants
     public static String getWhatsNewURL() throws Exception
     {
         //String data = getData(historyURL,false);
-        return historyURL;//.substring(data.indexOf("[history]")+9,data.indexOf("[/history]"));
+        
+        return getHistoryLinkFromHost();//historyURL;//.substring(data.indexOf("[history]")+9,data.indexOf("[/history]"));
     }    
+  
     
+    
+        public static String getVersionRssURL() throws Exception
+    {
+        //String data = getData(historyURL,false);
+        
+        return getVersionRssFromHost();//historyURL;//.substring(data.indexOf("[history]")+9,data.indexOf("[/history]"));
+    } 
+    
+        
+        
+        private static String getVersionRssFromHost() throws MalformedURLException, IOException
+    {
+        String strRet="";
+
+        String path = versionURL;
+        URL url = new URL(path);
+
+        InputStream html = null;
+
+        html = url.openStream();
+
+        int c = 0;
+        StringBuilder buffer = new StringBuilder("");
+
+        while(c != -1)
+        {
+            c = html.read();
+        buffer.append((char)c);
+          
+        }
+       
+        return buffer.substring(buffer.indexOf("[versionrss]")+12,buffer.indexOf("[/versionrss]"));
+    }     
+        
+        
+        
     public static long getNewDataSize()throws Exception
     {
         long longRet=-1;
@@ -127,6 +165,31 @@ public class UpdateInfo implements Constants
         } 
         return longRet;
     }
+
+
+    private static String getHistoryLinkFromHost() throws MalformedURLException, IOException
+    {
+        String strRet="";
+
+        String path = versionURL;
+        URL url = new URL(path);
+
+        InputStream html = null;
+
+        html = url.openStream();
+
+        int c = 0;
+        StringBuilder buffer = new StringBuilder("");
+
+        while(c != -1)
+        {
+            c = html.read();
+        buffer.append((char)c);
+          
+        }
+       
+        return buffer.substring(buffer.indexOf("[history]")+9,buffer.indexOf("[/history]"));
+    } 
     
     // exists almost the same in UpdateGui. getDownloadLinkFromHost and UpdateInfo.getDownloadLinkFromHost
     private static String getDownloadLinkFromHost() throws MalformedURLException, IOException
