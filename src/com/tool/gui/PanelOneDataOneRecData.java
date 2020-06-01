@@ -1756,7 +1756,8 @@ int flds = 0;
                       {
                       	
                       }*/
-                      tb.setDocument(new PlainDocumentInsertText(columnWidth,columnClass));//limiting the capacity of txt	
+                      tb.setDocument(new PlainDocumentInsertText(columnWidth,columnClass));//limiting the capacity of txt
+                      tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null,columnDbName)); 
                     final JTextComponent jtc = tb;
                     
                     jtc.addFocusListener(new FocusListener()  // look in showRow for focus gained in tb
@@ -1927,7 +1928,7 @@ int flds = 0;
 
                  	JPanel panelTextArea =new JPanel(new BorderLayout());
                   	panelTextArea.setOpaque(false);
-                       
+                        
                         //System.out.println("  panelHtmlEditor  i:"+i+"  columnLabel:"+columnLabel+"  columnWidth:"+columnWidth);
                       
                       
@@ -2152,7 +2153,11 @@ int flds = 0;
                       }*/
                    
                    if(!tb.isVisible())// add doc handler so if there is change trigger save
-                   {    }
+                   {  
+                   
+                     //System.out.println("error  PanelODORData.setEntity ("+i+") tb.isVisible():"+tb.isVisible()+"   "+columnDbName+"  "+columnWidth+" "+columnClass);
+                    
+                   }
                    else
                    {  
                    	  tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass, null,columnDbName)); 
@@ -2744,6 +2749,7 @@ catch(Exception e)
          // System.out.println("PanelODORData.dbFieldsCalculateSet    calculateCategoryField:"+calculateCategoryField+"    FIELDSCALCULATION_CATEGORY_SAME:"+FIELDSCALCULATION_CATEGORY_SAME);
              if(calculateCategoryField!=FIELDSCALCULATION_CATEGORY_SAME) // if not FIELDSCALCULATION_CATEGORY_SAME
              {
+                 //System.out.println("PanelODORData.dbFieldsCalculateSet  ------  fc"+fc+"  calculateCategoryField:"+calculateCategoryField+"    FIELDSCALCULATION_CATEGORY_SAME:"+FIELDSCALCULATION_CATEGORY_SAME);
                   ArrayList listRowTextStringAll = new ArrayList();
 
                            //System.out.println("PanelODORData.dbFieldsCalculateSet table col:"+col+" c:"+c+"  listTextStringHasTablesContainer.size"+listTextStringHasTablesContainer.size());
@@ -2929,7 +2935,7 @@ catch(Exception e)
                  }               
   
                    
-             System.out.println("PanelODORData.dbFieldsCalculateSet  +++++++++++++++++ col:"+col+"   colName:"+colName+"  classtype:"+classtype+"    textString.length:"+textString.length+"  calculateField:"+calculateField+"   calculation:"+calculation+"     val:"+val);
+            
 
            ifHasValueChangedChangeOtherFieldsOrNot(col, colName, classtype, calculateField, val );
                    //is it different when changing lookup by key -or- by selecting in dialog with mouse?
@@ -2937,7 +2943,7 @@ catch(Exception e)
             } //  is FIELDSCALCULATION_CATEGORY_SAME true
            //System.out.println("error: PanelODORData.dbFieldsCalculateSet closeDB()  is after fc:"+fc+"   FIELDSCALCULATION_CATEGORY_SAME:"+FIELDSCALCULATION_CATEGORY_SAME);
 //        closeDB(); // not use because in servicesales when in 'combo constants' the db is closed but the field after needs to get value from db
-           
+            System.out.println("PanelODORData.dbFieldsCalculateSet  +++++++++++++++++ col:"+col+"   colName:"+colName+"  classtype:"+classtype+"    calculateCategoryField:"+calculateCategoryField+"  textString.length:"+textString.length+"  calculateField:"+calculateField+"   calculation:"+calculation+"     val:"+val);
            } // for fieldscalculation fc
    //         fieldTxtsKeyChanged.set(col, false); //--- -- - -  
 //        closeDB(); // not use because in servicesales when in 'combo constants' the db is closed but the field after needs to get value from db
@@ -2960,7 +2966,7 @@ catch(Exception e)
         //System.out.println("PanelODORData.dbFieldsCalculateSet bef setvisoredi  hasDataChanged:"+hasDataChanged);
         
        this.setVisibleOrEditableFields(false);
-       this.calculateSumFields();
+       //this.calculateSumFields()
        // System.out.println("PanelODORData.dbFieldsCalculateSet after  hasDataChanged:"+hasDataChanged);
 //       closeDB(); // not use because in servicesales when in 'combo constants' the db is closed but the field after needs to get value from db
        
@@ -4562,7 +4568,30 @@ catch(Exception e)
 
       }
              //System.out.println("PanelODORData.calculateSumFields after dbFieldsCalculateSet  hasDataChanged:"+hasDataChanged+"    dbFieldsInGroupOfPanels.length:"+dbFieldsInGroupOfPanels.length);
-              setVisibleOrEditableFields(false);
+             //dbFieldsCalculateSet(); 
+             
+      for(int i = 0;i<dbFieldsInGroupOfPanels.length;i++) 
+      {
+     
+         String cName = fields[i]; //get colunm name  
+         int intTable =  dbFieldsInGroupOfPanels[i].getTableFromWhichTheSumWillBeCalculated();
+        //System.out.println("PanelODORData.calculateSumFields:    i:"+i+"      cName:"+cName+"    intTable:"+intTable+"     fieldTxts.size:"+fieldTxts.size());
+         
+         //if(intTable!=-1)  //none
+         //{
+                 String columnName = fields[i]; //get colunm name  	           	
+	         String classtype = dbFieldsInGroupOfPanels[i].getColClassName();  // if integer then not add ' and ' between values 
+                 int intFieldOfTable =  dbFieldsInGroupOfPanels[i].getFieldOfTableThatWillBeSummed();
+                 
+                 dbFieldsCalculateSet( dbFieldsInGroupOfPanels,i,"");
+                 
+         //}
+      }
+             
+             
+             
+             
+             setVisibleOrEditableFields(false);
             
        
 
@@ -7446,7 +7475,7 @@ ps.setBytes(i, b);
    
     
     
-    private void setValuesInFieldsFromCalculation(ResultSet rsDocument,int i, String colName, String columnClass,String fieldNamePreffix, String[] arrayFieldAndValue)throws SQLException
+    private void setValuesInFieldsFromCalculationButton(ResultSet rsDocument,int i, String colName, String columnClass,String fieldNamePreffix, String[] arrayFieldAndValue)throws SQLException
     {
         
                        for(int f = 0; f<arrayFieldAndValue.length;f++)
@@ -7580,8 +7609,8 @@ ps.setBytes(i, b);
               while(rsDocument.next())
               {
 
-                       setValuesInFieldsFromCalculation( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue1); 
-                       setValuesInFieldsFromCalculation( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue2); 
+                       setValuesInFieldsFromCalculationButton( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue1); 
+                       setValuesInFieldsFromCalculationButton( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue2); 
     
               }
 
@@ -11118,16 +11147,26 @@ ps.setBytes(i, b);
                //System.out.println("PanelODORData.  DocumentHandler.insertUpdate   ====================================   formGlobalTableToGet1:"+formGlobalTableToGet1);           
                 if(dbFieldsInGroupOfPanels[no].getIsVisibleOrEditable() != FIELD_VISIBLE_AND_EDITABLE && Boolean.parseBoolean(fieldTxtsKeyChanged.get(no).toString()))
                 {
-                    //System.out.println("PanelODORData.DocumentHandler.insertUpdate  FIELD_VISIBLE_AND_EDITABLE ("+no+") "+fieldTxtsKeyChanged.get(no).toString());
+                   System.out.println("PanelODORData.DocumentHandler.insertUpdate ++++ != FIELD_VISIBLE_AND_EDITABLE ("+no+")   "+dbFieldsInGroupOfPanels[no].getCaption()+"      "+fieldTxtsKeyChanged.get(no).toString());
                       //        calculateRecordAfterKeySet(no);	
-                     
+                    
                     dbFieldsCalculateSet(dbFieldsInGroupOfPanels,no,foreignTable);  
                     fieldTxtsKeyChanged.set(no, false);
                     hasDataChanged=false;
                     //System.out.println("PanelODORData.dbFieldsCalculateSet f  hasDataChanged:"+hasDataChanged);
                 }
+                else if(dbFieldsInGroupOfPanels[no].getIsVisibleOrEditable() != FIELD_VISIBLE_AND_EDITABLE && !Boolean.parseBoolean(fieldTxtsKeyChanged.get(no).toString()))
+                {
+                    
+                   // dbFieldsCalculateSet(dbFieldsInGroupOfPanels,no,foreignTable);  
+                   // fieldTxtsKeyChanged.set(no, false);
+                   // hasDataChanged=false;                    
+                    
+                    System.out.println("PanelODORData.DocumentHandler.insertUpdate +++----++++ ("+no+")   "+dbFieldsInGroupOfPanels[no].getCaption()+"   "+dbFieldsInGroupOfPanels[no].getIsVisibleOrEditable()+"   "+fieldTxtsKeyChanged.get(no).toString());
+                }
+                        
 
-              // System.out.println(" PanelODORData.DocumentHandler.changeText "+no+"   "+classtype+" "+foreignTable+"."+columnDbName+"   keyChanged:"+keyChanged);
+               //System.out.println(" PanelODORData.DocumentHandler.changeText   ------------------------------ "+no+"   "+classtype+" "+foreignTable+"."+columnDbName+"   keyChanged:"+keyChanged);
          	//ta.remove(lblIcoAttention);
          
           

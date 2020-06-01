@@ -596,6 +596,16 @@ public class Database implements Constants
           query =  utilsString.queryReplaceWildcardWithStarInWhereClause(query);
           //System.out.println("Database.retrieveDBDataFromQuery   query:"+query);
         }
+        else
+        {
+            // if exists end without where, replace it
+            int indexOfAND = query.toUpperCase().indexOf("AND".toUpperCase());
+            if(indexOfAND!=-1)
+            {
+                query = utilsString.replaceAndWithWhereQuery(query);
+            }
+            
+        }
          rs = stmnt.executeQuery(query); 
         rsmd = rs.getMetaData();
       //  DbConnection.releaseConnection(con);

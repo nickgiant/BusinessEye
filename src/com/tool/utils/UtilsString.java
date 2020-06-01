@@ -1089,6 +1089,9 @@ import java.util.regex.Pattern;
    
     }
     
+    /*
+    *
+    */
     public String replaceStringFromString(int intFrom, int intTo,String strNew, String fromString)
     {                              
     	String retBefore="";
@@ -1151,6 +1154,28 @@ import java.util.regex.Pattern;
    	  return ret;
    }
 
+  
+   public String replaceAndWithWhereQuery(String query)
+   {
+       
+       
+      /* query.replaceFirst("AND", "WHERE");
+   	  String ret="";
+
+          int indexOfWhere = query.toUpperCase().indexOf("WHERE".toUpperCase());
+           int indexOfAnd = -1;
+    	   indexOfAnd = query.toUpperCase().indexOf("AND".toUpperCase());
+           String queryBeforeWhere =query.substring(0, indexOfAnd);
+   	  if(query!=null && !query.equalsIgnoreCase("") && indexOfWhere==-1 && indexOfAnd!=-1 )
+   	  {
+   	  	 ret = replaceStringFromString(indexOfAnd,3,"WHERE","AND");//queryBeforeWhere+" WHERE "+removeStringFromString("AND",query);
+   	  }*/
+   	  
+   	  return query.replaceFirst("AND", "WHERE");
+   }
+   
+   
+   // replace the subquery only
    public String replaceAndWithWhere(String query)
    {
    	  String ret="";

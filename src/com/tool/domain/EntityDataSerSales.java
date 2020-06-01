@@ -540,12 +540,46 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         saleDBFields[7] = new EntityDBFields("saleheader","customerId","πελάτης",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"customer", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationCustomerSelect,"");
         saleDBFields[8] = new EntityDBFields("saleheader","comments","σχόλια",3,"java.lang.String",32,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);
         saleDBFields[9] = new EntityDBFields("saleheader","paymentTypeId","τρόπος πληρωμής",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"paymenttype", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+       
+        
+        
+        
+        // to calculate the rest(rest of the sums) of the footer below
+        int[] inputTotalAfterVatCategory ={FIELDSCALCULATION_CATEGORY_SAME};
+        int[] inputTotalAfterVat ={17};  
+    
+    int[] inputWithholdingTaxRateCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+        int[] inputWithholdingTaxRate ={15,18};         
+     //   EntityDBFieldsCalculation[] fieldsCalculationWithholdingTax = new EntityDBFieldsCalculation[1];
+    //    fieldsCalculationWithholdingTax[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,18,inputWithholdingTaxRateCategory,inputWithholdingTaxRate,"SELECT # * #");   
+    int[] inputWithholdingTaxRateTotalCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+        int[] inputWithholdingTaxRateTotal ={17,19,17,19};   // when       
+        //EntityDBFieldsCalculation[] fieldsCalculationWithholdingTaxTotal = new EntityDBFieldsCalculation[1];
+     //   fieldsCalculationWithholdingTaxTotal[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputWithholdingTaxRateTotalCategory,inputWithholdingTaxRateTotal,"SELECT # + #");                                
+    
+        EntityDBFieldsCalculation[] fieldGetWithholdingTaxRateSelect = new EntityDBFieldsCalculation[3];
+        fieldGetWithholdingTaxRateSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,18,inputTotalAfterVatCategory,inputTotalAfterVat,              
+        "SELECT IF( # > (SELECT dbcompanyset.sersaleWithHoldingTaxAmountGreaterThan FROM dbcompanyset WHERE dbcompanyset.dbcompanyId LIKE "+VariablesGlobal.globalCompanyId+"),"
+                + "(SELECT dbcompanyset.sersaleWithHoldingTaxRate FROM dbcompanyset WHERE dbcompanyset.dbcompanyId LIKE "+VariablesGlobal.globalCompanyId+")  ,'')");
+        fieldGetWithholdingTaxRateSelect[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputWithholdingTaxRateCategory,inputWithholdingTaxRate,"SELECT # * #/100");
+        fieldGetWithholdingTaxRateSelect[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,20,inputWithholdingTaxRateTotalCategory,inputWithholdingTaxRateTotal,"SELECT IF ((# - # = 0), '' , (# - #) )");                                
+          // to calculate the rest(rest of the sums) of the footer above 
+        
+        
+        
+        
+        
         
         int[] inputPreVatCategory ={FIELDSCALCULATION_CATEGORY_BACKWARD,12,12};// 12 is no of table
         int[] inputPreVat ={10,4,4};//field
-        EntityDBFieldsCalculation[] fieldsCalculationVatCatSelect = new EntityDBFieldsCalculation[1];
+        EntityDBFieldsCalculation[] fieldsCalculationVatCatSelect = new EntityDBFieldsCalculation[4];
         fieldsCalculationVatCatSelect[0] = new EntityDBFieldsCalculation(12,10,inputPreVatCategory,inputPreVat,calculationVatPercentageSql);//12 is no of table
-                
+        fieldsCalculationVatCatSelect[1]= fieldGetWithholdingTaxRateSelect[0];
+        fieldsCalculationVatCatSelect[2]= fieldGetWithholdingTaxRateSelect[1];
+        fieldsCalculationVatCatSelect[3]= fieldGetWithholdingTaxRateSelect[2];
+
+
+        
         saleDBFields[10] = new EntityDBFields("saleheader","typeofVatExclusionId","καθεστώς ΦΠΑ",3,"java.lang.Integer",7,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCVatExclusion",FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"1",null,fieldsCalculationVatCatSelect,"");
         //int[] inputPreVatCategory ={9};
         //int[] inputPreVat ={9};//field
@@ -573,7 +607,12 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
     //    fieldsCalculationCurrency[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,21,inputCurrencyCategory,inputCurrency,"SELECT # * #");
     //    fieldsCalculationCurrency[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,17,null,null,"SELECT currencyId FROM dbcompany WHERE dbcompany.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId);                 
     //    fieldsCalculationCurrency[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,18,null,null,"SELECT currency.name FROM currency, dbcompany WHERE currency.currencyId = dbcompany.currencyId AND dbcompany.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId);         
-         int[] inputTotalAfterVatCategory ={FIELDSCALCULATION_CATEGORY_SAME};
+    
+    
+    
+    
+    // ---------------------need
+    /*     int[] inputTotalAfterVatCategory ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputTotalAfterVat ={17};  
     
     int[] inputWithholdingTaxRateCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
@@ -591,7 +630,12 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
                 + "(SELECT dbcompanyset.sersaleWithHoldingTaxRate FROM dbcompanyset WHERE dbcompanyset.dbcompanyId LIKE "+VariablesGlobal.globalCompanyId+")  ,'')");
         fieldGetWithholdingTaxRateSelect[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputWithholdingTaxRateCategory,inputWithholdingTaxRate,"SELECT # * #/100");
         fieldGetWithholdingTaxRateSelect[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,20,inputWithholdingTaxRateTotalCategory,inputWithholdingTaxRateTotal,"SELECT IF ((# - # = 0), '' , (# - #) )");                                
-        saleDBFields[17] = new EntityDBFields("saleheader","priceTotal","σύνολο με ΦΠΑ",5,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,fieldGetWithholdingTaxRateSelect,12,12,DBFIELD_TYPE_OF_SUM_SUM);             
+       */
+       //---------------
+    
+    
+    
+    saleDBFields[17] = new EntityDBFields("saleheader","priceTotal","σύνολο με ΦΠΑ",5,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,fieldGetWithholdingTaxRateSelect,12,12,DBFIELD_TYPE_OF_SUM_SUM);             
         //EntityDBFieldsCalculation[] fieldsCalculationCurrency = new EntityDBFieldsCalculation[1];
         
     //    saleDBFields[17] = new EntityDBFields("saleheader","companyCurrencyId","companyCurrencyId",4,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null);
@@ -604,9 +648,9 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
     //    int[] inputWithholdingTaxRateCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
     //    int[] inputWithholdingTaxRate ={16,17};         
     //    EntityDBFieldsCalculation[] fieldsCalculationWithholdingTax = new EntityDBFieldsCalculation[1];
-    ///    fieldsCalculationWithholdingTax[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,18,inputWithholdingTaxRateCategory,inputWithholdingTaxRate,"SELECT # * #");                        
-        saleDBFields[18] = new EntityDBFields("saleheader","withholdingtaxRate","ποσοστό παρακράτησης",5,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//,null,true,fieldGetWithholdingTaxRate);        
-        saleDBFields[19] = new EntityDBFields("saleheader","withholdingtaxAmount","παρακράτηση",5,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//null,true,fieldsCalculationWithholdingTax);        //null);        
+    ///    fieldsCalculationWithholdingTax[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,18,inputWithholdingTaxRateCategory,inputWithholdingTaxRate,"SELECT # * #");                                                       String defaultValueIn,EntityDBFieldsCalculation[] fieldsCalculationUpdateIn, EntityDBFieldsCalculation[] fieldsCalculationSelectIn,String formVariableFromFieldIn)             
+        saleDBFields[18] = new EntityDBFields("saleheader","withholdingtaxRate","ποσοστό παρακράτησης",5,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//null,fieldGetWithholdingTaxRateSelect,"");        
+        saleDBFields[19] = new EntityDBFields("saleheader","withholdingtaxAmount","παρακράτηση",5,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");//,null,fieldGetWithholdingTaxRateSelect,"");//null,true,fieldsCalculationWithholdingTax);        //null);        
 
     //    int[] inputWithholdingTaxRateTotalCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
     //    int[] inputWithholdingTaxRateTotal ={16,18};         
