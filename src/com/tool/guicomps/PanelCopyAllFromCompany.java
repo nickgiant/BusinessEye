@@ -131,8 +131,8 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
           //-----------------------------
           
                 //-----------------------------
-   if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
-   { 
+   //if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
+   //{ 
                 JxPanel panelGroup1 = new JxPanel();
                  panelGroup1.setOpaque(false);
                  panelGroup1.setLayout(layoutGroup);
@@ -151,11 +151,11 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
                  chk2.setSelected(false);
                  panelGroup1.add(chk2);
                  pnlSelections.add(panelGroup1);
-   }
+   //}
    
                  //-------------------------
-   if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA ) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
-   {                 
+   //if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA ) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
+   //{                 
                   JxPanel panelGroup2 = new JxPanel();
                  panelGroup2.setOpaque(false);
                  panelGroup2.setLayout(layoutGroup);
@@ -172,7 +172,7 @@ public PanelCopyAllFromCompany()//(Frame parent, boolean modal)
                  panelGroup2.add(chk4);  
                                   
                  pnlSelections.add(panelGroup2);
-   }
+   //}
                  //-----------------------
                  
                 JLabel lblCopy = new JLabel();

@@ -200,7 +200,7 @@ public class EntityData implements Constants
         */
         
         ArrayList listSections = new ArrayList();
-   if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA))
+   /*if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA))
    {
         EntityMenu emCat0 = new EntityMenu();
         emCat0.setEntityType(ENTITY_TYPE_SECTION);
@@ -216,7 +216,7 @@ public class EntityData implements Constants
         listSections.add(emCat1);
    }  
    else if( VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
-   {
+   {*/
        
        
                EntityMenu emCat1 = new EntityMenu();
@@ -230,7 +230,8 @@ public class EntityData implements Constants
         emCat0.setEntitySection(PRODUCT_APLOGRAFIKA_CAPTION,loadAndGetEsodaExodaDataTreeNode(),ICO_MENUESODAEXODA);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
         listSections.add(emCat0);
         
-     
+     if(!VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_FARMERSVAT_NOT))
+     {
                 EntityMenu emCat2 = new EntityMenu();
         emCat2.setEntityType(ENTITY_TYPE_SECTION);
         emCat2.setEntitySection(PRODUCT_FARMERSVAT_CAPTION,loadAndGetFarmersVatDataTreeNode(),ICO_MENUFARMERSVAT);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)

@@ -45,9 +45,10 @@ public interface Constants
       
   // also in DialogUpdateProcess in update project
        public static final String PRODUCT_OLA = "0"; //input on jar
-       public static final String PRODUCT_TIMOLOGIA = "1";
-       public static final String PRODUCT_APLOGRAFIKA = "2";
+       //public static final String PRODUCT_TIMOLOGIA = "1";
+       //public static final String PRODUCT_APLOGRAFIKA = "2";
        public static final String PRODUCT_FARMERSVAT = "3";
+       public static final String PRODUCT_FARMERSVAT_NOT = "4";
 
        public static final String PRODUCT_OLA_CAPTION = "";
        public static final String PRODUCT_TIMOLOGIA_CAPTION = "τιμολόγηση";

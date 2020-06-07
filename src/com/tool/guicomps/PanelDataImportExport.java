@@ -360,19 +360,19 @@ public class PanelDataImportExport extends JxPanel implements Constants
           ArrayList<ImportExportTable> lstTables = new ArrayList<ImportExportTable>();
           lstTables.add(new ImportExportTable("","",false));
           
-   if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
-   { 
+   //if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
+   //{ 
 
        lstTables.add(new ImportExportTable("customer","πελάτες",true));
        lstTables.add(new ImportExportTable("stock","υπηρεσίες",true));
-   }   
+   //}   
    
    
-   if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA ) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
-   {  
+   ////if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA ) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
+   //{  
        lstTables.add(new ImportExportTable("sxtrader","συναλλασσόμενοι",false));
        lstTables.add(new ImportExportTable("sxaccount","λογαριασμοί",false));
-   }
+   //}
          
          
           

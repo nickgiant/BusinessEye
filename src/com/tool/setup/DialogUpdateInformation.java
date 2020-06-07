@@ -31,7 +31,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
 
     
         public static final String DIR_FOR_UPDATE = "updates";
-        public static final String UPDATE_JAR = "update.jar";
+        public static final String UPDATE_JAR = "Update.jar";
     public static final String FILE_FOR_UPDATE = "update.zip";
     private JEditorPane infoPane;
     private JScrollPane scp;
@@ -49,7 +49,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
     {
         initComponents();
         locateOnCenterOfTheScreen();
-        lblNewVersion.setText(VariablesGlobal.appName+" "+VariablesGlobal.appProductCaption+" έκδοση:"+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+"        νέα έκδοση:"+newVersion);
+        lblNewVersion.setText(VariablesGlobal.appName+" έκδοση:"+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+"        νέα έκδοση:"+newVersion);
         lblNewSize.setText("      μέγεθος:"+newSize/1024+" KBs");
         //infoPane.setText(info);
         
@@ -90,7 +90,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
     private void initComponents() {
 
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        this.setTitle(VariablesGlobal.appName+" "+VariablesGlobal.appProductCaption+" : υπάρχει νέα έκδοση");
+        this.setTitle(VariablesGlobal.appName+"  : υπάρχει νέα έκδοση");
         panelMain = new JPanel();
         panelMain.setLayout(new BorderLayout());
         
@@ -174,7 +174,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
         
         
         boolean isRunOk=false;
-        String[] run = {"java","-jar",VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+UPDATE_JAR,VariablesGlobal.appProduct,VariablesGlobal.appShowLogFrame,VariablesGlobal.appRunParam2};
+        String[] run = {"java","-jar",UPDATE_JAR}; //VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+UPDATE_JAR};//,VariablesGlobal.appProduct,VariablesGlobal.appShowLogFrame,VariablesGlobal.appRunParam2};
         try 
         {
             Runtime.getRuntime().exec(run);

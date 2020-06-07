@@ -161,7 +161,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
 
         setResizable(true);
 
-        lblTitle.setText("::::::: "+VariablesGlobal.appName+" :: "+VariablesGlobal.appProductCaption+"  :: ver.:"+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+" :::::::");//(UtilsResource.getString("Login"));
+        lblTitle.setText("::::::: "+VariablesGlobal.appName+" :: :: ver.:"+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+" :::::::");//(UtilsResource.getString("Login"));
         lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         lblTitle.setFont(lblTitle.getFont().deriveFont(Font.BOLD));        
         //lblTitle.setForeground(Color.white);

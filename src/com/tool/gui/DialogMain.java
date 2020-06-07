@@ -255,7 +255,7 @@ public class DialogMain extends JxFrame implements Constants
      
         
         panelBottomLeft.add(new JLabel(VariablesGlobal.appName));
-        panelBottomLeft.add(new JLabel(VariablesGlobal.appProductCaption));
+        //panelBottomLeft.add(new JLabel(VariablesGlobal.appProductCaption));
         panelBottomLeft.add(new JLabel(VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion));
         //panelBottomLeft.add(new JLabel(VariablesGlobal.appUseName));
        //panelBottomLeft.add(panelSeparator1);
@@ -3052,15 +3052,15 @@ manager.addChangeListener(updateListener);*/
     
     public static void main(String args[])
     {
-        if(args!=null)
-        {  
-            VariablesGlobal.appRunParam2=args[2];
-            VariablesGlobal.appShowLogFrame =args[1];
-          if(VariablesGlobal.globalShowFrameRedirected && VariablesGlobal.appShowLogFrame.equalsIgnoreCase("1"))
+        //if(args!=null)
+        //{  
+            //VariablesGlobal.appRunParam2= "0";//args[2];
+            //VariablesGlobal.appShowLogFrame = "1";//args[1];
+          if(VariablesGlobal.globalShowFrameRedirected)// && VariablesGlobal.appShowLogFrame.equalsIgnoreCase("1"))
           {
             new FrameRedirected(true, false, null, 1080,980, JFrame.DISPOSE_ON_CLOSE);
           }
-        }
+        //}
         System.setProperty("file.encoding", "UTF-8");
         //(boolean catchErrors, boolean logFile, String fileName, int width,
          //int height, int closeOperation)
@@ -3068,11 +3068,11 @@ manager.addChangeListener(updateListener);*/
     	System.out.println(VariablesGlobal.appName+" "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+" Date: " + new Date());
         System.out.println("DialogMain.main classpath "+System.getProperty("java.class.path"));
         System.out.println("DialogMain.main user.dir "+System.getProperty("user.dir"));
-        if(args!=null)
-        {
+        //if(args!=null)
+        //{
             //try
            // {
-            VariablesGlobal.appProduct = args[0];
+            VariablesGlobal.appProduct = PRODUCT_FARMERSVAT_NOT;//PRODUCT_OLA;//args[0];
            /* }
             catch(ArrayIndexOutOfBoundsException e)
             {
@@ -3084,7 +3084,7 @@ manager.addChangeListener(updateListener);*/
             
             */
         //String productCaption = "";
-        if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA)  )
+       /* if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA)  )
         {
             VariablesGlobal.appProductCaption  = PRODUCT_TIMOLOGIA_CAPTION;
         }
@@ -3097,7 +3097,7 @@ manager.addChangeListener(updateListener);*/
             VariablesGlobal.appProductCaption  = PRODUCT_OLA_CAPTION;
         }      
             System.out.println("DialogMain.main args "+args[0]+"  "+args[1]);
-        }        
+        //}  */      
         
         ///   https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
         utilsString = new UtilsString();
@@ -3129,11 +3129,13 @@ manager.addChangeListener(updateListener);*/
         
          //  new ImageIcon(Constants.class.getResource("/images/logo.png")
   	WindowSplash splashScr = new WindowSplash(VariablesGlobal.appName+"  (εκδ "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+")",ICO_BACK);///APP_LOGO );   //  APP_LOGO
+        
+
         DialogMain dialogMain = new DialogMain();
        
-
         dialogMain.readFromFileDbSettings();
-     	DatabaseMeta dbMeta = new DatabaseMeta();
+        
+        DatabaseMeta dbMeta = new DatabaseMeta();
   	String running = dbMeta.isDBrunning();
   	      	 	
      	System.out.println("DialogMain.main running:"+running);

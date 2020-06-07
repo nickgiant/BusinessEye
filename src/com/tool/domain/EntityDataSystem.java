@@ -1398,30 +1398,30 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
          emCat2.setEntityCategory(SYSTEM_CAT_2,ENTITY_TYPE_CATEGORY2,ICO_MENUCAT_SYSTEM);
         // System.out.println("EntityData.addReportSettings "+REPORTS_CAT_ARRAY[r]+" "+r);
          nodeCat = new DataTreeNode(emCat2);
-   if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
-   {         
+   //if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_TIMOLOGIA) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
+   //{         
          nodeRoot.getChildFromCaption(PARAMETERSOFSYSTEM).addChild(nodeCat);
          nodeSystem = nodeRoot.getChildFromCaption(PARAMETERSOFSYSTEM);         
 
-   }
+   //}
    
       
          EntityMenu emCat3 = new EntityMenu();
          emCat3.setEntityCategory(SYSTEM_CAT_3,ENTITY_TYPE_CATEGORY2,ICO_MENUCAT_SYSTEM);
         // System.out.println("EntityData.addReportSettings "+REPORTS_CAT_ARRAY[r]+" "+r);
          nodeCat = new DataTreeNode(emCat3);
-   if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA ) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
-   {         
+   /*if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA ) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
+   {*/         
          nodeRoot.getChildFromCaption(PARAMETERSOFSYSTEM).addChild(nodeCat);
          nodeSystem = nodeRoot.getChildFromCaption(PARAMETERSOFSYSTEM);          
          
-    }  
+   /* }  
    
    if( VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_FARMERSVAT) || VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
    {
        
        
-   }     
+   }   */  
          
          
          

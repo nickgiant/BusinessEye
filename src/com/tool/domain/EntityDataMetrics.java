@@ -111,7 +111,7 @@ public class EntityDataMetrics  extends EntityData implements Constants
         emCat5.setEntityType(ENTITY_TYPE_CATEGORY1);
         emCat5.setEntityCategory(METRICSOF_ESOEXO,1,ICO_MENUCAT_EXPLORE);//ICO_STATISTICS16);        
         
-    if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA))
+   /* if(VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_APLOGRAFIKA))
    {
         if(isVisible[2])
         {        
@@ -125,13 +125,13 @@ public class EntityDataMetrics  extends EntityData implements Constants
         
     }  
    else if( VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_OLA))
-   {
+   {*/
         if(isVisible[2])
         {        
            nodeRoot.addChild(new DataTreeNode(emCat5));
         }        
         
-   }             
+   //}             
         
         
  /*       EntityMenu emCat5 = new EntityMenu();
