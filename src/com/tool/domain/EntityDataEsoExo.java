@@ -1024,7 +1024,7 @@ sqlQueryTableCalcIncome[0] = "SELECT sxtrader.traderId AS 'συναλλασσό�
        // esoexoHeaderTempDBFields[2] = new EntityDBFields("sxesoexoheader","dbYearId","dbYearId",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,VariablesGlobal.globalYearId,"");
         
 
-      esoexoHeaderTempDBFields[2] = new EntityDBFields("sxesoexoheader","titleOfTemplate","titleOfTemplate",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//fieldsCalculationtrader);
+      esoexoHeaderTempDBFields[2] = new EntityDBFields("sxesoexoheader","titleOfTemplate","τίτλος",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//fieldsCalculationtrader);
       esoexoHeaderTempDBFields[3] = new EntityDBFields("sxesoexoheader","sxActionTypeId","τύπος παρ/κού",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"sxactiontype",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");// variable before last: 'false' means update
         
         esoexoHeaderTempDBFields[4] = new EntityDBFields("sxesoexoheader","esoexoCodeOfDocument","κωδικός παρ/κού",0,"java.lang.String",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);

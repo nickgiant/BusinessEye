@@ -168,6 +168,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         initComponents(null);
         this.setTitle("Setup DB");
         checkMariaDB();
+        loadConfigFromFile();
     }
     
     /** This method is called from within the constructor to initialize the form.*/
@@ -177,6 +178,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         super(frame,VariablesGlobal.appName+" Setup DB", true);//LANGUAGE.getString("AboutDialog.title"));
         initComponents(frame);
         checkMariaDB();
+        loadConfigFromFile();
          //txtDbInfo.append("");
     }
          
@@ -391,7 +393,7 @@ public class DialogDbConnect  extends JDialog implements Constants
 
         //getRootPane().setDefaultButton(btnShowMetadata);
         
-        loadConfigFromFile();
+        
         
     addWindowListener(new WindowAdapter()
     {
@@ -493,50 +495,7 @@ public class DialogDbConnect  extends JDialog implements Constants
 	{
 	  try
 	  {
-     	Properties props = new Properties(); //properties to get from file
-//     String curDir ="";
-
-      
-        FileInputStream in = new FileInputStream(VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_DB_CONFIG);
-        props.load(in);
-        dbName=props.getProperty("jdbc.dbname");
-        dbUrl = props.getProperty("jdbc.url");
-        dbDriver = props.getProperty("jdbc.drivers");
-        dbUser = props.getProperty("jdbc.username");
-        // dbSalt = props.getProperty("jdbc.salt");
-
-        dbPass = utilsString.decrypt(props.getProperty("jdbc.password"));
-           
-          
-         
-        
-       
-        //dbPath=props.getProperty("derby.system.home");
-        //dbEngineDir=props.getProperty("backup.dbenginedir");
-        //backUpsDir=props.getProperty("backup.filesdir");
-        dbEngine=Integer.valueOf(props.getProperty("dbengine"));
-          
- //         txtDbName.setText(dbName);
-          //txtDbPath.setText(dbPath);
-          txtDbDriver.setText(dbDriver);                 
-          txtDbUrl.setText(dbUrl);
-          txtDbUser.setText(dbUser);
-          txtDbPass.setText(dbPass);
-	 //     txtDbEngineDir.setText(dbEngineDir);
-	      //txtBackupDir.setText(backUpsDir);      
-  
-  /*
-  
-         group.add(radioMySql);
-       group.add(radioPostgreSql);
-       //group.add(radioMSSqlServer);
-       group.add(radioDerbyEmbedded);
-       //group.add(radioHsql);
-       group.add(radioH2embedded);
-       group.add(radioH2server);
-  
-  */
-        
+     
         if (dbEngine==DBENGINE_MARIADB)
         {
         	radioMariaDB.setSelected(true);
@@ -582,6 +541,57 @@ public class DialogDbConnect  extends JDialog implements Constants
         	database="unknown";
         	System.out.println("DialogSetupDb.loadConfigFromFile not supported dbEngine "+dbEngine);
         }
+              
+              
+              
+              
+              
+              
+     	Properties props = new Properties(); //properties to get from file
+//     String curDir ="";
+
+      
+        FileInputStream in = new FileInputStream(VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_DB_CONFIG);
+        props.load(in);
+        dbName=props.getProperty("jdbc.dbname");
+        dbUrl = props.getProperty("jdbc.url");
+        dbDriver = props.getProperty("jdbc.drivers");
+        dbUser = props.getProperty("jdbc.username");
+        // dbSalt = props.getProperty("jdbc.salt");
+
+        dbPass = utilsString.decrypt(props.getProperty("jdbc.password"));
+           
+          
+         
+        
+       
+        //dbPath=props.getProperty("derby.system.home");
+        //dbEngineDir=props.getProperty("backup.dbenginedir");
+        //backUpsDir=props.getProperty("backup.filesdir");
+        dbEngine=Integer.valueOf(props.getProperty("dbengine"));
+         
+ //         txtDbName.setText(dbName);
+          //txtDbPath.setText(dbPath);
+          txtDbDriver.setText(dbDriver);                 
+          txtDbUrl.setText(dbUrl);
+          txtDbUser.setText(dbUser);
+          txtDbPass.setText(dbPass);
+	 //     txtDbEngineDir.setText(dbEngineDir);
+	      //txtBackupDir.setText(backUpsDir);      
+        System.out.println("DialogDbConnect.loadConfigFromFile  txtDbUrl:"+txtDbUrl.getText());
+  /*
+  
+         group.add(radioMySql);
+       group.add(radioPostgreSql);
+       //group.add(radioMSSqlServer);
+       group.add(radioDerbyEmbedded);
+       //group.add(radioHsql);
+       group.add(radioH2embedded);
+       group.add(radioH2server);
+  
+  */
+        
+
                 	        	        	     
         
       }
@@ -901,7 +911,7 @@ public class DialogDbConnect  extends JDialog implements Constants
           	}
           	else
           	{
-               //System.out.println("error:DialogSetupDb.dbRuns:"+sqlex.getErrorCode()+" "+sqlex.getMessage());
+                   System.out.println("error:DialogSetupDb.dbRuns:"+sqlex.getErrorCode()+" "+sqlex.getMessage());
                      utilsGui.showMessageError(this,"DialogSetupDb.dbCheck err code "+sqlex.getErrorCode()+" \n"+sqlex.getMessage());
                }
                 ret = false;
@@ -981,13 +991,7 @@ public class DialogDbConnect  extends JDialog implements Constants
              // System.out.println("Database.updateQuery "+query);      
         
         	              int  ret = stmnt.executeUpdate("CREATE DATABASE IF NOT EXISTS `"+strReturn+"` /*!40100 DEFAULT CHARACTER SET utf8 */;");// IF NOT EXISTS
-                               
 
-                              
-                              
-                              
-                              
-                              
                               if(ret==0)
                               {
                                   dbName = strReturn;
@@ -1000,7 +1004,7 @@ public class DialogDbConnect  extends JDialog implements Constants
                               else if (ret==1)
                               {
                                   stmnt.execute("USE "+strReturn+";");
-                                  
+                              // exists also in DialogMain.createDbSystemTableWhenDatabseExists    
                               stmnt.executeUpdate("CREATE TABLE IF NOT EXISTS `dbsystem` ("+
                     "`dbsystemid` int(11) NOT NULL AUTO_INCREMENT,"+
                     "`dbleadversion` varchar(10) DEFAULT '0',"+

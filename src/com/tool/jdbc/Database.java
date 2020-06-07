@@ -7,6 +7,10 @@ package com.tool.jdbc;
 import com.tool.utils.*;
 import com.tool.gui.*;
 import com.tool.guicomps.*;
+import static com.tool.guicomps.Constants.FILE_CONFIG;
+import static com.tool.guicomps.Constants.FILE_DB_CONFIG;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -17,6 +21,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -725,7 +730,27 @@ public class Database implements Constants
    }
 
 
- 
+ public String getDbName()
+ {
+   String ret="";
+	  try
+	  {
+     	Properties props = new Properties(); //properties to get from file
+//     String curDir ="";
+
+       String systemDirectorySymbol=System.getProperty("file.separator");
+        FileInputStream in = new FileInputStream(VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_DB_CONFIG);
+        props.load(in);
+        ret=props.getProperty("jdbc.dbname");
+              }
+      catch (IOException ex)
+      {
+          System.err.println("Database.getDbName    IOException:Cannot find text file:"+FILE_CONFIG);
+          //System.err.println(ex);
+      }
+          
+          return ret;
+ }
    
    
    

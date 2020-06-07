@@ -3015,13 +3015,69 @@ manager.addChangeListener(updateListener);*/
         
     }
     
+    // also exists in DialogDbConnect.createDB
+    private boolean createDbSystemTableWhenDatabseExistsButNotTheDbsystemTable()
+    {
+        boolean ret=false;
+        Database db = new Database();
+        String dbName = db.getDbName();
+           try
+           {
+               
+           
+                            Connection conn = db.getConnection();
+                             Statement stmnt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
+       
+         stmnt.execute("USE "+dbName+";");
+                              // exists also in DialogMain.createDbSystemTableWhenDatabseExists    
+                              stmnt.executeUpdate("CREATE TABLE IF NOT EXISTS `dbsystem` ("+
+                    "`dbsystemid` int(11) NOT NULL AUTO_INCREMENT,"+
+                    "`dbleadversion` varchar(10) DEFAULT '0',"+
+                    "`dbsubversion` varchar(10) DEFAULT '0',"+
+                    "PRIMARY KEY (`dbsystemid`)"+
+                     ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8");
+
+                   stmnt.executeUpdate("REPLACE INTO dbsystem (dbsystemid, dbleadversion, dbsubversion) VALUES ( 1 ,  '1',  '"+STR_VERSIONSUB_START+"' )");                                  
+           ret=true;
+           
+           }                      
+           catch ( SQLException sqlex)
+          {
+          	if (sqlex.getErrorCode() == 1049)
+          	{
+                    //txtDbInfo.append("Η βάση δεδομένων '"+dbName+"' δεν υπάρχει.");	
+                    System.out.println("DialogMain.createDbSystemTableWhenDatabseExists  error:"+sqlex.getMessage());
+                        utilsGui.showMessageError(this,"Η βάση δεδομένων '"+dbName+"' δεν υπάρχει.");          		
+          	}
+          	else if (sqlex.getErrorCode() == 1045)
+          	{
+          	      utilsGui.showMessageError(this,"Δεν εχετε πρόσβαση για αυτό το χρήστη.\nΑλλάξτε username ή password.");
+          	}
+          	else
+          	{
+               //System.out.println("error:DialogSetupDb.dbRuns:"+sqlex.getErrorCode()+" "+sqlex.getMessage());
+                     utilsGui.showMessageError(this,"DialogMain.createDbSystemTableWhenDatabseExists err code "+sqlex.getErrorCode()+" \n"+sqlex.getMessage());
+               }
+                ret = false;
+          }  
+           finally
+           {
+               closeDB();
+           }
+           
+           return ret;
+    }
+    
     private double checkVersionOfDb()
     {
         double dbVersion = 0.2511;
             Database db = new Database();
             db.retrieveDBDataFromQuery("SELECT dbleadversion, dbsubversion FROM dbsystem WHERE dbsystemid = 1","DialogMain.isRestoreCompleted");
             ResultSet rs = db.getRS();
-
+            if(rs==null)
+            {           
+              createDbSystemTableWhenDatabseExistsButNotTheDbsystemTable();
+            }
             String strDbLeadVer = "1";
             String strDbSubVer = "0.2511";
              try
@@ -3183,10 +3239,14 @@ manager.addChangeListener(updateListener);*/
         else
         {
             double dbversion = dialogMain.checkVersionOfDb();
+
             System.out.println("DialogMain.main     restoreNewVersionDb  dbversion:"+dbversion);
             dialogMain.restoreNewVersionDb(dbversion); 
               
             dialogMain.updateVersionDbTag();
+            
+
+            
         }        
 
         dialogMain.setSize(1300,765);
