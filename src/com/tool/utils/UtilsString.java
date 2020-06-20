@@ -1251,14 +1251,17 @@ import java.util.regex.Pattern;
        }
        
        
-       if(textToReplace.length==listIndices.size() && textToReplace.length>0)
+       if(textToReplace!= null && textToReplace.length==listIndices.size() && textToReplace.length>0)
        {
-       
+        
           for(int i =0;i<listIndices.size();i++)
           {
            //System.out.println("UtilsString.replaceTextOfAStringWithText  "+i+"  textToBeReplacedBy:"+textToBeReplacedBy+" textToReplace[i]:"+textToReplace[i]);
-
-              if(textToReplace[i].equalsIgnoreCase(""))
+              if(textToReplace[i]==null)
+              {
+                   System.out.println("  Error   UtilsString.replaceTextOfAStringWithText    textToBeReplacedBy:"+textToBeReplacedBy+" textToReplace[i]:"+textToReplace[i]+"       str:"+str);
+              }
+              else if(textToReplace[i].equalsIgnoreCase(""))
               {
                   //System.out.println("UtilsString.replaceTextOfAStringWithText    "+i+"       textToReplace[i]:"+textToReplace[i]);
                   str = str.replaceFirst(textToBeReplacedBy, ifEmptyTextStringReplaceWithThis);
@@ -1276,7 +1279,13 @@ import java.util.regex.Pattern;
       }
       else
       {
+          if(listIndices.size()==0)
+          {
+          }
+          else
+          {
           System.out.println("error  UtilsString.replaceTextOfAStringWithText  textToReplace.length:"+textToReplace.length+"  =  listIndices of#:"+listIndices.size()+"    ifEmptyTextStringReplaceWithThis:"+ifEmptyTextStringReplaceWithThis);
+          }
       }
        
        return str;

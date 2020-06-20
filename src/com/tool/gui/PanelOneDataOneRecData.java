@@ -8796,66 +8796,104 @@ ps.setBytes(i, b);
        return ret;
    }
    
-   private boolean rowInsertAdditional(Database dbTransaction,String pkFromOnePanelForTables) throws SQLException
+   private boolean rowInsertAdditional(Database dbTransaction,String pkeyFromOnePanelForTablesIn) throws SQLException
    {
        boolean ret=false;
        
-       
-       
          if(updateAdditional!=null)
          {
-             
+             String  pkFromOnePanelOfAdditionalBridgeTable="";
                      for(int u=0;u<updateAdditional.length;u++)
                      {
-                        
+                                   String entityBridge = updateAdditional[u].getUpdateAdditionalBridgeEntity();
+                            EntityDBFields[] dbFieldsBridge = updateAdditional[u].getUpdateAdditionalBridgeDbFields();    
+                            
+                            
+                            if(entityBridge!= null)
+                            {
+                                  pkFromOnePanelOfAdditionalBridgeTable = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsBridge,entityBridge,null,null,0);// used for table, last
+                               //System.out.println("    rowInsertAdditional    pkFromOnePanelOfAdditionalBridgeTable:"+pkFromOnePanelOfAdditionalBridgeTable);
+                            }                            
+                            
+                            
                         if(updateAdditional[u].getUpdateAdditionalWhen()==UPDATE_ON_INSERT_ONLY || updateAdditional[u].getUpdateAdditionalWhen()==UPDATE_ON_BOTH_INSERT_AND_UPDATE )
                         {
-                            String queryU = updateAdditional[u].getUpdateAdditionalQuery();
-                             
-                          if(updateAdditional[u].getUpdateAdditionalQueryFields()!=null)  
-                          {
-                             String[] strField = updateAdditional[u].getUpdateAdditionalQueryFields();
                           
-                            String[] fieldData = new String[strField.length];
-                            for(int f=0;f<strField.length;f++)
-                            {
-                                   int colCount =dbFieldsInGroupOfPanels.length;   	     
-   	                           
-                                 for (int i = 0; i < colCount; i++)//  i = fieldTxts        
+                            String queryU = updateAdditional[u].getUpdateAdditionalQuery();
+                               int intTable = -1;
+                                 for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)//  i = fieldTxts        
                                  {   
+                                    
            	                 String columnDbName = dbFieldsInGroupOfPanels[i].getDbField();  //get colunm name 
-                                 if(columnDbName.equalsIgnoreCase(strField[f]))
+                                 String columnClassName =   dbFieldsInGroupOfPanels[i].getColClassName();
+                                 String fieldTableOfSource = updateAdditional[u].getUpdateAdditionalFieldTable(); // like salelines
+                                 //System.out.println("     rowInsertAdditional   i:"+i+" columnDbName:"+columnDbName+"   fieldTableOfSource:"+fieldTableOfSource);
+                                 if(columnDbName.equalsIgnoreCase(fieldTableOfSource))
                                  {
-                                
-                                
-                                 JTextComponent tb = (JTextComponent) fieldTxts.get(i); 
-	                         fieldData[f] = tb.getText().trim();
-                                 }
-                                 else
-                                 {
-                                     //System.out.println(" PanelODORData.rowInsertAdditional columnDbName:"+columnDbName+"   strField[f]"+strField[f] );
+                                     intTable = i;
+                                     break;
                                  }
                                  
-                                 
-                                 if(dbFieldsInGroupOfPanels[i].getPrimaryKeyIntegerAutoInc() == FIELD_PRIMARY_KEY_AUTOINC)   
-                                  {     //get from utils(get last from db)       
-                                            //String  returnPkFromOnePanelForTables = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsAll,entity);
-	                                    fieldData[f] = pkFromOnePanelForTables;   	           
-                                  }                                  
-                                 
-                                 
                                  }
-                            }
-                            
-                            queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
-                          }
-                                
-                            
+                                 
+                                   if(intTable!=-1)
+                                   {
+                                        PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(intTable);
+                                        TableModelResultSet tableModelResultSet = pnlODMRData.getTableModelResultSet();
+                                        int rowcount = tableModelResultSet.getRowCount();
+                                    for(int r=0;r<rowcount;r++)
+                                    {                                    
+                                     String queryAdd =  getQueryForAdditionalInsertInsideTable(u,queryU,pkFromOnePanelOfAdditionalBridgeTable,tableModelResultSet,r);
+                                     
+                                         if(rowInsertAdditionalToDb(dbTransaction,u, queryAdd))
+                                         {}
+                                         else
+                                         { 
+                                            // break;
+                                         }
+                                    }
+                                    
+                                   }
+                                   else
+                                   {
+                                      queryU =  getQueryForAdditionalInsert(u,queryU,pkFromOnePanelOfAdditionalBridgeTable);      
+                                      if(rowInsertAdditionalToDb(dbTransaction,u, queryU))
+                                      {}
+                                      else
+                                      { 
+                                         // break;
+                                      }                                     
+                                   }      
+                      
+                        }
+                     } //for
+             
+         }
+         else// updateAdditional is null, has no update query entity
+         {
+             ret=true;
+         }
+                     
+
+      return ret;               
+   }   
+   
+   
+   
+   private boolean rowInsertAdditionalToDb( Database dbTransaction,int u, String queryU)  throws SQLException
+   {
+       
+       boolean ret = false;
+       
+                         
+
                       if (VariablesGlobal.globalShowSQLEdit)
-                      { System.out.println("PanelODORData.rowInsertAdditional  u:"+u+"  queryU:"+queryU);}
+                      { 
+                         System.out.println("PanelODORData.rowInsertAdditional        ++       u:"+u+"      queryU:"+queryU);
+                     }
            
                       // //return 1 there is already one record with the same keys
-                      int intRet = dbTransaction.transactionUpdateQuery(queryU,"PanelODORData.rowInsertAdditional",showDialogOnError);   
+                      int intRet = dbTransaction.transactionUpdateQuery(queryU+"","PanelODORData.rowInsertAdditionalToDb",showDialogOnError);   
                       //int intRet = db.updateQuery(queryU,"PanelODORData.rowInsertAdditional",showDialogOnError);   
                       
                       
@@ -8867,22 +8905,158 @@ ps.setBytes(i, b);
                      {
                          System.out.println("PanelODORData.rowInsertAdditional ERROR u:"+u+"    intRet:"+intRet+"    queryU: "+queryU);
                          ret=false;
-                         break; 
+                         
                      }
-                      
-                      
-                        }
-                     } //for
-         }
-         else// updateAdditional is null, has no update query entity
-         {
-             ret=true;
-         }
-                     
-
-      return ret;               
-   }   
+       
+       
+       return ret;
+   }
    
+      private String getQueryForAdditionalInsertInsideTable(int u, String queryU, String  pkFromOnePanelOfAdditionalBridgeTable, TableModelResultSet tableModelResultSet,int r )
+   {
+       
+       
+                          if(updateAdditional[u].getUpdateAdditionalQueryFields()!=null)  
+                          {                        
+                              
+                             String[] strField = updateAdditional[u].getUpdateAdditionalQueryFields();
+                          
+                            String[] fieldData = new String[strField.length];
+                            for(int f=0;f<strField.length;f++)
+                            {
+                                   	     
+                                 //for (int i = 0; i < dbFieldsBridgeMany.length; i++)//  i = fieldTxts 
+                                for (int c=0;c<tableModelResultSet.getColumnCount();c++)
+                                 {   
+           	                 String columnDbName = tableModelResultSet.getColumnDBName(c);  //get colunm name 
+                              
+                                 if(columnDbName.equalsIgnoreCase(strField[f]))
+                                 {
+                                    String colClass = tableModelResultSet.getColumnClassString(c);
+                                
+                                  if(colClass.equalsIgnoreCase("java.sql.Date"))
+                                  {
+                                      
+                                       //JTextBoxWithEditButtons textEditFormatedDate = (JTextBoxWithEditButtons)fieldTxts.get(i);
+                                       //JTextComponent ta = (JTextComponent)textEditFormatedDate.getTextComp();
+                                       fieldData[f] = " '"+utilsDate.reformatDateStringToSaveToDB(tableModelResultSet.getValueAt(r, c)+"")+"' ";
+                                       
+                                      
+                                  }
+                                  else if(colClass.equalsIgnoreCase("java.lang.Double"))
+                                  {
+                                      
+                                         //JTextComponent tb = (JTextComponent) fieldTxts.get(i); 
+                                         String valdouble = utilsDouble.getDoubleSaving(tableModelResultSet.getValueAt(r, c)+"");
+	                                 fieldData[f] = valdouble;
+                                      
+                                  }                                  
+                                  else
+                                  {
+                                     //JTextComponent tb = (JTextComponent) fieldTxts.get(i); 
+	                             fieldData[f] = tableModelResultSet.getValueAt(r, c)+"";//tb.getText().trim();
+                                  }
+                                  
+                                  //System.out.println(" PanelODORData.getQueryForAdditionalInsertInsideTable   r:"+r+"   columnDbName:"+columnDbName+"   colClass:"+colClass+"    fieldData[f]:"+fieldData[f] );
+                                 }
+                                 else
+                                 {
+                                     //System.out.println(" PanelODORData.rowInsertAdditional columnDbName:"+columnDbName+"   strField[f]"+strField[f] );
+                                 }
+                           
+                                 /*if(dbFieldsBridgeMany[i].getPrimaryKeyIntegerAutoInc() == FIELD_PRIMARY_KEY_AUTOINC)   
+                                  {     //get from utils(get last from db)       
+                                            //String  returnPkFromOnePanelForTables = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsAll,entity);
+	                                    fieldData[f] = pkFromOnePanelForTables;   	           
+                                  } */                                 
+
+                                 }
+                            }
+                            
+                             queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
+                            queryU = queryU.replaceAll("&a",(r+1)+"");// is for no of row
+                            //&@ is fot pk of header, &# is for each row
+                            queryU = queryU.replaceAll("&@", pkFromOnePanelOfAdditionalBridgeTable);                            
+
+                          }    
+                          
+
+                            
+                            
+                            //System.out.println(" PanelODORData.rowInsertAdditional   r:"+r+"   queryU:"+queryU);
+       
+       return queryU;
+       
+   }
+   
+   
+   private String getQueryForAdditionalInsert(int u, String queryU, String  pkFromOnePanelOfAdditionalBridgeTable)
+   {
+       
+       
+                          if(updateAdditional[u].getUpdateAdditionalQueryFields()!=null)  
+                          {                        
+                              
+                             String[] strField = updateAdditional[u].getUpdateAdditionalQueryFields();
+                          
+                            String[] fieldData = new String[strField.length];
+                            for(int f=0;f<strField.length;f++)
+                            {           	     
+                                 for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)//  i = fieldTxts        
+                                 {   
+           	                 String columnDbName = dbFieldsInGroupOfPanels[i].getDbField();  //get colunm name 
+                             
+                                 if(columnDbName.equalsIgnoreCase(strField[f]))
+                                 {
+                                    String colClass = dbFieldsInGroupOfPanels[i].getColClassName();
+                               //System.out.println("  PanelODORData.rowInsertAdditional columnDbName:"+columnDbName+"   f"+f+"   i:"+i+"   colClass:"+colClass+"    strField[f]"+strField[f] );
+                                  if(colClass.equalsIgnoreCase("java.sql.Date"))
+                                  {
+                                      
+                                       JTextBoxWithEditButtons textEditFormatedDate = (JTextBoxWithEditButtons)fieldTxts.get(i);
+                                       JTextComponent ta = (JTextComponent)textEditFormatedDate.getTextComp();
+                                       fieldData[f] = " '"+utilsDate.reformatDateStringToSaveToDB(ta.getText().trim())+"' ";
+                                      
+                                  }
+                                  else if(colClass.equalsIgnoreCase("java.lang.Double"))
+                                  {
+                                      
+                                         JTextComponent tb = (JTextComponent) fieldTxts.get(i); 
+                                         String valdouble = utilsDouble.getDoubleSaving(tb.getText().trim());
+	                                 fieldData[f] = valdouble;
+                                      
+                                  }                                  
+                                  else
+                                  {
+                                     JTextComponent tb = (JTextComponent) fieldTxts.get(i); 
+	                             fieldData[f] = tb.getText().trim();
+                                  }
+                                 }
+                                 else
+                                 {
+                                     //System.out.println(" ==++++===== PanelODORData.rowInsertAdditional columnDbName:"+columnDbName+"   strField[f]"+strField[f] );
+                                 }
+                           
+                               /*  if(dbFieldsInGroupOfPanels[i].getPrimaryKeyIntegerAutoInc() == FIELD_PRIMARY_KEY_AUTOINC)   
+                                  {     //get from utils(get last from db)       
+                                            //String  returnPkFromOnePanelForTables = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsAll,entity);
+                                      System.out.println(" ======================================================== getQueryForAdditionalInsert    columnDbName:"+columnDbName+"       pkFromOnePanelOfAdditionalBridgeTable:"+pkFromOnePanelOfAdditionalBridgeTable);
+	                                    fieldData[f] = pkeyFromOnePanelForTablesIn;   	           
+                                  } */                                 
+
+                                 }
+                            }
+                             queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
+                            
+
+                            
+                            queryU = queryU.replaceAll("&@", pkFromOnePanelOfAdditionalBridgeTable);
+                          }       
+       
+       
+       return queryU;
+       
+   }
    
      /*
       *  shows in second txt the value from table

@@ -3074,14 +3074,15 @@ manager.addChangeListener(updateListener);*/
             Database db = new Database();
             db.retrieveDBDataFromQuery("SELECT dbleadversion, dbsubversion FROM dbsystem WHERE dbsystemid = 1","DialogMain.isRestoreCompleted");
             ResultSet rs = db.getRS();
-            if(rs==null)
-            {           
-              createDbSystemTableWhenDatabseExistsButNotTheDbsystemTable();
-            }
+
             String strDbLeadVer = "1";
             String strDbSubVer = "0.2511";
              try
              {
+            if(rs.first()==false)
+            {           
+              createDbSystemTableWhenDatabseExistsButNotTheDbsystemTable();
+            }
                 rs.first();
                strDbLeadVer = rs.getString("dbleadversion");
                strDbSubVer= rs.getString("dbsubversion");
