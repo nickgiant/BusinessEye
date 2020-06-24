@@ -8754,7 +8754,7 @@ ps.setBytes(i, b);
                      }
                      else
                      {
-                       if(rowInsertAdditional(dbTransaction,pkFromOnePanelForTables))// like update of last document no in actiontype
+                       if(rowInsertAdditional(dbTransaction,pkFromOnePanelForTables))// like update of last document no in actiontype, or bridge
                        {
                             ret=1;
                        }
@@ -8775,9 +8775,10 @@ ps.setBytes(i, b);
                  }
               }
  
-          System.out.println("PanelOneDataOneRecData.rowInsertAll panelOneDataOneRecData not saved ret:"+ret);    
+             
               if (ret==0)
               {
+                  System.out.println("PanelOneDataOneRecData.rowInsertAll panelOneDataOneRecData not saved ret:"+ret); 
                         utilsGui.showMessageError(this,"PanelOneDataOneRecData.rowInsertAll panelOneDataOneRecData not saved");
               }
     // return ret;           
@@ -8846,7 +8847,7 @@ ps.setBytes(i, b);
                                      String queryAdd =  getQueryForAdditionalInsertInsideTable(u,queryU,pkFromOnePanelOfAdditionalBridgeTable,tableModelResultSet,r);
                                      
                                          if(rowInsertAdditionalToDb(dbTransaction,u, queryAdd))
-                                         {}
+                                         {ret=true;}
                                          else
                                          { 
                                             // break;
@@ -8858,7 +8859,7 @@ ps.setBytes(i, b);
                                    {
                                       queryU =  getQueryForAdditionalInsert(u,queryU,pkFromOnePanelOfAdditionalBridgeTable);      
                                       if(rowInsertAdditionalToDb(dbTransaction,u, queryU))
-                                      {}
+                                      {ret=true;}
                                       else
                                       { 
                                          // break;
