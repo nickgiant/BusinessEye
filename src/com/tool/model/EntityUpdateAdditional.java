@@ -17,17 +17,21 @@ package com.tool.model;
 public class EntityUpdateAdditional
 {
         private int updateAdditionalWhen; //NO_UPDATE, UPDATE_ON_INSERT_ONLY,UPDATE_ON_UPDATE_ONLY, UPDATE_ON_BOTH_INSERT_AND_UPDATE,UPDATE_ON_DELETE
+        private String ifEnabledReturn1;
+         private String[] ifEnabledReturn1FieldsToReplace;
         private String updateAdditionalFieldTable;
         private String updateAdditionalQuery;
         private String[] updateAdditionalQueryFields;
         private String updateAdditionalBridgeEntity;
         private EntityDBFields[] updateAdditionalBridgeDbFields;
         
-        public EntityUpdateAdditional(int updateAdditionalWhenIn, String updateAdditionalFieldTableIn, String updateAdditionalQueryIn,String[] updateAdditionalQueryFieldsIn, String updateAdditionalBridgeEntityIn,
+        public EntityUpdateAdditional(int updateAdditionalWhenIn, String ifEnabledReturn1In, String[] ifEnabledReturn1FieldsToReplaceIn, String updateAdditionalFieldTableIn, String updateAdditionalQueryIn,String[] updateAdditionalQueryFieldsIn, String updateAdditionalBridgeEntityIn,
                  EntityDBFields[] updateAdditionalBridgeDbFieldsIn)
         {
             
          updateAdditionalWhen=updateAdditionalWhenIn;
+         ifEnabledReturn1=ifEnabledReturn1In;
+         ifEnabledReturn1FieldsToReplace=ifEnabledReturn1FieldsToReplaceIn;
          updateAdditionalFieldTable = updateAdditionalFieldTableIn;
          updateAdditionalQuery=updateAdditionalQueryIn;
          updateAdditionalQueryFields=updateAdditionalQueryFieldsIn; 
@@ -42,6 +46,8 @@ public class EntityUpdateAdditional
     
     
  public int getUpdateAdditionalWhen()  {return updateAdditionalWhen;}
+ public String getIfIsEnabledReturn1()  {   return ifEnabledReturn1;}
+ public String[] getIfIsEnabledReturn1FieldsToReplace()  { return  ifEnabledReturn1FieldsToReplace;}
  public String getUpdateAdditionalFieldTable()  {   return updateAdditionalFieldTable;  }
   public String getUpdateAdditionalQuery()  {   return updateAdditionalQuery;  }
   public String[] getUpdateAdditionalQueryFields()  {   return updateAdditionalQueryFields;  }

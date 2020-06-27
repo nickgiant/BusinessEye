@@ -99,6 +99,8 @@ public interface Constants
         public static final int SHOW_BORDER_BTN_NONE = 0;
         public static final int SHOW_BORDER_BTN_ONLY_ONE = 1;
        
+        public static final String UPDATEADDITIONAL_ENABLED="1";
+        public static final String UPDATEADDITIONAL_NOT_ENABLED="0";
        
        
        public static int IS_CALLED_BY_MULTIPLE_TABLES_MDMR = 0;

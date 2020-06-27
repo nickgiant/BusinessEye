@@ -8806,6 +8806,75 @@ ps.setBytes(i, b);
              String  pkFromOnePanelOfAdditionalBridgeTable="";
                      for(int u=0;u<updateAdditional.length;u++)
                      {
+                         String strIsEnabled= UPDATEADDITIONAL_NOT_ENABLED;
+                         String strQuery = updateAdditional[u].getIfIsEnabledReturn1();
+                         //String strQuery ="";
+                         String[] strField = updateAdditional[u].getIfIsEnabledReturn1FieldsToReplace();
+                         if(strField!=null && strQuery.length()>1)
+                         {
+                           //fieldData = updateAdditional[u].getIfIsEnabledReturn1FieldsToReplace();
+                             //String[] strField = updateAdditional[u].getIfIsEnabledReturn1FieldsToReplace();
+                          
+                            String[] fieldData = new String[strField.length];
+                            for(int f=0;f<strField.length;f++)
+                            {           	     
+                                 for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)//  i = fieldTxts        
+                                 {   
+           	                 String columnDbName = dbFieldsInGroupOfPanels[i].getDbField();  //get colunm name 
+                             
+                                 if(columnDbName.equalsIgnoreCase(strField[f]))
+                                 {
+                                    String colClass = dbFieldsInGroupOfPanels[i].getColClassName();
+                               //System.out.println("  PanelODORData.rowInsertAdditional columnDbName:"+columnDbName+"   f"+f+"   i:"+i+"   colClass:"+colClass+"    strField[f]"+strField[f] );
+                                  if(colClass.equalsIgnoreCase("java.sql.Date"))
+                                  {
+                                      
+                                       JTextBoxWithEditButtons textEditFormatedDate = (JTextBoxWithEditButtons)fieldTxts.get(i);
+                                       JTextComponent ta = (JTextComponent)textEditFormatedDate.getTextComp();
+                                       fieldData[f] = " '"+utilsDate.reformatDateStringToSaveToDB(ta.getText().trim())+"' ";
+                                      
+                                  }
+                                  else if(colClass.equalsIgnoreCase("java.lang.Double"))
+                                  {
+                                      
+                                         JTextComponent tb = (JTextComponent) fieldTxts.get(i); 
+                                         String valdouble = utilsDouble.getDoubleSaving(tb.getText().trim());
+	                                 fieldData[f] = valdouble;
+                                      
+                                  }                                  
+                                  else
+                                  {
+                                     JTextComponent tb = (JTextComponent) fieldTxts.get(i); 
+	                             fieldData[f] = tb.getText().trim();
+                                  }
+                                 }
+                                 else
+                                 {
+                                     //System.out.println(" ==++++===== PanelODORData.rowInsertAdditional columnDbName:"+columnDbName+"   strField[f]"+strField[f] );
+                                 }
+
+                                 }
+                            }                         
+                           strQuery = utilsString.replaceTextOfAStringWithText("#", strQuery, fieldData, null);
+                         }
+                         
+                         if(strQuery.length()>1)
+                         {
+                             db.getConnection();
+                             System.out.println("PanelODORData.rowInsertAdditional :: updateAdditional query:"+strQuery);
+                             db.retrieveDBDataFromQuery(strQuery, "PanelODORData.rowInsertAdditional");
+                             ResultSet rsIf = db.getRS();
+                             rsIf.first();
+                             strIsEnabled= rsIf.getString(1);
+                         }
+                         else
+                         {
+                             strIsEnabled=updateAdditional[u].getIfIsEnabledReturn1();
+                         }
+                         
+  
+                         if(strIsEnabled.equalsIgnoreCase(UPDATEADDITIONAL_ENABLED))// if updateAdditional is enabled
+                         {
                                    String entityBridge = updateAdditional[u].getUpdateAdditionalBridgeEntity();
                             EntityDBFields[] dbFieldsBridge = updateAdditional[u].getUpdateAdditionalBridgeDbFields();    
                             
@@ -8857,7 +8926,7 @@ ps.setBytes(i, b);
                                    }
                                    else
                                    {
-                                      queryU =  getQueryForAdditionalInsert(u,queryU,pkFromOnePanelOfAdditionalBridgeTable);      
+                                      queryU =  getQueryForAdditionalInsert(u,queryU,pkFromOnePanelOfAdditionalBridgeTable,pkeyFromOnePanelForTablesIn); // the last is for the saleheaderid     
                                       if(rowInsertAdditionalToDb(dbTransaction,u, queryU))
                                       {ret=true;}
                                       else
@@ -8867,6 +8936,7 @@ ps.setBytes(i, b);
                                    }      
                       
                         }
+                         }// if is enabled
                      } //for
              
          }
@@ -8974,10 +9044,10 @@ ps.setBytes(i, b);
                                  }
                             }
                             
-                             queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
+                            queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
                             queryU = queryU.replaceAll("&a",(r+1)+"");// is for no of row
-                            //&@ is fot pk of header, &# is for each row
-                            queryU = queryU.replaceAll("&@", pkFromOnePanelOfAdditionalBridgeTable);                            
+                            //&@ is fot pk of bridge header, &# is for each row,    // &b is for the header of original id like saleheaderid  
+                            queryU = queryU.replaceAll("&@", pkFromOnePanelOfAdditionalBridgeTable);    // is for the bridge pkey id like esoexoheaderid                        
 
                           }    
                           
@@ -8991,7 +9061,7 @@ ps.setBytes(i, b);
    }
    
    
-   private String getQueryForAdditionalInsert(int u, String queryU, String  pkFromOnePanelOfAdditionalBridgeTable)
+   private String getQueryForAdditionalInsert(int u, String queryU, String  pkFromOnePanelOfAdditionalBridgeTable, String pkeyFromOnePanelForTablesIn)// the last is for the saleheaderid
    {
        
        
@@ -9044,14 +9114,13 @@ ps.setBytes(i, b);
                                       System.out.println(" ======================================================== getQueryForAdditionalInsert    columnDbName:"+columnDbName+"       pkFromOnePanelOfAdditionalBridgeTable:"+pkFromOnePanelOfAdditionalBridgeTable);
 	                                    fieldData[f] = pkeyFromOnePanelForTablesIn;   	           
                                   } */                                 
-
+                            
                                  }
                             }
                              queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
                             
-
-                            
-                            queryU = queryU.replaceAll("&@", pkFromOnePanelOfAdditionalBridgeTable);
+                                queryU = queryU.replaceAll("&b", pkeyFromOnePanelForTablesIn);  // &b is for the header of original id like saleheaderid                            
+                            queryU = queryU.replaceAll("&@", pkFromOnePanelOfAdditionalBridgeTable); // is for the bridge pkey id like esoexoheaderid
                           }       
        
        
