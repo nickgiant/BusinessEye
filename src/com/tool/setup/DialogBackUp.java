@@ -2482,7 +2482,7 @@ class TabListener implements ChangeListener
             db.retrieveDBDataFromQuery("SELECT dbleadversion, dbsubversion FROM dbsystem WHERE dbsystemid = 1","DialogBackUp.restore");
             ResultSet rs = db.getRS();
             String strDbLeadVer = "1";
-             String strDbSubVer = "0.2510";
+             String strDbSubVer = STR_VERSIONSUB_START;//"0.2510";
             try
             {
                 rs.first();
@@ -2616,10 +2616,22 @@ class TabListener implements ChangeListener
       }
       catch ( SQLException sqlex)
       {
-           txtareaLog.append("\nΤο restore  δεν ολοκληρώθηκε.");	
+          if(isFromDialogMain)
+          {
+              
+                      System.out.println("error: PanelBackup.restore() sqlex:"+sqlex.getErrorCode()+"  "+sqlex.getMessage());
+                      
+                      // sqlex.printStackTrace(); 
+          }
+          else
+          {
+            txtareaLog.append("\nΤο restore  δεν ολοκληρώθηκε.");	
 //          db.transactionRollback();
                   System.out.println("error: PanelBackup.restore() sqlex:"+sqlex.getMessage());
-                  sqlex.printStackTrace();
+                  sqlex.printStackTrace();             
+              
+          }
+
       //}
       //finally
       //{

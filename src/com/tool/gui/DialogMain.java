@@ -2934,13 +2934,13 @@ manager.addChangeListener(updateListener);*/
     {
         boolean retIsCompleted = false;
         
-           DatabaseMeta dbMeta2 = new DatabaseMeta();
+           /*DatabaseMeta dbMeta2 = new DatabaseMeta();
   	   String running2 = dbMeta2.isDBrunning();
          
            if(!running2.equals(""))
            {
         	 System.exit(0);
-           }
+           }*/
 
            boolean isToUpdate = oldVersion<Double.parseDouble(VariablesGlobal.appSubVersion);
            System.out.println("DialogMain.restoreNewVersionDb   is? "+oldVersion+" - "+Double.parseDouble(VariablesGlobal.appSubVersion)+"    isToUpdate:"+isToUpdate);
@@ -3010,7 +3010,8 @@ manager.addChangeListener(updateListener);*/
       catch (IOException ex)
       {
           System.err.println("DialogMain.readFromFileDbSettings :Cannot find text file. "+VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_DB_CONFIG+"  "+ex);
-          //System.err.println(ex);
+         utilsGui.showMessageError("Το αρχείο ρυθμίσεων της βάσης δεν βρέθηκε. Η εφαρμογή θα τερματιστεί.");
+          System.exit(0);
       }         
         
     }
@@ -3068,18 +3069,73 @@ manager.addChangeListener(updateListener);*/
            return ret;
     }
     
+    private boolean isDbRunning()
+    {
+        boolean ret = false;
+        try
+        {
+             FileInputStream in = new FileInputStream(VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_DB_CONFIG);
+        }
+        catch(IOException ioe)
+        {
+             System.out.println("error DialogMain.isDbRunning  IOException    "+ioe.getMessage());
+              return false;
+        }
+         
+        
+        try
+        {
+
+            Database dbr = new Database();
+            this.readFromFileDbSettings();
+           // dbr.getConnection();
+           // dbr.getDbName();
+            dbr.retrieveDBDataFromQuery("SELECT dbleadversion, dbsubversion FROM dbsystem WHERE dbsystemid = 1","DialogMain.isDbRunning");
+            
+            if(dbr.getRS()==null)
+            {
+                 createDbSystemTableWhenDatabseExistsButNotTheDbsystemTable();
+                return true;
+            }
+            else
+            {
+               
+                return true;
+            }
+            //ResultSet rs = db.getRS();
+        }
+
+        catch(Exception e)
+        {
+                
+               // if(!createDbSystemTableWhenDatabseExistsButNotTheDbsystemTable())
+                  System.out.println("error DialogMain.isDbRunning  SQLException      "+e.getMessage());
+                  ret = false;
+                  e.printStackTrace();
+
+        }        
+        finally
+        {
+            db.releaseConnectionRs();
+        }
+        
+        
+        
+            return ret;
+    }
+    
     private double checkVersionOfDb()
     {
-        double dbVersion = 0.2511;
+        double dbVersion = 1.2585;
             Database db = new Database();
             db.retrieveDBDataFromQuery("SELECT dbleadversion, dbsubversion FROM dbsystem WHERE dbsystemid = 1","DialogMain.isRestoreCompleted");
             ResultSet rs = db.getRS();
 
             String strDbLeadVer = "1";
-            String strDbSubVer = "0.2511";
+            String strDbSubVer = "1.2585";
              try
              {
-            if(rs.first()==false)
+            if(rs==null || rs.first()==false)
             {           
               createDbSystemTableWhenDatabseExistsButNotTheDbsystemTable();
             }
@@ -3190,14 +3246,30 @@ manager.addChangeListener(updateListener);*/
 
         DialogMain dialogMain = new DialogMain();
        
-        dialogMain.readFromFileDbSettings();
-        
-        DatabaseMeta dbMeta = new DatabaseMeta();
-  	String running = dbMeta.isDBrunning();
+       
+      
+      
+    //     dialogMain.readFromFileDbSettings();
+  	boolean running = dialogMain.isDbRunning();
   	      	 	
-     	System.out.println("DialogMain.main running:"+running);
-        if(!running.equals(""))
+     	 //System.out.println("DialogMain.main  running:"+running+"     ");
+        if(running) // 
         {
+            
+       
+            dialogMain.readFromFileDbSettings();
+            
+             double dbversion = dialogMain.checkVersionOfDb();
+
+            //System.out.println("DialogMain.main     restoreNewVersionDb  dbversion:"+dbversion);
+            dialogMain.restoreNewVersionDb(dbversion); 
+              
+            dialogMain.updateVersionDbTag();
+ 
+        } 
+        else if(!running)
+        {
+     
         	/*splashScr.dispose();
         	utilsGui.showMessageError(this,"Η επαφή με τη βάση δεδομένων δεν λειτουργεί. Ελέγξτε εαν \n"+
         	"1. έχετε εγκαταστήσει jdbc driver\n"+
@@ -3212,20 +3284,20 @@ manager.addChangeListener(updateListener);*/
            dialogSetupDb.setVisible(true);
            isFromDbSetup = dialogSetupDb.closeNStart();
 
-           DatabaseMeta dbMeta2 = new DatabaseMeta();
-  	   String running2 = dbMeta2.isDBrunning();
+          /* DatabaseMeta dbMeta2 = new DatabaseMeta();
+  	   String running2 = dbMeta2.dbFileExists();
          
            if(!running2.equals(""))
            {
         	 System.exit(0);
-           }
+           }*/
            
            
-
            
+           dialogMain.readFromFileDbSettings();
            // also in isRestoreCompleted
            // used here again in order to create the db
-           Double oldVersion = 0.2511;
+           Double oldVersion = 1.2585;
            //--  setup when first time run
            boolean isUpdated = dialogMain.updateDb(oldVersion,Double.parseDouble(VariablesGlobal.appSubVersion+""));
            System.out.println("DialogMain.main    isUpdated:"+isUpdated+" because "+oldVersion+"-"+Double.parseDouble(VariablesGlobal.appSubVersion+""));
@@ -3235,20 +3307,15 @@ manager.addChangeListener(updateListener);*/
            else
            {
                System.out.println("DialogMain.main   ERROR   isUpdated:"+isUpdated+"  Perhaps error in filename or directory.");
-           }
+           }            
+            
+                        
         }
         else
         {
-            double dbversion = dialogMain.checkVersionOfDb();
-
-            System.out.println("DialogMain.main     restoreNewVersionDb  dbversion:"+dbversion);
-            dialogMain.restoreNewVersionDb(dbversion); 
-              
-            dialogMain.updateVersionDbTag();
-            
-
-            
-        }        
+            System.out.println("DialogMain.main  ELSE running:"+running);
+        }
+       
 
         dialogMain.setSize(1300,765);
         dialogMain.locateOnCenterOfTheScreen();        

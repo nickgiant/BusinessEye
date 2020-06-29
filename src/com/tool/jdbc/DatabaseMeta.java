@@ -397,14 +397,20 @@ public class DatabaseMeta
   	  
   }*/
 
-    public String isDBrunning()
+    public String dbFileExists()
     {
        String ret="";
         try
         {
+            
+            
+           // Database db = new Database();
+           // db.retrieveDBDataFromQuery("SELECT dbleadversion, dbsubversion FROM dbsystem WHERE dbsystemid = 1","DialogMain.isRestoreCompleted");
+            //ResultSet rs = db.getRS();
+            
         Connection conn = DbConnection.getConnectionFromFile();
         //DriverManager.getConnection(dbUrl, dbUser, dbPass);
-
+ 
       //  DatabaseMetaData metaData = conn.getMetaData();
       //  String driverVersion = metaData.getDriverName()+" "+metaData.getDriverVersion();
            //System.out.println("drivers loaded"+System.getProperty("jdbc.drivers"));
@@ -412,7 +418,7 @@ public class DatabaseMeta
         }
         catch ( SQLException sqlex)
         {
-               System.out.println("error:DatabaseMeta.isDBrunning:"+sqlex.getErrorCode()+" "+sqlex.getMessage());
+               System.out.println("error:DatabaseMeta.dbFileExists:"+sqlex.getErrorCode()+" "+sqlex.getMessage());
                ret=sqlex.getErrorCode()+" "+sqlex.getMessage();
                //utilsGui.showMessageError(sqlex.getMessage());
         }

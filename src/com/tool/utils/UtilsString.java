@@ -1982,7 +1982,7 @@ public  String decrypt(String strToDecrypt)
     catch (Exception e) {
         System.out.println("Error while decrypting: " + e.toString());
         UtilsGui utilsGui = new UtilsGui();
-        utilsGui.showMessageError("Error while decrypting: " + e.getMessage()+". Application will terminate");
+        utilsGui.showMessageError("Error in setup configuration. Application will terminate.");
                 
         System.exit(0);
         

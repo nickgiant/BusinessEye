@@ -72,14 +72,14 @@ public class DialogDbConnect  extends JDialog implements Constants
     private JButton btnShowBackupRestore;
     private JButton btnShowSystemInfo; 
     private JButton btnStart;
-     //private JLabel lblDbName;
+     private JLabel lblDbName;
     //private JLabel lblDbPath;
     private JLabel lblDbDriver;
     private JLabel lblDbUrl;
     private JLabel lblDbUser;
     private JLabel lblDbPass;
     private JLabel lblDBInfo;
-    //private JTextField txtDbName;
+    private JTextField txtDbName;
     private JTextArea txtDbInfo;    
     //private JTextField txtDbPath;
     private JTextField txtDbDriver;
@@ -242,7 +242,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         //panelTexts.setLayout(new SpringLayout());
         //lblDbExists = new JLabel("DB runs?", JLabel.CENTER);
         //chkDbExists = new JCheckBox();
-//        lblDbName = new JLabel("database name:", JLabel.CENTER);
+        lblDbName = new JLabel("database name:", JLabel.CENTER);
         //lblDbPath  = new JLabel("path:", JLabel.CENTER);
         lblDbDriver = new JLabel("driver:", JLabel.CENTER);
         lblDbUrl = new JLabel("URL:", JLabel.CENTER);
@@ -255,7 +255,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         //JLabel lblDbEngineDir = new JLabel("db engine dir:", JLabel.CENTER);
         lblDBInfo = new JLabel("info:", JLabel.CENTER);
         int intTxtLength = 53;
- //       txtDbName = new JTextField(intTxtLength);
+        txtDbName = new JTextField(intTxtLength);
         //txtDbPath = new JTextField(55);
         txtDbDriver = new JTextField(intTxtLength);
         txtDbUrl = new JTextField(intTxtLength);
@@ -319,26 +319,35 @@ public class DialogDbConnect  extends JDialog implements Constants
        radioMariaDB.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
-	        {  checkMariaDB();      }
+	        {  
+                    checkMariaDB(); 
+                    dbCheck(dbEngine);  
+                }
 	    });       
 
        radioMySql.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
-	        {  checkMySql();      }
+	        {  checkMySql();  
+                    dbCheck(dbEngine);
+                }
 	    });
 
 	    
        radioMSSqlServer.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
-	        {  checkMSSqlServer();      }
+	        {  checkMSSqlServer();  
+                    dbCheck(dbEngine);
+                }
 	    });
 
         radioH2embedded.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
-	        { checkH2Embedded();      }
+	        { checkH2Embedded();
+                    dbCheck(dbEngine);
+                }
 	    });
 	    
     
@@ -352,8 +361,8 @@ public class DialogDbConnect  extends JDialog implements Constants
 
        //panelChecks.add(radioHsql);
 
- //      panelLabelsAndTexts.add(lblDbName);
- //      panelLabelsAndTexts.add(txtDbName);
+      panelLabelsAndTexts.add(lblDbName);
+       panelLabelsAndTexts.add(txtDbName);
        //panelLabelsAndTexts.add(lblDbPath);
        //panelLabelsAndTexts.add(txtDbPath);
  //      panelLabelsAndTexts.add(lblDbDriver);
@@ -570,7 +579,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         //backUpsDir=props.getProperty("backup.filesdir");
         dbEngine=Integer.valueOf(props.getProperty("dbengine"));
          
- //         txtDbName.setText(dbName);
+          txtDbName.setText(dbName);
           //txtDbPath.setText(dbPath);
           txtDbDriver.setText(dbDriver);                 
           txtDbUrl.setText(dbUrl);
@@ -643,7 +652,7 @@ public class DialogDbConnect  extends JDialog implements Constants
           //txtDbSalt.setText(dbSalt);
           //txtDbEngineDir.setText(dbEngineDir);
           
-          dbCheck(dbEngine);  
+            
     }
 
     
@@ -687,7 +696,7 @@ public class DialogDbConnect  extends JDialog implements Constants
          // txtDbSalt.setText(dbSalt);
           //txtDbEngineDir.setText(dbEngineDir);
           
-          dbCheck(dbEngine);  
+          //dbCheck(dbEngine);  
     }
     
    
@@ -719,7 +728,7 @@ public class DialogDbConnect  extends JDialog implements Constants
           //txtDbPass.setText(dbPass);
           //txtDbEngineDir.setText("");
           
-          dbCheck(dbEngine);  
+         
     }
 
  
@@ -779,7 +788,7 @@ public class DialogDbConnect  extends JDialog implements Constants
           //txtDbPass.setText(dbPass);
           //txtDbEngineDir.setText("");
           
-          dbCheck(dbEngine);
+         
     }
 
         private boolean dbCheck(int dbEngine)
@@ -976,7 +985,7 @@ public class DialogDbConnect  extends JDialog implements Constants
     {
 
       int YES = 0;   	 int NO = 1;
-          String strReturn = JOptionPane.showInputDialog(this,"Εισάγετε το ονομα της βάσης:", DATABASENAME_TOCREATE_DEFAULT);
+          String strReturn = txtDbName.getText();//JOptionPane.showInputDialog(this,"Εισάγετε το ονομα της βάσης:", DATABASENAME_TOCREATE_DEFAULT);
           if(strReturn!= null && !strReturn.equalsIgnoreCase(""))
           {
                     int ask = utilsGui.showConfirmYesOrNo(this,"Σίγουρα θέλετε να δημιουργήσετε τη βάση '"+strReturn+"' ;");
@@ -996,7 +1005,7 @@ public class DialogDbConnect  extends JDialog implements Constants
                               {
                                   dbName = strReturn;
                                //   txtDbName.setText(dbName);
-                                  txtDbUrl.setText(txtDbUrl.getText()+dbName);
+                                  txtDbUrl.setText(txtDbUrl.getText());
                                   ///  NOT reates error checkMariaDB();
                                   txtDbInfo.append("\nΣφάλμα. Η βάση δεδομένων '"+strReturn+"' υπάρχει ήδη και δεν δημιουργήθηκε\n για να μή διαγραφούν τα δεδομένα. Προσπαθήστε με άλλο όνομα.");                                  
                                   utilsGui.showMessageError(this,"Σφάλμα. Η βάση δεδομένων '"+strReturn+"' υπάρχει ήδη και δεν δημιουργήθηκε\n για να μή διαγραφούν τα δεδομένα. Προσπαθήστε με άλλο όνομα.");
@@ -1017,8 +1026,8 @@ public class DialogDbConnect  extends JDialog implements Constants
                                   
                                   //utilsGui.showMessageError(this,"Η βάση δεδομένων '"+strReturn+"' δημιουργήθηκε.")
                                   dbName = strReturn;
-                               //   txtDbName.setText(dbName);
-                                  txtDbUrl.setText(txtDbUrl.getText()+dbName);
+                                  txtDbName.setText(dbName);
+                                  txtDbUrl.setText(txtDbUrl.getText());
                                   ///  NOT reates error checkMariaDB();
                                   dbCheck(dbEngine);
                                   txtDbInfo.append("\n\nΗ βάση δεδομένων '"+dbName+"' δημιουργήθηκε.");
@@ -1095,7 +1104,7 @@ public class DialogDbConnect  extends JDialog implements Constants
     	
      if(dbEngine!=0)
 	 {
-       //   dbName=txtDbName.getText();
+          dbName=txtDbName.getText();
           //dbPath=txtDbPath.getText();
           dbDriver=txtDbDriver.getText();                 
           dbUrl=txtDbUrl.getText();

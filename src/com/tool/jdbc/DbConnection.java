@@ -20,6 +20,7 @@ public class DbConnection implements Constants
 	private static String systemDirectorySymbol=System.getProperty("file.separator");
     private static UtilsOS utilsOS;
     private static UtilsString utilsString;
+    
 //	private static String dbDriver = "com.mysql.jdbc.Driver";
 	/*private static String dbId = "jdbc:mysql://localhost/mc02ngdb";//name of database
 	private static String dbUser = "mc02ng_web";//only select, insert, update, delete
@@ -134,14 +135,15 @@ public class DbConnection implements Constants
         if (drivers != null)
            System.setProperty("jdbc.drivers", drivers);
 
-        url = props.getProperty("jdbc.url");
+        String dbname = props.getProperty("jdbc.dbname");
+        url = props.getProperty("jdbc.url")+dbname;
 
         String dbDir = props.getProperty("derby.system.home") ;
         if(dbDir !=null )  //if there is in text file
         {           System.setProperty("derby.system.home", dbDir);  } // load it
 
         p.put("user", props.getProperty("jdbc.username"));// username);
-        p.put("password",VariablesGlobal.globalFilePassForDb);//password);
+        p.put("password", VariablesGlobal.globalFilePassForDb);//password);
         
         p.put("useUnicode", "true");
         p.put("characterEncoding", "utf8");//iso-8859-7
@@ -151,8 +153,12 @@ public class DbConnection implements Constants
       }
       catch (IOException ex)
       {
-          System.err.println("DbConnection.getConnectionFromFile  IOException:Cannot find text file. "+VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_DB_CONFIG+"  "+ex);
+          String error = "Cannot find text file. "+VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_DB_CONFIG;
+          System.err.println("DbConnection.getConnectionFromFile  IOException:"+error+"    "+ex);
           //System.err.println(ex);
+       //   UtilsGui utilsGui = new UtilsGui();
+        //  utilsGui.showMessageError(error);
+       //    System.exit(0);
       }
        return DriverManager.getConnection(url, p);
    }

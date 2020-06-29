@@ -631,10 +631,18 @@ public class Database implements Constants
               {
               	 error=error+"error Database.retrieveDBDataFromQuery  class="+classNameForMessage +"  "+sqlex.getErrorCode()+" msg:"+sqlex.getMessage()+"\n query: "+query;
               }
-             
+             System.out.println("-- error");
              System.out.println("-- error --:Database.retrieveDBDataFromQuery() "+ "error code in class:  "+classNameForMessage+"  "+sqlex.getErrorCode()+" " + sqlex.getMessage()+" sql "+query);
+             System.out.println("-- error");
              
-             utilsGui.showMessageError(error);             
+             if(sqlex.getErrorCode()==1146)
+             {
+                 
+             }
+             else
+             {
+                utilsGui.showMessageError(error); 
+             }
                       
         }     	
 
@@ -724,7 +732,15 @@ public class Database implements Constants
       }
       catch ( SQLException sqlex)
       {
-         System.out.println("error: Database.getConnection() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
+          System.out.println("error: Database.getConnection() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
+        if(sqlex.getErrorCode()==1049)
+        {
+            String error = sqlex.getMessage();
+            System.out.println(error);
+             utilsGui.showMessageError(error); 
+        }
+          
+         
       }
        return con;
    }

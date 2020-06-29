@@ -1821,8 +1821,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
        // LOOKUPTYPE_ONLYONE_THISFIELD
      EntityLookUp entityLookUp;
 
-     
-     // make entities for all tables called with foreign keys
+
      
        EntityFilterSettings[] traderErs = new EntityFilterSettings[3];      
        traderErs[0]=new EntityFilterSettings("κωδικός","","string","equals"," traderCode","sxtrader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);

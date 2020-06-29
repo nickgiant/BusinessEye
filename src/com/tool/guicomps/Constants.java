@@ -83,7 +83,7 @@ public interface Constants
        
        */
        
-       public static final String STR_VERSIONSUB_START = "0.2561";
+       public static final String STR_VERSIONSUB_START = "1.2589";
        
        public final int FONT_SIZE_NOT_SET = 0;
        
