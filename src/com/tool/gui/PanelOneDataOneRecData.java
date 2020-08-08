@@ -8866,6 +8866,8 @@ ps.setBytes(i, b);
                              ResultSet rsIf = db.getRS();
                              rsIf.first();
                              strIsEnabled= rsIf.getString(1);
+                             
+                             this.closeDB();
                          }
                          else
                          {
@@ -8911,10 +8913,21 @@ ps.setBytes(i, b);
                                         PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(intTable);
                                         TableModelResultSet tableModelResultSet = pnlODMRData.getTableModelResultSet();
                                         int rowcount = tableModelResultSet.getRowCount();
+                                      
                                     for(int r=0;r<rowcount;r++)
-                                    {                                    
-                                     String queryAdd =  getQueryForAdditionalInsertInsideTable(u,queryU,pkFromOnePanelOfAdditionalBridgeTable,tableModelResultSet,r);
-                                     
+                                    {
+                                        
+                                         /*String groupFieldValue = updateAdditional[u].getUpdateAdditionalFieldTableGroupValue();
+                                         db.getConnection();
+                                         db.retrieveDBDataFromQuery(getQueryForAdditionalInsertInsideTable(u,groupFieldValue,pkFromOnePanelOfAdditionalBridgeTable,tableModelResultSet,r), "PanelODORData.rowInsertAdditional");
+                                         db.retrieveRow(rs,1);
+                                         String v = rs.getString(1);*/
+                                         
+                                         System.out.println("PanelODORData.rowInsertAdditional OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   r:"+r);
+                                        
+                                        
+                                         String queryAdd =  getQueryForAdditionalInsertInsideTable(u,queryU,pkFromOnePanelOfAdditionalBridgeTable,tableModelResultSet,r);
+                                     this.closeDB();
                                          if(rowInsertAdditionalToDb(dbTransaction,u, queryAdd))
                                          {ret=true;}
                                          else

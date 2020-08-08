@@ -416,6 +416,8 @@ import javax.swing.border.BevelBorder;
         lblTitle.setIcon(ico);      
        lblTitle.setText(title);
 
+       btnEdit.setText("επεξεργασία "+strOfOne);
+       
       panelDataFilter.setEntity(entityFilterSettings,entityGroupOfComps,PANEL_FILTER_SEARCH,/*yearEnforce,*/panelManagement);//,updateAdditional);
       
       if(entityFilterSettings!=null && entityFilterSettings.length>0)
@@ -465,7 +467,7 @@ import javax.swing.border.BevelBorder;
        btnInsert.setToolTipText("εισαγωγή "+strOfOne);
        btnCopy.setToolTipText("αντιγραφή "+strOfOne);
       // btnInsertFromCopy.setToolTipText("εισαγωγή "+strOfOne+" με αντιγραφή επιλογής");
-       btnEdit.setToolTipText("επεξεργασία "+strOfOne);
+       btnEdit.setToolTipText("επεξεργασία "+strOfOne); 
        btnDelete.setToolTipText("διαγραφή "+strOfOne);
        
        btnPrintPreview.setToolTipText("εκτύπωση "+strOfMany);

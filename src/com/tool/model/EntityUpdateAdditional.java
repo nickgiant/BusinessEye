@@ -20,19 +20,22 @@ public class EntityUpdateAdditional
         private String ifEnabledReturn1;
          private String[] ifEnabledReturn1FieldsToReplace;
         private String updateAdditionalFieldTable;
+        private String updateAdditionalFieldTableGroupValue;
         private String updateAdditionalQuery;
         private String[] updateAdditionalQueryFields;
         private String updateAdditionalBridgeEntity;
         private EntityDBFields[] updateAdditionalBridgeDbFields;
         
-        public EntityUpdateAdditional(int updateAdditionalWhenIn, String ifEnabledReturn1In, String[] ifEnabledReturn1FieldsToReplaceIn, String updateAdditionalFieldTableIn, String updateAdditionalQueryIn,String[] updateAdditionalQueryFieldsIn, String updateAdditionalBridgeEntityIn,
-                 EntityDBFields[] updateAdditionalBridgeDbFieldsIn)
+        public EntityUpdateAdditional(int updateAdditionalWhenIn, String ifEnabledReturn1In, String[] ifEnabledReturn1FieldsToReplaceIn, String updateAdditionalFieldTableIn, 
+                String updateAdditionalFieldTableGroupValueIn, String updateAdditionalQueryIn,String[] updateAdditionalQueryFieldsIn, String updateAdditionalBridgeEntityIn, 
+                EntityDBFields[] updateAdditionalBridgeDbFieldsIn)
         {
             
          updateAdditionalWhen=updateAdditionalWhenIn;
          ifEnabledReturn1=ifEnabledReturn1In;
          ifEnabledReturn1FieldsToReplace=ifEnabledReturn1FieldsToReplaceIn;
          updateAdditionalFieldTable = updateAdditionalFieldTableIn;
+         updateAdditionalFieldTableGroupValue = updateAdditionalFieldTableGroupValueIn;
          updateAdditionalQuery=updateAdditionalQueryIn;
          updateAdditionalQueryFields=updateAdditionalQueryFieldsIn; 
          updateAdditionalBridgeEntity=updateAdditionalBridgeEntityIn;
@@ -49,6 +52,7 @@ public class EntityUpdateAdditional
  public String getIfIsEnabledReturn1()  {   return ifEnabledReturn1;}
  public String[] getIfIsEnabledReturn1FieldsToReplace()  { return  ifEnabledReturn1FieldsToReplace;}
  public String getUpdateAdditionalFieldTable()  {   return updateAdditionalFieldTable;  }
+ public String getUpdateAdditionalFieldTableGroupValue()  {   return updateAdditionalFieldTableGroupValue;}
   public String getUpdateAdditionalQuery()  {   return updateAdditionalQuery;  }
   public String[] getUpdateAdditionalQueryFields()  {   return updateAdditionalQueryFields;  }
   public String getUpdateAdditionalBridgeEntity()  {   return updateAdditionalBridgeEntity;  }
