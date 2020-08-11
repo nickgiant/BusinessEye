@@ -62,7 +62,6 @@ public class EntityDataEsoExo extends EntityData implements Constants
 
         String[] fieldsUniqueSale = null;
         
-        
         EntityUpdateAdditional[] updateAdditionalActionType = null;//new EntityUpdateAdditional[1];
         
         EntityPanel entityPanelEsexDataentry;// = new EntityPanel("ODOR","sxesoexoheader",esoexoHeaderDBFields,esoexoEntityGroupOfComps,esoexoEntityGroupOfPanels,"Νο εσόδων εξόδων","","esoexoheaderId",saleQueryEditable,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniqueSale,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,updateAdditionalActionType,entReportEsExDoc);      // entReportEsExDoc

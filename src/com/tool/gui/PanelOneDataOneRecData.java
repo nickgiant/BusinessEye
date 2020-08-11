@@ -8914,8 +8914,8 @@ ps.setBytes(i, b);
                                         TableModelResultSet tableModelResultSet = pnlODMRData.getTableModelResultSet();
                                         int rowcount = tableModelResultSet.getRowCount();
                                       
-                                    for(int r=0;r<rowcount;r++)
-                                    {
+                                   // for(int r=0;r<rowcount;r++)
+                                    //{
                                         
                                          /*String groupFieldValue = updateAdditional[u].getUpdateAdditionalFieldTableGroupValue();
                                          db.getConnection();
@@ -8923,10 +8923,10 @@ ps.setBytes(i, b);
                                          db.retrieveRow(rs,1);
                                          String v = rs.getString(1);*/
                                          
-                                         System.out.println("PanelODORData.rowInsertAdditional OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   r:"+r);
+                                         //System.out.println("PanelODORData.rowInsertAdditional OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   ");
                                         
                                         
-                                         String queryAdd =  getQueryForAdditionalInsertInsideTable(u,queryU,pkFromOnePanelOfAdditionalBridgeTable,tableModelResultSet,r);
+                                         String queryAdd =  getQueryForAdditionalInsertInsideTable(u,queryU,pkFromOnePanelOfAdditionalBridgeTable,tableModelResultSet);
                                      this.closeDB();
                                          if(rowInsertAdditionalToDb(dbTransaction,u, queryAdd))
                                          {ret=true;}
@@ -8934,7 +8934,7 @@ ps.setBytes(i, b);
                                          { 
                                             // break;
                                          }
-                                    }
+                                    //}
                                     
                                    }
                                    else
@@ -8996,7 +8996,7 @@ ps.setBytes(i, b);
        return ret;
    }
    
-      private String getQueryForAdditionalInsertInsideTable(int u, String queryU, String  pkFromOnePanelOfAdditionalBridgeTable, TableModelResultSet tableModelResultSet,int r )
+   private String getQueryForAdditionalInsertInsideTable(int u, String queryU, String  pkFromOnePanelOfAdditionalBridgeTable, TableModelResultSet tableModelResultSet )
    {
        
        
@@ -9009,6 +9009,8 @@ ps.setBytes(i, b);
                             for(int f=0;f<strField.length;f++)
                             {
                                    	     
+                                for(int r = 0; r<tableModelResultSet.getRowCount();r++)
+                                {
                                  //for (int i = 0; i < dbFieldsBridgeMany.length; i++)//  i = fieldTxts 
                                 for (int c=0;c<tableModelResultSet.getColumnCount();c++)
                                  {   
@@ -9053,16 +9055,17 @@ ps.setBytes(i, b);
                                             //String  returnPkFromOnePanelForTables = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsAll,entity);
 	                                    fieldData[f] = pkFromOnePanelForTables;   	           
                                   } */                                 
-
+                                 }
+                                queryU = queryU.replaceAll("&a",(r+1)+"");// is for no of row
                                  }
                             }
                             
                             queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
-                            queryU = queryU.replaceAll("&a",(r+1)+"");// is for no of row
+                            
                             //&@ is fot pk of bridge header, &# is for each row,    // &b is for the header of original id like saleheaderid  
                             queryU = queryU.replaceAll("&@", pkFromOnePanelOfAdditionalBridgeTable);    // is for the bridge pkey id like esoexoheaderid                        
 
-                          }    
+                          }
                           
 
                             

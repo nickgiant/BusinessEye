@@ -416,7 +416,7 @@ import javax.swing.border.BevelBorder;
         lblTitle.setIcon(ico);      
        lblTitle.setText(title);
 
-       btnEdit.setText("επεξεργασία "+strOfOne);
+       btnEdit.setText("<html>επεξεργασία "+strOfOne+" <b>F10</b> </html>");
        
       panelDataFilter.setEntity(entityFilterSettings,entityGroupOfComps,PANEL_FILTER_SEARCH,/*yearEnforce,*/panelManagement);//,updateAdditional);
       
@@ -1083,6 +1083,7 @@ class ToolBarData extends JToolBar implements Constants
         //btnCopy.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F9 ,java.awt.event.InputEvent.CTRL_DOWN_MASK ), "newRecFromCopy"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
         //btnCopy.getActionMap().put("newRecFromCopy", actionNewRecFromCopy);
         
+        // also exists in setEntity as setText
         btnEdit.setText("<html>επεξεργασία <b>F10</b></html>");
         //btnEdit.setText("επεξεργασία (F10)");
         btnEdit.setOpaque(false);

@@ -8,8 +8,6 @@ package com.tool.guicomps;
 import com.tool.gui.*;
 import com.tool.jdbc.*;
 
-
-
 import java.sql.*;
 
 import com.tool.model.EntityDBFields;

@@ -4,7 +4,6 @@
  
 public class VariablesGlobal 
 {
-
     public static String globalUserId;
 
     public static String globalYearDescr;
