@@ -69,6 +69,7 @@ import javax.swing.text.JTextComponent;
        // private JMenuItem mItemTemplatesSelect;
        // private JMenuItem mItemTemplatesSaveAs;         
         private JButton btnPrintPreview;
+        
         //private JButton btnPrint;
         /*private JLabel lblIcoSeparator1 ;
         private JLabel lblIcoSeparator2 ;
@@ -721,6 +722,7 @@ import javax.swing.text.JTextComponent;
              btnDelete.setEnabled(true);
              btnPrintPreview.setEnabled(true);
              btnInsert.setEnabled(true);
+             
              
              btnEditPreferences.setEnabled(true);
              //btnInsertFromCopy.setEnabled(true);             
@@ -1786,6 +1788,7 @@ import javax.swing.text.JTextComponent;
             btnSaveAndNew.setEnabled(true);
             btnDelete.setEnabled(true);
             btnPrintPreview.setEnabled(true);
+          
             btnInsert.setEnabled(true);
             btnSelectTemplate.setEnabled(true);
             //.setEnabled(true);
@@ -2058,7 +2061,9 @@ import javax.swing.text.JTextComponent;
 
   }
   
+ 
   
+   
   private void selectTemplate(String pkId,String fieldHeaderId,String queryTemplates,String setFieldIsTemplate)
   {
       
@@ -2217,7 +2222,9 @@ import javax.swing.text.JTextComponent;
         JPopupMenu popupMenuPreview = new JPopupMenu();
         btnPrintPreview = new JButton();
         btnPrintPreview.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnPrintPreview.setVerticalTextPosition(SwingConstants.BOTTOM);       
+        btnPrintPreview.setVerticalTextPosition(SwingConstants.BOTTOM);  
+        
+       
         // btnPrint = new JButton();
         //btnTemplates = new JButtonListMenu();
         //mItemTemplatesSelect = new JMenuItem("επιλογή προτύπου");
@@ -2537,6 +2544,7 @@ import javax.swing.text.JTextComponent;
         btnPrintPreview.getActionMap().put("reportpreview", actionPrintPreview);
 
         
+
         
     /*    btnPrint.setText("<html>εκτύπωση...<b>F8</b></html>");
         //btnPrint.setText("προεπισκόπηση (F8)");
@@ -2622,6 +2630,7 @@ import javax.swing.text.JTextComponent;
             btnNext.setVisible(false);
             //lblIcoSeparator3.setVisible(false);            
             btnPrintPreview.setVisible(true);
+            
             //lblIcoSeparator4.setVisible(true);     	
         	
         }
@@ -2640,6 +2649,7 @@ import javax.swing.text.JTextComponent;
             btnNext.setVisible(false);
             //lblIcoSeparator3.setVisible(false);            
             btnPrintPreview.setVisible(true);
+            
             //lblIcoSeparator4.setVisible(true);     	
         	
         }        

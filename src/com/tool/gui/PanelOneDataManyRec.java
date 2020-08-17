@@ -65,6 +65,7 @@ import javax.swing.border.BevelBorder;
         //private JButton btnFind;
          private JButton btnCard;
         private JButton btnPrintPreview;
+        private JButton btnRecalcOfBridge;
         private JButton btnExport;
         private JMenuItem mItemPrintPreview;
         //private JMenuItem mItemExport;
@@ -406,6 +407,7 @@ import javax.swing.border.BevelBorder;
        	 paneTitle.setVisible(false);
        	 btnPreferences.setVisible(false);
        	 btnPrintPreview.setVisible(false);
+         btnRecalcOfBridge.setVisible(false);
          btnCopy.setVisible(false);
          btnCopyFromOtherCompany.setVisible(false);
        	 //btnExport.setVisible(true);
@@ -417,6 +419,24 @@ import javax.swing.border.BevelBorder;
        lblTitle.setText(title);
 
        btnEdit.setText("<html>επεξεργασία "+strOfOne+" <b>F10</b> </html>");
+       
+        EntityUpdateAdditional[] updateAdditional=null;
+        for(int p = 0;p<entityPanel.length;p++)
+        {
+            updateAdditional = entityPanel[p].getUpdateAdditional();
+            if(updateAdditional!=null)
+            {
+                //System.out.println("PanelODMR.setEntity   p:"+p+" "+entityPanel[p].getUpdateAdditional());
+                btnRecalcOfBridge.setVisible(true);
+                break;
+            }
+            else
+            {
+                btnRecalcOfBridge.setVisible(false);
+            }
+        }
+       
+       
        
       panelDataFilter.setEntity(entityFilterSettings,entityGroupOfComps,PANEL_FILTER_SEARCH,/*yearEnforce,*/panelManagement);//,updateAdditional);
       
@@ -1022,7 +1042,8 @@ class ToolBarData extends JToolBar implements Constants
        btnCard = new JButton();
         btnPrintPreview = new JButton();
     //    btnPrintPreview.setHorizontalTextPosition(SwingConstants.CENTER);
-    //    btnPrintPreview.setVerticalTextPosition(SwingConstants.BOTTOM);        
+    //    btnPrintPreview.setVerticalTextPosition(SwingConstants.BOTTOM);    
+        btnRecalcOfBridge = new JButton();    
         btnExport = new JButton();
         //mItemPrintPreview = new JMenuItem("προεπισκόπηση εκτύπωσης");
         //mItemExport = new JMenuItem("εξαγωγή...");
@@ -1237,7 +1258,26 @@ class ToolBarData extends JToolBar implements Constants
 //        popupMenuPrintExport.addSeparator();
         
 
-        
+        btnRecalcOfBridge.setText("<html>επανυπολογ. γέφυρας</html>");
+        //btnRecalcOfBridge.setText("προεπισκόπηση (F7)");
+        btnRecalcOfBridge.setOpaque(false);
+        btnRecalcOfBridge.setToolTipText("επανυπολογισμός γέφυρας");
+        btnRecalcOfBridge.setIcon(ICO_CONFIG16);
+        btnRecalcOfBridge.setFocusable(false);         
+        btnRecalcOfBridge.addActionListener(new ActionListener()
+        {
+	        public void actionPerformed(ActionEvent e) 
+	        {
+                         //  showPrintPreviewForm(false);
+                    bridgeDelete();
+                    bridgeRecalc(); 
+	        }
+	    });
+     /*   Action actionPrintPreview = new ActionPrintPreview();
+        btnRecalcOfBridge.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F7"), "reportpreview"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
+        btnRecalcOfBridge.getActionMap().put("reportpreview", actionPrintPreview);        
+       */ 
+     
         /*
         //popupMenuPrintExport.add(mItemExport);
         popupMenuPrintExport.add(mItemHtml);
@@ -1336,7 +1376,7 @@ class ToolBarData extends JToolBar implements Constants
 	        {	   exportTo("xls");  }
 	    });
                */
-        btnPreferences.setText("<html>προ<b>Τ</b>ιμήσεις πίνακα</html>");
+        btnPreferences.setText("<html>προ<b>Τ</b>ιμήσεις</html>");
         //btnPreferences.setText("προτιμήσεις (alt t)");
         btnPreferences.setOpaque(false);
         //btnPreferences.setText("<html>προτιμήσεις <b>Π</b></html>");
@@ -1382,6 +1422,7 @@ class ToolBarData extends JToolBar implements Constants
         //add(btnExport);
         add(btnExport);
         add(btnPreferences);
+        add(btnRecalcOfBridge);
    //     addSeparator();
 
         }
@@ -2144,6 +2185,184 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
    }    
     
     
+   
+  private void bridgeRecalc() 
+  {
+      
+      EntityUpdateAdditional[] updateAdditional=null;
+        for(int p = 0;p<entityPanel.length;p++)
+        {
+
+            updateAdditional = entityPanel[p].getUpdateAdditional();
+            if(updateAdditional!=null)
+            {
+                
+                 String primKeySourceValue = panelOneDataManyRecData.getPrimKeyValue();// on saleheaderid
+                 String primKeyDestinationValue = "";// on sxesoexoid
+                 
+                for(int u=0;u<updateAdditional.length;u++)
+                {
+                    if(updateAdditional[u].getUpdateAdditionalWhen() == UPDATE_ON_UPDATE_ONLY)
+                    {
+                            EntityDBFields[] dbFieldsBridge = updateAdditional[u].getUpdateAdditionalBridgeDbFields();    
+    
+                                           
+                 String entityBridge = updateAdditional[u].getUpdateAdditionalBridgeEntity();
+                            
+                            if(entityBridge!= null && dbFieldsBridge!=null)
+                            {
+                               primKeyDestinationValue = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsBridge,entityBridge,null,null,0);// used for table, last
+                               //System.out.println(" PanelODMR.bridgeRecalc   ====     primKeyDestinationValue:"+primKeyDestinationValue);
+                            } 
+                        
+                String strQuery = updateAdditional[u].getIfIsEnabledReturn1();
+                String[] strField1 = updateAdditional[u].getIfIsEnabledReturn1FieldsToReplace();
+
+                 String queryU = updateAdditional[u].getUpdateAdditionalQuery();
+
+                
+                 String[] strField = updateAdditional[u].getUpdateAdditionalQueryFields();
+                  
+                if(strField==null)  
+                { 
+                    String[] fieldData = new String[strField1.length];
+                    /*for(int f=0;f<strField1.length;f++)
+                    { 
+                        System.out.println("      strField:"+strField+"     fieldData out          fieldData.length:"+fieldData.length+"       entityBridge:"+entityBridge+"    primKeySourceValue:"+primKeySourceValue+"    queryU :"+queryU);
+                    } */
+                    
+                    // queryU = queryU+" AND "+primKeyDb+" LIKE "+primKeySourceValue;
+                 try
+                 {
+                     db.transactionLoadConnection();
+                                      
+                     
+                     
+                     
+                    queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
+                  
+                    queryU = queryU.replaceAll("&@", primKeyDestinationValue);    // is for the bridge pkey id like esoexoheaderid       
+   // //return 1 there is already one record with the same keys
+                      int intRet = db.transactionUpdateQuery(queryU+"","PanelODMR.bridgeRecalc "+entityBridge,showDialogOnError);   
+                      //int intRet = db.updateQuery(queryU,"PanelODORData.rowInsertAdditional",showDialogOnError);   
+                 }
+                 catch(SQLException sqle)
+                 {
+                      System.out.println("PanelODOR.bridgeRecalc    "+entityBridge+" "+sqle.getMessage());
+                      sqle.printStackTrace();
+                 }
+                 finally
+                 {
+                     db.releaseConnectionRs(); 
+                 }
+                    
+                    
+                    
+                }   
+                else
+                {
+                              
+                            
+                          String[] fieldData = new String[strField.length];
+                     for(int f=0;f<strField.length;f++)
+                    { 
+                        fieldData[f] = primKeySourceValue;
+                       // System.out.println("        strField:"+strField+"     fieldData out          fieldData.length:"+fieldData.length+"       entityBridge:"+entityBridge+"    primKeySourceValue:"+primKeySourceValue+"    queryU :"+queryU);
+                    }
+ 
+                // queryU = queryU+" AND "+primKeyDb+" LIKE "+primKeySourceValue;
+                 try
+                 {
+                     db.transactionLoadConnection();
+                  
+
+                     
+                      queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
+                    
+                      queryU = queryU.replaceAll("&@", primKeyDestinationValue); 
+                     if (VariablesGlobal.globalShowSQLEdit)
+                     {
+                         System.out.println("PanelODOR.bridgeRecalc        ++       u:"+u+"      queryU:"+queryU);
+                     }
+           
+                      // //return 1 there is already one record with the same keys
+                      int intRet = db.transactionUpdateQuery(queryU+"","PanelODMR.bridgeRecalc",showDialogOnError);   
+                      //int intRet = db.updateQuery(queryU,"PanelODORData.rowInsertAdditional",showDialogOnError);   
+                 }
+                 catch(SQLException sqle)
+                 {
+                      System.out.println("PanelODOR.bridgeRecalc    "+sqle.getMessage());
+                      sqle.printStackTrace();
+                 }
+                 finally
+                 {
+                     db.releaseConnectionRs();
+                 }
+                 
+                System.out.println("PanelODMR.bridgeRecalc   p:"+p+"  u:"+u+"  "+queryU+"        entityBridge:"+entityBridge+"     primKeyDb:"+primKeyDb+"="+primKeySourceValue);
+                    
+                }// else == null
+                }// if update only
+               
+                
+            }// for all updated
+        }// if update not null
+        }
+        
+      
+  }
+  
+  private void bridgeDelete()
+  {
+      
+      EntityUpdateAdditional[] updateAdditional=null;
+        for(int p = 0;p<entityPanel.length;p++)
+        {
+
+            updateAdditional = entityPanel[p].getUpdateAdditional();
+            if(updateAdditional!=null)
+            {
+                
+                 String primKeySourceValue = panelOneDataManyRecData.getPrimKeyValue();// on saleheaderid
+                 String primKeyDestinationValue = "";// on sxesoexoid
+                 
+                for(int u=0;u<updateAdditional.length;u++)
+                {
+                    if(updateAdditional[u].getUpdateAdditionalWhen() == UPDATE_ON_DELETE)
+                    {
+                        
+
+                 try
+                 {
+                    db.transactionLoadConnection();
+                                      
+                    String strQuery = updateAdditional[u].getIfIsEnabledReturn1();
+                    
+                    String queryU = updateAdditional[u].getUpdateAdditionalQuery();
+                     String strq = " AND "+primKeyDb+" LIKE "+primKeySourceValue;
+                     queryU = queryU+strq;
+                     if (VariablesGlobal.globalShowSQLEdit)
+                     { 
+                         System.out.println("PanelODOR.bridgeDelete  delete      ++            queryU:"+queryU);
+                     }
+                     
+                     int intRetDel = db.transactionUpdateQuery(queryU,"PanelODMR.bridgeDelete ",showDialogOnError); 
+                 }
+                 catch(SQLException sqle)
+                 {
+                      System.out.println("PanelODOR.bridgeDelete    "+sqle.getMessage());
+                      sqle.printStackTrace();
+                 }
+                 finally
+                 {
+                     db.releaseConnectionRs();
+                 }
+            }
+                }
+            }
+        }
+                     
+  }
     
     private void showListPanel()
     {

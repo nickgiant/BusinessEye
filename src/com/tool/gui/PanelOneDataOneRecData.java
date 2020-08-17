@@ -8806,6 +8806,8 @@ ps.setBytes(i, b);
              String  pkFromOnePanelOfAdditionalBridgeTable="";
                      for(int u=0;u<updateAdditional.length;u++)
                      {
+                    if(updateAdditional[u].getUpdateAdditionalWhen() == UPDATE_ON_INSERT_ONLY)
+                    {                         
                          String strIsEnabled= UPDATEADDITIONAL_NOT_ENABLED;
                          String strQuery = updateAdditional[u].getIfIsEnabledReturn1();
                          //String strQuery ="";
@@ -8948,8 +8950,9 @@ ps.setBytes(i, b);
                                       }                                     
                                    }      
                       
-                        }
+                        } // if UPDATE_ON_INSERT_ONLY
                          }// if is enabled
+                    }
                      } //for
              
          }

@@ -138,7 +138,7 @@ public interface Constants
        //EntityUpdateAdditional: updateWhen in EntityInfo // UPDATE_ON_INSERT_ONLY,UPDATE_ON_UPDATE_ONLY, UPDATE_ON_BOTH_INSERT_AND_UPDATE,UPDATE_ON_DELETE
        public static final int NO_UPDATE = 0;
        public static final int UPDATE_ON_INSERT_ONLY = 1;
-       public static final int UPDATE_ON_UPDATE_ONLY = 2; // not implemented
+       public static final int UPDATE_ON_UPDATE_ONLY = 2; 
        public static final int UPDATE_ON_BOTH_INSERT_AND_UPDATE= 3; // not implemented completely
        public static final int UPDATE_ON_DELETE = 4; // not implemented
        
