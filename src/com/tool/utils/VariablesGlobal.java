@@ -52,7 +52,7 @@ public class VariablesGlobal
     public static  String appName = "BusinessEye";
     public static  String appUseName = "(χρήση μόνο για εκπαιδευτικούς σκοπούς)";
     public static  String appLeadVersion = "1";
-    public static  String appSubVersion = "1.2601";
+    public static  String appSubVersion = "1.2602";
     public static  String appVersionYear = "2020/08";
     public static  String appProduct = "0"; // 0 all
     //public static  String appProductCaption = "";

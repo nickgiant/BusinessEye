@@ -468,7 +468,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         
                 //------------------sx-actiontype----------------------------------------------
         //EntityDBFields[] actionTypeLineDBFields = new EntityDBFields[7];
-        EntityDBFields[] esoexoTypeDBFields = new EntityDBFields[9];
+        EntityDBFields[] esoexoTypeDBFields = new EntityDBFields[8];
 
         
         EntityGroupOfComps[] sxactionTypeEntityGroupOfComps = new EntityGroupOfComps[2];
@@ -872,10 +872,10 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
          esoexoTypeDBFields[3] = new EntityDBFields("sxactiontype","actionTypeCode","κωδικός παραστατικού",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
          //esoexoTypeDBFields[4] = new EntityDBFields("sxactiontype","fff","επόμενος αριθμός παραστατικού",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
          esoexoTypeDBFields[4] = new EntityDBFields("sxactiontype","sxActionTypeCatId","κατηγορία παραστατικού",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCTypeCat", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        esoexoTypeDBFields[5] = new EntityDBFields("sxactiontype","isCredit","πιστωτικό",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"false","");       
-         esoexoTypeDBFields[6] = new EntityDBFields("sxactiontype","active","ενεργός",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");       
-         esoexoTypeDBFields[7] = new EntityDBFields("sxactiontype","myfCatId","ΜΥΦ",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCMyfTypeCat",FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");         
-         esoexoTypeDBFields[8] = new EntityDBFields("sxactiontype","printformId","φόρμα εκτύπωσης",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"printform",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        //esoexoTypeDBFields[5] = new EntityDBFields("sxactiontype","isCredit","πιστωτικό",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"false","");       
+         esoexoTypeDBFields[5] = new EntityDBFields("sxactiontype","active","ενεργός",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");       
+         esoexoTypeDBFields[6] = new EntityDBFields("sxactiontype","myfCatId","ΜΥΦ",0,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCMyfTypeCat",FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");         
+         esoexoTypeDBFields[7] = new EntityDBFields("sxactiontype","printformId","φόρμα εκτύπωσης",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"printform",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
        // esoexoTypeDBFields[0] = new EntityDBFields("actiontypeheader","sxactiontype","τύποι παραστατικών",0,"table",FIELD_VISIBLE_AND_EDITABLE,"sxactiontype",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,actionTypeLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT * FROM sxactiontype ORDER BY sxActionTypeId",null);     //String[] childTableFieldsForSumsIn   
         
         sxactionTypeEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);       
@@ -1368,7 +1368,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         
         String[] lookUpFieldsxActionType={"actionTypeDescription"};                   
     
-     entities.add(entityLookUp = new EntityLookUp("sxactiontype","sxactiontype","SELECT sxactiontype.sxActionTypeId AS\"Νο τύπου εσόδων εξόδων\", sxactiontype.actionTypeCode AS\"κωδικός\", sxactiontype.actionTypeDescription AS \"ονομασία τύπου παραστατικού\", lookupconstants.name, isCredit, myfCatId AS\"ΜΥΦ\"  FROM sxactiontype  INNER JOIN lookupconstants ON sxactiontype.sxActionTypeCatId = lookupconstants.lookupconstantsId","WHERE lookupconstants.constantstypeId = 4 AND sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"AND sxactiontype.active LIKE 1","ORDER BY sxactiontype.sxActionTypeCatId, sxactiontype.sxActionTypeId","","sxActionTypeId","Νο τύπου εσόδων εξόδων","sxActionTypeId","τύπος παραστατικού",3,lookUpFieldsxActionType,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,sxactionTypeQueryEditable,"τυπου παραστατικού","τύπων παραστατικών",null,entityPanelsxActionType,fieldsOnTitlesxActionType,fieldsOnTitlesxCaptionActionType,sxactionTypeErs,2,1,null,true,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("sxactiontype","sxactiontype","SELECT sxactiontype.sxActionTypeId AS\"Νο τύπου εσόδων εξόδων\", sxactiontype.actionTypeCode AS\"κωδικός\", sxactiontype.actionTypeDescription AS \"ονομασία τύπου παραστατικού\", lookupconstants.name,  myfCatId AS\"ΜΥΦ\"  FROM sxactiontype  INNER JOIN lookupconstants ON sxactiontype.sxActionTypeCatId = lookupconstants.lookupconstantsId","WHERE lookupconstants.constantstypeId = 4 AND sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"AND sxactiontype.active LIKE 1","ORDER BY sxactiontype.sxActionTypeCatId, sxactiontype.sxActionTypeId","","sxActionTypeId","Νο τύπου εσόδων εξόδων","sxActionTypeId","τύπος παραστατικού",3,lookUpFieldsxActionType,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,sxactionTypeQueryEditable,"τυπου παραστατικού","τύπων παραστατικών",null,entityPanelsxActionType,fieldsOnTitlesxActionType,fieldsOnTitlesxCaptionActionType,sxactionTypeErs,2,1,null,true,-1,-1,null));    	 	
     
 
           

@@ -797,7 +797,7 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
         esoexoHeaderDBFields[8] = new EntityDBFields("sxesoexoheader","traderId","συναλλασσόμενος",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"trader", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationtrader,"");
         //esoexoHeaderDBFields[8] = new EntityDBFields("sxesoexoheader","paymentTypeId","τρόπος πληρωμής",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"paymenttype", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
         esoexoHeaderDBFields[9] = new EntityDBFields("sxesoexoheader","comments","αιτιολογία",3,"java.lang.String",55,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,null,"");//fieldsCalculationtrader);
-        esoexoHeaderDBFields[10] = new EntityDBFields("sxesoexoheader","source","προέλευση",3,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCSourceOfEsoexo", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,null,"");//fieldsCalculationtrader);
+        esoexoHeaderDBFields[10] = new EntityDBFields("sxesoexoheader","source","προέλευση",3,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCSourceOfEsoexo", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,"");//fieldsCalculationtrader);
 //       int[] inputPreVatCategory ={FIELDSCALCULATION_CATEGORY_BACKWARD,11,11};
  //       int[] inputPreVat ={9,4,4};//field
  //       EntityDBFieldsCalculation[] fieldsCalculationVatCat = new EntityDBFieldsCalculation[1];
@@ -1098,58 +1098,82 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
         sxVatDocDBFields[5] = new EntityDBFields("sxvatdocforperiod","vatForPeriodEndDate","ημερομηνία λήξης περιόδου",0,"java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");  
     
 
-        
-        
+           int[] inputVatDocCatf480 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+       int[] inputVatDocf480 ={31,65,65,31}; 
+       
        int[] inputVatDocCatf307 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
        int[] inputVatDocf307 ={6,10,14,18,22,26};        
-        
+
         int[] inputVatDocCatf337 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
        int[] inputVatDocf337 ={7,11,15,19,23,27};  
        
+      int[] inputVatDocCatf470 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME, FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+       int[] inputVatDocf470 ={31,65, 31,65};
+        String sumOfDebitFunction = "SELECT if(# - #>0,#-#,0)";  
+        String sumOfCreditFunction = "SELECT if(# - #<0,#-#,0)";
+        
         int[] inputVatDocCatf301 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf301 ={6};
-       EntityDBFieldsCalculation[] fieldsCalculationVatDoc301 = new EntityDBFieldsCalculation[3];
+       EntityDBFieldsCalculation[] fieldsCalculationVatDoc301 = new EntityDBFieldsCalculation[5];
        fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
        fieldsCalculationVatDoc301[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#"); 
        fieldsCalculationVatDoc301[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
+       fieldsCalculationVatDoc301[3] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,66,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#");  
+       fieldsCalculationVatDoc301[4] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf480,inputVatDocf480,sumOfCreditFunction);//SELECT #+#");  
+
        
         int[] inputVatDocCatf302 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf302 ={10};
-        EntityDBFieldsCalculation[] fieldsCalculationVatDoc302 = new EntityDBFieldsCalculation[3];
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc302 = new EntityDBFieldsCalculation[5];
        fieldsCalculationVatDoc302[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,11,inputVatDocCatf302,inputVatDocf302,"SELECT #*6/100");//SELECT #+#"); 
        fieldsCalculationVatDoc302[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");
        fieldsCalculationVatDoc302[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
+       fieldsCalculationVatDoc302[3] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,66,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#"); 
+       fieldsCalculationVatDoc302[4] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf480,inputVatDocf480,sumOfCreditFunction);//SELECT #+#");  
        
        int[] inputVatDocCatf303 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf303 ={14}; 
-        EntityDBFieldsCalculation[] fieldsCalculationVatDoc303 = new EntityDBFieldsCalculation[3];
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc303 = new EntityDBFieldsCalculation[5];
        fieldsCalculationVatDoc303[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,15,inputVatDocCatf303,inputVatDocf303,"SELECT #*24/100");//SELECT #+#"); 
       fieldsCalculationVatDoc303[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");        
-      fieldsCalculationVatDoc303[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#"); 
+      fieldsCalculationVatDoc303[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
+      fieldsCalculationVatDoc303[3] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,66,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#"); 
+      fieldsCalculationVatDoc303[4] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf480,inputVatDocf480,sumOfCreditFunction);//SELECT #+#");  
       
       int[] inputVatDocCatf304 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf304 ={18}; 
-        EntityDBFieldsCalculation[] fieldsCalculationVatDoc304 = new EntityDBFieldsCalculation[3];
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc304 = new EntityDBFieldsCalculation[5];
        fieldsCalculationVatDoc304[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputVatDocCatf304,inputVatDocf304,"SELECT #*9/100");//SELECT #+#"); 
       fieldsCalculationVatDoc304[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");        
        fieldsCalculationVatDoc304[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
+       fieldsCalculationVatDoc304[3] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,66,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#"); 
+       fieldsCalculationVatDoc304[4] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf480,inputVatDocf480,sumOfCreditFunction);//SELECT #+#");  
       
       
        int[] inputVatDocCatf305 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf305 ={22}; 
-        EntityDBFieldsCalculation[] fieldsCalculationVatDoc305 = new EntityDBFieldsCalculation[3];
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc305 = new EntityDBFieldsCalculation[5];
        fieldsCalculationVatDoc305[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,23,inputVatDocCatf305,inputVatDocf305,"SELECT #*4/100");//SELECT #+#"); 
       fieldsCalculationVatDoc305[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");
       fieldsCalculationVatDoc305[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
+      fieldsCalculationVatDoc305[3] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,66,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#"); 
+      fieldsCalculationVatDoc305[4] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf480,inputVatDocf480,sumOfCreditFunction);//SELECT #+#");  
       
        
          int[] inputVatDocCatf306 ={FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatDocf306 ={26}; 
-        EntityDBFieldsCalculation[] fieldsCalculationVatDoc306 = new EntityDBFieldsCalculation[3];
+        EntityDBFieldsCalculation[] fieldsCalculationVatDoc306 = new EntityDBFieldsCalculation[5];
        fieldsCalculationVatDoc306[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,27,inputVatDocCatf306,inputVatDocf306,"SELECT #*17/100");//SELECT #+#"); 
       fieldsCalculationVatDoc306[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,30,inputVatDocCatf307,inputVatDocf307,"SELECT #+#+#+#+#+#");//SELECT #+#");        
       fieldsCalculationVatDoc306[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,31,inputVatDocCatf337,inputVatDocf337,"SELECT #+#+#+#+#+#");//SELECT #+#");
+      fieldsCalculationVatDoc306[3] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,66,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#"); 
+      fieldsCalculationVatDoc306[4] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf480,inputVatDocf480,sumOfCreditFunction);//SELECT #+#");  
 
+       //EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo470 = new EntityDBFieldsCalculation[1];
+       //fieldsCalculationVatDocSumTo428[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#+#");//SELECT #+#");       
+       //fieldsCalculationVatDocSumTo470[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#");          
+       
+       
       
       
        int[] inputVatDocCatf367 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
@@ -1158,32 +1182,45 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
        //fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
        fieldsCalculationVatDocSumTo367[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,32,inputVatDocCatf367,inputVatDocf367,"SELECT #+#+#+#+#+#");//SELECT #+#"); 
         
+     
        
        int[] inputVatDocCatf430 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
-       int[] inputVatDocf430 ={33,41,57}; 
+       int[] inputVatDocf430 ={33,41,57}; // 57 is minus
+       
+
        
        int[] inputVatDocCatf387 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
        int[] inputVatDocf387 ={9,13,17,21,25,29}; 
-       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo387 = new EntityDBFieldsCalculation[2];
+       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo387 = new EntityDBFieldsCalculation[4];
        //fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
        fieldsCalculationVatDocSumTo387[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,33,inputVatDocCatf387,inputVatDocf387,"SELECT #+#+#+#+#+#");//SELECT #+#"); 
-       fieldsCalculationVatDocSumTo387[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#+#");//SELECT #+#");            
+       fieldsCalculationVatDocSumTo387[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#-#");//SELECT #+#");            
+       fieldsCalculationVatDocSumTo387[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf480,inputVatDocf480,sumOfCreditFunction);//SELECT #+#"); 
+       fieldsCalculationVatDocSumTo387[3] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,66,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#");  
        
          int[] inputVatDocCatf410 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
        int[] inputVatDocf410 ={36,40,44}; 
-       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo410 = new EntityDBFieldsCalculation[2];
+       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo410 = new EntityDBFieldsCalculation[4];
        //fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
        fieldsCalculationVatDocSumTo410[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,41,inputVatDocCatf410,inputVatDocf410,"SELECT #+#+#");//SELECT #+#"); 
-       fieldsCalculationVatDocSumTo410[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#+#");//SELECT #+#");
+       fieldsCalculationVatDocSumTo410[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#-#");//SELECT #+#");
+       fieldsCalculationVatDocSumTo410[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf480,inputVatDocf480,sumOfCreditFunction);//SELECT #+#");
+       fieldsCalculationVatDocSumTo410[3] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,66,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#");  
        
          int[] inputVatDocCatf428 ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
        int[] inputVatDocf428 ={52,56,60}; 
-       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo428 = new EntityDBFieldsCalculation[2];
+       EntityDBFieldsCalculation[] fieldsCalculationVatDocSumTo428 = new EntityDBFieldsCalculation[4];
        //fieldsCalculationVatDoc301[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatDocCatf301,inputVatDocf301,"SELECT #*13/100");//SELECT #+#"); 
        fieldsCalculationVatDocSumTo428[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,57,inputVatDocCatf428,inputVatDocf428,"SELECT #+#+#");//SELECT #+#"); 
-       fieldsCalculationVatDocSumTo428[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#+#");//SELECT #+#");       
+       fieldsCalculationVatDocSumTo428[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,65,inputVatDocCatf430,inputVatDocf430,"SELECT #+#-#");//SELECT #+#");       
+       fieldsCalculationVatDocSumTo428[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,68,inputVatDocCatf480,inputVatDocf480,sumOfCreditFunction);//SELECT #+#"); 
+       fieldsCalculationVatDocSumTo428[3] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,66,inputVatDocCatf470,inputVatDocf470,sumOfDebitFunction);//SELECT #+#");  
        
        
+ 
+       
+    
+              
             int lengthoftxts = 14;    
         
         sxVatDocDBFields[6] = new EntityDBFields("sxvatdocforperiod","f301","301",1,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDoc301,"");
@@ -1217,7 +1254,7 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
         sxVatDocDBFields[29] = new EntityDBFields("sxvatdocforperiod","f386","386",6,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"0",null,fieldsCalculationVatDocSumTo387,"");                                           
         
         sxVatDocDBFields[30] = new EntityDBFields("sxvatdocforperiod","f307","307",7,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                    
-        sxVatDocDBFields[31] = new EntityDBFields("sxvatdocforperiod","f337","337",7,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                    
+        sxVatDocDBFields[31] = new EntityDBFields("sxvatdocforperiod","f337","337",7,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");  //       
         sxVatDocDBFields[32] = new EntityDBFields("sxvatdocforperiod","f367","367",7,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                    
         sxVatDocDBFields[33] = new EntityDBFields("sxvatdocforperiod","f387","387",7,"java.lang.Double",lengthoftxts,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                                                    
  
@@ -2105,17 +2142,18 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
       // invoiceErs[15]=new EntityFilterSettings("είδος προϊόντος","checkboxTable","string","","currencyId","currency","i","",3,-1,1,FIELD_NOCOMPLETION);
        //invoiceErs[16]=new EntityFilterSettings("τύπος παραστατικού","checkboxTable","string","","paymentTypeId","paymentType","i","",3,-1,1,FIELD_NOCOMPLETION);        
 boolean[] boolSettingsesoexoheader = {true,true,true,true};            
-        EntityReportBandField[] entityReportBandFieldsesoexoheader =new EntityReportBandField[9];
+        EntityReportBandField[] entityReportBandFieldsesoexoheader =new EntityReportBandField[10];
        
         entityReportBandFieldsesoexoheader[0] = new EntityReportBandField("sxesoexoheader","esoexoCodeOfDocument","κωδ παραστατικού","java.lang.String",20,true,null,null);
         entityReportBandFieldsesoexoheader[1] = new EntityReportBandField("sxesoexoheader","sxActionTypeId","sxActionTypeId","java.lang.String",8,true,null,null);   
-        entityReportBandFieldsesoexoheader[2] = new EntityReportBandField("sxactiontype","actionTypeCode","actionTypeCode","java.lang.String",9,true,null,null);   
-        entityReportBandFieldsesoexoheader[3] = new EntityReportBandField("sxesoexoheader","dateOfEsoexo","ημερομηνία","java.lang.Date",25,true,null,null);   
-        entityReportBandFieldsesoexoheader[4] = new EntityReportBandField("sxesoexoheader","priceTotal","τελικό ποσό","java.lang.Double",13,true,null,null);  
-        entityReportBandFieldsesoexoheader[5] = new EntityReportBandField("sxesoexoheader","traderId","Νο συναλλασόμενου","java.lang.String",7,true,null,null);
-        entityReportBandFieldsesoexoheader[6] = new EntityReportBandField("sxesoexoheader","dbYearId","dbYearId","java.lang.String",7,true,null,null);
-        entityReportBandFieldsesoexoheader[7] = new EntityReportBandField("sxesoexoheader","esoexoheaderId","esoexoheaderId","java.lang.String",9,true,null,null);
-        entityReportBandFieldsesoexoheader[8] = new EntityReportBandField("sxesoexoheader","countTotal","πλήθος","java.lang.String",9,true,null,null);         
+        entityReportBandFieldsesoexoheader[2] = new EntityReportBandField("sxesoexoheader","oppositeSign","oppositSign","java.lang.Boolean",3,true,null,null);
+        entityReportBandFieldsesoexoheader[3] = new EntityReportBandField("sxactiontype","actionTypeCode","actionTypeCode","java.lang.String",9,true,null,null);   
+        entityReportBandFieldsesoexoheader[4] = new EntityReportBandField("sxesoexoheader","dateOfEsoexo","ημερομηνία","java.lang.Date",25,true,null,null);   
+        entityReportBandFieldsesoexoheader[5] = new EntityReportBandField("sxesoexoheader","priceTotal","τελικό ποσό","java.lang.Double",13,true,null,null);  
+        entityReportBandFieldsesoexoheader[6] = new EntityReportBandField("sxesoexoheader","traderId","Νο συναλλασόμενου","java.lang.String",7,true,null,null);
+        entityReportBandFieldsesoexoheader[7] = new EntityReportBandField("sxesoexoheader","dbYearId","dbYearId","java.lang.String",7,true,null,null);
+        entityReportBandFieldsesoexoheader[8] = new EntityReportBandField("sxesoexoheader","esoexoheaderId","esoexoheaderId","java.lang.String",9,true,null,null);
+        entityReportBandFieldsesoexoheader[9] = new EntityReportBandField("sxesoexoheader","countTotal","πλήθος","java.lang.String",9,true,null,null);         
          
 
 //        boolean[] boolSettingstrader = {true,true,true,true};
@@ -2199,18 +2237,19 @@ boolean[] boolSettingsesoexoheader = {true,true,true,true};
                     
                     
         //boolean[] boolSettingsesoexoheader = {true,true,true,true};            
-        EntityReportBandField[] entityReportBandFieldsesoexoheaderA =new EntityReportBandField[9];
+        EntityReportBandField[] entityReportBandFieldsesoexoheaderA =new EntityReportBandField[11];
        
         entityReportBandFieldsesoexoheaderA[0] = new EntityReportBandField("sxesoexoheader","esoexoheaderId","esoexoheaderId","java.lang.String",9,true,null,null);
         entityReportBandFieldsesoexoheaderA[1] = new EntityReportBandField("sxesoexoheader","esoexoCodeOfDocument","κωδ παραστατικού","java.lang.String",15,true,null,null);
         entityReportBandFieldsesoexoheaderA[2] = new EntityReportBandField("sxesoexoheader","sxActionTypeId","sxActionTypeId","java.lang.String",8,true,null,null);   
-        entityReportBandFieldsesoexoheaderA[3] = new EntityReportBandField("sxactiontype","actionTypeCode","actionTypeCode","java.lang.String",9,true,null,null);           
-        entityReportBandFieldsesoexoheaderA[4] = new EntityReportBandField("sxesoexoheader","dateOfEsoexo","ημερομηνία","java.lang.Date",18,true,null,null);        
-        entityReportBandFieldsesoexoheaderA[5] = new EntityReportBandField("sxesoexoheader","pricePreVat","προ φόρου","java.lang.Double",9,true,null,null);  
-        entityReportBandFieldsesoexoheaderA[5] = new EntityReportBandField("sxesoexoheader","priceTotal","τελικό ποσό","java.lang.Double",9,true,null,null);  
-        entityReportBandFieldsesoexoheaderA[6] = new EntityReportBandField("sxesoexoheader","traderId","Νο συναλλασόμενου","java.lang.String",8,true,null,null);
-        entityReportBandFieldsesoexoheaderA[7] = new EntityReportBandField("sxesoexoheader","dbYearId","dbYearId","java.lang.String",9,true,null,null);
-        entityReportBandFieldsesoexoheaderA[8] = new EntityReportBandField("sxesoexoheader","countTotal","πλήθος","java.lang.String",9,true,null,null); 
+        entityReportBandFieldsesoexoheaderA[3] = new EntityReportBandField("sxesoexoheader","oppositeSign","oppositSign","java.lang.Boolean",3,true,null,null);
+        entityReportBandFieldsesoexoheaderA[4] = new EntityReportBandField("sxactiontype","actionTypeCode","actionTypeCode","java.lang.String",9,true,null,null);           
+        entityReportBandFieldsesoexoheaderA[5] = new EntityReportBandField("sxesoexoheader","dateOfEsoexo","ημερομηνία","java.lang.Date",18,true,null,null);        
+        entityReportBandFieldsesoexoheaderA[6] = new EntityReportBandField("sxesoexoheader","pricePreVat","προ φόρου","java.lang.Double",9,true,null,null);  
+        entityReportBandFieldsesoexoheaderA[7] = new EntityReportBandField("sxesoexoheader","priceTotal","τελικό ποσό","java.lang.Double",9,true,null,null);  
+        entityReportBandFieldsesoexoheaderA[8] = new EntityReportBandField("sxesoexoheader","traderId","Νο συναλλασόμενου","java.lang.String",8,true,null,null);
+        entityReportBandFieldsesoexoheaderA[9] = new EntityReportBandField("sxesoexoheader","dbYearId","dbYearId","java.lang.String",9,true,null,null);
+        entityReportBandFieldsesoexoheaderA[10] = new EntityReportBandField("sxesoexoheader","countTotal","πλήθος","java.lang.String",9,true,null,null); 
         //entityReportBandFieldsesoexoheaderA[9] = new EntityReportBandField("sxesoexoheader","withholdingtaxAmount","withholdingtaxAmount","java.lang.Double",10,true,null,null);  
         //entityReportBandFieldsesoexoheaderA[10] = new EntityReportBandField("sxesoexoheader","priceTotalAfterWithholdingTax","priceTotalAfterWithholdingTax","java.lang.Double",10,true,null,null);          
         
@@ -2342,7 +2381,7 @@ boolean[] boolSettingsesoexoheader = {true,true,true,true};
                     
                     
         //boolean[] boolSettingsesoexoheader = {true,true,true,true};            
-        EntityReportBandField[] entityReportBandFieldsesoexoheaderE =new EntityReportBandField[8];
+        EntityReportBandField[] entityReportBandFieldsesoexoheaderE =new EntityReportBandField[9];
        
         entityReportBandFieldsesoexoheaderE[0] = new EntityReportBandField("sxesoexoheader","esoexoCodeOfDocument","κωδ παραστατικού","java.lang.String",15,true,null,null);
         entityReportBandFieldsesoexoheaderE[1] = new EntityReportBandField("sxesoexoheader","dateOfEsoexo","ημερομηνία","java.lang.Date",18,true,null,null);        
@@ -2350,8 +2389,9 @@ boolean[] boolSettingsesoexoheader = {true,true,true,true};
         entityReportBandFieldsesoexoheaderE[3] = new EntityReportBandField("sxesoexoheader","traderId","Νο συναλλασόμενου","java.lang.String",7,true,null,null);
         entityReportBandFieldsesoexoheaderE[4] = new EntityReportBandField("trader","title","συναλλασσόμενος","java.lang.String",27,true,null,null);
         entityReportBandFieldsesoexoheaderE[5] = new EntityReportBandField("sxesoexoheader","esoexoheaderId","esoexoheaderId","java.lang.String",9,true,null,null);
-        entityReportBandFieldsesoexoheaderE[6] = new EntityReportBandField("sxesoexoheader","dbCompanyId","dbCompanyId","java.lang.String",9,true,null,null);
-        entityReportBandFieldsesoexoheaderE[7] = new EntityReportBandField("sxesoexoheader","dbYearId","dbYearId","java.lang.String",9,true,null,null);      
+        entityReportBandFieldsesoexoheaderE[6] = new EntityReportBandField("sxesoexoheader","oppositeSign","oppositSign","java.lang.Boolean",3,true,null,null);
+        entityReportBandFieldsesoexoheaderE[7] = new EntityReportBandField("sxesoexoheader","dbCompanyId","dbCompanyId","java.lang.String",9,true,null,null);
+        entityReportBandFieldsesoexoheaderE[8] = new EntityReportBandField("sxesoexoheader","dbYearId","dbYearId","java.lang.String",9,true,null,null);      
 
         
        int[] ledgOrderby1 ={2,5};        
@@ -2569,7 +2609,7 @@ boolean[] boolSettingsesoexoheader = {true,true,true,true};
         "AND sxesoexoheader.dbCompanyId LIKE " +VariablesGlobal.globalCompanyId+" "+
         "AND sxesoexoheader.isTemplate ='0' " +
         "AND sxactiontype.sxActionTypeCatId IN (1) "
-       /*"ORDER BY sxaccount.accountCatId, sxaccount.accountCode"*/,""/*"ORDER BY name"*/,"ODMR","ανάλυση συναλλασσόμενων","",esoexoCustomersErs,esoexoCustomersGroupOfComps,invoicesSelected, null,"","","",intReportSettingsInvoice,boolSettingsReportInvoice,"");//,globalYearPlusOne);       
+       /*"ORDER BY sxaccount.accountCatId, sxaccount.accountCode"*/,""/*"ORDER BY name"*/,"ODMR","ανάλυση πελατών","",esoexoCustomersErs,esoexoCustomersGroupOfComps,invoicesSelected, null,"","","",intReportSettingsInvoice,boolSettingsReportInvoice,"");//,globalYearPlusOne);       
               
        
        EntityMenu emri = new EntityMenu();
