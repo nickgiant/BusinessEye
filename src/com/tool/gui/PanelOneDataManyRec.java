@@ -2188,7 +2188,7 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
    
   private void bridgeRecalc() 
   {
-      
+     this.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
       EntityUpdateAdditional[] updateAdditional=null;
         for(int p = 0;p<entityPanel.length;p++)
         {
@@ -2241,14 +2241,19 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                      
                     queryU = utilsString.replaceTextOfAStringWithText("#", queryU, fieldData, null);
                   
-                    queryU = queryU.replaceAll("&@", primKeyDestinationValue);    // is for the bridge pkey id like esoexoheaderid       
+                    queryU = queryU.replaceAll("&@", primKeyDestinationValue);    // is for the bridge pkey id like esoexoheaderid   
+                     if (VariablesGlobal.globalShowSQLEdit)
+                     {                    
+                    System.out.println("PanelODOR.bridgeRecalc        +       u:"+u+"  "+strField+"    queryU:"+queryU);
+                     }
    // //return 1 there is already one record with the same keys
                       int intRet = db.transactionUpdateQuery(queryU+"","PanelODMR.bridgeRecalc "+entityBridge,showDialogOnError);   
                       //int intRet = db.updateQuery(queryU,"PanelODORData.rowInsertAdditional",showDialogOnError);   
                  }
                  catch(SQLException sqle)
                  {
-                      System.out.println("PanelODOR.bridgeRecalc    "+entityBridge+" "+sqle.getMessage());
+                      this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                      System.out.println("PanelODOR.bridgeRecalc    "+entityBridge+"    "+strField+"   "+sqle.getMessage());
                       sqle.printStackTrace();
                  }
                  finally
@@ -2282,7 +2287,7 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                       queryU = queryU.replaceAll("&@", primKeyDestinationValue); 
                      if (VariablesGlobal.globalShowSQLEdit)
                      {
-                         System.out.println("PanelODOR.bridgeRecalc        ++       u:"+u+"      queryU:"+queryU);
+                         System.out.println("PanelODOR.bridgeRecalc        ++       u:"+u+"    "+strField+"    queryU:"+queryU);
                      }
            
                       // //return 1 there is already one record with the same keys
@@ -2291,6 +2296,7 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                  }
                  catch(SQLException sqle)
                  {
+                      this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                       System.out.println("PanelODOR.bridgeRecalc    "+sqle.getMessage());
                       sqle.printStackTrace();
                  }
@@ -2308,13 +2314,13 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
             }// for all updated
         }// if update not null
         }
-        
+         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
       
   }
   
   private void bridgeDelete()
   {
-      
+      this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
       EntityUpdateAdditional[] updateAdditional=null;
         for(int p = 0;p<entityPanel.length;p++)
         {
@@ -2350,6 +2356,7 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                  }
                  catch(SQLException sqle)
                  {
+                     this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                       System.out.println("PanelODOR.bridgeDelete    "+sqle.getMessage());
                       sqle.printStackTrace();
                  }
@@ -2361,7 +2368,7 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                 }
             }
         }
-                     
+             this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));        
   }
     
     private void showListPanel()

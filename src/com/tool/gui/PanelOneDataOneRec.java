@@ -1661,7 +1661,7 @@ import javax.swing.text.JTextComponent;
        
        if(intListMessages==0) //1 no, 0 yes  
        {
-  
+       
    Database dbTransaction = new Database();
    try
    {         
@@ -1703,11 +1703,7 @@ import javax.swing.text.JTextComponent;
                //for again to show title 
                    String strTitleCaptionHTML ="";
                    
-                    
-                   
-                   
-                   
-                   
+ 
                    
              for(int p=0;p<listPanelOneDataOneRecData.size();p++)
              {
@@ -1756,6 +1752,7 @@ import javax.swing.text.JTextComponent;
                 }
      }  
    
+  
          }
          else if(intListMessages==1) //1 no, 0 yes ;
          {
@@ -1765,7 +1762,8 @@ import javax.swing.text.JTextComponent;
          {
               System.out.println(" ------ PanelODOR.saveAfterChecks   utilsGui.showMessageFromList  ELSE  intListMessages: "+intListMessages);
          }
-       
+    
+        
  
        /*else//   (listMessages==null)
        {

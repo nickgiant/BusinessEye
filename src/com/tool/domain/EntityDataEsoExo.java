@@ -47,7 +47,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
        EntityReport entReportEsExDoc;
        
        
-        EntityDBFields[] esoexoHeaderDBFields = new EntityDBFields[14];
+        EntityDBFields[] esoexoHeaderDBFields = new EntityDBFields[16];
         
         // same as second (and the rest) query in etityParameters
         EntityGroupOfComps[] esoexoEntityGroupOfComps =new EntityGroupOfComps[6];
@@ -446,11 +446,11 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
          
     entityGroupOfFilterCompsMyf[0] = new EntityGroupOfComps("φίλτρα εγγραφών εσόδων εξόδων",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
     
-         sqlQueryTableCalcMyf[0] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', sxactiontype.isCredit AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
+         sqlQueryTableCalcMyf[0] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', sxesoexoheader.oppositeSign AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
-"INNER JOIN trader ON trader.traderId = sxesoexoheader.traderId ,"+
+"INNER JOIN trader ON trader.traderId = sxesoexoheader.traderId, "+
 "lookupconstants "+
 "WHERE sxesoexoline.dbCompanyId = sxesoexoheader.dbCompanyId AND sxactiontype.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "+
 "AND lookupconstants.lookupconstantsId = sxactiontype.myfCatId AND lookupconstants.constantstypeId = 3 "+
@@ -458,13 +458,13 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
 "AND sxactiontype.myfCatId LIKE 1 "+  //tableCount
-"GROUP BY trader.traderId, sxactiontype.isCredit";
+"GROUP BY trader.traderId, sxesoexoheader.oppositeSign";
 
              sqlQueryTableCalcMyf[1] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
-"INNER JOIN trader ON trader.traderId = sxesoexoheader.traderId ,"+
+"INNER JOIN trader ON trader.traderId = sxesoexoheader.traderId, "+
 "lookupconstants "+
 "WHERE sxesoexoline.dbCompanyId = sxesoexoheader.dbCompanyId AND sxactiontype.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "+
 "AND lookupconstants.lookupconstantsId = sxactiontype.myfCatId AND lookupconstants.constantstypeId = 3 "+
@@ -486,7 +486,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "AND sxesoexoline.isTemplate = sxesoexoheader.isTemplate AND sxesoexoheader.isTemplate ='0' "+
 "AND sxaccount.participatesInMYF LIKE 1 "+
 "AND sxactiontype.myfCatId LIKE 3 "+  //tableCount
-"GROUP BY trader.traderId, sxactiontype.isCredit";
+"GROUP BY trader.traderId, sxesoexoheader.oppositeSign";
 
              sqlQueryTableCalcMyf[3] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
@@ -587,12 +587,12 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
 
      
      
-      int[] inputFieldsTraderInHeader ={7}; // 7 is traderId
-      int[] inputFieldsOfNetValue ={11}; // 15 is esoexo pricePreVat
+      int[] inputFieldsTraderInHeader ={8}; // 7 is traderId
+      int[] inputFieldsOfNetValue ={13}; // 15 is esoexo pricePreVat
       EntityCheckFields[] entityCheckFieldsVATCompanyOfEsoexo =new EntityCheckFields[2];
              entityCheckFieldsVATCompanyOfEsoexo[0] = new EntityCheckFields(CHECK_ON_ENTRY,"SELECT IF((SELECT trader.vatNo FROM trader WHERE trader.traderId = #) = "
             + "(SELECT dbcompany.companyVatNo FROM dbcompany, dbcompanyset WHERE dbcompany.dbcompanyId = dbcompanyset.dbcompanyId AND dbcompanyset.esoexoCheckAFMOfEsoExoAndComp = 1 "
-            + "AND dbcompany.dbCompanyId = "+VariablesGlobal.globalCompanyId+"),1,0)",inputFieldsTraderInHeader,7,"Το ΑΦΜ του συναλλασσόμενου είναι ίδιο με αυτό της επιχείρησης στην οποία εργάζεστε.");
+            + "AND dbcompany.dbCompanyId = "+VariablesGlobal.globalCompanyId+"),1,0)",inputFieldsTraderInHeader,8,"Το ΑΦΜ του συναλλασσόμενου είναι ίδιο με αυτό της επιχείρησης στην οποία εργάζεστε.");
              entityCheckFieldsVATCompanyOfEsoexo[1] = new EntityCheckFields(CHECK_ON_INSERT_OR_ON_UPDATE,"SELECT IF( # >= (SELECT dbcompanyset.esoexoMaxOfCashNetValue FROM dbcompanyset " +
               "WHERE dbcompanyset.dbCompanyId = "+VariablesGlobal.globalCompanyId+"  AND dbcompanyset.esoexoMaxOfCashCheck = 1),1,0)",inputFieldsOfNetValue,0, "Το παραστατικό θα πρέπει να εξοφλήθεί με τραπεζικό τρόπο.");
                                    
@@ -715,6 +715,7 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
         traderEntityGroupOfPanels[2] = new EntityGroupOfPanels("χρηματικά",1);
         //traderEntityGroupOfPanels[3] = new EntityGroupOfPanels("σημειώσεις",1);
 
+        
         EntityDBFields[] esoexolineDBFields = new EntityDBFields[12];        
         esoexolineDBFields[0] = new EntityDBFields("sxesoexoline","esoexolineId","esoexolineId",0,"java.lang.Integer",5,FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
         esoexolineDBFields[1] = new EntityDBFields("sxesoexoline","esoexoheaderId","Νο εσόδων εξόδων",0,"java.lang.String",5, FIELD_PRIMARY_KEY_FROM_PARENTTABLE,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
@@ -779,23 +780,25 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
         esoexoHeaderDBFields[3] = new EntityDBFields("sxesoexoheader","esoexoheaderId","Νο εσόδων εξόδων",1,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
         
         esoexoHeaderDBFields[4] = new EntityDBFields("sxesoexoheader","sxActionTypeId","τύπος παρ/κού",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"sxactiontype",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,null,"");// variable before last: 'false' means update
+        esoexoHeaderDBFields[5] = new EntityDBFields("sxesoexoheader","oppositeSign","αντιστροφή πρόσημου",1, "java.lang.Boolean" ,1,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         //esoexoHeaderDBFields[4] = new EntityDBFields("sxesoexoheader","esoexoCodeNo","CodeNo",0,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null);
-        esoexoHeaderDBFields[5] = new EntityDBFields("sxesoexoheader","esoexoCodeOfDocument","κωδικός παρ/κού",1,"java.lang.String",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);
-        esoexoHeaderDBFields[6] = new EntityDBFields("sxesoexoheader","dateOfEsoexo","ημερομηνία παρ/κού",1, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalDate,"");
+        esoexoHeaderDBFields[6] = new EntityDBFields("sxesoexoheader","esoexoCodeOfDocument","κωδικός παρ/κού",1,"java.lang.String",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//,entityFieldUpdateAdditionalCodeOfDocument);
+        esoexoHeaderDBFields[7] = new EntityDBFields("sxesoexoheader","dateOfEsoexo","ημερομηνία παρ/κού",1, "java.sql.Date" ,8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalDate,"");
         
         int[] inputtraderCategory ={FIELDSCALCULATION_CATEGORY_SAME};
-        int[] inputtrader ={7};
+        int[] inputtrader ={8};
         //10,inputService,"SELECT vatcat.vatPercentage FROM sxaccount, vatcat  WHERE sxaccount.vatCatId=vatcat.vatCatId AND sxaccount.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxaccount.accountId=");
         EntityDBFieldsCalculation[] fieldsCalculationtrader = new EntityDBFieldsCalculation[1];
-        fieldsCalculationtrader[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,8,inputtraderCategory,inputtrader,"SELECT trader.title FROM trader, dbcompanyset WHERE dbcompanyset.dbcompanyId = "+VariablesGlobal.globalCompanyId+" AND dbcompanyset.esoexoCopyTraderNameToEsoexoComment = 1  AND trader.traderId LIKE #");
+        fieldsCalculationtrader[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,9,inputtraderCategory,inputtrader,"SELECT trader.title FROM trader, dbcompanyset WHERE dbcompanyset.dbcompanyId = "+VariablesGlobal.globalCompanyId+" AND dbcompanyset.esoexoCopyTraderNameToEsoexoComment = 1  AND trader.traderId LIKE #");
 //        fieldsCalculationtrader[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,9,inputtraderCategory,inputtrader,"SELECT trader.typeofVatExclusionId FROM trader  WHERE trader.traderId LIKE #");
  //       fieldsCalculationtrader[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputtraderCategory,inputtrader,"SELECT trader.currencyId FROM trader  WHERE trader.traderId LIKE #");
         
         
-        esoexoHeaderDBFields[7] = new EntityDBFields("sxesoexoheader","traderId","συναλλασσόμενος",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"trader", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationtrader,"");
+        esoexoHeaderDBFields[8] = new EntityDBFields("sxesoexoheader","traderId","συναλλασσόμενος",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"trader", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationtrader,"");
         //esoexoHeaderDBFields[8] = new EntityDBFields("sxesoexoheader","paymentTypeId","τρόπος πληρωμής",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"paymenttype", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
-        esoexoHeaderDBFields[8] = new EntityDBFields("sxesoexoheader","comments","αιτιολογία",3,"java.lang.String",55,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,null,"");//fieldsCalculationtrader);
- //       int[] inputPreVatCategory ={FIELDSCALCULATION_CATEGORY_BACKWARD,11,11};
+        esoexoHeaderDBFields[9] = new EntityDBFields("sxesoexoheader","comments","αιτιολογία",3,"java.lang.String",55,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,null,"");//fieldsCalculationtrader);
+        esoexoHeaderDBFields[10] = new EntityDBFields("sxesoexoheader","source","προέλευση",3,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCSourceOfEsoexo", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,null,"");//fieldsCalculationtrader);
+//       int[] inputPreVatCategory ={FIELDSCALCULATION_CATEGORY_BACKWARD,11,11};
  //       int[] inputPreVat ={9,4,4};//field
  //       EntityDBFieldsCalculation[] fieldsCalculationVatCat = new EntityDBFieldsCalculation[1];
  //       fieldsCalculationVatCat[0] = new EntityDBFieldsCalculation(11,10,inputPreVatCategory,inputPreVat,calculationVatPercentageSql);
@@ -812,12 +815,12 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
         //esoexoHeaderDBFields[10] = new EntityDBFields("sxesoexoheader","isPrinted","εκτυπωμένο",2,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);                
         String[] childTableFieldsForSumsesoexolines=null;//{"προ ΦΠΑ","αξία ΦΠΑ","αξία"};
         
-        esoexoHeaderDBFields[9] = new EntityDBFields("sxesoexoheader","esoexolines","λογαριασμοί",4,"table",FIELD_VISIBLE_AND_EDITABLE,"sxesoexoline",120,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,esoexolineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM sxesoexoline WHERE sxesoexoline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxesoexoline.isTemplate LIKE '0' ORDER BY sxesoexoline.inc",null,childTableFieldsForSumsesoexolines);        
+        esoexoHeaderDBFields[11] = new EntityDBFields("sxesoexoheader","esoexolines","λογαριασμοί",4,"table",FIELD_VISIBLE_AND_EDITABLE,"sxesoexoline",120,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,esoexolineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM sxesoexoline WHERE sxesoexoline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxesoexoline.isTemplate LIKE '0' ORDER BY sxesoexoline.inc",null,childTableFieldsForSumsesoexolines);        
          
-        esoexoHeaderDBFields[10] = new EntityDBFields("sxesoexoheader","countTotal","πλήθος",5,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,9,7,DBFIELD_TYPE_OF_SUM_COUNT);        
+        esoexoHeaderDBFields[12] = new EntityDBFields("sxesoexoheader","countTotal","πλήθος",5,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,11,7,DBFIELD_TYPE_OF_SUM_COUNT);        
         //esoexoHeaderDBFields[10] = new EntityDBFields("sxesoexoheader","quantityTotal","ποσότητα",3,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,11,6,DBFIELD_TYPE_OF_SUM_SUM);        
-        esoexoHeaderDBFields[11] = new EntityDBFields("sxesoexoheader","pricePreVat","προ ΦΠΑ",5,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,9,7,DBFIELD_TYPE_OF_SUM_SUM);        
-        esoexoHeaderDBFields[12] = new EntityDBFields("sxesoexoheader","priceVat","ΦΠΑ",5,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,9,8,DBFIELD_TYPE_OF_SUM_SUM);        
+        esoexoHeaderDBFields[13] = new EntityDBFields("sxesoexoheader","pricePreVat","προ ΦΠΑ",5,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,11,7,DBFIELD_TYPE_OF_SUM_SUM);        
+        esoexoHeaderDBFields[14] = new EntityDBFields("sxesoexoheader","priceVat","ΦΠΑ",5,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,11,8,DBFIELD_TYPE_OF_SUM_SUM);        
                 
     //    int[] inputCurrencyCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
     //    int[] inputCurrency ={16,20};         
@@ -843,7 +846,7 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
                 + "(SELECT dbcompany.rateOfWithHoldingTax FROM dbcompany WHERE dbcompany.dbcompanyId LIKE "+VariablesGlobal.globalCompanyId+")  ,'')");
         fieldGetWithholdingTaxRate[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,18,inputWithholdingTaxRateCategory,inputWithholdingTaxRate,"SELECT # * #/100");
         fieldGetWithholdingTaxRate[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputWithholdingTaxRateTotalCategory,inputWithholdingTaxRateTotal,"SELECT IF ((# - # = 0), '' , (# - #) )");                                
-       */ esoexoHeaderDBFields[13] = new EntityDBFields("sxesoexoheader","priceTotal","σύνολο με ΦΠΑ",5,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,/*fieldGetWithholdingTaxRate,*/9,9,DBFIELD_TYPE_OF_SUM_SUM);             
+       */ esoexoHeaderDBFields[15] = new EntityDBFields("sxesoexoheader","priceTotal","σύνολο με ΦΠΑ",5,"java.lang.Double",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,/*fieldGetWithholdingTaxRate,*/11,9,DBFIELD_TYPE_OF_SUM_SUM);             
         //EntityDBFieldsCalculation[] fieldsCalculationCurrency = new EntityDBFieldsCalculation[1];
 
         //EntityDBFieldsCalculation[] fieldsCalculationCurrencyId = new EntityDBFieldsCalculation[1];
@@ -1622,12 +1625,12 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         // trader.traderId AS \"Νο συναλλασσόμενου\", 
                 
         //EntityInfo pg = new EntityInfo("sxesoexoheader", "SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\",  sxactiontype.actionTypeCode AS \"τύπος παραστατικού\", sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.dateOfEsoexo AS \"ημερομηνία\", sxesoexoheader.traderId, trader.title AS \"συναλλασσόμενος\", COUNT(esoexoline.inc) AS \"πλήθος\", SUM(esoexoline.priceBeforeVat)AS \"προ ΦΠΑ\",SUM(esoexoline.vatValue)AS \"ΦΠΑ\", SUM(esoexoline.valueWithVat)AS \"τελική τιμή\" FROM sxesoexoheader LEFT JOIN esoexoline ON sxesoexoheader.esoexoheaderId = esoexoline.esoexoheaderId , trader, sxactiontype WHERE sxesoexoheader.traderId = trader.traderId AND actionType.sxActionTypeId = sxesoexoheader.sxActionTypeId AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND trader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND actionType.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" GROUP BY sxesoexoheader.esoexoheaderId ORDER BY sxesoexoheader.dateOfEsoexo, sxesoexoheader.esoexoheaderId"  ,"SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxesoexoheader.sxActionTypeId , sxesoexoheader.salCodeNo, sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.dateOfEsoexo, sxesoexoheader.traderId, sxesoexoheader.wayOfPayment","FROM sxesoexoheader","WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId ,null,fieldsForSumsSale,esoexoHeaderDBFields,"πωλήσεις","DORM","","Νο εσόδων εξόδων","esoexoheaderId",saleErs,esoexoEntityGroupOfComps,"εσόδων εξόδων","πωλήσεων",strSaleCategories,entityPanelEsex,fieldsOnTitleEsex,fieldsOnTitleCaptionEsex,saleFieldsOrderby,-1,-1,globalYearPlusOne);    AND sxesoexoheader.dbYearId in ("+VariablesGlobal.globalYearId+")
-        EntityInfo pg = new EntityInfo("sxesoexoheader", "SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxactiontype.actionTypeCode AS \"τύπος\", sxactiontype.myfCatId AS \"ΜΥΦ\", sxesoexoheader.esoexoCodeOfDocument AS \"αριθ. παρ.\", sxesoexoheader.dateOfEsoexo AS \"ημερομηνία\", sxesoexoheader.comments AS \"αιτιολογία\" ,trader.vatNo AS \"Α.Φ.Μ.\",  trader.title AS \"συναλλασσόμενος\", sxesoexoheader.countTotal AS \"πλήθος\", sxesoexoheader.pricePreVat AS \"προ ΦΠΑ\",sxesoexoheader.priceVat AS \"ΦΠΑ\", sxesoexoheader.priceTotal AS \"σύνολο μετά ΦΠΑ\",sxesoexoheader.isTemplate  "
+        EntityInfo pg = new EntityInfo("sxesoexoheader", "SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxactiontype.actionTypeCode AS \"τύπος\", oppositeSign AS\"αντ. πρόσημο\" ,  sxactiontype.myfCatId AS \"ΜΥΦ\", sxesoexoheader.esoexoCodeOfDocument AS \"αριθ. παρ.\", sxesoexoheader.dateOfEsoexo AS \"ημερομηνία\", sxesoexoheader.comments AS \"αιτιολογία\" ,trader.vatNo AS \"Α.Φ.Μ.\",  trader.title AS \"συναλλασσόμενος\", sxesoexoheader.countTotal AS \"πλήθος\", sxesoexoheader.pricePreVat AS \"προ ΦΠΑ\",sxesoexoheader.priceVat AS \"ΦΠΑ\", sxesoexoheader.priceTotal AS \"σύνολο μετά ΦΠΑ\",sxesoexoheader.isTemplate  "
              //   + " FROM sxaccount, sxactiontype RIGHT JOIN sxesoexoheader ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId LEFT JOIN trader ON sxesoexoheader.traderId = trader.traderId INNER JOIN sxesoexoline ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "
              //   + " WHERE sxesoexoheader.dbCompanyId = sxactiontype.dbCompanyId AND  sxesoexoheader.dbCompanyId = sxesoexoline.dbCompanyId AND sxaccount.accountId = sxesoexoline.accountId AND sxesoexoheader.isTemplate = sxesoexoline.isTemplate AND sxesoexoheader.isTemplate='0' AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY sxesoexoheader.dateOfEsoexo, sxesoexoheader.esoexoheaderId"  ,"SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxesoexoheader.sxActionTypeId , sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.dateOfEsoexo, sxesoexoheader.traderId, sxesoexoheader.wayOfPayment","FROM sxesoexoheader","WHERE sxesoexoheader.isTemplate ='0' AND dbCompanyId LIKE "+VariablesGlobal.globalCompanyId ,null,fieldsForSumsSale,"εγγραφές εσόδων εξόδων","DORM","","Νο εσόδων εξόδων","esoexoheaderId",/*"sxactiontype"/*formGlobalTable1*//*,"sxaccount"/*formGlobalTableToApply1*//*"sxActionTypeId"*//*this table, formGlobalField1,*/esoexoErs,esoexoEntityGroupOfComps,"εσόδων εξόδων","εσόδων εξόδων",strSaleCategories,entityPanelEsex,fieldsOnTitleEsex,fieldsOnTitleCaptionEsex,saleFieldsOrderby,5/*AFM column*/,FIELD_VALIDATION_AFM,entReportEsExDoc,globalYearPlusOne);
 
          + " FROM sxaccount, sxactiontype, sxesoexoheader  LEFT JOIN trader ON sxesoexoheader.traderId = trader.traderId, sxesoexoline" 
-         + " WHERE sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId AND sxesoexoheader.dbCompanyId = sxactiontype.dbCompanyId AND  sxesoexoheader.esoexoHeaderId = sxesoexoline.esoexoHeaderId AND  sxesoexoheader.dbCompanyId = sxesoexoline.dbCompanyId AND sxaccount.accountId = sxesoexoline.accountId AND sxesoexoheader.isTemplate = sxesoexoline.isTemplate AND sxesoexoheader.isTemplate='0' AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" GROUP BY sxesoexoheader.esoexoHeaderId ORDER BY sxesoexoheader.dateOfEsoexo, sxesoexoheader.esoexoheaderId"  ,"SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxesoexoheader.sxActionTypeId , sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.dateOfEsoexo, sxesoexoheader.traderId, sxesoexoheader.wayOfPayment","FROM sxesoexoheader","WHERE sxesoexoheader.isTemplate ='0' AND dbCompanyId LIKE "+VariablesGlobal.globalCompanyId ,null,fieldsForSumsSale,"εγγραφές εσόδων εξόδων","DORM","","Νο εσόδων εξόδων","esoexoheaderId",/*"sxactiontype"/*formGlobalTable1*//*,"sxaccount"/*formGlobalTableToApply1*//*"sxActionTypeId"*//*this table, formGlobalField1,*/esoexoErs,esoexoEntityGroupOfComps,"εσόδων εξόδων","εσόδων εξόδων",strSaleCategories,entityPanelEsex,fieldsOnTitleEsex,fieldsOnTitleCaptionEsex,saleFieldsOrderby,6/*AFM column*/,FIELD_VALIDATION_AFM,entReportEsExDoc,globalYearPlusOne);
+         + " WHERE sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId AND sxesoexoheader.dbCompanyId = sxactiontype.dbCompanyId AND  sxesoexoheader.esoexoHeaderId = sxesoexoline.esoexoHeaderId AND  sxesoexoheader.dbCompanyId = sxesoexoline.dbCompanyId AND sxaccount.accountId = sxesoexoline.accountId AND sxesoexoheader.isTemplate = sxesoexoline.isTemplate AND sxesoexoheader.isTemplate='0' AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" GROUP BY sxesoexoheader.esoexoHeaderId ORDER BY sxesoexoheader.dateOfEsoexo, sxesoexoheader.esoexoheaderId"  ,"SELECT sxesoexoheader.esoexoheaderId AS \"Νο εσόδων εξόδων\", sxesoexoheader.sxActionTypeId , sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.dateOfEsoexo, sxesoexoheader.traderId, sxesoexoheader.wayOfPayment","FROM sxesoexoheader","WHERE sxesoexoheader.isTemplate ='0' AND dbCompanyId LIKE "+VariablesGlobal.globalCompanyId ,null,fieldsForSumsSale,"εγγραφές εσόδων εξόδων","DORM","","Νο εσόδων εξόδων","esoexoheaderId",/*"sxactiontype"/*formGlobalTable1*//*,"sxaccount"/*formGlobalTableToApply1*//*"sxActionTypeId"*//*this table, formGlobalField1,*/esoexoErs,esoexoEntityGroupOfComps,"εσόδων εξόδων","εσόδων εξόδων",strSaleCategories,entityPanelEsex,fieldsOnTitleEsex,fieldsOnTitleCaptionEsex,saleFieldsOrderby,7/*AFM column*/,FIELD_VALIDATION_AFM,entReportEsExDoc,globalYearPlusOne);
                 
                 
         EntityMenu empg = new EntityMenu();
@@ -1756,6 +1759,12 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
        luTCDataDecimalChar[1]=new EntityLookupTableConstantsData(".",2,".");
        listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCdecimalchar",luTCDataDecimalChar));       
 
+       EntityLookupTableConstantsData [] luTCDataSourceOfEsoexo = new EntityLookupTableConstantsData[2];
+       //public EntityLookupTableConstantsData(String pkIn,int orderIn, String titleIn)
+       luTCDataSourceOfEsoexo[0]=new EntityLookupTableConstantsData("1",1,"έσοδα έξοδα");
+       luTCDataSourceOfEsoexo[1]=new EntityLookupTableConstantsData("2",2,"πωλήσεις");
+       listEntityLookupTableConstants.add(entityLookupTableConstants = new EntityLookupTableConstants("LTCSourceOfEsoexo",luTCDataSourceOfEsoexo));              
+       
        /*EntityLookupTableConstantsData [] luTCDataVatExclusion = new EntityLookupTableConstantsData[3];
        //public EntityLookupTableConstantsData(String pkIn,int orderIn, String titleIn)
        luTCDataVatExclusion[0]=new EntityLookupTableConstantsData("1",1,"κανονικό");

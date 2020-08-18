@@ -8729,6 +8729,7 @@ ps.setBytes(i, b);
        
         //boolean boolContinue=false;
           int ret=0;
+          this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
       //  PanelOneDataManyRecData panelODMRData =null;
           //String  pkFromOnePanelForTables = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsAll,entity);
               ret = this.rowInsert(dbTransaction,pkFromOnePanelForTables);
@@ -8775,6 +8776,7 @@ ps.setBytes(i, b);
                  }
               }
  
+              this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
              
               if (ret==0)
               {
