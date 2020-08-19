@@ -2203,20 +2203,20 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
            String pkValue = "";
             try
             {
-            db.retrieveDBDataFromQuery(queryU,"PanelODMR.bridgeGetDestinationPrimKey");
-   	    rs=db.getRS(); 
+             db.retrieveDBDataFromQuery(queryU,"PanelODMR.bridgeGetDestinationPrimKey");
+   	     rs=db.getRS(); 
 
-            rs.first();
-            if(rs.next())
-            {
-                pkValue = rs.getString(updateAdditional[u].getUpdateAdditionalBridgeDestinationField());//"esoexoheaderId");                 
-            }
-            else
-            {
-                System.out.println("PanelODMR.bridgeGetDestinationPrimKey    u:"+u+"    queryU:"+queryU+"   field:"+updateAdditional[u].getUpdateAdditionalBridgeDestinationField()+"   rs:"+rs.next());    
-                pkValue = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsBridge,entityBridge,null,null,0);// used for table, last
-            }
-           
+             //System.out.println("PanelODMR.bridgeGetDestinationPrimKey    u:"+u+"    queryU:"+queryU+"   field:"+updateAdditional[u].getUpdateAdditionalBridgeDestinationField());    
+             if(rs.next())// if there is first
+             {
+                pkValue = rs.getString(updateAdditional[u].getUpdateAdditionalBridgeDestinationField());//"esoexoheaderId"); 
+                
+             }
+             else// if the record doesnot exist
+             {
+                pkValue = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsBridge,entityBridge,null,null,0);// used for table, last                
+                
+             }
             }
             catch(SQLException e)
             {
@@ -2252,13 +2252,7 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                         EntityDBFields[] dbFieldsBridge = updateAdditional[u].getUpdateAdditionalBridgeDbFields();    
                        
                         String entityBridge = updateAdditional[u].getUpdateAdditionalBridgeEntity();
-                            
-                           /* if(entityBridge!= null && dbFieldsBridge!=null)
-                            {
-                               primKeyDestinationValue =  utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsBridge,entityBridge,null,null,0);// used for table, last
-                               //System.out.println(" PanelODMR.bridgeRecalc   ====     primKeyDestinationValue:"+primKeyDestinationValue);
-                            } */
-                        
+
                 String strQuery = updateAdditional[u].getIfIsEnabledReturn1();
                 String[] strField1 = updateAdditional[u].getIfIsEnabledReturn1FieldsToReplace();
 
@@ -2311,7 +2305,6 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                        // System.out.println("        strField:"+strField+"     fieldData out          fieldData.length:"+fieldData.length+"       entityBridge:"+entityBridge+"    primKeySourceValue:"+primKeySourceValue+"    queryU :"+queryU);
                     }
  
-                // queryU = queryU+" AND "+primKeyDb+" LIKE "+primKeySourceValue;
                  try
                  {
                      db.transactionLoadConnection();
