@@ -1057,7 +1057,7 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
         esoexoTempEntityGroupOfComps[1] = new EntityGroupOfComps("συναλλασσόμενος",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         esoexoTempEntityGroupOfComps[2] = new EntityGroupOfComps("λοιπά",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         esoexoTempEntityGroupOfComps[3] = new EntityGroupOfComps("λογαριασμοι",1,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        esoexoTempEntityGroupOfComps[4] = new EntityGroupOfComps("περιγρφή",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_NOT_VISIBLE);
+        esoexoTempEntityGroupOfComps[4] = new EntityGroupOfComps("περιγραφή",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_NOT_VISIBLE);
          
         esoexoTempEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1);
 

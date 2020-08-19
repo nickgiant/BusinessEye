@@ -940,10 +940,13 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                      }
                      catch(SQLException sqlE)
                      {
-                        System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()   getErrorCode:"+ sqlE.getErrorCode()+"    "+sqlE.getMessage()+"   query q:"+q);
+                        System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK() A  getErrorCode:"+ sqlE.getErrorCode()+"    "+sqlE.getMessage()+"   query q:"+q);
                         sqlE.printStackTrace();
-                     }
+                     }                   
+                      finally
+                      {
                       closeDB();
+                      }
                   }
                   else
                   {
@@ -979,10 +982,13 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                  }
                  catch(SQLException sqlE)
                  {
-                    System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()   getErrorCode:"+ sqlE.getErrorCode()+"    "+sqlE.getMessage()+"   query q:"+q);
+                    System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK() B  getErrorCode:"+ sqlE.getErrorCode()+"    "+sqlE.getMessage()+"   query q:"+q);
                     sqlE.printStackTrace();
                  }  
-                  closeDB();
+                      finally
+                      {
+                      closeDB();
+                      }
                   }
                   else
                   {                  
@@ -1064,7 +1070,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                  }
                  catch(SQLException sqlE)
                  {
-                       System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()   getErrorCode:"+ sqlE.getErrorCode()+"    "+sqlE.getMessage()+"     selectedTableRow:"+selectedTableRow+"    query q:"+q);
+                       System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK() C  getErrorCode:"+ sqlE.getErrorCode()+"    "+sqlE.getMessage()+"     selectedTableRow:"+selectedTableRow+"    query q:"+q);
                        sqlE.printStackTrace();
                  }                  // primKeysDbFieldValue[pk] = rs.getString(primKeysDbField[pk]);
                   // System.out.println("cbj UtilsPanelReport.retrievePrimKeyValueForOnePK ELSE ("+pk+")  entity:"+entity+"   db.getRecordCount():"+db.getRecordCount()+"   rs.isAfterLast()"+rs.isAfterLast()+"  value:"+primKeysDbFieldValue[pk]+"    q:"+q);
@@ -1105,12 +1111,12 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                               }
                               else // when there is not a record in rs
                               {
-                                  System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()    ELSE       primKeyDb:"+primKeyDb+"     rs:"+rs);
+                                  System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()  D  ELSE       primKeyDb:"+primKeyDb+"     rs:"+rs);
                               }
                           }
                           catch(SQLException sqlE)
                           {
-                              System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()        equals 0     primKeyDb:"+primKeyDb+"   " + sqlE);
+                              System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()  E getErrorCode:"+ sqlE.getErrorCode()+"     equals 0     primKeyDb:"+primKeyDb+"   " + sqlE);
                               sqlE.printStackTrace();
                           }               
                         //closeDB();
@@ -1212,13 +1218,14 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
    	                      db.retrieveDBDataFromQuery(queryIn,"UtilsPanelReport.retrievePrimKeyValueForOnePK C");
    	                      rs=db.getRS();
                               rs = db.retrieveRow(rs, selectedTableRow+1);
+                              System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK ELSE   C1  entity:"+entity+"  primKeyDb:"+primKeyDb+" selectedTableRow:"+(selectedTableRow+1));
                               primKeyValue =rs.getString(primKeyDb); //pkName); 
-                              System.out.println("PanelODMRData.UtilsPanelReport ELSE   C  entity:"+entity+"    selectedTableRow:"+selectedTableRow+"     primKeyDb:"+primKeyDb+"    primKeyValue:"+primKeyValue);
+                              System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK ELSE   C  entity:"+entity+"    selectedTableRow:"+selectedTableRow+"     primKeyDb:"+primKeyDb+"    primKeyValue:"+primKeyValue);
                           closeDB();
                           }
                           catch(SQLException sqlE)
                           {
-                              System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()" + sqlE);
+                              System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK() F  getErrorCode:"+ sqlE.getErrorCode()+"    queryIn:"+queryIn+"     " + sqlE);
                               sqlE.printStackTrace();
                           }                          
          
