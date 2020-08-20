@@ -528,8 +528,10 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
         //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         //EntityGroupOfComps[] entityGroupOfFilterCompsVatDoc = new EntityGroupOfComps[1]; // if not null creates tabs, and nothing is shown
                 entityGroupOfFilterCompsVatDoc[0] = new EntityGroupOfComps("φίλτρα εγγραφών εσόδων εξόδων",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        sqlQueryTableCalcVatDoc[0] =  "SELECT sxaccount.vatDocCode, sxaccount.vatDocCodeVat, sxesoexoheader.dateOfesoexo, COUNT(sxesoexoLine.priceBeforeVat) AS cnt, SUM(sxesoexoLine.priceBeforeVat) AS sumpre,  SUM(sxesoexoLine.vatValue) AS sumvat, "
-                        + "SUM(sxesoexoLine.valueWithVat) AS sumtotal "
+        sqlQueryTableCalcVatDoc[0] =  "SELECT sxaccount.vatDocCode, sxaccount.vatDocCodeVat, sxesoexoheader.dateOfesoexo, COUNT(sxesoexoLine.priceBeforeVat) AS cnt, "
+                     +" SUM(if(oppositeSign=1, - sxesoexoLine.priceBeforeVat, sxesoexoLine.priceBeforeVat) ) AS sumpre, "
+                     +" SUM(if(oppositeSign=1, - sxesoexoLine.vatValue, sxesoexoLine.vatValue) )AS sumvat, "
+                     +" SUM(if(oppositeSign=1, - sxesoexoLine.valueWithVat, sxesoexoLine.valueWithVat) )  AS sumtotal "          
                         + "FROM sxaccount,sxesoexoheader, sxesoexoline "
                         + "WHERE sxesoexoLine.accountId = sxaccount.accountId AND sxesoexoheader.esoexoheaderId = sxesoexoLine.esoexoheaderId"
                         + "  AND sxesoexoLine.dbCompanyId = sxesoexoheader.dbCompanyId AND sxesoexoLine.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" "
@@ -1629,8 +1631,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         }
 */        
         //System.out.println("EntityData.addMainNavigationNodes add nodes");
-        
-  	
+
   }
 
 
@@ -1861,10 +1862,11 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
    }
   
   
+   
    public ArrayList addEntitiesLookup(ArrayList entities)
-   { 
+   {
        // LOOKUPTYPE_ONLYONE_THISFIELD
-     EntityLookUp entityLookUp;
+      EntityLookUp entityLookUp;
 
 
      
@@ -1881,7 +1883,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
             
      entities.add(entityLookUp = new EntityLookUp("trader","trader","SELECT trader.traderId AS\"Νο συναλλασόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1","AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασόμενου","traderId","συναλλασσόμενος",3,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",4,"vatNo", "Α.Φ.Μ.",0,null,null,traderQueryEditable, "συναλλασόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,2,2,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
 
-      entities.add(entityLookUp = new EntityLookUp("trader1Col","trader","SELECT trader.traderId AS\"Νο συναλλασόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1","AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασόμενου","traderId","συναλλασσόμενος",2,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",0,null,null,0,null,null,traderQueryEditable, "συναλλασόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,2,1,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
+     entities.add(entityLookUp = new EntityLookUp("trader1Col","trader","SELECT trader.traderId AS\"Νο συναλλασόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1","AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασόμενου","traderId","συναλλασσόμενος",2,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",0,null,null,0,null,null,traderQueryEditable, "συναλλασόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,2,1,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
      
      
      //------------------------------------------------------------------ 
@@ -1895,7 +1897,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         
         
         
-     String[] lookUpFieldAccount={"accountCode","accountDescr"};                   
+     String[] lookUpFieldAccount={"accountCode","accountDescr"};
        // , priceWhole AS \"τιμή\"  ,  sum(esoexoline.quantity) AS \"ποσότητα\", sum(esoexoline.priceBeforeVat) AS \"προ ΦΠΑ\", sum(esoexoline.vatValue) AS \"ΦΠΑ\", sum(esoexoline.valueWithVat) AS \"σύνολο\"          LEFT JOIN esoexoline ON esoexoline.accountId = sxaccount.accountId                                                                                                                                                                                                                                                                                                                       
      entities.add(entityLookUp = new EntityLookUp("sxaccount","sxaccount","SELECT sxaccount.accountId AS\"Νο λογαριασμού\", sxaccount.accountCode AS\"κωδ. λογαριασμού\", sxaccount.accountDescr AS \"ονομασία\", lookupconstants.name,  vatcat.vatDescr FROM sxaccount LEFT JOIN vatcat ON vatcat.vatCatId = sxaccount.vatCatId INNER JOIN lookupconstants ON sxaccount.accountCatId = lookupconstants.lookupconstantsId"," WHERE lookupconstants.constantstypeId = 4 ","AND sxaccount.active LIKE 1"," ORDER BY sxaccount.accountCode "," WHERE lookupconstants.constantstypeId = 4 AND sxaccount.accountCatId LIKE (SELECT sxActionTypeCatId FROM sxactiontype WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxactiontype.sxActionTypeId LIKE  "/*the closing parenthesis is added in PanelODMRData.displayDialogLookUp*/,"accountId","Νο λογαριασμού","accountId","λογαριασμός",2,lookUpFieldAccount,"κωδικός ή ονομασία",12,"java.lang.String",0,null,null,0,null,null,sxaccountQueryEditable,"λογαριασμού","λογαριασμών",null,entityPanelSXAccount,fieldsOnTitleSXAccount,fieldsOnTitleCaptionSXAccount,accountErs,2,1,null,true,-1,-1,null));    	 	
 
@@ -2690,7 +2692,7 @@ boolean[] boolSettingsesoexoheader = {true,true,true,true};
       
         int[] vatDocFieldsOrderby ={1};
         String[] fieldsForSumsVatDoc=null;
-        EntityParameter pl = new EntityParameter("sxvatdocforperiod", "SELECT sxvatdocforperiod.vatDocForPeriodId AS \"Νο περιοδικής ΦΠΑ\", vatDocDescr AS\"περιγραφή\",  vatForPeriodStartDate AS \"ημερομηνία έναρξης περιόδου\", vatForPeriodEndDate AS \"ημερομηνία λήξης περιόδου\", sxvatdocforperiod.dbYearId AS \"ετος χρήσης\", dateSave FROM sxvatdocforperiod WHERE sxvatdocforperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" GROUP BY sxvatdocforperiod.vatDocForPeriodId ORDER BY sxvatdocforperiod.vatDocForPeriodId","SELECT sxvatdocforperiod.vatDocForPeriodId AS \"Νο περιοδικής ΦΠΑ\", vatForPeriodStartDate AS \"ημερομηνία έναρξης περιόδου\", vatForPeriodEndDate AS \"ημερομηνία λήξης περιόδου\", dbYearId AS \"ετος χρήσης\" ","FROM sxvatdocforperiod","WHERE sxvatdocforperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsVatDoc,sxVatDocDBFields ,"περιοδική ΦΠΑ","DORM","Νο περιοδικής ΦΠΑ","vatDocForPeriodId",vatDocErs,null,"περιοδικής ΦΠΑ", "περιοδικών ΦΠΑ",entityPanelSXVatDoc,null,fieldsOnTitleSXVatDoc,fieldsOnTitleCaptionSXVatDoc,vatDocFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityParameter pl = new EntityParameter("sxvatdocforperiod", "SELECT sxvatdocforperiod.vatDocForPeriodId AS \"Νο περιοδικής ΦΠΑ\", vatDocDescr AS\"περιγραφή\",  vatForPeriodStartDate AS \"ημερομηνία έναρξης περιόδου\", vatForPeriodEndDate AS \"ημερομηνία λήξης περιόδου\", sxvatdocforperiod.dbYearId AS \"ετος χρήσης\", f470  AS \"φπα εκροών\" , f480  AS \"φπα εισροών\", dateSave FROM sxvatdocforperiod WHERE sxvatdocforperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" GROUP BY sxvatdocforperiod.vatDocForPeriodId ORDER BY sxvatdocforperiod.vatDocForPeriodId","SELECT sxvatdocforperiod.vatDocForPeriodId AS \"Νο περιοδικής ΦΠΑ\", vatForPeriodStartDate AS \"ημερομηνία έναρξης περιόδου\", vatForPeriodEndDate AS \"ημερομηνία λήξης περιόδου\", dbYearId AS \"ετος χρήσης\" ","FROM sxvatdocforperiod","WHERE sxvatdocforperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,fieldsForSumsVatDoc,sxVatDocDBFields ,"περιοδική ΦΠΑ","DORM","Νο περιοδικής ΦΠΑ","vatDocForPeriodId",vatDocErs,null,"περιοδικής ΦΠΑ", "περιοδικών ΦΠΑ",entityPanelSXVatDoc,null,fieldsOnTitleSXVatDoc,fieldsOnTitleCaptionSXVatDoc,vatDocFieldsOrderby,-1,-1,globalYearPlusOne);
         EntityMenu empl = new EntityMenu();
         empl.setEntityParameter(pl,ICO_REPORTDOCUMENT);
         empl.setEntityType(ENTITY_TYPE_PARAMETER);

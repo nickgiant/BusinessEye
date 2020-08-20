@@ -129,6 +129,10 @@ import javax.swing.text.JTextComponent;
     //private String primKeyOfNewRecord="";
     private EntityTemplate entityTemplate;
     
+   private Thread thread;
+    private WindowWait ww;
+    private boolean boolContinue=false; // made it in all the class for thread requirements
+    
     public PanelOneDataOneRec(JFrame frame)  
     {
             try
@@ -1595,7 +1599,7 @@ import javax.swing.text.JTextComponent;
    public int checkForListMessages()
    {
        
-      //boolean boolContinue=false;
+    
        
        boolean isEditable =  false;
        for(int p=0;p<listPanelOneDataOneRecData.size();p++)
@@ -1657,11 +1661,14 @@ import javax.swing.text.JTextComponent;
    */
    public boolean saveAfterChecks(int intListMessages)//    intListMessages==0) //1 no, 0 yes  
    {    
-       boolean boolContinue=false;
+       boolean boolContinue=false; // made it in all the class for thread requirements
        
        if(intListMessages==0) //1 no, 0 yes  
        {
+           this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
        
+           
+     
    Database dbTransaction = new Database();
    try
    {         
@@ -1746,13 +1753,14 @@ import javax.swing.text.JTextComponent;
       }
       finally
       {
+             this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	        if (!dbTransaction.isTransactionConnectionNull())
                 {
 	             dbTransaction.transactionClose();
                 }
      }  
-   
-  
+
+               
          }
          else if(intListMessages==1) //1 no, 0 yes ;
          {
@@ -1792,11 +1800,7 @@ import javax.swing.text.JTextComponent;
             //.setEnabled(true);
             
             btnEditPreferences.setEnabled(true);
-            
-            // btnInsertFromCopy.setEnabled(true);             
-           
-       
-      //setTitle(); cannot show the new auto increment id
+
         }
      else
      {

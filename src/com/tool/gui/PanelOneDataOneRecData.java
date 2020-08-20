@@ -3022,6 +3022,7 @@ catch(Exception e)
                     JTextComponent tbToSet = (JTextComponent)fieldTxts.get(calculateField);
                    if(dbFieldsInGroupOfPanels[calculateField].getColClassName().equalsIgnoreCase("java.lang.Double")) 
                    {
+                       
                      tbToSet.setText(utilsDouble.getDoubleReading(val, false));
                      
                    }
@@ -7491,27 +7492,21 @@ ps.setBytes(i, b);
                             String strValue = rsDocument.getString(arrayFieldAndValue[f+1]);
      System.out.println("PanelODORecData.calculationFromToolBarButton      i:"+i+"  f:"+f+"     colName:"+ colName+"="+utilsDouble.getDoubleReading(strValue, true)+"   arrayFieldAndValue.length:"+arrayFieldAndValue.length);
                              JTextComponent txb = (JTextComponent) fieldTxts.get(i);
-                              if(columnClass.equalsIgnoreCase("java.lang.Double"))
+                             
+                             if(columnClass.equalsIgnoreCase("java.lang.Double"))
                              {
-                                   txb.requestFocus();
-              	                   txb.setText(utilsDouble.getDoubleReading(strValue, true));         
+                                  txb.requestFocus();
+              	                   txb.setText(utilsDouble.getDoubleReading(strValue, true));  
                              }
                              else
                              {
-                                 txb.requestFocus();
+                                txb.requestFocus();
                                  txb.setText(strValue);
                              }
-                              JTextComponent txbLast = (JTextComponent) fieldTxts.get(dbFieldsInGroupOfPanels.length-1);
-                              txbLast.requestFocus();
-                              
                        }
+
                       }
-        
-        
-        
-        
-        
-        
+
     }
     
     
@@ -7520,11 +7515,9 @@ ps.setBytes(i, b);
     */
     public void calculationFromToolBarButton(int intPanel, PanelDataFilter pnlDataFilter, boolean checkIsCanceled, EntityCalculate entityCalculate)
     {
-       
 
           String[] sqlQueryCalcArray  = entityCalculate.getQueryArray();
-          
-         
+
       int fromToInstances=1;
               for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)//  i = fieldTxts
               {
@@ -7602,16 +7595,14 @@ ps.setBytes(i, b);
                
                      db.retrieveDBDataFromQuery(qr, "PanelODORecData.calculationFromToolBarButton.");
                      ResultSet rsDocument = db.getRS();                
+                    
                     try
                     {
-                    // System.out.println("PanelODORData.calculationFromToolBarButton            qr:"+qr);   
-              //for (int i = 0; i < listDocFieldNames.size(); i++)//  i = fieldTxts
+
               while(rsDocument.next())
               {
-
-                       setValuesInFieldsFromCalculationButton( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue1); 
-                       setValuesInFieldsFromCalculationButton( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue2); 
-    
+                    setValuesInFieldsFromCalculationButton( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue1);
+                    setValuesInFieldsFromCalculationButton( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue2);
               }
 
                     }
@@ -7723,9 +7714,7 @@ ps.setBytes(i, b);
                      //System.out.println("PanelODORData.calculationFromToolBarButton: ELSE class:  "+columnClass+"  "+columnDbName);
                  }
                //closeDB(); 
-//            }
-           //} 
- //             }// for
+
                } // checkIsCanceled else
     }
 
@@ -8140,7 +8129,7 @@ ps.setBytes(i, b);
           	   }
                     
                     
-                    System.out.println(">>>>>>>>>>>>>>>>>>>A  panelOneDataOneRecData.rowInsert for:"+classtype+" "+subqueryValues); 
+                    //System.out.println(">>>>>>>>>>>>>>>>>>>A  panelOneDataOneRecData.rowInsert for:"+classtype+" "+subqueryValues); 
                     
           	      }
           	      else if (classtype.equalsIgnoreCase("java.lang.Integer"))

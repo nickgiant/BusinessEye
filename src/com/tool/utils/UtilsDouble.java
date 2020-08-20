@@ -208,23 +208,39 @@ import java.sql.SQLException;
     * @return 
     */
    public String getDoubleReading(String value,boolean showZero)
-   {  
+   {
        double valu = 0.00;
       String ret="";
+      
+      try
+      {
       if(value.indexOf(",")!=-1)
       {
-          value = value.replaceFirst(",", ".");
-          valu=Double.valueOf(value).doubleValue();
+         String strvalue = value.replace(".", "");
+         value = strvalue.replace(",", ".");
+         //System.out.println("   value:"+value);
+         valu=Double.valueOf(value).doubleValue();
+         //System.out.println("   valu:"+valu);
       }
       else
       {
-          valu=Double.valueOf("0.00").doubleValue();
+         valu=Double.valueOf("0.00").doubleValue();
       }
+      
+      }
+      catch(java.lang.NumberFormatException e)
+      {
+          System.out.println("     error     UtilsDouble.getDoubleReading  NumberFormatException   value:"+value+"   valu:"+valu+"  "+e.getMessage());
+         // e.printStackTrace();
+      }
+      
+      
+      
       String v =getDoubleReading(valu);
      //System.out.println("UtilsDouble.getDoubleReading "+value+"-"+v+"-"+getDoubleEditing(valu));
       if (value == null || value.equals(null) || value.toString().trim().equals("null") || value.toString().trim().equals("") ||  value.toString().trim().equals("0.0") ||  value.toString().trim().equals("0")) // 0.0 in h2
       {
-   	      double val=Double.valueOf("0.00").doubleValue();
+   	    double val=Double.valueOf("0.00").doubleValue();
           //System.out.println("UtilsDouble.getDoubleReading "+value+"-"+val+"-"+getDoubleReading(val));
             if(showZero)
             {
@@ -237,8 +253,7 @@ import java.sql.SQLException;
       }
       else
       {
-   	      double val=Double.valueOf(value.toString()).doubleValue();
-          
+   	  double val=Double.valueOf(value.toString()).doubleValue();
           ret = getDoubleReading(val);
           //System.out.println("UtilsDouble.getDoubleReading   showZero:"+showZero+"   "+value+"-"+val+"-"+getDoubleReading(val)+"   ret:"+ret);
       }
@@ -374,9 +389,11 @@ import java.sql.SQLException;
     {
     	UtilsDouble ud=new UtilsDouble();
     	Object value=311932.10000000027;
-    	ud.getSettingsFromDb();
-    	System.out.println(" "+ud.doubleDecimalFormatChar+"  "+ud.decimalNumbers);
-    	System.out.println(ud.getDoubleReading(value,true));
+        String strValue = "1.000,25";
+        System.out.println("  "+strValue+"  "+ud.getDoubleReading(strValue,true));
+    	//ud.getSettingsFromDb();
+    	//System.out.println(" "+ud.doubleDecimalFormatChar+"  "+ud.decimalNumbers);
+    	
     } 
     
  }

@@ -2210,12 +2210,10 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
              if(rs.next())// if there is first
              {
                 pkValue = rs.getString(updateAdditional[u].getUpdateAdditionalBridgeDestinationField());//"esoexoheaderId"); 
-                
              }
              else// if the record doesnot exist
              {
                 pkValue = utilsPanelReport.getNoOfPKAutoIncOfNewRecord(false,dbFieldsBridge,entityBridge,null,null,0);// used for table, last                
-                
              }
             }
             catch(SQLException e)
@@ -2285,12 +2283,13 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                  }
                  catch(SQLException sqle)
                  {
-                      this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                      
                       System.out.println("PanelODOR.bridgeRecalc    "+entityBridge+"    "+strField+"   "+sqle.getMessage());
                       sqle.printStackTrace();
                  }
                  finally
                  {
+                     this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                      db.releaseConnectionRs(); 
                  }
     
@@ -2329,6 +2328,7 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                  }
                  finally
                  {
+                     this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                      db.releaseConnectionRs();
                  }
                  
@@ -2341,7 +2341,7 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
             }// for all updated
         }// if update not null
         }
-         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+         
       
   }
   
