@@ -6053,7 +6053,6 @@ ps.setBytes(i, b);
                  }
           	 else
           	 { 
-          	      
           	  	   System.out.println("error panelOneDataOneRecData.rowUpdate B classtype "+classtype+" not supported");
           	 }
          //System.out.println("panelOneDataOneRecData.updateRow ("+i+") "+intGroupOfPanelsToShow+".   "+title+"    "+columnName+":"+fieldValue);
@@ -6064,12 +6063,10 @@ ps.setBytes(i, b);
                         // add comma but not on the last field(before where), also not when there is only one field
           	       //System.out.println("minus "+i+" "+" "+rsmd.getColumnCount()+" "+colCount);
           	       	 subquerySet = subquerySet+",  ";  
-          	       
                     }
            
            //System.out.println("PanelOneDataOneRecData.rowUpdate   =-=-=-=  subquerySet  ("+i+")  columnName:"+columnName+"   primKeyDb:"+primKeyDb+"       classtype:"+classtype+"       subquerySet:"+subquerySet);
 
-                    
                  if(columnName.equalsIgnoreCase(primKeyDb))
                  {                  
                      primKeyValue=fieldValue.trim();
@@ -6089,7 +6086,6 @@ ps.setBytes(i, b);
                 subquerySet = subquerySet.substring(0,subquerySet.length()-3);
           }
           
-          
           String subqueryWhere = ""; // for each primary key
           
              utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true,/*primKeyIn,intColumnOfDescriptionIn,
@@ -6108,7 +6104,7 @@ ps.setBytes(i, b);
                 //System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' "+primKeys[i]+"="+primKeysValue[i]); 
 
               
-               System.out.println("PanelOneDataOneRecData.rowUpdate ------------ subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue+"   pkFromOnePanelForTables:"+pkFromOnePanelForTables);   
+            //   System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue+"   pkFromOnePanelForTables:"+pkFromOnePanelForTables);   
                if(primKeys[i].equalsIgnoreCase(primKeyDb))
                {
                    if(pkFromOnePanelForTables == null || pkFromOnePanelForTables.equalsIgnoreCase(""))
@@ -6136,8 +6132,7 @@ ps.setBytes(i, b);
                      {
                          subqueryWhere = subqueryWhere+primKeyValue+"')";
                      }
-                       
-          	       	  
+ 
           	  }
           	  else
           	  {*/
@@ -6146,8 +6141,7 @@ ps.setBytes(i, b);
           	  //}
           	  
                   //System.out.println("PanelODORData.rowUpdate  subqueryWhere "+i+" "+primKey+"  "+primKeyValue+"  "+getPrimKeyValue(primKey));
-                  
-                  
+
           	  if (i < primKeys.length-1 && primKeys.length>1) 
           	  // add AND but not on the last field(before where), also not when there is only one PK . -1 because arraylist starts from 0
           	  { subqueryWhere = subqueryWhere+" AND  ";   }              
@@ -6212,9 +6206,7 @@ ps.setBytes(i, b);
             ret = 0;
         }
 
-        boolean retBool = this.rowInsertAndUpdateImage(dbTransaction);
-
-       
+         boolean retBool = this.rowInsertAndUpdateImage(dbTransaction);
 
          return ret;
    }
@@ -6837,10 +6829,10 @@ ps.setBytes(i, b);
    * //colOfTxtField is the txtfield, 
    *  // fieldNameToCheck(ie customer.customerId or saleheader.customerId) fieldNameToCheck is the name of the field. But, since it also holds the table itmay be wrong.
    */
-   private void checkFieldsIfThenElse(int colOfTxtField, int calledBy)//String fieldNameToCheck
+   private boolean checkFieldsIfThenElse(int colOfTxtField, int calledBy)//String fieldNameToCheck
    {
 
-
+    boolean ret = false;
        /*EntityCheckFields[] entityCheckFields =new EntityCheckFields[1]
        entityCheckFields[0] = new EntityCheckFields("SELECT customer.vatNo FROM customer WHERE customer.dbCompanyId = "+VariablesGlobal.globalCompanyId,"customer.customerId","",7,
                "SELECT dbcompany.companyVatNo FROM dbcompany ","dbcompany.dbCompanyId",VariablesGlobal.globalCompanyId,-1,
@@ -6859,7 +6851,9 @@ ps.setBytes(i, b);
 
         String queryCheck =  entityCheckFields[f].getQueryIfA();
 
-                int[] textsInput = entityCheckFields[f].getInputFields();  
+                int[] textsInput = entityCheckFields[f].getInputFields(); 
+                if(textsInput!=null)
+                {
                 String [] textString = new String[textsInput.length];
 
                 for(int c=0;c<textsInput.length;c++)
@@ -6915,7 +6909,7 @@ ps.setBytes(i, b);
                    }
                }        
 
-  
+                }//   textsInput
         if(queryCheck.indexOf("#")==-1)// if there is no # continue
         {
           String retStringA="";
@@ -6943,8 +6937,12 @@ ps.setBytes(i, b);
 
       if(retStringA.equalsIgnoreCase("1"))
       {
-     String textMessageWhenTrue = entityCheckFields[f].getTextMessageWhenTrue();
-     utilsGui.showMessageInfo(textMessageWhenTrue);
+          ret = true;
+          if(entityCheckFields[f].getTextMessageWhenTrue()!=null)
+          {
+              String textMessageWhenTrue = entityCheckFields[f].getTextMessageWhenTrue();
+              utilsGui.showMessageInfo(textMessageWhenTrue);
+          }
       }
         }
       else
@@ -6952,7 +6950,7 @@ ps.setBytes(i, b);
                   System.out.println("error PanelOneDataOnRecData.checkFieldsIfThenElse     has #     queryCheck:"+queryCheck);
 
       }
-     
+                
     }
  /*}
  else
@@ -7060,7 +7058,7 @@ ps.setBytes(i, b);
           
   }// if!=null  
          
-          
+          return ret;
    }
    
    
@@ -9887,6 +9885,86 @@ ps.setBytes(i, b);
        
       return isPrinted; 
    }
+  
+   
+   
+   
+   /*
+   *   if comes from an other module like sales(bridge)
+   *  also similar exists in PanelODMR.checkIfSourceIsFromOtherModule
+   */
+   private boolean checkIfSourceIsFromOtherModule()
+   {
+       
+       boolean isFromOtherModule = false;
+       try
+       {
+           //if isPrinted==1 make read only       
+          for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)
+          {
+                String fieldName = dbFieldsInGroupOfPanels[i].getDbField();
+                int isEditableOrVisible = dbFieldsInGroupOfPanels[i].getIsVisibleOrEditable();
+
+                if (fieldName.equalsIgnoreCase(STRFIELD_SOURCE))
+                {
+             int selectedRow=0;       
+   	    db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.checkIfSourceIsFromOtherModule");
+   	    rs=db.getRS();   
+            //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue);
+            selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfSourceIsFromOtherModule",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+            //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   selectedRow"+selectedRow+"   primKeyValue:"+primKeyValue+"  query:"+query);
+            if(selectedRow != 0) 
+            {
+                 rs.absolute(selectedRow); 
+            }
+            else //(selectedRow == 0 && db.getRecordCount()!=0)//  which means no line selected
+            {
+                 selectedRow = 1; // 1st row if none selected
+                 rs.absolute(selectedRow); 
+            }    
+          
+                   int sourceValue = rs.getInt(fieldName); 
+                   if(sourceValue==SOURCE_SALES)
+                   {
+                          isFromOtherModule=true;
+                          break;                       
+                   }
+                   else if(sourceValue==SOURCE_ESOEXO)
+                   {
+                               
+                   }
+                   else
+                   {
+                       System.out.println("  error PanelOneDataOnRecData.checkIfSourceIsFromOtherModule  UNDEFINED sourceValue"+sourceValue);
+                         isFromOtherModule = false;
+                   }
+                   
+                   //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue+" isPrintedValue:"+isPrintedValue);
+                   
+                   
+                }
+          }       
+       }
+       catch(SQLException e)
+       {
+            System.out.println("error   PanelODORData.checkIfSourceIsFromOtherModule  "+e.getMessage());
+         if(VariablesGlobal.globalShowPrintStackTrace)  
+         {
+           e.printStackTrace();     
+         }            
+            
+       }
+       finally
+       {
+           closeDB();
+       }       
+       
+       
+      return isFromOtherModule; 
+   }
+   
+   
+   
    
    private boolean checkIfIsInPreviousYear()
    {
@@ -9977,27 +10055,25 @@ ps.setBytes(i, b);
        }
        else
        {
-           
-           
+           boolean isFromOtherSource = false;
+            if( checkFieldsIfThenElse(0,CHECK_ON_OPEN_TO_EDIT_OR_DELETE))
+            {
+                isFromOtherSource = checkIfSourceIsFromOtherModule();//  bridge, like beeing from sales
+            }
+            
            boolean isPrinted =  checkIfIsPrinted();
            boolean isInPreviousYear = checkIfIsInPreviousYear();
            
-           if(isPrinted && isInPreviousYear)
+           
+           if(!isPrinted && !isInPreviousYear && !isFromOtherSource)
+           {
+                ret = false;
+           }
+           else
            {
                ret = true;
            }
-           else if(isPrinted && !isInPreviousYear)
-           {
-                ret = true;
-           }
-           else if(!isPrinted && isInPreviousYear)
-           {
-               ret = true;
-           }
-           else if(!isPrinted && !isInPreviousYear)
-           {
-               ret = false;
-           }
+           
            
            
        }// isNewRec false

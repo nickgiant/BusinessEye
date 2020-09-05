@@ -41,7 +41,7 @@ import java.util.Vector;
  	
  	private PanelReportSettings panelReportSettings;
  	private PanelPrintPreview panelPrintPreview;
-  
+           private EntityPanel entityPanel;
  	private EntityReportBand[] entityReportBand;
 // 	 private ToolBarData toolBarData;
        private JButton btnExecute;
@@ -144,16 +144,18 @@ private String entity;
   *
   *  called by PanelODOR.showPrintPreviewForm
   */
-  public void setEntityDirectPreviewOfForm(String entityIn,EntityReport erpt,String[] arrayOfNameOfPksOfRecordToShowIn,String[] arrayOfValueOfPksOfRecordToShowIn, boolean showSummaryPageIn,
+  public void setEntityDirectPreviewOfForm(EntityPanel entityPanelIn,EntityReport erpt,String[] arrayOfNameOfPksOfRecordToShowIn,String[] arrayOfValueOfPksOfRecordToShowIn, boolean showSummaryPageIn,
           PanelManagement panelManagementIn)        
   {
 
-      entity=entityIn;
+      
+      entityPanel = entityPanelIn;
+      entity=entityPanel.getEntity();
       
        arrayOfNameOfPksOfRecordToShow=arrayOfNameOfPksOfRecordToShowIn;
        arrayOfValueOfPksOfRecordToShow=arrayOfValueOfPksOfRecordToShowIn;
        
-       panelReportSettings.setEntityForDirectPrintOfForm( erpt,  panelManagementIn);//, arrayOfNameOfPksOfRecordToShowIn, arrayOfValueOfPksOfRecordToShowIn);   
+       panelReportSettings.setEntityForDirectPrintOfForm(entityPanelIn, erpt,  panelManagementIn);//, arrayOfNameOfPksOfRecordToShowIn, arrayOfValueOfPksOfRecordToShowIn);   
        
         intSettingsReport= erpt.getIntSettingsReport();    // must get from gui
         boolSettingsReport= erpt.getBoolSettingsReport();
@@ -245,7 +247,7 @@ private String entity;
   //       String strQuery = panelReportSettings.calculateAndGetSQLForPrintPreviewOfForm();
          String strQuery = panelReportSettings.getSqlForPrintPreview();
          System.out.println(".PanelReportSettingsPreview.showReport        FORM     +++++++        strQuery:"+strQuery);
-         panelPrintPreview.setEntityForPreviewOfForm(entity,entityReport,panelReportSettings.getIsDotmatrix(), panelReportSettings.getStrPageSizeDotmatrix(), 
+         panelPrintPreview.setEntityForPreviewOfForm(entityPanel,entityReport,panelReportSettings.getIsDotmatrix(), panelReportSettings.getStrPageSizeDotmatrix(), 
                   panelReportSettings.getStrPortDotmatrix(), panelReportSettings.getArrayStringsToBePrinted(), panelReportSettings.getPageFormat() /*pf*/, intSettingsReport,
         panelReportSettings.getTitle(),panelReportSettings.getSubTitle(),strQuery,// panelReportSettings.calculateAndGetSQLForPrintPreviewOfForm(),
         panelReportSettings.getSelectedPageSizeLaser(),  panelReportSettings.getSelectedPageOrientationIsPortraitLaser(),

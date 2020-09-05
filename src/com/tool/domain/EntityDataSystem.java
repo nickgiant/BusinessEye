@@ -1107,10 +1107,6 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
   public void addEntityInfoNodes()
   {
       
-
-
-
-
      //------------------------------------------------------------
        
   }
@@ -1369,9 +1365,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         String[] lookUpFieldsxActionType={"actionTypeDescription"};                   
     
      entities.add(entityLookUp = new EntityLookUp("sxactiontype","sxactiontype","SELECT sxactiontype.sxActionTypeId AS\"Νο τύπου εσόδων εξόδων\", sxactiontype.actionTypeCode AS\"κωδικός\", sxactiontype.actionTypeDescription AS \"ονομασία τύπου παραστατικού\", lookupconstants.name,  myfCatId AS\"ΜΥΦ\"  FROM sxactiontype  INNER JOIN lookupconstants ON sxactiontype.sxActionTypeCatId = lookupconstants.lookupconstantsId","WHERE lookupconstants.constantstypeId = 4 AND sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"AND sxactiontype.active LIKE 1","ORDER BY sxactiontype.sxActionTypeCatId, sxactiontype.sxActionTypeId","","sxActionTypeId","Νο τύπου εσόδων εξόδων","sxActionTypeId","τύπος παραστατικού",3,lookUpFieldsxActionType,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,sxactionTypeQueryEditable,"τυπου παραστατικού","τύπων παραστατικών",null,entityPanelsxActionType,fieldsOnTitlesxActionType,fieldsOnTitlesxCaptionActionType,sxactionTypeErs,2,1,null,true,-1,-1,null));    	 	
-    
-
-          
+   
      return entities;
    }
   
@@ -1692,7 +1686,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
          //-----------------------sx-actiontype-------------------------------------
         int[] sxactionTypeFieldsOrderby ={2};
         String[] sxfieldsForSumsActionType=null;
-        EntityParameter sxpl = new EntityParameter("sxactiontype", "SELECT sxActionTypeId AS \"Νο τύπου εσόδων εξόδων\", actionTypeCode, actionTypeDescription AS \"ονομασία\",sxactiontype.active, lookupconstants.name, isCredit, myfCatId AS \"ΜΥΦ\" FROM sxactiontype INNER JOIN lookupconstants ON sxactiontype.sxActionTypeCatId = lookupconstants.lookupconstantsId WHERE lookupconstants.constantstypeId = 4 AND sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT sxActionTypeId AS \"Νο τύπου εσόδων εξόδων\", actionTypeCode, actionTypeDescription AS \"ονομασία\", sxactiontype.active","FROM sxactiontype","WHERE sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,sxfieldsForSumsActionType ,esoexoTypeDBFields ,"τύποι εσόδων εξόδων","DORM","Νο τύπου εσόδων εξόδων","sxActionTypeId",null,null,"τύπου εσόδων εξόδων", "τύπων εσόδων εξόδων", entityPanelsxActionType ,null,fieldsOnTitlesxActionType,fieldsOnTitlesxCaptionActionType,sxactionTypeFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityParameter sxpl = new EntityParameter("sxactiontype", "SELECT sxActionTypeId AS \"Νο τύπου εσόδων εξόδων\", actionTypeCode, actionTypeDescription AS \"ονομασία\",sxactiontype.active, lookupconstants.name, myfCatId AS \"ΜΥΦ\" FROM sxactiontype INNER JOIN lookupconstants ON sxactiontype.sxActionTypeCatId = lookupconstants.lookupconstantsId WHERE lookupconstants.constantstypeId = 4 AND sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"SELECT sxActionTypeId AS \"Νο τύπου εσόδων εξόδων\", actionTypeCode, actionTypeDescription AS \"ονομασία\", sxactiontype.active","FROM sxactiontype","WHERE sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,sxfieldsForSumsActionType ,esoexoTypeDBFields ,"τύποι εσόδων εξόδων","DORM","Νο τύπου εσόδων εξόδων","sxActionTypeId",null,null,"τύπου εσόδων εξόδων", "τύπων εσόδων εξόδων", entityPanelsxActionType ,null,fieldsOnTitlesxActionType,fieldsOnTitlesxCaptionActionType,sxactionTypeFieldsOrderby,-1,-1,globalYearPlusOne);
         EntityMenu sxempl = new EntityMenu();
         sxempl.setEntityParameter(sxpl,ICO_TABLE16);
         sxempl.setEntityType(ENTITY_TYPE_PARAMETER);

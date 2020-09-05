@@ -344,6 +344,8 @@ import javax.swing.border.BevelBorder;
   //private ArrayList listChkShowColumnWithoutData;   
    private EntityReport entityReport;
    
+   private EntityPanel entityPanel;
+   
     public PanelReportSettings(JFrame parent)
     {
         try {
@@ -895,11 +897,12 @@ import javax.swing.border.BevelBorder;
     /*
     *  called by PanelReportSettingsPreview.setEntityDirectPreviewForm    
     */    
-    public void setEntityForDirectPrintOfForm(EntityReport erpt,  PanelManagement panelManagementIn)//,String[] arrayOfNameOfPksOfRecordToShowIn,
+    public void setEntityForDirectPrintOfForm(EntityPanel entityPanelIn,EntityReport erpt,  PanelManagement panelManagementIn)//,String[] arrayOfNameOfPksOfRecordToShowIn,
             //String[] arrayOfValueOfPksOfRecordToShowIn)
     {
         //arrayOfNameOfPksOfRecordToShow=arrayOfNameOfPksOfRecordToShowIn;
         //System.out.println("PanelReportSettings.setEntityForDirectPrintOfForm ---    erpt:"+erpt);
+      entityPanel = entityPanelIn;
       entityReport=erpt;
       entityReportBand=erpt.getEntityReportBands();
       //entityReportBandLength=entityReportBand.length;

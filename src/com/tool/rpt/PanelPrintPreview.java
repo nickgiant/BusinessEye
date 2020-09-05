@@ -214,6 +214,7 @@ public class PanelPrintPreview extends JxPanel implements Constants
    //ReportPanelDoc  reportPanelDoc;
     
     private UtilsGui utilsGui;
+    private UtilsPanelReport utilsPanelReport;
 
     private JLabel lblFromPages;
     private JLabel lblPage;
@@ -290,6 +291,7 @@ public class PanelPrintPreview extends JxPanel implements Constants
     private EntityReport entityReport;
     private ToolBarData toolBarData;
     private JTextArea txtAreaNoData;
+    private EntityPanel entityPanel;
     
     private String queryFormForPrinting ="" ;              
     private String formFieldToGetData="" ;
@@ -317,6 +319,7 @@ public class PanelPrintPreview extends JxPanel implements Constants
 //        printTextPane = new PrintTextPane();
 //        printTable = new PrintTable();
         utilsGui = new UtilsGui();
+        utilsPanelReport = new UtilsPanelReport();
 //        reportPanel = new ReportPanel();
         
         toolBarData = new ToolBarData();
@@ -466,12 +469,13 @@ public class PanelPrintPreview extends JxPanel implements Constants
     /*
     *  called by  PanelReportSettingsPreview.showPanelReport
     */
-        public void setEntityForPreviewOfForm(String entityIn, EntityReport entityReportIn,boolean isDotmatrixIn,String strDotMatrixPageSizeIn,String strPortDotmatrixIn,
+        public void setEntityForPreviewOfForm(EntityPanel entityPanelIn, EntityReport entityReportIn,boolean isDotmatrixIn,String strDotMatrixPageSizeIn,String strPortDotmatrixIn,
                 String [] arrayStringsToBePrintedIn, PageFormat pageFormatIn,int[] intSettingsReportIn,String titleIn, String subTitleIn, String queryIn,
                 String pageSizeLaserIn, boolean pageOrientationIsPortraitLaserIn ,int dotmatrixCpiIn, String[] arrayOfNameOfPksOfRecordToShowIn,
                 String[] arrayOfValueOfPksOfRecordToShowIn)
       {
-          entity=entityIn;
+          entityPanel = entityPanelIn;
+          entity=entityPanel.getName();
             entityReport=entityReportIn;
             name = entityReport.getName();
             viewType=entityReport.getType();
@@ -1408,25 +1412,12 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
      
    }
 
-  private void printPrinterJob(PrinterJob printerJobIn, boolean isShowDialog,String isForm)
-  {
-    //System.out.println("PanelPrintPreview.printPrinterJob ");
-         if(isShowDialog)
-         {
-              try 
-              {
-                    if (printerJobIn.printDialog())
-                    {
-                    	//print
-                    	setCursor( Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    	
-                    	printerJobIn.print(); 
-              	        System.out.println("PanelPrintPreview.printPrinterJob printing.......");
-                       if(isForm.equalsIgnoreCase("FORM"))
-                       {
+
+   private void updateWhenPrinted()
+   {
                           if(arrayOfNameOfPksOfRecordToShow==null) 
                           {
-                               System.out.println("PanelPrintPreview.printPrinterJob MASS printing db NOT SET TO UPDATE");
+                               System.out.println("PanelPrintPreview.updateWhenPrinted MASS printing db NOT SET TO UPDATE");
                           }
                           else
                           {
@@ -1448,7 +1439,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
 
                            Database db = new Database();
                            String queryRead = "SELECT "+entity+"."+STRFIELD_ISPRINTED+" FROM "+entity+" WHERE "+qWhere;
-                           db.retrieveDBDataFromQuery(queryRead, "PanelPrintPreview.printPrinterJob");
+                           db.retrieveDBDataFromQuery(queryRead, "PanelPrintPreview.updateWhenPrinted");
                            int noOfPrints = 0;
                            ResultSet rs = db.getRS();
                            try
@@ -1458,7 +1449,7 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
                            }
                            catch(SQLException se)
                            {
-                            System.out.println("error:PanelPrintPreview.printPrinterJob: "+se.getMessage());
+                            System.out.println("error:PanelPrintPreview.updateWhenPrinted: "+se.getMessage());
                             se.printStackTrace();                               
                            }
                            finally
@@ -1469,17 +1460,39 @@ static private PageFormat getMinimumMarginPageFormat(PrinterJob printJob)
                             String queryUpdate = "UPDATE "+entity+" SET "+entity+"."+STRFIELD_ISPRINTED+" = '"+noOfPrints+"' WHERE "+qWhere;   
                            //System.out.println("PanelPrintPreview.printPrinterJob printing.......queryUpdate:"+queryUpdate); 
                            
-                           if(db.updateQueryNotTransaction(queryUpdate, "PanelPrintPreview.printPrinterJob", true, false)==1)
+                           
+                           
+                           if(db.updateQueryNotTransaction(queryUpdate, "PanelPrintPreview.updateWhenPrinted", true, false)==1)
                            {
-                               System.out.println("PanelPrintPreview.printPrinterJob printing.... db UPDATED  noOfPrints:"+noOfPrints);
+                               System.out.println("PanelPrintPreview.updateWhenPrinted printing.... db UPDATED  noOfPrints:"+noOfPrints);
                                //if is 1 ok
                            }
                            else
                            {
-                               System.out.println("PanelPrintPreview.printPrinterJob printing... db NOT UPDATED  (noOfPrints:"+noOfPrints+")  queryUpdate:"+queryUpdate);
+                               System.out.println("PanelPrintPreview.updateWhenPrinted printing... db NOT UPDATED  (noOfPrints:"+noOfPrints+")  queryUpdate:"+queryUpdate);
                            }
                            db.releaseConnectionRs();
                          }
+}           
+           
+   
+  private void printPrinterJob(PrinterJob printerJobIn, boolean isShowDialog,String isForm)
+  {
+    //System.out.println("PanelPrintPreview.printPrinterJob ");
+         if(isShowDialog)
+         {
+              try 
+              {
+                    if (printerJobIn.printDialog())
+                    {
+                    	//print
+                    	setCursor( Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    	
+                    	printerJobIn.print(); 
+              	        System.out.println("PanelPrintPreview.printPrinterJob printing.......");
+                       if(isForm.equalsIgnoreCase("FORM"))
+                       {
+                           updateWhenPrinted();
                        }
                         setCursor( Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         

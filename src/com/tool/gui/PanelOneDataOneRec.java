@@ -1275,7 +1275,7 @@ import javax.swing.text.JTextComponent;
        String[] arrayOfNameOfPksOfRecordToShow = primKeysWithTable;//{entityPanel.getEntity()+"."+primKeyDb, entityPanel.getEntity()+"."+"dbCompanyId"};
        String[] arrayOfValueOfPksOfRecordToShow = primKeysValue;//{primKeyValue, VariablesGlobal.globalCompanyId};
        
-       panelReportSettingsPreview.setEntityDirectPreviewOfForm(entityPanel.getEntity(),entityPanel.getEntityReportForm(),arrayOfNameOfPksOfRecordToShow,arrayOfValueOfPksOfRecordToShow,true, panelManagement);      
+       panelReportSettingsPreview.setEntityDirectPreviewOfForm(entityPanel,entityPanel.getEntityReportForm(),arrayOfNameOfPksOfRecordToShow,arrayOfValueOfPksOfRecordToShow,true, panelManagement);      
 
        
        

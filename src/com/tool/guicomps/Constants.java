@@ -89,6 +89,7 @@ public interface Constants
        
        public static final int CHECK_ON_ENTRY = 1;
        public static final int CHECK_ON_INSERT_OR_ON_UPDATE = 2;
+        public static final int CHECK_ON_OPEN_TO_EDIT_OR_DELETE = 3; // records from bridge
        
        public static final String CAPTION_IMPORT_DATA = "εισαγωγή δεδομένων";
        public static final String CAPTION_EXPORT_DATA = "εξαγωγή δεδομένων";
@@ -138,9 +139,10 @@ public interface Constants
        //EntityUpdateAdditional: updateWhen in EntityInfo // UPDATE_ON_INSERT_ONLY,UPDATE_ON_UPDATE_ONLY, UPDATE_ON_BOTH_INSERT_AND_UPDATE,UPDATE_ON_DELETE
        public static final int NO_UPDATE = 0;
        public static final int UPDATE_ON_INSERT_ONLY = 1;
-       public static final int UPDATE_ON_UPDATE_ONLY = 2; 
+       public static final int UPDATE_ON_UPDATE_ONLY = 2; // first delete then insert
        public static final int UPDATE_ON_BOTH_INSERT_AND_UPDATE= 3; // not implemented completely
-       public static final int UPDATE_ON_DELETE = 4; // not implemented
+       public static final int UPDATE_ON_DELETE = 4; // first delete then insert
+       public static final int UPDATE_ON_PRINT = 5;
        
        public static final int CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL =0;
        public static final int CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE =1;  // if CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE then placed in bottom of form
@@ -151,6 +153,9 @@ public interface Constants
        public static final String STRFIELD_DBCOMPANYID ="dbcompanyid"; // for replace case insensitive use (?i)STRFIELD_DBCOMPANYID
        public static final String STRFIELD_DBYEARID ="dbyearId"; //  has to be changed in db with dbyearid
        public static final String STRFIELD_ISPRINTED = "isPrinted";
+       public static final String STRFIELD_SOURCE = "sourceModuleId"; // the db returns 2 from sales, 1 from eso exo
+       public static final int SOURCE_SALES = 2;
+       public static final int SOURCE_ESOEXO = 1;
        
   public static final int INTSETTINGSREPORT_SHOWINALLPAGES = 0;
   public static final int INTSETTINGSREPORT_SHOWFIRSTPAGE = 1;

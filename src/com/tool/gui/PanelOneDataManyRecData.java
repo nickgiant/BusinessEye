@@ -1068,7 +1068,7 @@ import javax.swing.text.JTextComponent;
    	  return listMessages;
    }  
   
-   private void setVisibleOrEditableFields(EntityDBFields[] dbFieldsMany)
+   /*private void setVisibleOrEditableFields(EntityDBFields[] dbFieldsMany)
    {
  //exists both in rowNew and setEntity. The reason is that it has to be called when is already in edit row and would like to make a new row 
           for (int c = 0; c < dbFieldsMany.length; c++)
@@ -1085,14 +1085,14 @@ import javax.swing.text.JTextComponent;
         FIELD_VISIBLE_NOT_EDITABLE_WHENEDIT_BUT_EDITABLE_ON_NEW = 2;
         FIELD_NOT_VISIBLE = 3;               */
                
-               if(dbFieldsMany[c].getIsVisibleOrEditable()==FIELD_VISIBLE_NOT_EDITABLE_ALWAYS)
+        /*       if(dbFieldsMany[c].getIsVisibleOrEditable()==FIELD_VISIBLE_NOT_EDITABLE_ALWAYS)
                {
                    
                }
                
                
           }
-   }
+   }*/
    
    
    
