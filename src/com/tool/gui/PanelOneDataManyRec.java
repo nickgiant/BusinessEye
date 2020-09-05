@@ -1982,18 +1982,58 @@ private String getTitleCaption(int row)
         int retShowMessage = YES;
 
         String titleCaption = this.getTitleCaption(selectedParentTableRow);
-        retShowMessage=utilsGui.showConfirmYesOrNo(frame,"Are you sure you would like to delete this record? \n "+titleCaption);
+        boolean hasBridge= false;
+       EntityUpdateAdditional[] updateAdditional=null;
+        for(int p = 0;p<entityPanel.length;p++)
+        {
+
+            updateAdditional = entityPanel[p].getUpdateAdditional();
+            if(updateAdditional!=null)
+            {
+                
+                 String primKeySourceValue = panelOneDataManyRecData.getPrimKeyValue();// on saleheaderid
+                 //String primKeyDestinationValue = "";// on sxesoexoid
+                 
+                for(int u=0;u<updateAdditional.length;u++)
+                {
+                    if(updateAdditional[u].getUpdateAdditionalWhen() == UPDATE_ON_UPDATE_ONLY)
+                    {
+                        hasBridge = true;
+                    }
+                }
+            }
+        }
+        if(hasBridge)
+        {
+        retShowMessage=utilsGui.showConfirmYesOrNo(frame,"Are you sure you would like to delete this record, and the bridge?"
+                + " \n "+titleCaption);
+        }
+        else
+        {
+        retShowMessage=utilsGui.showConfirmYesOrNo(frame,"Are you sure you would like to delete this record?"
+                + " \n "+titleCaption);            
+        }
         
      if(retShowMessage==YES)
      {
 
-
+          if(hasBridge)
+          {
+              bridgeDelete();
+          }
+          
+          
         Database dbTransaction = new Database();
         try
         {
           dbTransaction.transactionLoadConnection();
           dbTransaction.setTransactionAutoCommit(false);
-         System.out.println("  PanelODMR.rowDelete     row:"+(selectedParentTableRow+1)+"      dbTransaction:"+dbTransaction+"      selectedParentTableRow:"+selectedParentTableRow); 
+          
+
+          
+          
+          
+         System.out.println("  PanelODMR.rowDelete     row:"+(selectedParentTableRow+1)+"   hasBridge:"+hasBridge+"     dbTransaction:"+dbTransaction+"      selectedParentTableRow:"+selectedParentTableRow); 
         
         
        // if()
@@ -2604,11 +2644,9 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
       EntityUpdateAdditional[] updateAdditional=null;
         for(int p = 0;p<entityPanel.length;p++)
         {
-
             updateAdditional = entityPanel[p].getUpdateAdditional();
             if(updateAdditional!=null)
             {
-                
                  String primKeySourceValue = panelOneDataManyRecData.getPrimKeyValue();// on saleheaderid
                  //String primKeyDestinationValue = "";// on sxesoexoid
                  
@@ -2651,10 +2689,7 @@ System.out.println("PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")
                  {
                      db.releaseConnectionRs();
                  }
-                 
-                 
-                 
-                 
+
                   }
                 }
             }

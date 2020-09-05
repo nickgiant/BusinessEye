@@ -132,6 +132,7 @@ import javax.swing.text.JTextComponent;
    private Thread thread;
     private WindowWait ww;
     private boolean boolContinue=false; // made it in all the class for thread requirements
+    private boolean showDialogOnError=true;
     
     public PanelOneDataOneRec(JFrame frame)  
     {
@@ -1067,6 +1068,57 @@ import javax.swing.text.JTextComponent;
        
    }
    
+  
+   private void bridgeDelete()
+  {
+      this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+      EntityUpdateAdditional[] updateAdditional=null;
+
+            updateAdditional = entityPanel.getUpdateAdditional();
+            if(updateAdditional!=null)
+            {
+                 //String primKeySourceValue = primKeyValue;// on saleheaderid
+                 //String primKeyDestinationValue = "";// on sxesoexoid
+                 
+                for(int u=0;u<updateAdditional.length;u++)
+                {
+                    if(updateAdditional[u].getUpdateAdditionalWhen() == UPDATE_ON_DELETE)
+                    {
+ 
+
+                 try
+                 {
+                    db.transactionLoadConnection();
+                                      
+                    String strQuery = updateAdditional[u].getIfIsEnabledReturn1();
+                    String bridgeEntity = updateAdditional[u].getUpdateAdditionalBridgeEntity();
+                    String queryU = updateAdditional[u].getUpdateAdditionalQuery();
+                     String strq = " AND "+primKeyDb+" LIKE "+primKeyValue;
+                     queryU = "DELETE FROM "+bridgeEntity+" "+queryU+strq;
+                     if (VariablesGlobal.globalShowSQLEdit)
+                     { 
+                         System.out.println("PanelODOR.bridgeDelete  delete      ++            queryU:"+queryU);
+                     }
+                     
+                     int intRetDel = db.transactionUpdateQuery(queryU,"PanelODOR.bridgeDelete ",showDialogOnError); 
+                 }
+                 catch(SQLException sqle)
+                 {
+                     this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                      System.out.println("PanelODOR.bridgeDelete    "+sqle.getMessage());
+                      sqle.printStackTrace();
+                 }
+                 finally
+                 {
+                     db.releaseConnectionRs();
+                 }
+                  }
+                }
+            }
+        
+             this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));   
+ 
+  }
    
    /*
    * called by button
@@ -1095,9 +1147,45 @@ import javax.swing.text.JTextComponent;
        else
        {
        
+           
+        boolean hasBridge= false;
+       EntityUpdateAdditional[] updateAdditional=null;
+
+            updateAdditional = entityPanel.getUpdateAdditional();
+            if(updateAdditional!=null)
+            {
+                
+             //    String primKeySourceValue = primKeyValue;// on saleheaderid
+                 //String primKeyDestinationValue = "";// on sxesoexoid
+                 
+                for(int u=0;u<updateAdditional.length;u++)
+                {
+                    if(updateAdditional[u].getUpdateAdditionalWhen() == UPDATE_ON_UPDATE_ONLY)
+                    {
+                        hasBridge = true;
+                    }
+                }
+            }          
+           
+           
+           
+           
+           
        final int YES = 0;
     	final int NO = 1;
-    	if (utilsGui.showConfirmYesOrNo(this, "Σίγουρα θέλετε να διαγράψετε αυτή την εγγραφή; \n "+titleCaptionStr) == YES)
+        
+        String strMessage = "";
+        if(hasBridge)
+        {
+            strMessage = "Σίγουρα θέλετε να διαγράψετε αυτή την εγγραφή, και τη γέφυρα. \n "+titleCaptionStr;
+        }
+        else
+        {
+            strMessage = "Σίγουρα θέλετε να διαγράψετε αυτή την εγγραφή; \n "+titleCaptionStr;
+        }
+        
+        int intAsk = utilsGui.showConfirmYesOrNo(this, strMessage );
+    	if ( intAsk == YES)
     	{
      
              boolean continueToDel=true;
@@ -1116,10 +1204,17 @@ import javax.swing.text.JTextComponent;
          Database dbTransaction = new Database();
          try
          {
+             
+           if(hasBridge)
+           {
+               bridgeDelete();
+           }
+             
+
           dbTransaction.transactionLoadConnection();
           dbTransaction.setTransactionAutoCommit(false);
          System.out.println("PanelODOR.rowDelete     dbTransaction:"+dbTransaction);                 
-             
+
            for(int l = 0;l<listPanelOneDataOneRecData.size();l++)
            {
                 panelOneDataOneRecData = (PanelOneDataOneRecData)listPanelOneDataOneRecData.get(l);
