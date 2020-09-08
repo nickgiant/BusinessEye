@@ -13,6 +13,7 @@ import com.tool.model.EntityPanel;
 //import com.tool.model.EntityInfoMany;
 import com.tool.model.EntityInfo;
 import com.tool.gui.*;
+import static com.tool.guicomps.Constants.CLR_BUTTONPANEL_START;
 import com.tool.jdbc.*;
 import com.tool.model.*;
 import com.tool.utils.*;
@@ -125,8 +126,8 @@ public class PanelManagement extends JxPanel implements Constants
     //private PanelDockableDesktop panelDockableDesktop;
     //private JPanel panelNoTabs;
 //    private PanelGradientBackground panelNoTabs;  // background panel to add components
-    private JxPanel panelNoTabs;  // background panel to add components
-    String url = "http://www.businesseye.gr";
+    private JPanelDecorated panelNoTabs;  // background panel to add components
+    //String url = "http://www.businesseye.gr";
     //private PanelDockableDesktop panelDockableDesktop;
     //private PanelReport panelReport;
 
@@ -177,12 +178,15 @@ public class PanelManagement extends JxPanel implements Constants
    private JPanel panelMenuContainer;
    //static ResourceManager RESOURCE = ResourceManager.get(TaskPaneMain.class);
    
+   private JxPanel pnlTopBackground ;
+   
    private ArrayList listMenuGroup ;
    private boolean isExpanded = false;  
    private WindowWait windowwait;	
    	
    private JLabelGradient lblModule;
    private WindowMenu wmnu;	
+   
    
     public PanelManagement(JFrame frame)
     {
@@ -229,7 +233,7 @@ public class PanelManagement extends JxPanel implements Constants
        listOfTypeOfTabPanes= new ArrayList();
        
  
-          panelNoTabs = new JxPanel();
+          panelNoTabs = new JPanelDecorated();
         //panelNoTabs = new JPanelDecorated();//(blue,lightBlue,0,0);           
         //panelNoTabs = new PanelGradientBackground(CLR_PANEL_START_ALTER,CLR_PANEL_END_ALTER,0,0);//PanelGradient(lblTitle.getBackground().brighter().brighter(),lblTitle.getBackground().darker(),60);//new PanelTitle(new Color(0, 0, 0, 0),this.getBackground().darker().darker().darker().darker(),Color.white,"title");
         
@@ -303,7 +307,17 @@ public class PanelManagement extends JxPanel implements Constants
          //panelDownRight.setLayout(new BorderLayout()); //(panelDownRight, BoxLayout.LINE_AXIS));
          //panelDownRight.add(panelClockNLogo, BorderLayout.PAGE_END);
          //panelNoTabs.add(panelDownRight,BorderLayout.LINE_END);    
-         panelNoTabs.add(panelClockNLogo,BorderLayout.CENTER);    
+         //panelNoTabs.add(panelClockNLogo,BorderLayout.CENTER);    
+         
+         
+        pnlTopBackground = new JxPanel();
+         GridLayoutVariable layout = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 1);
+        pnlTopBackground.setLayout(layout);
+        //pnlTopBackground.setOpaque(false);
+        //panelNoTabs.setOpaque(true);
+        panelNoTabs.add(pnlTopBackground,BorderLayout.PAGE_START);
+         
+         
          
          //treeNavigation = new JTree();
         // entityData = new EntityData();
@@ -333,101 +347,7 @@ public class PanelManagement extends JxPanel implements Constants
         tabbedPane.getActionMap().put("showWindowWithTabs", actionShowWindowWithTabs);
 
  
-        
-/*        treeRenderer = new DefaultTreeCellRenderer();
-        
 
-        treeRenderer.setLeafIcon(ICO_TABLE16);
-        treeRenderer.setOpenIcon(ICON_TREEFOLDER_OPENED);
-      treeRenderer.setClosedIcon(ICON_TREEFOLDER_CLOSED);
-       
-        
-        treeNavigation.setRootVisible(false);
-        treeNavigation.setBorder(null);
-        treeNavigation.setRowHeight(17);
-   
-       // treeNavigation.requestFocusInWindow();  not working
-       
-        navigationTreeModel = new NavigationTreeModel();             
-        treeNavigation.setModel(navigationTreeModel);
-
-        treeNavigation.addKeyListener(new KeyListener()
-        {
-           public void keyPressed(KeyEvent e)
-           {
-           	 treeNavigation.setFocusTraversalKeysEnabled(false);// when having this enabled enter makes nothing
-           	//System.out.println("keyTyped"+e.getKeyCode()+" "+KeyEvent.VK_ENTER);
-           	 if(e.getKeyCode() == KeyEvent.VK_ENTER)
-           	 {
-           	 	           	 	
-    
-                 selectedTreeObject = treeNavigation.getLastSelectedPathComponent();
-                 //objEntity =null;
-                 //intMenuCategory=0;
-                navTreeSelection(null);  
-                treeNavigation.setFocusTraversalKeysEnabled(true); // we enable it after enter is pressed
-                
-                
-             }
-           }
-           public void keyReleased(KeyEvent e)
-           {
-           }
-           
-           public void keyTyped(KeyEvent e)
-           {
-           }
-        });
-
-                 
-
-       treeNavigation.addMouseListener(new MouseAdapter()
-       {
-            public void mousePressed(MouseEvent e)// on mouse click
-            {
-            	
-            	  selectedTreeObject = treeNavigation.getLastSelectedPathComponent();
-            	 
-            	treeNavigation = (JTree)e.getSource();
-             if(e.getButton()==e.BUTTON1)    //e.BUTTON1 left click  e.BUTTON2 center
-             {
-                if (e.getClickCount() == 1) // make it 2 for doubleclick
-                {   
-                   splitPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-                   
-                   //objEntity=null;
-                   //intMenuCategory=0;
-                   navTreeSelection(null);  
-                
-                   splitPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-               
-                }
-              }
-              else if (e.getButton()==e.BUTTON3)//e.BUTTON3 right click  // e.BUTTON2 center
-              {
-                if (e.getClickCount() == 1) // make it 2 for doubleclick
-                {               
-                   splitPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-                   
-                   
-                    int selRow = treeNavigation.getRowForLocation(e.getX(), e.getY());
-                    TreePath selPath = treeNavigation.getPathForLocation(e.getX(), e.getY());
-
-                   
-                   
-         //           displayNewWindowWithPanel();
-
-                   splitPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                }
-              }
-            } 
-       });        
-
-*/
-
-
-//       taskPane.setLayout(new GridLayoutVariable(GridLayoutVariable.FIXED_NUM_COLUMNS,1));
-        
         
         menuPanel.setLayout(new BorderLayout());//new GridLayoutVariable(GridLayoutVariable.FIXED_NUM_COLUMNS,1));
         
@@ -464,7 +384,7 @@ public class PanelManagement extends JxPanel implements Constants
         
         //panelCenterLeftBottom.setMinimumSize(new Dimension(180, 90));
         panelCenterLeftBottom.setLayout(new BorderLayout());
-//        panelCenterLeftBottom.add(panelDateChooser, BorderLayout.CENTER);
+        panelCenterLeftBottom.add(panelDateChooser, BorderLayout.CENTER);
         
 
         JPanelDecorated pnlTopModule = new JPanelDecorated();
@@ -501,7 +421,7 @@ public class PanelManagement extends JxPanel implements Constants
         //splitPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         //getContentPane().add(splitPane, BorderLayout.CENTER);//------------ center
         
-        JPanel panelTabs = new JPanel();
+        JxPanel panelTabs = new JxPanel();
         panelTabs.setOpaque(true);
         panelTabs.setLayout(new BoxLayout(panelTabs,BoxLayout.LINE_AXIS ));
         panelTabs.add(tabbedPane);
@@ -541,6 +461,225 @@ public class PanelManagement extends JxPanel implements Constants
                 navTreeSelection(entityMenu); 
    }
 
+   
+
+    private void setMainBackground(ArrayList listSections, int intSection)  
+    {
+         //pnlTopBackground.add(lblBackgroundTitle,BorderLayout.PAGE_START);         
+        pnlTopBackground.removeAll();
+        //pnlTopBackground.setOpaque(false);
+         // final  EntityMenu em = null;//(EntityMenu)listSections.get(intSection);
+           
+        for(int e=0;e<listSections.size();e++)
+        {
+            EntityMenu  em = (EntityMenu)listSections.get(e);
+            Icon icon = em.getEntityIcon();
+            String caption = em.getEntityCaption();
+            
+            //JLabelGradient lblBackgroundTitle = new JLabelGradient(CLR_BUTTONPANEL_ROLLOVER_START,CLR_BUTTONPANEL_ROLLOVER_END,27);//(CLR_BUTTONPANEL_ROLLOVER_START,CLR_PANEL_END,13);
+            JLabel lblBackgroundTitle = new JLabel();
+            lblBackgroundTitle.setBackground(CLR_BUTTONPANEL_ROLLOVER_END);
+            lblBackgroundTitle.setBorder(BorderFactory.createLineBorder(CLR_BUTTONPANEL_ROLLOVER_END));//CLR_PANEL_BORDER));//Color.black));//(BorderFactory.createRaisedBevelBorder());//(BorderFactory.createLineBorder(Color.black));
+            lblBackgroundTitle.setOpaque(true);
+            lblBackgroundTitle.setText("<html><table><tr><img src=\""+icon+"\"></td><td><b>"+caption+"</b></td></table></html>");
+              //lblModule.setBackground(Color.WHITE);
+            lblBackgroundTitle.setToolTipText("<html><table><tr><img src=\""+icon+"\"></td><td><b>"+caption+"</b></td></table></html>");
+            
+        DataTree dataTree = em.getEntitySectionDataTree();
+        DataTreeNode dTreeNodeRoot = dataTree.getRootElement();            
+                  int level =0;
+      int countChildren = dTreeNodeRoot.getNumberOfChildren();//dataTreeIn.getRootElement().getNumberOfChildren();
+
+ 
+             pnlTopBackground.add(lblBackgroundTitle);      
+
+            JxPanel pnlbtnmenu1 = new JxPanel();
+            GridLayoutVariable layout0 = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_ROWS, 1);
+            pnlbtnmenu1.setLayout(layout0);//new BoxLayout(pnlbtnmenu, BoxLayout.LINE_AXIS));
+            pnlbtnmenu1.setOpaque(false);
+                         
+      for(int n=0;n<countChildren;n++) // -------- level 0
+      {
+        DataTreeNode dTreeNodeChild = dTreeNodeRoot.getChildFromIndex(n); 
+        EntityMenu entityMenuParent = (EntityMenu)dTreeNodeChild.getData();
+            JLabel lblMenu1 = new JLabel();//(CLR_BUTTONPANEL_ROLLOVER_START,CLR_PANEL_END,13);
+            lblMenu1.setBackground(CLR_PANEL_END);//CLR_BUTTONPANEL_ROLLOVER_START);
+            lblMenu1.setIcon(entityMenuParent.getEntityIcon());
+            lblMenu1.setText("<html><b>"+dTreeNodeChild.toString()+"</b></html>");
+            lblMenu1.setBorder(BorderFactory.createLineBorder(CLR_BUTTONPANEL_ROLLOVER_END));
+            lblMenu1.setOpaque(true);
+           
+            
+            
+           // pnlbtnmenu1.add(lblMenu1);
+            
+            JxPanel pnlChild1 = new JxPanel();
+            GridLayoutVariable layout1 = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_ROWS, 7);
+            pnlChild1.setLayout(layout1);
+           //pnlChild1.setLayout(new FlowLayout());
+            
+            JxPanel pnlMenu2 = new JxPanel();
+            GridLayoutVariable layout2 = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_ROWS, 7);
+            pnlMenu2.setLayout(layout2);
+            pnlMenu2.add(lblMenu1);
+            pnlbtnmenu1.add(pnlMenu2);
+            
+            
+          if(intSection==e)
+           {   
+               lblBackgroundTitle.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 2, Color.BLACK));//.createLineBorder(CLR_TOOLTIP, 5));
+            pnlbtnmenu1.setBorder(BorderFactory.createMatteBorder(0, 2, 2, 2, Color.BLACK));//.createLineBorder(CLR_TOOLTIP, 5));
+           }
+             //pnlbtnmenu.add(pnl2);
+             if(dTreeNodeChild.hasNodeChildren())//----------- level 1
+    	 {
+    	     for(int v=0;v<dTreeNodeChild.getNumberOfChildren();v++)
+      	     {
+                   DataTreeNode dTreeNodeChild2 = dTreeNodeChild.getChildFromIndex(v);
+                    JLabel lbl=null;
+    	          final EntityMenu entityMenu = (EntityMenu)dTreeNodeChild2.getData();  
+                        if(dTreeNodeChild2.hasNodeChildren()) //------------- level 2
+    	                {
+    	     for(int k=0;k<dTreeNodeChild2.getNumberOfChildren();k++)
+      	     {
+                  DataTreeNode dTreeNodeChild3 = dTreeNodeChild2.getChildFromIndex(k);
+                    JLabel lbl3;
+    	           EntityMenu entityMenu3 = (EntityMenu)dTreeNodeChild3.getData(); 
+
+    	                lbl3 = new JLabel(dTreeNodeChild3.toString());  // subcategories
+                        lbl3.setIcon(entityMenu3.getEntityIcon());
+                        
+                        lbl3.setOpaque(true);
+                        lbl3.setBackground(Color.WHITE);
+                        lbl3.setBorder(BorderFactory.createLineBorder(Color.WHITE));//CLR_BUTTONPANEL_ROLLOVER_END));
+
+                            final JLabel ftnF3 = lbl3;
+                         ftnF3.addMouseListener(new java.awt.event.MouseAdapter()
+			{
+				boolean isClicked = false;
+				public void mouseClicked(MouseEvent e)
+				{  
+					if(!isClicked)
+					{
+					  // spFinal.showComponent();
+                                            navTreeSelection(entityMenu3);
+					   isClicked=true;
+					}
+					else if(isClicked)
+					{					
+					 // spFinal.hideComponent();
+					  isClicked=false;
+					}								
+				}
+
+				public void mousePressed(MouseEvent e)
+				{
+                    ftnF3.setBackground(CLR_BUTTONPANEL_START);//.setColors(CLR_BUTTONPANEL_START,CLR_BUTTONPANEL_END);//(Color.WHITE,CLR_BUTTONPANEL_START);
+                    //panelMainMenuFinal.setColors(CLR_BUTTONPANEL_END,CLR_BUTTONPANEL_ROLLOVER);
+				}
+
+				public void mouseReleased(MouseEvent e)
+				{
+                                    ftnF3.setBackground(CLR_BUTTONPANEL_ROLLOVER_START);
+                    //panelMainMenuFinal.setColors(CLR_BUTTONPANEL_ROLLOVER_START,CLR_BUTTONPANEL_ROLLOVER_END);    //(CLR_BUTTONPANEL_END,CLR_BUTTONPANEL_ROLLOVER);
+                    //panelMainMenuFinal.setColors(Color.WHITE,CLR_BUTTONPANEL_START);
+				}
+				
+				public void mouseEntered(MouseEvent e)
+				{
+                                    ftnF3.setBackground(CLR_BUTTONPANEL_ROLLOVER_START);
+                     //panelMainMenuFinal.setColors(CLR_BUTTONPANEL_ROLLOVER_START,CLR_BUTTONPANEL_ROLLOVER_END);
+                     //panelMainMenuFinal.setColors(CLR_BUTTONPANEL_START,CLR_BUTTONPANEL_END);
+				}
+				
+				public void mouseExited(MouseEvent e)
+				{
+                                    ftnF3.setBackground(Color.WHITE);
+                     //panelMainMenuFinal.setColors(Color.WHITE,CLR_BUTTONPANEL_START);//(CLR_BUTTONPANEL_START,CLR_BUTTONPANEL_END);
+                     //panelMainMenuFinal.setColors(Color.WHITE,CLR_BUTTONPANEL_START);
+				}
+				
+			});                               
+                        
+                        pnlChild1.add(lbl3);                   
+                 
+    	                /*lbl = new JLabel("<html><b>"+dTreeNodeChild2.toString()+"</b></html>");  // subcategories
+                        lbl.setIcon(entityMenu.getEntityIcon());
+                        pnlChild1.add(lbl);*/
+             }
+                       }
+                        else
+                        {
+                            
+    	              //lbl = new JLabel(dTreeNodeChild2.toString());  // subcategories
+                       //lbl.setIcon(entityMenu.getEntityIcon());
+                            final EntityMenu entityMenu2 = (EntityMenu)dTreeNodeChild2.getData();  
+                            JLabel btn =new JLabel(dTreeNodeChild2.toString());
+                            btn.setIcon(entityMenu.getEntityIcon());
+                            btn.setOpaque(true);
+                            btn.setBackground(Color.WHITE);
+                            btn.setBorder(BorderFactory.createLineBorder(Color.WHITE));//CLR_BUTTONPANEL_ROLLOVER_END));
+                            final JLabel ftnF = btn;
+                         ftnF.addMouseListener(new java.awt.event.MouseAdapter()
+			{
+				boolean isClicked = false;
+				public void mouseClicked(MouseEvent e)
+				{  
+					if(!isClicked)
+					{
+                                            navTreeSelection(entityMenu2);
+					  // spFinal.showComponent();	
+					   isClicked=true;
+					}
+					else if(isClicked)
+					{					
+					 // spFinal.hideComponent();
+					  isClicked=false;
+					}								
+				}
+
+				public void mousePressed(MouseEvent e)
+				{
+                    ftnF.setBackground(CLR_BUTTONPANEL_START);//.setColors(CLR_BUTTONPANEL_START,CLR_BUTTONPANEL_END);//(Color.WHITE,CLR_BUTTONPANEL_START);
+                    //panelMainMenuFinal.setColors(CLR_BUTTONPANEL_END,CLR_BUTTONPANEL_ROLLOVER);
+				}
+
+				public void mouseReleased(MouseEvent e)
+				{
+                                    ftnF.setBackground(CLR_BUTTONPANEL_ROLLOVER_START);
+                    //panelMainMenuFinal.setColors(CLR_BUTTONPANEL_ROLLOVER_START,CLR_BUTTONPANEL_ROLLOVER_END);    //(CLR_BUTTONPANEL_END,CLR_BUTTONPANEL_ROLLOVER);
+                    //panelMainMenuFinal.setColors(Color.WHITE,CLR_BUTTONPANEL_START);
+				}
+				
+				public void mouseEntered(MouseEvent e)
+				{
+                                    ftnF.setBackground(CLR_BUTTONPANEL_ROLLOVER_START);
+                     //panelMainMenuFinal.setColors(CLR_BUTTONPANEL_ROLLOVER_START,CLR_BUTTONPANEL_ROLLOVER_END);
+                     //panelMainMenuFinal.setColors(CLR_BUTTONPANEL_START,CLR_BUTTONPANEL_END);
+				}
+				
+				public void mouseExited(MouseEvent e)
+				{
+                                    ftnF.setBackground(Color.WHITE);
+                     //panelMainMenuFinal.setColors(Color.WHITE,CLR_BUTTONPANEL_START);//(CLR_BUTTONPANEL_START,CLR_BUTTONPANEL_END);
+                     //panelMainMenuFinal.setColors(Color.WHITE,CLR_BUTTONPANEL_START);
+				}
+				
+			});                               
+                            pnlChild1.add(btn);
+                        }
+             
+              
+             }
+             
+        }
+             pnlMenu2.add(pnlChild1);
+           }
+      pnlTopBackground.add(pnlbtnmenu1);
+      //pnlTopBackground.add(pnlbtnmenu);
+           }
+        
+   }
 /*   public void setSelectedTreeRow(int selectedRow)
    {
    	treeNavigation.setSelectionInterval(selectedRow,selectedRow);
@@ -705,7 +844,7 @@ public class PanelManagement extends JxPanel implements Constants
   
     public void setSectionActive(ArrayList listSections, int intSection)  
     {
-        
+        setMainBackground(listSections,intSection);
 
             EntityMenu em = (EntityMenu)listSections.get(intSection);
            
@@ -716,11 +855,6 @@ public class PanelManagement extends JxPanel implements Constants
              lblModule.setText("<html><table><tr><img src=\""+icon+"\"></td><td><b>"+caption+"</b></td></table></html>");
               //lblModule.setBackground(Color.WHITE);
              lblModule.setToolTipText("<html><table><tr><img src=\""+icon+"\"></td><td><b>"+caption+"</b></td></table></html>");
-
-             
-         
-             
-             
 
     
       //  loadSectionMenu
