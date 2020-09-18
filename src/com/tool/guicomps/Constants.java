@@ -94,6 +94,11 @@ public interface Constants
        public static final String CAPTION_IMPORT_DATA = "εισαγωγή δεδομένων";
        public static final String CAPTION_EXPORT_DATA = "εξαγωγή δεδομένων";
       
+       
+      public static final int YES = 0;
+      public static final int NO = 1;
+       
+       
        public static final boolean SHOW_PANEL_COLLAPSE_NOT = false;
        public static final boolean SHOW_PANEL_COLLAPSE = true;
        

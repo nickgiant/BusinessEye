@@ -700,19 +700,19 @@ public class DialogMain extends JxFrame implements Constants
     private void checkForNewVersion()
     {
         try {
-            if (Double.parseDouble(UpdateInfo.getLatestVersion(true).toString()) > Double.parseDouble(VariablesGlobal.appSubVersion.toString().toString()))
+   /*         if (Double.parseDouble(UpdateInfo.getLatestVersion(true).toString()) > Double.parseDouble(VariablesGlobal.appSubVersion.toString().toString()))
             {
                
                 if(panelManagement.closeAllTabs())
-                {                
+                { */               
                 
                     new DialogUpdateInformation(UpdateInfo.getLatestVersion(false),UpdateInfo.getNewDataSize(),UpdateInfo.getVersionRssURL());
-                }
+ /*               }
             }
             else
             {
                 utilsGui.showMessageInfo("Έχετε την τελευταία έκδοση:"+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion.toString());
-            }
+            }*/
         }
        catch(UnknownHostException uhe)
        {
@@ -3162,17 +3162,97 @@ manager.addChangeListener(updateListener);*/
         
         return dbVersion;  
     }
+ 
+    // exists in DialogUpdateInformation.update  and DialogMain.updateFromWeb
+    private static void updateFromWeb()
+    {
+    
+        boolean isRunOk=false;
+        String[] run = {"java","-jar",UPDATE_JAR}; //VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+UPDATE_JAR};//,VariablesGlobal.appProduct,VariablesGlobal.appShowLogFrame,VariablesGlobal.appRunParam2};
+        try 
+        {
+            Runtime.getRuntime().exec(run);
+            isRunOk=true;
+        } catch (Exception ex)
+        {
+            ex.printStackTrace();
+            isRunOk=false;
+        }
+        if(isRunOk)
+        {
+            System.exit(0);
+        }
+
+    }    
+    
     
     public static void main(String args[])
     {
-        //if(args!=null)
-        //{  
-            //VariablesGlobal.appRunParam2= "0";//args[2];
-            //VariablesGlobal.appShowLogFrame = "1";//args[1];
-          if(VariablesGlobal.globalShowFrameRedirected)// && VariablesGlobal.appShowLogFrame.equalsIgnoreCase("1"))
+      String   curDir="";
+      if(utilsOS.isOSWindows())
+      {
+      	curDir = System.getProperty("user.dir"); // get current dir
+      }
+      else
+      {
+      	//String classPath = System.getProperty("java.class.path");
+      	//curDir = classPath.substring(0,classPath.lastIndexOf(systemDirectorySymbol));	
+          curDir = System.getProperty("user.dir"); // get current dir
+      }
+        
+        systemDirectorySymbol=System.getProperty("file.separator");
+        VariablesGlobal.globalDirConfiguration = curDir;
+         
+         utilsString = new UtilsString();
+         utilsGui.createUiConfigToFile();
+         
+           utilsGui.setLookAndFeel();
+          
+         //  new ImageIcon(Constants.class.getResource("/images/logo.png")
+  	WindowSplash splashScr = new WindowSplash(VariablesGlobal.appName+"  (εκδ "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+")",ICO_BACK);///APP_LOGO );   //  APP_LOGO
+        
+             
+      
+         
+        if(utilsGui.getIsLogVisible())// && VariablesGlobal.appShowLogFrame.equalsIgnoreCase("1"))
           {
             new FrameRedirected(true, false, null, 1080,980, JFrame.DISPOSE_ON_CLOSE);
           }
+        boolean isNewVersionAvailable = false;
+        try
+        {
+          isNewVersionAvailable = Double.parseDouble(UpdateInfo.getLatestVersion(true).toString()) > Double.parseDouble(VariablesGlobal.appSubVersion.toString().toString());
+
+         if (isNewVersionAvailable)
+         {
+             
+                /* final int YES = 0;
+    	        final int NO = 1;*/
+             if(utilsGui.showConfirmYesOrNo(null, "Υπάρχει καινούρια έκδοση ("+UpdateInfo.getLatestVersion(true).toString()+"). Θέλετε να γίνει αναβάθμιση;")==YES)
+             {
+               updateFromWeb();
+             }
+         }
+          
+          
+       }
+       catch(UnknownHostException uhe)
+       {
+            System.out.println("DialogMain.main  UnknownHostException  No internet connection. "+uhe.getMessage());
+       }
+       catch(java.lang.NumberFormatException nfe)
+       {
+           System.out.println("DialogMain.main  NumberFormatException  "+nfe.getMessage());
+       }
+       catch (Exception ex) {
+            ex.printStackTrace();
+       }        
+
+        
+        
+        
+        
+
         //}
         System.setProperty("file.encoding", "UTF-8");
         //(boolean catchErrors, boolean logFile, String fileName, int width,
@@ -3213,7 +3293,7 @@ manager.addChangeListener(updateListener);*/
         //}  */      
         
         ///   https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
-        utilsString = new UtilsString();
+       
         utilsString.fixEncryptDecryptKeyLength();
         
         // set right click on texts
@@ -3222,27 +3302,9 @@ manager.addChangeListener(updateListener);*/
        
       
       
-      String   curDir="";
-      if(utilsOS.isOSWindows())
-      {
-      	curDir = System.getProperty("user.dir"); // get current dir
-      }
-      else
-      {
-      	//String classPath = System.getProperty("java.class.path");
-      	//curDir = classPath.substring(0,classPath.lastIndexOf(systemDirectorySymbol));	
-          curDir = System.getProperty("user.dir"); // get current dir
-      }
-        
-        systemDirectorySymbol=System.getProperty("file.separator");
-        VariablesGlobal.globalDirConfiguration = curDir;
+
  
-        utilsGui.createUiConfigToFile();
-        utilsGui.setLookAndFeel();      
-        
-         //  new ImageIcon(Constants.class.getResource("/images/logo.png")
-  	WindowSplash splashScr = new WindowSplash(VariablesGlobal.appName+"  (εκδ "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+")",ICO_BACK);///APP_LOGO );   //  APP_LOGO
-        
+ 
 
         DialogMain dialogMain = new DialogMain();
        

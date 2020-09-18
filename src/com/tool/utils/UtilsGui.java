@@ -274,7 +274,34 @@ public class UtilsGui implements Constants
           
          return optionPane;
      }
-     
+   
+  public boolean getIsLogVisible()
+  {
+      
+         systemDirectorySymbol=System.getProperty("file.separator");
+   
+        Properties p = new Properties(); // properties to be used for connection
+   	    boolean isVisible = false;
+   	try
+   	{
+     	Properties props = new Properties(); //properties to get from file
+        //String fileName = "ViewDB.txt"; //get properties from file
+        FileInputStream in = new FileInputStream(VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_CONFIG);
+        props.load(in);
+        if(props.getProperty("runlogview").equalsIgnoreCase("1"))
+        {
+        isVisible = true;
+        }
+       }
+      catch (IOException ex)
+      {
+          System.out.println("UtilsGui.setLookAndFeel IOException:Cannot find text file: "+VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_CONFIG);
+          //System.err.println(ex);
+      }
+   return isVisible;
+  }
+    
+    
   public void setLookAndFeel()
   {
    systemDirectorySymbol=System.getProperty("file.separator");
@@ -330,11 +357,13 @@ public class UtilsGui implements Constants
 		
 		Properties fileProperties = new Properties();
         
-        fileProperties.setProperty("LookAndFeel", "");//    com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+        fileProperties.setProperty("LookAndFeel", "org.fife.plaf.Office2003.Office2003LookAndFeel");//    com.sun.java.swing.plaf.windows.WindowsLookAndFeel
         
         //String dateFormatSelection = cmbDateFormat.getSelectedItem().toString();
         fileProperties.setProperty("date.format", dateFormat);
         fileProperties.setProperty("date.formatEdit", dateFormatEdit);
+        fileProperties.setProperty("runlogview", "0");// is read in DialogMain.main
+        
         //String proposeDateSelection = cmbProposeDate.getSelectedItem().toString();
      /*   if (proposeCurrentDate == true )
         {   fileProperties.setProperty("date.proposeCurrentProgramDate", "y");  }

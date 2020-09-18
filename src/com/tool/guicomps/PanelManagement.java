@@ -384,7 +384,7 @@ public class PanelManagement extends JxPanel implements Constants
         
         //panelCenterLeftBottom.setMinimumSize(new Dimension(180, 90));
         panelCenterLeftBottom.setLayout(new BorderLayout());
-        panelCenterLeftBottom.add(panelDateChooser, BorderLayout.CENTER);
+        //panelCenterLeftBottom.add(panelDateChooser, BorderLayout.CENTER);
         
 
         JPanelDecorated pnlTopModule = new JPanelDecorated();

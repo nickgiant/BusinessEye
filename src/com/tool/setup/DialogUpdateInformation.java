@@ -90,7 +90,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
     private void initComponents() {
 
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        this.setTitle(VariablesGlobal.appName+"  : υπάρχει νέα έκδοση");
+        this.setTitle(VariablesGlobal.appName);
         panelMain = new JPanel();
         panelMain.setLayout(new BorderLayout());
         
@@ -165,7 +165,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
         dlgBackUp.backup(dirToBackup);        
     }    
     
-    
+    // exists in DialogUpdateInformation.update  and DialogMain.updateFromWeb
     private void update()
     {
       UtilsFileSystem uFileSystem = new UtilsFileSystem();
@@ -195,6 +195,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
      // }
       
     }
+    
     private void locateOnCenterOfTheScreen()
     {
     	Dimension paneSize   = this.getSize();
