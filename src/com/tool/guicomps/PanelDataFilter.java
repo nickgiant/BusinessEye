@@ -400,7 +400,7 @@ import javax.swing.event.*;
       		 JTextField  txtFilterSetting = new JTextField(intSizeOfTextBox);
              txtFilterSetting.setText(entityFilterSettings[s].getValue());
              
-             Action actionShowCheck = new ActionShowWinLookUpCheck(queryAll, lookUp.getEntityFilterSettings(entityFilterSettings[s].dbTable) , txtFilterSetting, lookUp.getIntValidationColumn(entityFilterSettings[s].dbTable), lookUp.getIntValidationType(entityFilterSettings[s].dbTable));
+             Action actionShowCheck = new ActionShowWinLookUpCheck(entityFilterSettings[s].caption,queryAll, lookUp.getEntityFilterSettings(entityFilterSettings[s].dbTable) , txtFilterSetting, lookUp.getIntValidationColumn(entityFilterSettings[s].dbTable), lookUp.getIntValidationType(entityFilterSettings[s].dbTable));
 
              JTextBoxWithEditButtons txtLookUpBtn = new JTextBoxWithEditButtons();       
              txtLookUpBtn = new JTextBoxWithEditButtons(txtFilterSetting, true ,ICO_CHECKS,actionShowCheck, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	
@@ -2262,26 +2262,21 @@ public ArrayList getListOfFieldsUncompleted()
    	return ret;
    }
    
-  private void displayWindowCheckBox(String query, EntityFilterSettings[] entityFilterSettings ,
+  private void displayWindowCheckBox(String dialogTitle, String query, EntityFilterSettings[] entityFilterSettings ,
    JTextComponent textIn, int intValidationColumn, int intValidationType)
   {
-  	System.out.println("PanelDataFilters.displayCheckBox     query:"+query);
+  	//System.out.println("PanelDataFilters.displayCheckBox     query:"+query);
         //
        
         if (!winLookUpCheck.isVisible())
         {
         	 //System.out.println("isVisibleWinLookUpCheck ifisFalse "+winLookUpCheck.isVisible());
-  	       ArrayList  arrList = new ArrayList();
-           arrList.add("1 first");
-           arrList.add("2 second");
-           arrList.add("3 third");
-           arrList.add("4 forth");
-           arrList.add("5 fifth");
+
             
              winLookUpCheck=new WindowLookUpMultipleCheck(frame);
             
             //System.out.println("PanelDataFilter.displayWindowCheckBox "+entityFilterSettings.length);
-            winLookUpCheck.setEntity(textIn,query, entityFilterSettings , null,2,2, intValidationColumn+1, intValidationType,/*yearEnforce,*/panelManagement);  //if type = indices(1), if type text(2)     
+            winLookUpCheck.setEntity(textIn,null,-1,query, entityFilterSettings ,dialogTitle ,WINDOW_LOCATION_COMPONENT,2, intValidationColumn+1, intValidationType,/*yearEnforce,*/panelManagement);  //if type = indices(1), if type text(2)     
         }
         else
         {
@@ -2292,15 +2287,16 @@ public ArrayList getListOfFieldsUncompleted()
 
    class  ActionShowWinLookUpCheck extends AbstractAction                 
    {       
-      	
+      	String dialogTitle;
          String query;
          JTextComponent text;
          EntityFilterSettings[] entityFilterSettings;
          int intValidationColumn;
          int intValidationType;
-        public ActionShowWinLookUpCheck(String queryIn, EntityFilterSettings[] entityFilterSettingsIn ,
+        public ActionShowWinLookUpCheck(String dialogTitleIn,String queryIn, EntityFilterSettings[] entityFilterSettingsIn ,
          JTextComponent textIn, int intValidationColumnIn, int intValidationTypeIn)
         {
+            dialogTitle=dialogTitleIn;
                  query=queryIn;
                  text=textIn;
                  entityFilterSettings=entityFilterSettingsIn;
@@ -2317,7 +2313,7 @@ public ArrayList getListOfFieldsUncompleted()
       	{
                    //   System.out.println("ActionShowDialogLookUp ("+entityFilterSettings.length);
                    
-                displayWindowCheckBox(query,entityFilterSettings,text,intValidationColumn,intValidationType);
+                displayWindowCheckBox(dialogTitle,query,entityFilterSettings,text,intValidationColumn,intValidationType);
         }  
 
     }

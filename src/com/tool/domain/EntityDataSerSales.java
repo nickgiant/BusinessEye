@@ -524,9 +524,9 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         traderDBFields[20] = new EntityDBFields("trader","notes","σημειώσεις",4,"java.lang.String",220,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
 
 
-        traderDBFields[21] = new EntityDBFields("trader","contacts","επαφές",5,"table",FIELD_VISIBLE_AND_EDITABLE,"tradercontact",160,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,traderContactDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM tradercontact ORDER BY tradercontact.inc",null,null);        
+        traderDBFields[21] = new EntityDBFields("trader","contacts","επαφές",5,"table",FIELD_VISIBLE_AND_EDITABLE,"tradercontact",160,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,traderContactDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM tradercontact ORDER BY tradercontact.inc",null,null,null,null);        
         
-        traderDBFields[22] = new EntityDBFields("trader","bank accounts","λογαριασμοί τραπεζών",6,"table",FIELD_VISIBLE_AND_EDITABLE,"traderbankaccount",120,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,traderBankaccountDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM traderbankaccount ORDER BY traderbankaccount.inc",null,null);        
+        traderDBFields[22] = new EntityDBFields("trader","bank accounts","λογαριασμοί τραπεζών",6,"table",FIELD_VISIBLE_AND_EDITABLE,"traderbankaccount",120,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,traderBankaccountDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM traderbankaccount ORDER BY traderbankaccount.inc",null,null,null,null);        
         
         
         
@@ -755,7 +755,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         saleDBFields[11] = new EntityDBFields("saleheader","isPrinted","εκτυπωμένο",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,"1","");         
         String[] childTableFieldsForSumsSalelines=null;//{"προ ΦΠΑ","αξία ΦΠΑ","αξία"};
                                                       //  salelines used in additional insert
-        saleDBFields[12] = new EntityDBFields("saleheader","salelines","υπηρεσίες",4,"table",FIELD_VISIBLE_AND_EDITABLE,"saleline",120,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,saleLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM saleline WHERE saleline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY saleline.inc",null,childTableFieldsForSumsSalelines);        
+        saleDBFields[12] = new EntityDBFields("saleheader","salelines","υπηρεσίες",4,"table",FIELD_VISIBLE_AND_EDITABLE,"saleline",120,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,saleLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM saleline WHERE saleline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY saleline.inc",null,childTableFieldsForSumsSalelines,"stockId","πολλαπλή εισαγωγή υπηρεσιών");        
          
         saleDBFields[13] = new EntityDBFields("saleheader","countTotal","πλήθος",5,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,12,6,DBFIELD_TYPE_OF_SUM_COUNT);        
         saleDBFields[14] = new EntityDBFields("saleheader","quantityTotal","ποσότητα",5,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,12,6,DBFIELD_TYPE_OF_SUM_SUM);        
@@ -871,7 +871,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        	serviceCatLineDBFields[0] = new EntityDBFields("stockcat","stockCatId","Νο κατηγορίας",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
        	serviceCatLineDBFields[1] = new EntityDBFields("stockcat","catDescr","ονομασία",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         serviceCatLineDBFields[2] = new EntityDBFields("stockcat","dbCompanyId","dbCompanyId",0,"java.lang.String",3, FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,VariablesGlobal.globalCompanyId,"");
-        serviceCatDBFields[0] = new EntityDBFields("servicecatheader","stockcat","κατηγορίες υπηρεσίας",0,"table",FIELD_VISIBLE_AND_EDITABLE,"stockcat",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,serviceCatLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId FROM stockcat WHERE stockcat.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY stockcat.catDescr",null,null);     
+        serviceCatDBFields[0] = new EntityDBFields("servicecatheader","stockcat","κατηγορίες υπηρεσίας",0,"table",FIELD_VISIBLE_AND_EDITABLE,"stockcat",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,serviceCatLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId FROM stockcat WHERE stockcat.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY stockcat.catDescr",null,null,null,null);     
         serviceCatEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);          
         
  /*       vatCatLineDBFields[0] = new EntityDBFields("vatcat","vatCatId","Νο κατηγορίας ΦΠΑ",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");

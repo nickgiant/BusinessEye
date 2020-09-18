@@ -39,6 +39,9 @@ public class EntityDBFields implements Constants
      private int typeOfSum; // sums, type sum or count  // DBFIELD_TYPE_OF_SUM_SUM, DBFIELD_TYPE_OF_SUM_COUNT
     // private String queryForHtmlFileDocRead; // get with  getSqlTableChildRead
      private String formVariableFromField;  // like field 'sxActionTypeId' in module 'sersal' of entity 'actiontype'
+     
+     private String multipleInsertField;// like stockid or accountid
+     private String multipleInsertCaption;
     
       public EntityDBFields()
       {}
@@ -154,7 +157,7 @@ public class EntityDBFields implements Constants
       // table dbfields or child dbfields
       public EntityDBFields(String tableNameIn, String dbFieldIn, String captionIn, int groupOfCompsIn, String colClassNameIn,int isVisibleOrEditableIn, String childTableIn,
               int childTableHeightIn, int childTableInPositionIn,EntityDBFields[] dbChildFieldsIn,int fieldObligatoryOrSuggestIn,String sqlTableReadIn,String[] fieldsForCalculationOfTableReadIn,//  like dbcompanyid for year in panel of dbcompany
-              String[] childTableFieldsForSumsIn)
+              String[] childTableFieldsForSumsIn,String multipleInsertFieldIn, String multipleInsertCaptionIn)
       {
       
       tableName = tableNameIn;
@@ -171,6 +174,8 @@ public class EntityDBFields implements Constants
       sqlTableChildRead=sqlTableReadIn;
       fieldsForCalculationOfTableRead=fieldsForCalculationOfTableReadIn;
       childTableFieldsForSums = childTableFieldsForSumsIn;
+      multipleInsertField=multipleInsertFieldIn;
+      multipleInsertCaption=multipleInsertCaptionIn;
       }
  
       /*
@@ -251,5 +256,6 @@ public class EntityDBFields implements Constants
         public int getTypeOfSum()     {     return typeOfSum;        }        
        public String getFormVariableFromField() { return formVariableFromField; }
         
-        
+         public String getMultipleInsertField() { return multipleInsertField;}
+         public String getMultipleInsertCaption() { return multipleInsertCaption;}
 }

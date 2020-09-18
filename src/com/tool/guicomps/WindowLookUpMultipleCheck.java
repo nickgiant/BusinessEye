@@ -1,4 +1,3 @@
-// created 08-11-2008
 package com.tool.guicomps;
 
 import com.tool.model.EntityFilterSettings;
@@ -29,6 +28,8 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
     
     private int location;
     private JTextComponent textField;
+    private JTable tableForMultiInsert;
+    private int columnToMultiUpdateTable;
     private int typeOfSelectedText; //if type = indices(1), if type text(2)   
     //JTextField txtFilter;
     private ArrayList arrList;
@@ -157,7 +158,7 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
        public void actionPerformed(ActionEvent evt)
        {
        	  //textField.setText(strDate=panelDateChooser.getDate());
-           getCheckedToText();
+           getCheckedToTextOrTable();
        }
       });
        	
@@ -197,8 +198,11 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
     public void setSelectedCheckBox()
     {
     	String text ="";
-    	text = textField.getText();
-    	
+        if(textField!=null)
+        {
+    	    text = textField.getText();
+        }
+        
         String[] strArraySel;
         String sel="";
         for(int l =0; l<text.length(); l++)
@@ -335,8 +339,8 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
     	this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); 
     }
     
-    // for table
-    private void getCheckedToText()
+    // for text or table
+    private void getCheckedToTextOrTable()
     {
     	String strSet= "";
          for(int r =0; r<tableModel.getRowCount();r++)
@@ -351,17 +355,45 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
           {
           	strSet = strSet.substring(0,strSet.length()-1);
           }
-          	   	
-          textField.setText(strSet);
+          if(tableForMultiInsert==null)
+          {
+             textField.setText(strSet);
+          }
+          else if(textField==null)
+          {
+              int intToFreeRow=0;
+              int destTableRowCount= tableForMultiInsert.getRowCount();
+              TableModelResultSet destinationTableModel=(TableModelResultSet)tableForMultiInsert.getModel();
+              if(destTableRowCount>0)
+              {
+                     intToFreeRow = destTableRowCount;
+              }
+         for(int r =0; r<tableModel.getRowCount();r++)
+         {
+         	if((Boolean)tableModel.getValueAt(r,0))
+         	{
+                   String strTextOfCell = tableModel.getValueAt(r,1)+"";//1 the no of col id	
+                   System.out.println(strTextOfCell+"  intToFreeRow:"+intToFreeRow+"  columnToMultiUpdateTable:"+columnToMultiUpdateTable);
+                   destinationTableModel.addEmptyRow(intToFreeRow, tableForMultiInsert);
+                   destinationTableModel.setValueAt(strTextOfCell, intToFreeRow, columnToMultiUpdateTable);
+                   intToFreeRow++;
+         	} 	   
+         }              
+              
+              
+              //tableForMultiInsert
+          }
           close();
     }
      
-    public void setEntity(JTextComponent txtfld,String queryIn, EntityFilterSettings[] entityFilterSettingsIn , 
-    ArrayList arrList, int loc, int typeOfSelectedTextIn, int intValidationColumnIn, int intValidationTypeIn,/*String yearEnforceIn,*/ PanelManagement panelManagement)
+    public void setEntity(JTextComponent txtfld,JTable tableForMultiIn,int columnToMultiUpdateTableIn,String queryIn, EntityFilterSettings[] entityFilterSettingsIn , 
+    String dialogTitle, int loc, int typeOfSelectedTextIn, int intValidationColumnIn, int intValidationTypeIn,/*String yearEnforceIn,*/ PanelManagement panelManagement)
     {
     	query=queryIn;
     	location =loc;
         textField=txtfld;
+        tableForMultiInsert = tableForMultiIn;
+        columnToMultiUpdateTable=columnToMultiUpdateTableIn;
         typeOfSelectedText=typeOfSelectedTextIn;
         intValidationColumn =intValidationColumnIn;
         intValidationType = intValidationTypeIn;
@@ -380,7 +412,7 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
        }
 
 
-
+      this.setTitle(dialogTitle);
 
        
         /*strArray = new String[arrList.size()];
@@ -642,7 +674,7 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
             (screenSize.height - paneSize.height-taskbarHeight));
     	   //this.setLocation(100,100);
         }
-        else if (location ==2)
+        else if (location ==WINDOW_LOCATION_COMPONENT)
         {
         		
           Dimension paneSize   = this.getSize();
@@ -892,7 +924,7 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
         {        }
       	
     	public void actionPerformed(ActionEvent e)
-      	{      getCheckedToText();      }    	
+      	{      getCheckedToTextOrTable();      }    	
     }    
 
     

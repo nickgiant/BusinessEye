@@ -122,6 +122,7 @@ import javax.swing.text.JTextComponent;
      
         private JButton btnManyInsert;
         private JButton btnManyInsertDown;
+        private JButton btnManyMultiInsert;
         private JButton btnManyDelete;
         private JButton btnManyCopyAboveCell;
         private JButton btnManyClearAll;
@@ -559,11 +560,28 @@ import javax.swing.text.JTextComponent;
         if(isEditable)
         {
            table.setEntity(isEditable);
-           table.setRowHeight(21);	
+           table.setRowHeight(22);
+           String strMultiInsertCaption =  "";
+           for(int f = 0; f<dbFieldsParent.length;f++)
+           {
+              
+               if(dbFieldsParent[f].getColClassName().equalsIgnoreCase("table") && dbFieldsParent[f].getMultipleInsertField()!=null)
+               {
+                   strMultiInsertCaption = dbFieldsParent[f].getMultipleInsertCaption();
+                    btnManyMultiInsert.setVisible(true);
+                    break;
+               }
+               else
+               {
+                    btnManyMultiInsert.setVisible(false);
+               }
+           }
+          
+           btnManyMultiInsert.setText(strMultiInsertCaption);
         }
         else
         {
-           
+            btnManyMultiInsert.setVisible(false);
         	table.setEntity(false);
                 new ActionTableFind().install(table); // tooltip find, enable with ctrl i
         }
@@ -2402,7 +2420,63 @@ import javax.swing.text.JTextComponent;
         this.setTableValueAt(value, row, col);
        }
    }
-   
+ 
+   private void displayMultipleInsertDialog()
+   {
+     
+              int intFieldThatIsFormVar = -1;
+              intFieldThatIsFormVar = utilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1(dbFieldsParent); // not dbFieldsParent because it is null when called by tablecelleditor
+       
+      if(VariablesGlobal.globalformGlobalVariable1.equalsIgnoreCase("") && intFieldThatIsFormVar!=-1)
+      {
+          utilsGui.showMessageInfo("Συμπληρώστε πρώτα το πεδίο '"+dbFieldsParent[intFieldThatIsFormVar].getCaption()+"'.");
+      }
+      else
+      {       
+       
+          String strMultiInsertCaption =  "";
+          String foreignTable = "";
+          int intOfColumnOfChildField = -1;
+           for(int f = 0; f<dbFieldsParent.length;f++)
+           {
+              
+               if(dbFieldsParent[f].getColClassName().equalsIgnoreCase("table") && dbFieldsParent[f].getMultipleInsertField()!=null)
+               {
+                  strMultiInsertCaption = dbFieldsParent[f].getMultipleInsertCaption();
+                  String fieldToInsert = dbFieldsParent[f].getMultipleInsertField();
+                  EntityDBFields[] childFields =  dbFieldsParent[f].getDbChildFields();
+             if(childFields!=null)
+             {
+                  System.out.println("PanelODMRData.displayMultipleInsertDialog   f:"+f+"       fieldToInsert:"+fieldToInsert+"  childFields.length:"+childFields.length);
+
+               for(int c = 0;c<childFields.length;c++)
+               {
+                  
+                 if(childFields[c].getDbField().equalsIgnoreCase(fieldToInsert))
+                 {
+                 
+                  foreignTable = childFields[c].getLookupEntityName();
+                  intOfColumnOfChildField = c;
+                  System.out.println("PanelODMRData.displayMultipleInsertDialog   f:"+f+" c:"+c+" "+childFields[c].getDbField()+"   foreignTable:"+foreignTable);
+                
+                 
+                 }
+               }
+             }
+                  // break;
+               }
+
+           }
+         
+ 
+           String queryAll = getQueryLookUp(foreignTable,dbFieldsParent);
+          System.out.println("PanelODMRData.displayMultipleInsertDialog       queryAll:"+queryAll);
+          
+          WindowLookUpMultipleCheck  winLookUpCheck = new WindowLookUpMultipleCheck(frame);
+           winLookUpCheck.setEntity(null,table,intOfColumnOfChildField, queryAll, lookUp.getEntityFilterSettings(foreignTable), strMultiInsertCaption/*fieldTxts*/, WINDOW_LOCATION_CENTER, 0, lookUp.getIntValidationColumn(foreignTable), lookUp.getIntValidationType(foreignTable), panelManagement);
+           
+      }
+   }
    
    private int getSelectedColumn()
    {
@@ -3628,18 +3702,11 @@ public int getRowCountFromReadOnlyTable()
     }
    
     
-    /*
-    *   called by TableCellEditorLookup
-    */
-   
-   public String displayDialogLookUp(String selectedKeyValue, String foreignTable, EntityDBFields[] dbFieldsAllIn)
-   {
-       
-       //System.out.println("DD:::::::::::::::::::::::::::::::::::::");     
-      
-      DialogLookUp.initialize((JFrame)SwingUtilities.getAncestorOfClass(JFrame.class, this));
-       
-      
+    
+ private String getQueryLookUp(String foreignTable,EntityDBFields[] dbFieldsAllIn)
+ {
+     
+         
         String subQueryFilterFromRecType="";
       String queryLookUpWhere = lookUp.getQuerySubqueryWhere(foreignTable);
        String queryLookUpWhereForFormVariable = lookUp.getQueryWhereForFormVariable(foreignTable);
@@ -3651,7 +3718,7 @@ public int getRowCountFromReadOnlyTable()
           String queryLookUp  = "";
               int intFieldThatIsFormVar = -1;
               intFieldThatIsFormVar = utilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1(dbFieldsAllIn); // not dbFieldsParent because it is null when called by tablecelleditor
-              System.out.println("--  --  --  --- panelODMRData.displayDialogLookUp---   "+foreignTable+"    selectedKeyValue:"+selectedKeyValue+"    intFieldThatIsFormVar:"+intFieldThatIsFormVar+"   noIndex:"+noIndex+"   glo var1:"+VariablesGlobal.globalformGlobalVariable1);
+              System.out.println("--  --  --  --- panelODMRData.displayDialogLookUp---   "+foreignTable+"      intFieldThatIsFormVar:"+intFieldThatIsFormVar+"   noIndex:"+noIndex+"   glo var1:"+VariablesGlobal.globalformGlobalVariable1);
               if(intFieldThatIsFormVar!=-1 )
               {
                   
@@ -3697,10 +3764,29 @@ public int getRowCountFromReadOnlyTable()
  
           //System.out.println(" panelODMRData.displayDialogLookUp           foreignTable:"+foreignTable+"    intFieldThatIsFormVar:"+intFieldThatIsFormVar+"    subQueryFilterFromRecType:"+subQueryFilterFromRecType+"       VariablesGlobal.globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1);
          
+    return queryLookUp;      
+ }
+    
+    /*
+    *   called by TableCellEditorLookup
+    */
+   
+   public String displayDialogLookUp(String selectedKeyValue, String foreignTable, EntityDBFields[] dbFieldsAllIn)
+   {
+       String selected="";
+              int intFieldThatIsFormVar = -1;
+              intFieldThatIsFormVar = utilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1(dbFieldsParent); // not dbFieldsParent because it is null when called by tablecelleditor
+       
+      if(VariablesGlobal.globalformGlobalVariable1.equalsIgnoreCase("") && intFieldThatIsFormVar!=-1)
+      {
+          utilsGui.showMessageInfo("Συμπληρώστε πρώτα το πεδίο '"+dbFieldsParent[intFieldThatIsFormVar].getCaption()+"'.");
+      }
+      else
+      {
+      DialogLookUp.initialize((JFrame)SwingUtilities.getAncestorOfClass(JFrame.class, this));
+       
       
-      
-      
-      
+      String queryLookUp = getQueryLookUp(foreignTable,dbFieldsAllIn);
       
       
       
@@ -3711,14 +3797,14 @@ public int getRowCountFromReadOnlyTable()
       
        //System.out.println("DD::: panelODMRData.displayDialogLookUp "+foreignTable+"    selectedKeyValue:"+selectedKeyValue+"     queryLookUp:"+queryLookUp);
        //EntityReport entityReport = lookUp.getEntityReport(foreignTable);
-       String selected = DialogLookUp.showDialog(this,foreignTable, queryLookUp,lookUp.getLookUpKeyTranslation(foreignTable) ,
+       selected = DialogLookUp.showDialog(this,foreignTable, queryLookUp,lookUp.getLookUpKeyTranslation(foreignTable) ,
                selectedKeyValue,lookUp.getShowToolbar(foreignTable), /*yearEnforce,*/panelManagement,fieldsForSums,fieldTxts);//,entityReport);  
        colDescriptionValue = DialogLookUp.getFieldDescriptionValue();
      // System.out.println("DD:::: AFTER  panelODMRData.displayDialogLookUp   "+foreignTable+"    selectedKeyValue:"+selectedKeyValue+"        selected:"+selected+"         colDescriptionValue:"+colDescriptionValue+"          selected:"+selected);             
        
 
       //packColumns(); //is not working
-      
+      }
        return selected;
    }
 
@@ -4043,9 +4129,11 @@ class ToolBarDataMany extends JToolBar implements Constants
             
         btnManyInsert = new JButton();
         btnManyInsertDown = new JButton();
-        btnManyDelete = new JButton();
+        btnManyMultiInsert = new JButton();
         btnManyCopyAboveCell = new JButton();
+        btnManyDelete = new JButton();
         btnManyClearAll = new JButton();
+        
         //btnManySave = new JButton();
         //btnManyPreferences = new JButton();
 
@@ -4088,23 +4176,61 @@ class ToolBarDataMany extends JToolBar implements Constants
         //btnManyInsertDown.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "newRecMany"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
         //btnManyInsertDown.getActionMap().put("newRecMany", actionNewRecMany);        
         
-        
+ 
+       // btnManyInsertDown.setText("<html>εισαγωγή κάτω</html>");
+        btnManyInsertDown.setText("εισαγωγή κάτω");
+        btnManyInsertDown.setOpaque(false);
+        btnManyInsertDown.setToolTipText("εισαγωγή στην τελευταία σειρά");
+        btnManyInsertDown.setIcon(ICO_ADDBELOW);
+        btnManyInsertDown.setFocusable(false);        
+        btnManyInsertDown.addActionListener(new ActionListener()
+        {
+	        public void actionPerformed(ActionEvent e) 
+	        {	   
+	           	   addNewRowBelow();      
+	        } 
+	    });
+        //Action actionNewRecManyDown = new ActionNewRecMany();
+        //btnManyInsertDown.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "newRecMany"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
+        //btnManyInsertDown.getActionMap().put("newRecMany", actionNewRecMany);        
+  
         //btnManyDelete.setText("<html>διαγραφή επιλογής</html>"); //  <b>del</b>
-        btnManyDelete.setText("διαγραφή επιλεγμένης σειράς");
+        btnManyDelete.setText("<html>διαγραφή επιλογής</html>");
         btnManyDelete.setOpaque(false);
-        btnManyDelete.setToolTipText("διαγραφή επιλεγμένης σειράς");
-        btnManyDelete.setIcon(ICO_DELETE);
+        btnManyDelete.setToolTipText("διαγραφή επιλογής");
+        btnManyDelete.setIcon(ICO_DELETE16);
         btnManyDelete.setFocusable(false);        
         //btnDelete.setVerticalTextPosition(AbstractButton.BOTTOM);
         //btnDelete.setHorizontalTextPosition(AbstractButton.CENTER);
         btnManyDelete.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
-	        {	   
+	        {	
+                    
 	           rowSelectedDelete(table.getSelectedRow());        
 	        } 
 	    });
-        Action actionDelRecMany = new ActionDelRecMany();
+ //       Action actionDelRecMany = new ActionDelRecMany();
+ //       btnManyDelete.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delRecMany"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
+ //       btnManyDelete.getActionMap().put("delRecMany", actionDelRecMany);        
+        
+        //btnManyDelete.setText("<html>διαγραφή επιλογής</html>"); //  <b>del</b>
+        btnManyMultiInsert.setText("πολλαπλή εισαγωγή");
+        btnManyMultiInsert.setOpaque(false);
+        btnManyMultiInsert.setToolTipText("πολλαπλή εισαγωγή");
+        btnManyMultiInsert.setIcon(ICO_CHECKS);
+        btnManyMultiInsert.setFocusable(false);        
+        //btnDelete.setVerticalTextPosition(AbstractButton.BOTTOM);
+        //btnDelete.setHorizontalTextPosition(AbstractButton.CENTER);
+        btnManyMultiInsert.addActionListener(new ActionListener()
+        {
+	        public void actionPerformed(ActionEvent e) 
+	        {	
+                    displayMultipleInsertDialog();
+	           //rowSelectedDelete(table.getSelectedRow());        
+	        } 
+	    });
+ //       Action actionDelRecMany = new ActionDelRecMany();
  //       btnManyDelete.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delRecMany"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
  //       btnManyDelete.getActionMap().put("delRecMany", actionDelRecMany);
  
@@ -4204,9 +4330,11 @@ class ToolBarDataMany extends JToolBar implements Constants
         //addSeparator();
         add(btnManyInsert);
         add(btnManyInsertDown);
+        add(btnManyMultiInsert);
+        add(btnManyCopyAboveCell);
         add(btnManyDelete);
          //addSeparator();
-        add(btnManyCopyAboveCell);
+        
         add(btnManyClearAll);
         // addSeparator();
      //   add(btnManySave);

@@ -10754,7 +10754,7 @@ ps.setBytes(i, b);
    	else
    	{
                                              
-
+              setVariablesGlobal1Erase();
    	      for(int i=0;i<fieldTxts.size();i++)
    	      {
 

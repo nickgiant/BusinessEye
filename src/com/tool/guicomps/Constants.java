@@ -395,7 +395,7 @@ public interface Constants
     
      public static final int WINDOW_LOCATION_CENTER = 0;
      public static final int WINDOW_LOCATION_DOWNRIGHT = 1;
-     //public static final int WINDOW_LOCATION_COMPONENT_DOWNLEFT = 2;
+     public static final int WINDOW_LOCATION_COMPONENT = 2;
     
     public static final int PRINTPREVIEW_SHOW_NONE = 1;
     public static final int PRINTPREVIEW_SHOW_ALL = 2;

@@ -368,7 +368,7 @@ public class EntityDataFarmersVat implements Constants
         farmerDBFields[13] = new EntityDBFields("frvfarmer","bankId","τράπεζα",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"bank", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         farmerDBFields[14] = new EntityDBFields("frvfarmer","bankAccount","λογαριασμός",3,"java.lang.String",20,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,""); 
         
-        farmerDBFields[15] = new EntityDBFields("frvfarmer","frvfarmertelephone","τηλέφωνα του αγρότη",4,"table",FIELD_VISIBLE_AND_EDITABLE,"frvfarmertelephone",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,farmerTelephonesDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT farmerId, inc, farmerTelephoneId,department,telephone,person FROM frvfarmertelephone ORDER BY frvfarmertelephone.inc",null,null);    //String[] childTableFieldsForSumsIn   
+        farmerDBFields[15] = new EntityDBFields("frvfarmer","frvfarmertelephone","τηλέφωνα του αγρότη",4,"table",FIELD_VISIBLE_AND_EDITABLE,"frvfarmertelephone",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,farmerTelephonesDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT farmerId, inc, farmerTelephoneId,department,telephone,person FROM frvfarmertelephone ORDER BY frvfarmertelephone.inc",null,null,null,null);    //String[] childTableFieldsForSumsIn   
         
 
         
@@ -420,7 +420,7 @@ public class EntityDataFarmersVat implements Constants
         
         //applicationHeaderDBFields[4] = new EntityDBFields("frvapplicationheader","deliveryId","deliveryId",1,"java.lang.String",4,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalDeliveryId);
         
-        applicationHeaderDBFields[7] = new EntityDBFields("frvapplicationheader","frvapplicationline","παραστατικά",2,"table",FIELD_VISIBLE_AND_EDITABLE,"frvapplicationline",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,applicationLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM frvapplicationline WHERE frvapplicationline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY frvapplicationline.inc",null,null);     //String[] childTableFieldsForSumsIn   
+        applicationHeaderDBFields[7] = new EntityDBFields("frvapplicationheader","frvapplicationline","παραστατικά",2,"table",FIELD_VISIBLE_AND_EDITABLE,"frvapplicationline",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,applicationLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT * FROM frvapplicationline WHERE frvapplicationline.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY frvapplicationline.inc",null,null,null,null);     //String[] childTableFieldsForSumsIn   
 
          applicationHeaderDBFields[8] = new EntityDBFields("frvapplicationheader","invcount","πλήθος",3,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,7,8,DBFIELD_TYPE_OF_SUM_COUNT);        
         applicationHeaderDBFields[9] = new EntityDBFields("frvapplicationheader","value","αξία",3,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,null,7,8,DBFIELD_TYPE_OF_SUM_SUM);        
@@ -462,7 +462,7 @@ public class EntityDataFarmersVat implements Constants
         productLineDBFields[2] = new EntityDBFields("frvproduct","productTypeId","τύπος προϊόντος",0,"java.lang.Integer",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"frvproducttype", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         
         // 'line' should be upper// , frvproducttype.producttypeName AS \"τύπος προϊόντος\", frvproducttype.returnVat AS \"επιστρ φόρου\", frvproducttype.returnFuel AS \"επιστρ πετρελαίου\" 
-        productDBFields[0] = new EntityDBFields("productheader","frvproduct","προϊόντα",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvproduct",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,productLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT frvproduct.productId AS \"Νο προϊόντος\", frvproduct.productName AS \"ονομασία\", frvproduct.productTypeId AS \"Νο τύπου\" FROM frvproduct LEFT JOIN frvproducttype ON frvproduct.productTypeId=frvproducttype.productTypeId ORDER BY frvproduct.productName",null,null);     //String[] childTableFieldsForSumsIn   
+        productDBFields[0] = new EntityDBFields("productheader","frvproduct","προϊόντα",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvproduct",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,productLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT frvproduct.productId AS \"Νο προϊόντος\", frvproduct.productName AS \"ονομασία\", frvproduct.productTypeId AS \"Νο τύπου\" FROM frvproduct LEFT JOIN frvproducttype ON frvproduct.productTypeId=frvproducttype.productTypeId ORDER BY frvproduct.productName",null,null,null,null);     //String[] childTableFieldsForSumsIn   
         
         productEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
@@ -472,7 +472,7 @@ public class EntityDataFarmersVat implements Constants
        	invoicetypeLineDBFields[1] = new EntityDBFields("frvinvoicetype","invoiceTypeName","ονομασία",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
        	invoicetypeLineDBFields[2] = new EntityDBFields("frvinvoicetype","abbreviation","συντομογραφία",0,"java.lang.String",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         
-        invoicetypeDBFields[0] = new EntityDBFields("invoiceTypeheader","frvinvoicetype","τύποι παραστατικών",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvinvoicetype",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,invoicetypeLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT invoiceTypeId AS \"Νο τύπου παραστατικού\", invoicetypeName AS \"ονομασία\",abbreviation AS \"συντομογραφία\" FROM frvinvoicetype ORDER BY invoiceTypeId",null,null);     //String[] childTableFieldsForSumsIn   
+        invoicetypeDBFields[0] = new EntityDBFields("invoiceTypeheader","frvinvoicetype","τύποι παραστατικών",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvinvoicetype",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,invoicetypeLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT invoiceTypeId AS \"Νο τύπου παραστατικού\", invoicetypeName AS \"ονομασία\",abbreviation AS \"συντομογραφία\" FROM frvinvoicetype ORDER BY invoiceTypeId",null,null,null,null);     //String[] childTableFieldsForSumsIn   
         
         invoicetypeEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
@@ -482,7 +482,7 @@ public class EntityDataFarmersVat implements Constants
         producttypeLineDBFields[2] = new EntityDBFields("frvproducttype","returnVat","ποσοστό επιστροφής φόρου",0,"java.lang.Double",20,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         producttypeLineDBFields[3] = new EntityDBFields("frvproducttype","returnFuel","ποσοστό επιστροφής πετρελαίου",0,"java.lang.Double",20,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
    	
-        producttypeDBFields[0] = new EntityDBFields("producttypeheader","frvproducttype","τύποι προϊόντων",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvproducttype",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,producttypeLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT productTypeId AS \"Νο τύπου προϊόντος\",producttypeName AS \"ονομασία\",returnVat AS \"ποσοστό επιστροφής φόρου\",returnFuel AS \"ποσοστό επιστροφής πετρελαίου\" FROM frvproducttype ORDER BY productTypeId",null,null);     //String[] childTableFieldsForSumsIn   
+        producttypeDBFields[0] = new EntityDBFields("producttypeheader","frvproducttype","τύποι προϊόντων",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvproducttype",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,producttypeLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT productTypeId AS \"Νο τύπου προϊόντος\",producttypeName AS \"ονομασία\",returnVat AS \"ποσοστό επιστροφής φόρου\",returnFuel AS \"ποσοστό επιστροφής πετρελαίου\" FROM frvproducttype ORDER BY productTypeId",null,null,null,null);     //String[] childTableFieldsForSumsIn   
         
         producttypeEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         //-----------------
@@ -492,7 +492,7 @@ public class EntityDataFarmersVat implements Constants
         townLineDBFields[3] = new EntityDBFields("frvtown","postCode","T.K.",0,"java.lang.String",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         townLineDBFields[4] = new EntityDBFields("frvtown","phoneCode","κωδ τηλ",0,"java.lang.String",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
    	
-        townDBFields[0] = new EntityDBFields("townheader","frvtown","πόλεις/χωριά",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvtown",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,townLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT townId AS\"Νο πόλης\", townName AS\"πόλη/χωριό\", state AS\"νομός\", postCode AS\"ΤΚ\", phoneCode AS\"κωδ τηλ\" FROM frvtown ORDER BY townName",null,null);     //String[] childTableFieldsForSumsIn   
+        townDBFields[0] = new EntityDBFields("townheader","frvtown","πόλεις/χωριά",0,"table",FIELD_VISIBLE_AND_EDITABLE,"frvtown",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,townLineDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT townId AS\"Νο πόλης\", townName AS\"πόλη/χωριό\", state AS\"νομός\", postCode AS\"ΤΚ\", phoneCode AS\"κωδ τηλ\" FROM frvtown ORDER BY townName",null,null,null,null);     //String[] childTableFieldsForSumsIn   
         
         townEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
@@ -571,7 +571,7 @@ public class EntityDataFarmersVat implements Constants
         dbYearDBFields[0] = new EntityDBFields("dbyear","dbYearId","Νο χρήσης",0,"java.lang.Integer",7, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         dbYearDBFields[1] = new EntityDBFields("dbyear","dbyear","χρήση",0,"java.lang.String",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         dbYearDBFields[2] = new EntityDBFields("dbyear","dbCompanyId","Νο εταιρίας",0,"java.lang.Integer",4,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalCompanyId,"");
-        dbYearDBFields[3] = new EntityDBFields("dbyear","frvyeardelivery","αποστολές του έτους",1,"table",FIELD_VISIBLE_AND_EDITABLE,"frvyeardelivery",350,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,dbYearDeliveryDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT dbYearDeliveryId, dbYearId,inc,description,printFormId,dbCompanyId FROM frvyeardelivery WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+"  ORDER BY inc",null,null);// this last null is childTableFieldsForSumsIn
+        dbYearDBFields[3] = new EntityDBFields("dbyear","frvyeardelivery","αποστολές του έτους",1,"table",FIELD_VISIBLE_AND_EDITABLE,"frvyeardelivery",350,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,dbYearDeliveryDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT dbYearDeliveryId, dbYearId,inc,description,printFormId,dbCompanyId FROM frvyeardelivery WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+"  ORDER BY inc",null,null,null,null);// this last null is childTableFieldsForSumsIn
         
         
         dbyearEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);

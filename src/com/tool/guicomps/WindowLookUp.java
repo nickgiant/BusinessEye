@@ -1,4 +1,3 @@
-// created 17-09-2009
 package com.tool.guicomps;
 
 import com.tool.model.LookUpMgt;

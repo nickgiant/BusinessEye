@@ -1,4 +1,3 @@
-// created 17-9-2006
 
 package com.tool.guicomps;
 

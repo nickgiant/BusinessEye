@@ -1,4 +1,3 @@
-// created 30-10-2008
 package com.tool.guicomps;
 
 import javax.swing.border.*;
