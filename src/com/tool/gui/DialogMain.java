@@ -752,11 +752,11 @@ public class DialogMain extends JxFrame implements Constants
          
             panelManagement.panelMenuButtonRemove();
             
-            DialogUserLogin dialogUserLogin = new DialogUserLogin(this);
+            DialogUserLogin dialogUserLogin = new DialogUserLogin((java.awt.Dialog)null);
             dialogUserLogin.setLoginAgain(true);
             dialogUserLogin.setVisible(true);
             
-           if(dialogUserLogin.closeAndContinue())
+           if(dialogUserLogin.getIfIsLoginOk())
            {
                 userId = dialogUserLogin.getUserId();    
                 VariablesGlobal.globalUserId=userId;  //  in displayDialogLoginUser and setCompanyYearUserDate
@@ -3222,16 +3222,13 @@ manager.addChangeListener(updateListener);*/
         try
         {
           isNewVersionAvailable = Double.parseDouble(UpdateInfo.getLatestVersion(true).toString()) > Double.parseDouble(VariablesGlobal.appSubVersion.toString().toString());
-
-         if (isNewVersionAvailable)
+          File f = new File(FILE_FOR_UPDATE);// if not having gets in infinite loop
+         if (isNewVersionAvailable && !f.exists() && !f.isDirectory())
          {
-             
-                /* final int YES = 0;
-    	        final int NO = 1;*/
-             if(utilsGui.showConfirmYesOrNo(null, "Υπάρχει καινούρια έκδοση ("+UpdateInfo.getLatestVersion(true).toString()+"). Θέλετε να γίνει αναβάθμιση;")==YES)
-             {
+
                updateFromWeb();
-             }
+               
+             
          }
           
           
@@ -3249,7 +3246,7 @@ manager.addChangeListener(updateListener);*/
        }        
 
         
-        
+       
         
         
 
@@ -3261,10 +3258,14 @@ manager.addChangeListener(updateListener);*/
     	System.out.println(VariablesGlobal.appName+" "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+" Date: " + new Date());
         System.out.println("DialogMain.main classpath "+System.getProperty("java.class.path"));
         System.out.println("DialogMain.main user.dir "+System.getProperty("user.dir"));
-        //if(args!=null)
-        //{
-            //try
-           // {
+   
+    File myObj = new File(FILE_FOR_UPDATE); 
+    if (myObj.delete()) { 
+      System.out.println("DialogMain.main  Deleted the file: " + myObj.getName());
+    } else {
+      System.out.println("DialogMain.main  Failed to delete the file:"+FILE_FOR_UPDATE);
+    } 
+    
             VariablesGlobal.appProduct = PRODUCT_FARMERSVAT_NOT;//PRODUCT_OLA;//args[0];
            /* }
             catch(ArrayIndexOutOfBoundsException e)
@@ -3381,16 +3382,16 @@ manager.addChangeListener(updateListener);*/
 
         dialogMain.setSize(1300,765);
         dialogMain.locateOnCenterOfTheScreen();        
-        DialogUserLogin dialogUserLogin = new DialogUserLogin(dialogMain);
+        DialogUserLogin dialogUserLogin = new DialogUserLogin((java.awt.Dialog)null);
 
-        DialogCompanyLogin dialogCompanyLogin  = DialogCompanyLogin.getInstance(dialogMain); 
+        DialogCompanyLogin dialogCompanyLogin  = DialogCompanyLogin.getInstance(null); // new DialogCompanyLogin((java.awt.Dialog)null);//
         dialogCompanyLogin.setIsExit(true);//false when called when allready in
               //dialogCompanyLogin.locateOnCenterOfTheScreen();
 
         splashScr.dispose();
         dialogUserLogin.setLoginAgain(false);
         dialogUserLogin.setVisible(true);
-    if(dialogUserLogin.closeAndContinue())
+    if(dialogUserLogin.getIfIsLoginOk())
     {
          String userId = dialogUserLogin.getUserId();
         

@@ -47,9 +47,22 @@ public class DialogUpdateInformation extends JFrame implements Constants {
 
     public DialogUpdateInformation(String newVersion,long newSize,String url)
     {
-        initComponents();
+        
+        initComponents(newVersion, newSize, url);
         locateOnCenterOfTheScreen();
-        lblNewVersion.setText(VariablesGlobal.appName+" έκδοση:"+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+"        νέα έκδοση:"+newVersion);
+        
+    }
+
+    private void initComponents(String newVersion,long newSize,String url) 
+    {
+        this.setIconImage(IMG_BOOKMARK);
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.setTitle(VariablesGlobal.appName);
+       
+        infoPane = new JEditorPane();
+        lblNewVersion = new JLabel();
+        lblNewSize = new JLabel();
+        lblNewVersion.setText(VariablesGlobal.appName+" έκδοση:"+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+"        τελευταία έκδοση:"+newVersion);
         lblNewSize.setText("      μέγεθος:"+newSize/1024+" KBs");
         //infoPane.setText(info);
         
@@ -85,23 +98,19 @@ public class DialogUpdateInformation extends JFrame implements Constants {
              infoPane.setText("<html>"+e.getLocalizedMessage()+"</html>");
          }  */       
         
-    }
-
-    private void initComponents() {
-
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        this.setTitle(VariablesGlobal.appName);
+        
+        
         panelMain = new JPanel();
         panelMain.setLayout(new BorderLayout());
         
         JPanel panelTop = new JPanel();
         panelTop.setLayout(new FlowLayout());
-        lblNewVersion = new JLabel();
-        lblNewSize = new JLabel();
+        
+        
         
         pan2 = new JPanel();
         pan2.setLayout(new FlowLayout());
-        infoPane = new JEditorPane();
+        
         
         
         

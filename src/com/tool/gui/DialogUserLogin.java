@@ -74,33 +74,39 @@ public class DialogUserLogin  extends JDialog implements Constants
     private JTextField txtUser;    
     private boolean isLoginAgain = false;
     private Database db= new Database();
-     public DialogUserLogin()
-    {
-       
-
-          initialize();
-    }
+     private boolean loginOk = false;
     
-     
-    /** Creates new form LoginForm */
-    public DialogUserLogin(JFrame parent)
+    
+        /** Creates new form LoginForm */
+   /* public DialogUserLogin(JFrame parent)
     {
         super(parent,VariablesGlobal.appName+"   "+UtilsResource.getString("Login"),true);//super(parent, modal);
-       
+      
         initialize();
        
 
 
-    }     
-     
-     
+    }*/  
+    
+        public DialogUserLogin(java.awt.Dialog parent)// to show it in taskbar
+    {
+        super(parent,VariablesGlobal.appName+"   "+UtilsResource.getString("Login"),true);//super(parent, modal);
+      
+        initialize();
+       
+
+
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to
      * initialize the form.
      */
     private void initialize() 
     {    
-        
+        this.setIconImage(IMG_BOOKMARK);
           utilsGui = new UtilsGui();
           utilsString = new UtilsString();
         
@@ -182,7 +188,7 @@ public class DialogUserLogin  extends JDialog implements Constants
            {
 	         public void actionPerformed(ActionEvent e) 
 	         {      
-                     closeAndContinue();	      
+                     isOk();	      
                  }
 	       });
 	    Action actionOk = new DialogUserLogin.ActionOk();
@@ -238,8 +244,13 @@ public class DialogUserLogin  extends JDialog implements Constants
      */
     public static void main(String args[]) {
         //new DialogCompanyLogin(new JFrame(), true).show();
-        DialogUserLogin loginUser  = new DialogUserLogin();
+    
+           DialogUserLogin loginUser  = new DialogUserLogin((java.awt.Dialog)null);
         loginUser.setVisible(true);
+        
+
+     //JDialog dialog = new JDialog((java.awt.Dialog)null);   
+     //dialog.setVisible(true);
     }
 
 
@@ -248,7 +259,7 @@ public class DialogUserLogin  extends JDialog implements Constants
      * Checks if login data is correct.
      * @return if login data is correct.
      */  
-   public boolean checkUserNPass()
+   private boolean checkUserNPass()
    {
       boolean loginOk=false;
       String user = getUser();
@@ -354,11 +365,11 @@ public class DialogUserLogin  extends JDialog implements Constants
    }
    
    
-   public boolean closeAndContinue()
+   private boolean isOk()
    {
        
-      boolean loginOk = checkUserNPass();       
-      System.out.println("DialogUserLogin.closeAndContinue    loginOk:"+loginOk);
+      loginOk = checkUserNPass();       
+      //System.out.println("DialogUserLogin.closeAndContinue    loginOk:"+loginOk);
       
       if(loginOk)
       {
@@ -367,6 +378,12 @@ public class DialogUserLogin  extends JDialog implements Constants
       
     return loginOk;
    }
+   
+   public boolean getIfIsLoginOk()
+   {
+       return loginOk;
+   }
+   
    
    public void setLoginAgain(boolean loginAgain)
    {

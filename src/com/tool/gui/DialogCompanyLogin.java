@@ -112,16 +112,31 @@ public class DialogCompanyLogin extends JDialog implements Constants
     public DialogCompanyLogin()// private singleton patterm (Frame parent, boolean modal) 
     {
         // not load  initComponents() but utilsGui
+        this.setIconImage(IMG_BOOKMARK);
           utilsGui = new UtilsGui();
           utilsString = new UtilsString();
     }
 
+    public DialogCompanyLogin(java.awt.Dialog parent)// private singleton patterm (Frame parent, boolean modal) 
+    {
+        super(parent,VariablesGlobal.appName+"   "+UtilsResource.getString("Login"),true);//super(parent, modal);
+       // System.out.println("loading DialogCompanyLogin");
+        initialize( null);
+    }
 
     public static DialogCompanyLogin getInstance(JFrame parent)
     {
         if (myInstance == null)
-            myInstance = new DialogCompanyLogin(parent);
-
+        {
+            if(parent==null)
+            {
+                myInstance = new DialogCompanyLogin((java.awt.Dialog)null);//new DialogCompanyLogin((java.awt.Dialog)null);// is used to show dialog in taskbar
+            }
+            else
+            {
+               myInstance = new DialogCompanyLogin(parent);// is used to get the same dialog (singleton pattern)
+            }
+        }
         return myInstance;
     }
 
@@ -130,6 +145,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
      */      
     private void initialize(JFrame parent) 
     {
+        this.setIconImage(IMG_BOOKMARK);
     	utilsTable = new UtilsTable();
     	utilsString = new UtilsString();
     	utilsGui = new UtilsGui();
@@ -1179,7 +1195,7 @@ public class DialogCompanyLogin extends JDialog implements Constants
      */
     public static void main(String args[]) {
         //new DialogCompanyLogin(new JFrame(), true).show();
-        DialogCompanyLogin login  = new DialogCompanyLogin(null);
+        DialogCompanyLogin login  = new DialogCompanyLogin((java.awt.Dialog)null);
         login.setVisible(true);
     }
    
