@@ -2903,6 +2903,8 @@ manager.addChangeListener(updateListener);*/
                       }
                       catch(IOException ioe)
                       {
+                          wwu.close();
+                          utilsGui.showMessageError(ioe.getMessage());
                           System.out.println("DialogMain.updateDb  IOException  "+dirAndZippedFile+"     "+ioe.getMessage());
                       }
                       //k = k+0.01; 
@@ -2913,13 +2915,6 @@ manager.addChangeListener(updateListener);*/
                  wwu.setComment("OK"); 
                  wwu.close();
              
-                 
-           // thread1.join();     
-      /*            
-       wwu.close();
-         thread = null;
-*/
-
         return ret;
     }	
   
@@ -3145,7 +3140,7 @@ manager.addChangeListener(updateListener);*/
              }
              catch (SQLException sqle)
              {
-                      System.out.println("DialogMain.isRestoreCompleted       SQLException:"+sqle.getErrorCode()+"     "+sqle.getMessage());  
+                      System.out.println("DialogMain.checkVersionOfDb       SQLException:"+sqle.getErrorCode()+"     "+sqle.getMessage());  
              }
              finally
              {
@@ -3210,7 +3205,7 @@ manager.addChangeListener(updateListener);*/
           
          //  new ImageIcon(Constants.class.getResource("/images/logo.png")
   	WindowSplash splashScr = new WindowSplash(VariablesGlobal.appName+"  (εκδ "+VariablesGlobal.appLeadVersion+"."+VariablesGlobal.appSubVersion+")",ICO_BACK);///APP_LOGO );   //  APP_LOGO
-        
+        splashScr.setVisible(true);
              
       
          
@@ -3346,7 +3341,8 @@ manager.addChangeListener(updateListener);*/
            
            dialogSetupDb.setVisible(true);
            isFromDbSetup = dialogSetupDb.closeNStart();
-
+           if(isFromDbSetup)
+           {
           /* DatabaseMeta dbMeta2 = new DatabaseMeta();
   	   String running2 = dbMeta2.dbFileExists();
          
@@ -3355,12 +3351,21 @@ manager.addChangeListener(updateListener);*/
         	 System.exit(0);
            }*/
            
-           
-           
            dialogMain.readFromFileDbSettings();
            // also in isRestoreCompleted
            // used here again in order to create the db
-           Double oldVersion = 1.2585;
+           double oldStartVersion = 1.2585;
+           double oldInstalledVersion = dialogMain.checkVersionOfDb();
+           double oldVersion=0;
+           if(oldInstalledVersion>oldStartVersion)
+           {
+               oldVersion=oldInstalledVersion;
+           }
+           else
+           {
+               oldVersion=oldStartVersion;
+           }
+           
            //--  setup when first time run
            boolean isUpdated = dialogMain.updateDb(oldVersion,Double.parseDouble(VariablesGlobal.appSubVersion+""));
            System.out.println("DialogMain.main    isUpdated:"+isUpdated+" because "+oldVersion+"-"+Double.parseDouble(VariablesGlobal.appSubVersion+""));
@@ -3372,11 +3377,17 @@ manager.addChangeListener(updateListener);*/
                System.out.println("DialogMain.main   ERROR   isUpdated:"+isUpdated+"  Perhaps error in filename or directory.");
            }            
             
-                        
+           } 
+           else
+           {
+               utilsGui.showMessageError("Δεν έχει ρυθμίστεί σωστα η βάση δεδομένων. Το πρόγραμα θα τερματιστεί!");
+               System.exit(0);
+               
+           }
         }
         else
         {
-            System.out.println("DialogMain.main  ELSE running:"+running);
+            System.out.println("DialogMain.m ain  ELSE running:"+running);
         }
        
 

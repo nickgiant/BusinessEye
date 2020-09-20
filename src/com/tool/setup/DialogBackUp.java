@@ -2742,11 +2742,11 @@ class TabListener implements ChangeListener
                        catch (SQLException sqle)
                        {
                   
-                   	//wwr.close();
+                   	wwr.close();
 	                //thread = null;     
                        System.out.println("DialogBackup.restore  ERROR command:  "+sqle.getMessage());
                        txtareaLog.append("\n restore error command: command:"+command);                   
-                   
+                       
                    // System.out.println("DialogBackup.restore close  ERROR "+sqle.getMessage());
                    //  txtareaLog.append("\nΤο restore  error "+sqle.getMessage());
                       }                     
@@ -2835,7 +2835,7 @@ private void restoreCommand(Connection con,StringBuffer command)throws SQLExcept
              //try
             // {
             
-                     Statement statement = con.createStatement();  // (ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
+                     Statement statement = con.createStatement();//(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
                     strDatabase = con.getCatalog();
                    // txtareaLog.append("\n"+command);
                    // System.out.println("   restore:"+command);

@@ -355,9 +355,9 @@ public class DialogDbConnect  extends JDialog implements Constants
        panelChecks.add(radioMariaDB);
        panelChecks.add(radioMySql);
   
-       panelChecks.add(radioMSSqlServer);
+      // panelChecks.add(radioMSSqlServer);
 
-       panelChecks.add(radioH2embedded);
+      // panelChecks.add(radioH2embedded);
 
        //panelChecks.add(radioHsql);
 
@@ -587,7 +587,7 @@ public class DialogDbConnect  extends JDialog implements Constants
           txtDbPass.setText(dbPass);
 	 //     txtDbEngineDir.setText(dbEngineDir);
 	      //txtBackupDir.setText(backUpsDir);      
-        System.out.println("DialogDbConnect.loadConfigFromFile  txtDbUrl:"+txtDbUrl.getText());
+        System.out.println("DialogDbConnect.loadConfigFromFile  txtDbUrl:"+txtDbUrl.getText()+"   txtDbName:"+txtDbName.getText());
   /*
   
          group.add(radioMySql);
@@ -621,7 +621,7 @@ public class DialogDbConnect  extends JDialog implements Constants
 	      dbPath="";
           dbDriver="com.mysql.jdbc.Driver";                 //  thi is for 0000-00-00 dates
           dbHost = "127.0.0.1:3306";
-          dbUrl="jdbc:mysql://"+dbHost+"/"+dbName;  //+"?zeroDateTimeBehavior=convertToNull";
+          dbUrl="jdbc:mysql://"+dbHost+"/";  //+"?zeroDateTimeBehavior=convertToNull";
           //dbUser="";
           //dbPass="";
          /* if(utilsOS.isOSWindows())
@@ -665,7 +665,7 @@ public class DialogDbConnect  extends JDialog implements Constants
 	      dbPath="";
           dbDriver="org.mariadb.jdbc.Driver";                 //  thi is for 0000-00-00 dates
           dbHost = "127.0.0.1:3306";
-          dbUrl="jdbc:mariadb://"+dbHost+"/"+dbName;  //+"?zeroDateTimeBehavior=convertToNull";
+          dbUrl="jdbc:mariadb://"+dbHost+"/";  //+"?zeroDateTimeBehavior=convertToNull";
           //dbUser="";
           //dbPass="";
           /*if(utilsOS.isOSWindows())
@@ -708,7 +708,7 @@ public class DialogDbConnect  extends JDialog implements Constants
 	      dbPath="";
           dbDriver="com.microsoft.jdbc.sqlserver.SQLServerDriver"; 
           dbHost= "127.0.0.1:1433";
-          dbUrl="jdbc:microsoft:sqlserver://"+dbHost+"/"+dbName;
+          dbUrl="jdbc:microsoft:sqlserver://"+dbHost+"/";
           dbUser="sa";
           dbPass="";
 
@@ -798,6 +798,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         boolean ret = false;
     
           //dbPath=txtDbPath.getText();
+          dbName=txtDbName.getText();
           dbDriver=txtDbDriver.getText();                 
           dbUrl=txtDbUrl.getText();
           dbUser=txtDbUser.getText();
@@ -880,55 +881,48 @@ public class DialogDbConnect  extends JDialog implements Constants
         String driverVersion = metaData.getDriverVersion();
            //System.out.println("drivers loaded"+System.getProperty("jdbc.drivers"));
          
-    	       
-            txtDbInfo.append("database: "+database+"   version:"+databaseVersion);	       
-            txtDbInfo.append("\ndriver: "+driver+"  driver version:"+driverVersion);
-            
-
-
-
-           /*if(dbName.equalsIgnoreCase(""))
+    	   if(dbName.equals("")) 
            {
-               utilsGui.showMessageError(this,"Η βάση δεδομένων '"+dbName+"' δεν υπάρχει."); 
-                ret = false;
+              txtDbInfo.setText("παρακαλώ εισάγετε όνομα βάσης στο πρώτο πεδίο.");
+              ret=false;
            }
            else
-           {*/
-           ret = true;
-           //}
-            conn.close();
-            
+           {
+            txtDbInfo.append("database: "+database+"   version:"+databaseVersion);	       
+            txtDbInfo.append("\ndriver: "+driver+"  driver version:"+driverVersion);              
+               ret = true;
+           }
+           
+           
 
-            
-            
-          }
-  /*        catch(SocketException socketE)
-          {
-          	JOptionPane.showMessageDialog(null, socketE.getMessage());
-          }*/          
+            conn.close();
+            btnCreateDB.setEnabled(false);
+          }       
           catch ( SQLException sqlex)
           {
           	if (sqlex.getErrorCode() == 1049)
           	{
-                    txtDbInfo.append("Η βάση δεδομένων '"+dbName+"' δεν υπάρχει.");	
+                    txtDbInfo.append("Η βάση δεδομένων '"+dbName+"' δεν υπάρχει. Μπορείτε να τη δημιουργήσετε.");
+                   
+                    btnCreateDB.setEnabled(true);
                     //System.out.println("DialogSetupDb.dbCheck  error:"+sqlex.getMessage());
                         //utilsGui.showMessageError(this,"Η βάση δεδομένων '"+dbName+"' δεν υπάρχει.");          		
           	}
           	else if (sqlex.getErrorCode() == 1045)
           	{
+                    btnCreateDB.setEnabled(false);
           	      utilsGui.showMessageError(this,"Δεν εχετε πρόσβαση για αυτό το χρήστη.\nΑλλάξτε username ή password.");
           	}
           	else
           	{
+                 btnCreateDB.setEnabled(false);   
                    System.out.println("error:DialogSetupDb.dbRuns:"+sqlex.getErrorCode()+" "+sqlex.getMessage());
                      utilsGui.showMessageError(this,"DialogSetupDb.dbCheck err code "+sqlex.getErrorCode()+" \n"+sqlex.getMessage());
                }
                 ret = false;
           }
+        btnStart.setEnabled(ret);
         
-       //chkDbExists.setSelected(dbRuns);
-       //chkDbExists.setEnabled(false);
-
        System.out.println("DialogSetupDb.dbRuns for "+dbEngine+":"+ret);
         return ret;
     }
@@ -947,7 +941,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         if (drivers != null)
            System.setProperty("jdbc.drivers", drivers);
 
-        url = txtDbUrl.getText();
+        url = txtDbUrl.getText()+txtDbName.getText();;
 
        // String dbDir = txtDbPath.getText() ;
         //if(dbDir !=null )  //if there is in text file
@@ -995,7 +989,7 @@ public class DialogDbConnect  extends JDialog implements Constants
                             try
                             {
                             Connection conn = getConnectionToCreateDB();
-                             Statement stmnt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
+                             Statement stmnt = conn.createStatement();//ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
        
              // System.out.println("Database.updateQuery "+query);      
         
@@ -1045,10 +1039,12 @@ public class DialogDbConnect  extends JDialog implements Constants
           	                {
           	                     utilsGui.showMessageError(this,"Δεν εχετε πρόσβαση για αυτό το χρήστη.\nΑλλάξτε username ή password.");
           	                }
-                                else if(sqex.getErrorCode() == 1049)
+                               /* else if(sqex.getErrorCode() == 1049)// msg db name does not exist
                                 {
-                                    utilsGui.showMessageError(this,"Παρακαλώ διαγράψτε το όνομα της βάσης στο url\n(δηλαδή το κείμενο μετα το χαρακτήρα  /  χωρίς αυτόν).");
-                                }
+                                    System.out.println("DialogDbConnect.createDB   sqex:"+sqex.getErrorCode()+"   message:"+sqex.getMessage());
+                                    //sqex.printStackTrace();
+                                    //utilsGui.showMessageError(this,"Παρακαλώ διαγράψτε το όνομα της βάσης στο url\n(δηλαδή το κείμενο μετα το χαρακτήρα  /  χωρίς αυτόν).");
+                                }*/
                                 else
           	                {                                
                                     utilsGui.showMessageError(this,"Σφάλμα... "+sqex.getErrorCode()+"  "+sqex.getMessage());
@@ -1076,7 +1072,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         if (drivers != null)
            System.setProperty("jdbc.drivers", drivers);
 
-        url = txtDbUrl.getText();
+        url = txtDbUrl.getText();//   if add creates error in creating the db +txtDbName.getText();
 
        // String dbDir = txtDbPath.getText() ;
         //if(dbDir !=null )  //if there is in text file
@@ -1368,11 +1364,13 @@ public class DialogDbConnect  extends JDialog implements Constants
         btnCheck = new JButton();        
         btnSave = new JButton();
         btnCreateDB = new JButton();
+        btnCreateDB.setEnabled(false);
         //btnSetupConfig= new JButton();
         //btnOpenLibPath = new JButton(); 
         btnShowBackupRestore  = new JButton(); 
         btnShowSystemInfo  = new JButton(); 
-        btnStart = new JButton(); 
+        btnStart = new JButton();
+        btnStart.setEnabled(false);
 
         btnCheck.setText("<html>test</html>");
         btnCheck.setIcon(ICO_INFO16);

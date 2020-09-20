@@ -65,8 +65,9 @@ public class WindowSplash extends JWindow// implements Constants
         
         pack();
         setLocationRelativeTo(null);
-        setVisible(true);
+        
     }    
     
+
     
 }

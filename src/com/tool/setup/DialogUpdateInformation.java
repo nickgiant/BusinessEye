@@ -83,8 +83,8 @@ public class DialogUpdateInformation extends JFrame implements Constants {
         for (int m=0; m <feed.getMessages().size(); m++ ) {
            //System.out.println(feed.getMessages().get(m).getLink());
           //System.out.println("      "+feed.getMessages().get(m).getDescription());
-              versionTextTitle=versionTextTitle +"<tr><td><img src='http://www.businesseye.gr/bullet2.jpg' alt='-'></td><td>"+ feed.getMessages().get(m).getTitle()+"</td></tr>";
-              //versionTextTitle=versionTextTitle +"<tr><td</td>><td>"+ feed.getMessages().get(m).getDescription()+"</td></tr>";
+              versionTextTitle=versionTextTitle +"<tr><td><img src='http://www.businesseye.gr/bullet2.jpg' alt='-'></td><td><b>"+ feed.getMessages().get(m).getTitle()+"</b></td></tr>";
+              versionTextTitle=versionTextTitle +"<tr><td</td><td>"+ feed.getMessages().get(m).getDescription().substring(0, 135)+"...</td></tr>";
         }
             infoPane.setText(versionTextTitle+"</table></html>");
             
@@ -162,7 +162,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
         this.add(panelMain);
         pack();
         setVisible(true);
-        this.setSize(600, 330);
+        this.setSize(600, 350);
     }
 
     private void backup()
