@@ -654,7 +654,7 @@ import javax.swing.text.JTextComponent;
    
                for(int cp = 0;cp<entityGroupOfPanels.length;cp++)
                {
-                //System.out.println("PanelODOR.setEntity---->("+cp+") type="+entityType+" title="+entityPanel.getTitle()+"  entityGroupOfPanels[cn].getCaption()="+entityGroupOfPanels[cp].getCaption());
+                System.out.println("PanelODOR.setEntity---->("+cp+") type="+entityType+" title="+entityPanel.getTitle()+"  entityGroupOfPanels[cn].getCaption()="+entityGroupOfPanels[cp].getCaption());
                 //PanelOneDataOneRecData panelOneDataOneRecDataSetEntity = new PanelOneDataOneRecData(frame);
        
                 panelOneDataOneRecDataSetEntity = this.loadAndGetEntityPanelsOneDataOnRecData(entityPanel,entityGroupOfPanels[cp].getCaption(),/* entityPanel.getEntity(),*/

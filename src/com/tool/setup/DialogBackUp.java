@@ -1,4 +1,3 @@
-// created 18-02-2008
  package com.tool.setup;
  
  import com.tool.guicomps.*;
@@ -181,6 +180,7 @@ public class DialogBackUp extends JDialog implements Constants
     private String bckFileDatabase = "";
     private String bckFileDatabaseLeadVersion = "";
     private String bckFileDatabaseSubVersion = "";
+    private boolean wasRestoreSuccessful = false;
     
      public DialogBackUp()
     {
@@ -2564,9 +2564,9 @@ class TabListener implements ChangeListener
         return doContinue;
    }
    
-   public void restore(String pathNFile,String fileSql,String strVersion,String strTitleOfWindowWait, boolean isFromDialogMain)throws IOException
+   public boolean restore(String pathNFile,String fileSql,String strVersion,String strTitleOfWindowWait, boolean isFromDialogMain)throws IOException
    { //  if   isFromDialogMain: means on init. is needed to wait when an update for db is finished.
-      //boolean continueRestore = false;
+       
 
        boolean checkdbname = true;
        boolean checkdbversion = true;
@@ -2738,27 +2738,24 @@ class TabListener implements ChangeListener
                     
                     //System.out.println("DialogBackUp  command :"+command);
                     restoreCommand(con, command);
+                    wasRestoreSuccessful=true;
+                  
                        } 
                        catch (SQLException sqle)
                        {
-                  
+                         wasRestoreSuccessful=false;
                    	wwr.close();
+                        
 	                //thread = null;     
-                       System.out.println("DialogBackup.restore  ERROR command:  "+sqle.getMessage());
+                       System.out.println("DialogBackup.restore  ERROR  restore "+sqle.getMessage()+"  command:"+command);
                        txtareaLog.append("\n restore error command: command:"+command);                   
-                       
+     //                  utilsGui.showMessageError("DialogBackup.restore  ERROR  restoreCommand \n"+sqle.getMessage()+"     \nquery:"+command);
                    // System.out.println("DialogBackup.restore close  ERROR "+sqle.getMessage());
                    //  txtareaLog.append("\nΤο restore  error "+sqle.getMessage());
+                     // break; // avoid because shows only one error
                       }                     
                    }
-              // }
-              // catch (SQLException sqle)
-              // {
-             //      	wwr.close();
-	     //          thread = null;     
-             //      System.out.println("DialogBackup.restore  ERROR command:"+command+"    "+sqle.getMessage());
-             //       txtareaLog.append("\n restore error command:"+command);
-             //  } 
+
              countQuery++;
             }
                  br.close();
@@ -2775,9 +2772,10 @@ class TabListener implements ChangeListener
               } 
                catch (SQLException sqle)
                {
+                   wasRestoreSuccessful=false;
                   wwr.close();
 	           //thread = null;     
-                   System.out.println("DialogBackup.restore  ERROR command:  "+sqle.getMessage());
+                   System.out.println("DialogBackup.restore  ERROR commit command:  "+sqle.getMessage());
                     txtareaLog.append("\n restore error command: command:"+command);                   
                }             
              System.out.println("DialogBackup Το restore  ολοκληρώθηκε."+fileSql);
@@ -2797,6 +2795,7 @@ class TabListener implements ChangeListener
              }
             catch (IOException e)
             {
+                wasRestoreSuccessful=false;
                 System.out.println("DialogBackup.restore   IOException   fileSql:"+fileSql+"   "+e.getMessage());
               e.printStackTrace();
             }         
@@ -2824,6 +2823,7 @@ class TabListener implements ChangeListener
        //thread1 = null;
        //thread2 = null;
        }
+        return wasRestoreSuccessful;
    }
   
   

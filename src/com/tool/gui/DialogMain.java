@@ -2825,11 +2825,11 @@ manager.addChangeListener(updateListener);*/
          //System.out.println("DialogMain.hasFileThenRestore  strVersion:"+strVersion);
          
           //System.out.println("DialogMain.hasFileThenRestore  TRUE  upd   zip:"+strZippedFile+"      version:"+strVersion+"   sql:"+sqlText); 
-          dlgBackup.restore(strZippedFile,"db"+strVersion+".sql",strVersion,"παρακαλω περιμένετε, αναβάθμιση βάσης",true);
-         
+         ret = dlgBackup.restore(strZippedFile,"db"+strVersion+".sql",strVersion,"παρακαλω περιμένετε, αναβάθμιση βάσης",true);
+         //System.out.println("DialogMain.hasFileThenRestore   --     upd   ret:"+ret ); 
 
         
-          ret = true;
+         
      }
      else
      {
@@ -2890,7 +2890,11 @@ manager.addChangeListener(updateListener);*/
                   {
                       //System.out.println("DialogMain.updateDb   dirAndZippedFile:"+dirAndZippedFile);
                       ret = hasFileThenRestore(dirAndZippedFile, strVal);
-                       
+                       if(!ret)
+                       {
+                            wwu.close();
+                           ret=false;
+                       }
                     
                        if(k==newVersion)
                        {
@@ -2903,6 +2907,7 @@ manager.addChangeListener(updateListener);*/
                       }
                       catch(IOException ioe)
                       {
+                          ret=false;
                           wwu.close();
                           utilsGui.showMessageError(ioe.getMessage());
                           System.out.println("DialogMain.updateDb  IOException  "+dirAndZippedFile+"     "+ioe.getMessage());
@@ -3320,9 +3325,11 @@ manager.addChangeListener(updateListener);*/
              double dbversion = dialogMain.checkVersionOfDb();
 
             //System.out.println("DialogMain.main     restoreNewVersionDb  dbversion:"+dbversion);
-            dialogMain.restoreNewVersionDb(dbversion); 
-              
-            dialogMain.updateVersionDbTag();
+            boolean isUpdatedCorrectly = dialogMain.restoreNewVersionDb(dbversion); 
+              if(isUpdatedCorrectly)
+              {
+                  dialogMain.updateVersionDbTag();
+              }
  
         } 
         else if(!running)
@@ -3371,7 +3378,8 @@ manager.addChangeListener(updateListener);*/
            System.out.println("DialogMain.main    isUpdated:"+isUpdated+" because "+oldVersion+"-"+Double.parseDouble(VariablesGlobal.appSubVersion+""));
            if(isUpdated)
            {
-                dialogMain.updateVersionDbTag();}
+                dialogMain.updateVersionDbTag();
+           }
            else
            {
                System.out.println("DialogMain.main   ERROR   isUpdated:"+isUpdated+"  Perhaps error in filename or directory.");

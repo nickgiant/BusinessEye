@@ -25,6 +25,7 @@ public class EntityData implements Constants
        DataTreeNode nodeRoot ;   
        EntityDataEsoExo entityDataEsoExo;
        EntityDataSerSales entityDataSersal;
+       EntityDataPayroll entityDataPayroll;
        EntityDataFarmersVat entityDataFarmersVat;
        //EntityDataTam entityDataTam;
        EntityDataSystem entityDataSystem;
@@ -61,21 +62,6 @@ public class EntityData implements Constants
         
          entityDataSersal = new EntityDataSerSales();
 
-   
-        
-      
-        
-       
-       /*  might create as loading and using the menus
-      for each EntitySection do: 
-       EntitySection es = new EntitySection(......)
-       EntityMenu empg = new EntityMenu();
-       empg.setEntityType(ENTITY_TYPE_SECTION);
-       empg.setEntitySection(es,TITLE_...,ICO_...);       
-       DataTreeNode nodeempg = new DataTreeNode(empg);
-       nodeRoot.getChildFromCaption(SECTION_SERSAL).addChild(nodeempg);     
-       */
-       
         entityDataSersal.addMainNavigationNodes(isNodeVisible);
         entityDataSersal.loadAllNodes();       
         DataTree dTreeSerSal = entityDataSersal.getDataTree();
@@ -85,6 +71,20 @@ public class EntityData implements Constants
         
     }
  
+     private DataTree loadAndGetPayrollDataTreeNode()
+    {  
+        
+     entityDataPayroll = new EntityDataPayroll();
+    boolean[] isNodeVisible ={true, true, true, true,true};
+        entityDataPayroll.addMainNavigationNodes(isNodeVisible);
+        entityDataPayroll.loadAllNodes();       
+        DataTree dTreeMetrics = entityDataPayroll.getDataTree();
+             
+       return dTreeMetrics;//dTree;
+        
+    }    
+     
+     
     private DataTree loadAndGetEsodaExodaDataTreeNode()
     {
         entityDataEsoExo = new EntityDataEsoExo();
@@ -229,6 +229,11 @@ public class EntityData implements Constants
         emCat0.setEntityType(ENTITY_TYPE_SECTION);
         emCat0.setEntitySection(PRODUCT_APLOGRAFIKA_CAPTION,loadAndGetEsodaExodaDataTreeNode(),ICO_MENUESODAEXODA);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
         listSections.add(emCat0);
+       
+        EntityMenu emCat3 = new EntityMenu();
+        emCat3.setEntityType(ENTITY_TYPE_SECTION);
+        emCat3.setEntitySection(PRODUCT_PAYROLL_CAPTION,loadAndGetPayrollDataTreeNode(),ICO_MENUPAYROLL);
+        listSections.add(emCat3);
         
      if(!VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_FARMERSVAT_NOT))
      {
@@ -308,6 +313,9 @@ public class EntityData implements Constants
         
         entityDataEsoExo = new EntityDataEsoExo();
         listEntities = entityDataEsoExo.addEntitiesLookup(entities);         
+  
+        entityDataPayroll = new EntityDataPayroll();
+        listEntities = entityDataPayroll.addEntitiesLookup(entities);        
         
         entityDataFarmersVat = new EntityDataFarmersVat();
         listEntities = entityDataFarmersVat.addEntitiesLookup(entities);
@@ -333,6 +341,9 @@ public class EntityData implements Constants
         listEntities = entityDataEsoExo.addEntitiesLookupTableConstants(entities);        
         
  
+       entityDataPayroll = new EntityDataPayroll();
+        listEntities = entityDataPayroll.addEntitiesLookupTableConstants(entities);            
+        
         entityDataFarmersVat = new EntityDataFarmersVat();
         listEntities = entityDataFarmersVat.addEntitiesLookupTableConstants(entities); 
         /*entityDataTam = new EntityDataTam();

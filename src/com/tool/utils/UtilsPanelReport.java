@@ -1844,6 +1844,8 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
       ArrayList listDbFieldsAll = new ArrayList();
       int intFieldToGetTheValue = -1;
      
+      if(dbFieldsInGroupOfPanels!=null)
+      {
       for(int f= 0 ;f<dbFieldsInGroupOfPanels.length;f++)
       {
         // System.out.println("UtilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1     f:"+f+"       "+dbFieldsInGroupOfPanels[f].getCaption()+"   class:"+dbFieldsInGroupOfPanels[f].getColClassName());   
@@ -1861,6 +1863,12 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
             }
           }
       }
+      }
+      else
+      {
+         System.out.println(" error UtilsPanelReport  you need to define an EntityGroupOfPanels");
+      }
+      
       
       for(int l =0 ;l<listDbFieldsAll.size();l++)
       {

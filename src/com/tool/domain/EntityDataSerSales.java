@@ -1162,7 +1162,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        return listEntityLookupTableConstants;
    }
   
-  
+   @Override
    public ArrayList addEntitiesLookup(ArrayList entities)
    { 
        // LOOKUPTYPE_ONLYONE_THISFIELD

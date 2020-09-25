@@ -54,7 +54,9 @@ public interface Constants
        public static final String PRODUCT_TIMOLOGIA_CAPTION = "τιμολόγηση";
        public static final String PRODUCT_TIMOLOGIA_CAPTION_OF = "τιμολόγησης";
        public static final String PRODUCT_APLOGRAFIKA_CAPTION = "έσοδα - έξοδα";       
-       public static final String PRODUCT_APLOGRAFIKA_CAPTION_OF = "εσόδων - εξόδων";       
+       public static final String PRODUCT_APLOGRAFIKA_CAPTION_OF = "εσόδων - εξόδων";  
+       public static final String PRODUCT_PAYROLL_CAPTION = "μισθοδοσία";    
+       public static final String PRODUCT_PAYROLL_CAPTION_OF = "μισθοδοσίας";   
        public static final String PRODUCT_FARMERSVAT_CAPTION = "ΦΠΑ αγροτών";   
 
        public static final boolean HAS_TEMPLATES =true; // panel templates, like protupa
@@ -426,6 +428,7 @@ public interface Constants
             
     public static final int FIELD_VALIDATION_NO = 10;
     public static final int FIELD_VALIDATION_AFM = 11;
+    public static final int FIELD_VALIDATION_AMKA = 12;
     
     
     public static final ImageIcon ICO_BOOKMARK = new ImageIcon(Constants.class.getResource("/images/bookmark16.png"));
@@ -448,6 +451,7 @@ public interface Constants
     
     public static final ImageIcon ICO_MENUESODAEXODA = new ImageIcon(Constants.class.getResource("/images/menuesodaexoda.png"));
     public static final ImageIcon ICO_MENUSERVICESALES = new ImageIcon(Constants.class.getResource("/images/menuservicesales.png"));
+    public static final ImageIcon ICO_MENUPAYROLL = new ImageIcon(Constants.class.getResource("/images/payroll.png"));
     public static final ImageIcon ICO_MENUFARMERSVAT = new ImageIcon(Constants.class.getResource("/images/menufarmer.png"));
     public static final ImageIcon ICO_MENUSYSTEM = new ImageIcon(Constants.class.getResource("/images/menusystem.png"));
     //public static final ImageIcon ICO_MENUTAMEIO = new ImageIcon(Constants.class.getResource("/images/menutameio.png"));
