@@ -831,6 +831,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
          
         saleEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1);
 
+        //------------------------------------------------------------------------
 
         
         serviceDBFields[0] = new EntityDBFields("stock","stockId","Νο υπηρεσίας",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");        
@@ -856,7 +857,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
    
         
 
-           
+       //---------------------------------------------------------------------    
         
    
        dbyearDBFields[0] = new EntityDBFields("dbyear","dbYearId","Νο χρήσης",0,"java.lang.Integer",15, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
