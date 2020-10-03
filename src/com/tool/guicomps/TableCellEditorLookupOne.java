@@ -116,6 +116,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
     private String fieldVariableFromPreField ="";
     private int noOfCol;
     private EntityDBFields[] dbFieldsAll;
+    private String luname="";
    private ArrayList fieldTxts;
    private JPanel panelMain;
    //private int intTableIfIsInIt=-1;
@@ -124,7 +125,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
 //    private String foreignTable;
     //private EntityDBFields dbFieldMany;
  
-    public TableCellEditorLookupOne(JTextField txt,int columnLengthIn, String foreignTableIn,ArrayList listMenuCaption,String entityIn,
+    public TableCellEditorLookupOne(JTextField txt,int columnLengthIn, String lunameIn,String foreignTableIn,ArrayList listMenuCaption,String entityIn,
             /*String formGlobalTableToGet1In,String formGlobalTableToApply1In,String fieldVariableFromPreFieldIn,*/
              JFrame frameIn,EntityDBFields[] dbFieldsTableIn,int noOfColIn, EntityDBFields[] dbFieldsAllIn,int intTableOfParentDBFieldsIn,
              ArrayList fieldTxtsIn,PanelManagement panelManagementIn)//, EntityReport entityReportIn)
@@ -137,6 +138,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
         columnLength=columnLengthIn;
        // formGlobalTableToApply1=formGlobalTableToApply1In;
         foreignTable=foreignTableIn;
+        luname = lunameIn;
         lookUp= new LookUpMgt();
         winLookUp = new WindowLookUp(frame);
         utilsString = new UtilsString();
@@ -251,8 +253,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
        	
        	txtCompKey=txt;      
        
-    //     txt.getDocument().addDocumentListener(new DocumentHandler(0,"java.sql.Integer",foreignTable)); 
-    //    txtDescription.getDocument().addDocumentListener(new DocumentHandler(1,"java.sql.String",foreignTable)); 
+
 
        
         // ui-tweaking 
@@ -289,7 +290,8 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
          txtCompKey.setColumns(1);//8
          //txtDescription.setColumns(width*2/3);
          txtDescription.setColumns(width-8);
-         txtDescription.setText(utilsPanelReport.getLookupValue(entity,foreignTable,txtCompKey.getText(),1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity));
+         //String  luname =  dbFieldsTable[column].getLookupEntityName();// haven't checked it, just want luname
+         txtDescription.setText(utilsPanelReport.getLookupValue(luname,foreignTable,txtCompKey.getText(),1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity));
          
         final JTable tableFinal=table;
         JPanel panelTextboxes = new JPanel();
@@ -335,9 +337,9 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
         };
         
 
-        documentHandlerKey = new DocumentHandler(0,"java.sql.Integer",foreignTable);
+        documentHandlerKey = new DocumentHandler(0,"java.sql.Integer",luname);
         txtCompKey.getDocument().addDocumentListener(documentHandlerKey); 
-        txtDescription.getDocument().addDocumentListener(new DocumentHandler(1,"java.sql.String",foreignTable));    
+        txtDescription.getDocument().addDocumentListener(new DocumentHandler(1,"java.sql.String",luname));    
 
 
                   // select all text when focus gained
@@ -448,87 +450,6 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
                 ret = valueStr;   
                 //System.out.println("TableCellEditorLookUpOne.getCellEditorValue       column:"+column+"     ret:"+ret);                
     	//String selVal = winLookUp.getSelectedText();
-        
-        //System.out.println("TableCellEditorLookupOne.getCellEditorValue "+selVal);
-        
-/*    	if(selVal!=null && !selVal.equals(""))
-    	{
-    		
-    		txtCompKey.getDocument().removeDocumentListener(documentHandlerKey);// before the next
-    		
-    	   table.setValueAt(selVal, row, table.getSelectedColumn());  
-           txtCompKey.setText(utilsPanelReport.getLookupValue(foreignTable,selVal,1));
-           //txtDescription.setText(utilsPanelReport.getLookupValue(foreignTable,selVal,1));
-           ret = editor.getCellEditorValue();    		
-   	}
-    	else
-    	{
-    		/*if(lookUp.getLookUpIntNoOfColsWhenInTable(foreignTable)==1)  
-    		{
-    		   //txtCompKey.setText(	
-    		}
-    		else if(lookUp.getLookUpIntNoOfColsWhenInTable(foreignTable)==2)  
-    		{
-    			
-    		}*/
-    		
-/*    		txtCompKey.getDocument().removeDocumentListener(documentHandlerKey);
-    		ret = editor.getCellEditorValue(); 
-    	}*/
-
-        // calculation, in editors
-/*        if(dbFieldMany!=null && dbFieldMany.getWhenSetThenCalculateField()!=-1 && ret!=null && !ret.toString().equalsIgnoreCase(""))
-        {
-        try
-        {	
-        	int[] cells = dbFieldMany.getCalculationInputFields();
-        	String calculation =  dbFieldMany.getCalculation();
-        	String val = "";
-        	  ResultSet rs;
-        	  if(cells.length == 1)
-        	  {
-        	  	calculation= calculation+txtCompKey.getText();
-        	  }
-        	  else if (cells.length ==2)
-        	  {
-        	  	if(cells[0]==this.column)
-        	  	{
-        	  		calculation= "SELECT "+ret+calculation+table.getValueAt(row,cells[1]);
-        	  	}
-        	  	else if(cells[1]==this.column)
-        	  	{
-        	  		calculation= "SELECT "+table.getValueAt(row,cells[0])+calculation+ret;
-        	  	}
-        	  	else
-        	  	{
-        	  	   calculation= "SELECT "+table.getValueAt(row,cells[0])+calculation+table.getValueAt(row,cells[1]);	
-        	  	}
-        	  }
-        	  else
-        	  {
-        	  	System.out.println("TableCellEditorLookupOne.getCellEditorValue unsupported no of cells "+cells.length);
-        	  }
-              rs = db.retrieveResultSet(calculation);
-              if (rs.first())
-              {
-                 rs = db.retrieveRow(rs, 1);// go to the only row  
-                 val = rs.getString(1);// get field data	         	
-              }              
-           table.setValueAt(val, row, dbFieldMany.getWhenSetThenCalculateField()); 
-           
-             System.out.println("TableCellEditorLookupOne.getCellEditorValue val === "+val+" calculation "+calculation);
-
-           
-           db.releaseConnectionRs();
-
-         }//try
-         catch ( SQLException sqlex)
-         {
-             System.out.println("error:TableCellEditorLookupOne.getCellEditorValue():"+sqlex.getMessage());
-         }
-                 		
-        }
-*/
 
 
 
@@ -569,32 +490,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
     public void editCell(JTable table, int row, int column)
     { 
 
-            
-/*    PanelOneDataManyRecData = new PanelOneDataManyRecData(frame);
-      String value = txtCompKey.getText();//(String)table.getValueAt(row, column);
-      String selected = PanelOneDataManyRecData.displayDialogLookUp(value,foreignTable);
-      //System.out.println("TableCellEditorLookupOne editCell ret "+PanelOneDataManyRecData.getColDescriptionValue());
-      if (!selected.equalsIgnoreCase(""))// if cancel clicked do not change
-      {
-      	 //System.out.println("TableCellEditorLookupOne.editCell  "+selected+" "+column);
-        if ((foreignTable!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(foreignTable)==2))
-        {
-            table.setValueAt(selected, row, column);
-        }      	 
-        else if ((foreignTable!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(foreignTable)==1))
-        {
-        	 txtDescription.setText(utilsPanelReport.getLookupValue(foreignTable,value,1,false,""));//(Ihave added 'false and ""')----->   ///(foreignTable,value,1));
-        	 table.setValueAt(selected, row, column);//panelOneDataManyRecData.getColDescriptionValue(), row, column);
-        }   
-        else
-        {
-        	table.setValueAt(selected, row, column);
-        }       
-      
-      }
-      
-*/      
-      
+ 
       
       displayDialogLookup();
       
@@ -627,91 +523,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
    }
    
    
-   // also in TableModelResultSet as setLookupText
- /* private String getLookupText(int key, String foreignTable)
-  {   // called from setValue when a lookup column changed
-  	  
-  	  String strRet = "";
-  	  
-  	     try
-  	     {
-                 ResultSet rsForeign;
-                String foreignQuery="";
-                String lookupText="";
-                
-                foreignQuery = "SELECT * FROM "+foreignTable+" WHERE "+lookUp.getLookUpKey(foreignTable)+" = "+key;     
 
-                 if (VariablesGlobal.globalShowSQL)
-                 {
-                     System.out.println("tableModelRS.setLookupText query"+foreignQuery);                 	
-                 }
-
-                rsForeign = db.retrieveResultSet(foreignQuery);
-                if (rsForeign.next())// if key there is the record with the typed key
-                { 
-                   //System.out.println("tableModelRS.setLookupText null rs");
-                   rsForeign = db.retrieveRow(rsForeign, 1);// go to the only row               
-                   //System.out.println("tableModelRS.setLookupText - r "+row+" foreignTable "+foreignTable);
-                   lookupText = rsForeign.getString(lookUp.getLookUpFieldIndex(foreignTable)) ;// get field data
-
-                   //setValueAt(lookupText, row, column+1);
-                   strRet = lookupText;
-                 }
-                 else
-                 {
-                   //setValueAt("", row, column+1);
-                   strRet="";
-                 }
-         }
-         catch (SQLException e)
-         {
-             System.out.println("TableModelRS.setLookupText "+e);//e.printStackTrace();
-         }
-         
-         return strRet;
-  }   */
-  
-  /*private String getLookupText(String key, String foreignTable)
-  {   // called from setValue when a lookup column changed
-  	     String lookupText="";
-  	     
-  	     //int row = 
-  	    // int column = 
-  	     try
-  	     {
-                 ResultSet rsForeign;
-                String foreignQuery="";
-                
-                
-                foreignQuery = "SELECT * FROM "+foreignTable+" WHERE "+lookUp.getLookUpKey(foreignTable)+" = "+key;     
-
-                 if (VariablesGlobal.globalShowSQL)
-                 {
-                     System.out.println("tableModelRS.setLookupText query"+foreignQuery);                 	
-                 }
-
-                rsForeign = db.retrieveResultSet(foreignQuery);
-                if (rsForeign.next())// if key there is the record with the typed key
-                { 
-                   //System.out.println("tableModelRS.setLookupText null rs");
-                   rsForeign = db.retrieveRow(rsForeign, 1);// go to the only row               
-                   //System.out.println("tableModelRS.setLookupText - r "+row+" foreignTable "+foreignTable);
-                   lookupText = rsForeign.getString(lookUp.getLookUpFieldIndex(foreignTable)) ;// get field data
-
-                   //setValueAt(lookupText, row, column+1);
-                 }
-                 else
-                 {
-                   //setValueAt("", row, column+1);
-                 }
-         }
-         catch (SQLException e)
-         {
-             System.out.println("TableModelRS.setLookupText "+e);//e.printStackTrace();
-         }
-         
-         return lookupText;
-  }  */ 
 
 
    private void displayDialogEdit()
@@ -738,23 +550,23 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
         //System.out.println("panelOneDataManyRec primKeyValue "+selectedKeyValue);
         LookUpMgt lookUp = new LookUpMgt();
         
-        String[] fieldsOnTitle=lookUp.getFieldsOnTitle(foreignTable);
-         String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(foreignTable);
-        String editTitle=lookUp.getStrOfOne(foreignTable);
-        EntityPanel[] entityPanel = lookUp.getEntityPanel(foreignTable);
-        String primKey = lookUp.getLookUpKey(foreignTable);
+        String[] fieldsOnTitle=lookUp.getFieldsOnTitle(luname);
+         String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(luname);
+        String editTitle=lookUp.getStrOfOne(luname);
+        EntityPanel[] entityPanel = lookUp.getEntityPanel(luname);
+        String primKey = lookUp.getLookUpKey(luname);
         String query = "";
-        if(lookUp.getQuerySubqueryWhere(foreignTable) !=null && !lookUp.getQuerySubqueryWhere(foreignTable).trim().equalsIgnoreCase("") )
+        if(lookUp.getQuerySubqueryWhere(luname) !=null && !lookUp.getQuerySubqueryWhere(luname).trim().equalsIgnoreCase("") )
         {
-            query = lookUp.getQuery(foreignTable)+" "+lookUp.getQuerySubqueryWhere(foreignTable)+" AND "+foreignTable+"."+primKey+" LIKE "+selectedKeyValue;
+            query = lookUp.getQuery(luname)+" "+lookUp.getQuerySubqueryWhere(luname)+" AND "+luname+"."+primKey+" LIKE "+selectedKeyValue;
         }
         else
         {
-            query = lookUp.getQuery(foreignTable)+" WHERE "+foreignTable+"."+primKey+" LIKE "+selectedKeyValue;
+            query = lookUp.getQuery(luname)+" WHERE "+foreignTable+"."+primKey+" LIKE "+selectedKeyValue;
         }
         
         
-        ImageIcon iconLU=lookUp.getIcon(foreignTable);
+        ImageIcon iconLU=lookUp.getIcon(luname);
 
      int selected =  panelEditOneDataRec.setEntity(foreignTable, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,selectedKeyValue,primKey,//formGlobalTableToGet1,formGlobalTableToApply1,
                /*null,null,*/query, editTitle,iconLU/*,true*/,false,false,true,null, false, panelManagement);	
@@ -804,7 +616,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
            //System.out.println("TableCellEditorLookupOne.displayDialogLookup       ooooooo:::::::ooooooo "+value+" "+foreignTable+" "+getCellEditedRow()+" "+getCellEditedCol());
               panelOneDataManyRecData = new PanelOneDataManyRecData(frame);
             //System.out.println("TableCellEditorLookupOne.displayDialogLookup value"+value);
-              String selected =  panelOneDataManyRecData.displayDialogLookUp(value,foreignTable,dbFieldsAll/*formGlobalTableToApply1*/);
+              String selected =  panelOneDataManyRecData.displayDialogLookUp(value,luname,foreignTable,dbFieldsAll/*formGlobalTableToApply1*/);
          if (selected!=null && !selected.equalsIgnoreCase(""))// if cancel clicked do not change
          {
          //	System.out.println("TableCellEditorLookupOne.displayDialogLookup    selected:"+selected+"     row:"+row+"    column:"+column);
@@ -848,8 +660,8 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
       {
            //System.out.println("TableCellEditorLookupOne.displayWindowLookUp "+txtDescription.getText());
            //textFieldReturn.setText(txtCompKey.getText());
-           winLookUp.setEntity(txtCompKey,txtDescription.getText(),foreignTable,lookUp, null,2,2, lookUp.getIntValidationColumn(foreignTable), 
-                   lookUp.getIntValidationType(foreignTable),dbFieldsAll,noOfCol,fieldTxts,WINDOWLOOKUP_IS_CALLED_IN_TABLE,intTableOfParentDBFields); //formGlobalTableToApply1); 
+           winLookUp.setEntity(txtCompKey,txtDescription.getText(),luname,foreignTable,lookUp, null,2,2, lookUp.getIntValidationColumn(luname), 
+                   lookUp.getIntValidationType(luname),dbFieldsAll,noOfCol,fieldTxts,WINDOWLOOKUP_IS_CALLED_IN_TABLE,intTableOfParentDBFields); //formGlobalTableToApply1); 
    	   	// dbFieldsTable must be all when is here(table)thus in    WINDOWLOOKUP_IS_CALLED_IN_TABLE
            
            //System.out.println("TableCellEditorLookupOne.displayWindowLookUp "+q);
@@ -1040,8 +852,8 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
          	      if(!text.trim().equalsIgnoreCase(""))
          	      {         	      	
                           
-
-         	         String val =utilsPanelReport.getLookupValue(entity,foreignTable,text,1,true,fieldVariableFromPreField,
+                               
+         	         String val =utilsPanelReport.getLookupValue(luname,foreignTable,text,1,true,fieldVariableFromPreField,
                                  /*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);	
          	         	//System.out.println("PanelODORD.DocumentHandler.insertUpdate no"+no+" "+val);
          	         	txtDescription.setText(val);
@@ -1056,13 +868,13 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
 
 
          	
-         	if(foreignTable!=null)
+         	if(luname!=null)
          	{
                     //System.out.println("TableCellEditorLookupOne.DocumentHandler.insertUpdate hasDataChanged "+hasDataChanged+" "+no+" "+classtype+"  foreignTable:"+foreignTable);
          		
                    // if(txtCompKey.getText().length()>=1 || txtDescription.getText().length()<2)
                    // {
-                       displayWindowLookUp(foreignTable);    
+                       displayWindowLookUp(luname);    
                    // }
                     
          		
@@ -1167,7 +979,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
    
      class  ActionShowDialogEdit extends AbstractAction                 
    {       
-         String iForeignTable;
+         //String iForeignTable;
          int iF;
          int tb2N;
         public ActionShowDialogEdit()

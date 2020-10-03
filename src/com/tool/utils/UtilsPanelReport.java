@@ -391,7 +391,7 @@ public class UtilsPanelReport implements Constants
    
    // int intField no of field in lookup. isTypedOrSaved: true when is typed in keytextxtbox (use of queryLookUpIsActive), is false when is already saved (not use of queryLookUpIsActive)
    //  also appears partially in WindowLookUp.filter 
-   public String getLookupValue(String name, String foreignTable, String lookupValue, int intField, boolean isTypedOrSaved,String formVariableFromField,/*String formGlobalTableToGet1In,String formGlobalTableToApply1In,*/
+   public String getLookupValue(String luname, String foreignTable, String lookupValue, int intField, boolean isTypedOrSaved,String formVariableFromField,/*String formGlobalTableToGet1In,String formGlobalTableToApply1In,*/
            String subqueryWhereForAPreviousFieldValue, String entityIn) 
    { 
          String lookupResult="-";
@@ -399,9 +399,9 @@ public class UtilsPanelReport implements Constants
               ResultSet rsForeign;
               String foreignQuery="";
               String qWhere = "";
-              String queryLookUpWhere = lookUp.getQuerySubqueryWhere(foreignTable);
+              String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
               
-             String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(foreignTable);
+             String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(luname);
 
 //System.out.println("-t--ooo--t--UtilsPanelReport.getLookupValue     PRE CHECK     formGlobalTableToGet1In:"+formGlobalTableToGet1In+"         VariablesGlobal.globalformGlobalVariable1"+VariablesGlobal.globalformGlobalVariable1+"    formGlobalTableToApply1In:"+formGlobalTableToApply1In+"    foreignTable:"+foreignTable+"      entityIn:"+entityIn+"     subqueryWhereForAPreviousFieldValue:"+subqueryWhereForAPreviousFieldValue);             
              String queryWherePreValue="";
@@ -421,10 +421,10 @@ public class UtilsPanelReport implements Constants
              
             
              
-      String queryLookUp = lookUp.getQuery(foreignTable);
+      String queryLookUp = lookUp.getQuery(luname);
       if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
       {
-     System.out.println("-t--ooo--t--UtilsPanelReport.getLookupValue     TO CHECK     name:"+name+"    formVariableFromField:"+formVariableFromField+"         VariablesGlobal.globalformGlobalVariable1::"+VariablesGlobal.globalformGlobalVariable1+"        foreignTable:"+foreignTable+"      entityIn:"+entityIn+"     subqueryWhereForAPreviousFieldValue:"+subqueryWhereForAPreviousFieldValue+"  lookupValue:"+lookupValue+"      queryLookUp:"+queryLookUp);             
+     System.out.println("-t--ooo--t--UtilsPanelReport.getLookupValue     TO CHECK     luname:"+luname+"    formVariableFromField:"+formVariableFromField+"         VariablesGlobal.globalformGlobalVariable1::"+VariablesGlobal.globalformGlobalVariable1+"        foreignTable:"+foreignTable+"      entityIn:"+entityIn+"     subqueryWhereForAPreviousFieldValue:"+subqueryWhereForAPreviousFieldValue+"  lookupValue:"+lookupValue+"      queryLookUp:"+queryLookUp);             
       }
      String lookupValueQuery= "";
       String subQueryFilterFromRecType = "";
@@ -445,28 +445,28 @@ public class UtilsPanelReport implements Constants
                   queryClosingSubquery="";
               }
           //queryClosingSubquery = " % ) ";
-          //String queryLookUpWhereTableOfForm = lookUp.getQuerySubqueryWhere(foreignTable);
+          //String queryLookUpWhereTableOfForm = lookUp.getQuerySubqueryWhere(luname);
           //queryClosingSubquery =  subQueryFilterFromRecType;      //queryLookUpWhereTableOfForm+subQueryFilterFromRecType;
               if(utilsString.hasQueryWhere(queryLookUpWhere))
               {  
-                 lookupValueQuery=" AND "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
+                 lookupValueQuery=" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
               }
               else
               {
-                  lookupValueQuery=" WHERE "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
+                  lookupValueQuery=" WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
               }
              if(isTypedOrSaved)     //is typed
              {                
-                  foreignQuery = queryLookUp+" "+queryLookUpWhere+" "+lookupValueQuery+" "+queryLookUpIsActive+" "+subqueryWhereForAPreviousFieldValue+" "+queryClosingSubquery+" "+lookUp.getQueryOrderBy(foreignTable);
+                  foreignQuery = queryLookUp+" "+queryLookUpWhere+" "+lookupValueQuery+" "+queryLookUpIsActive+" "+subqueryWhereForAPreviousFieldValue+" "+queryClosingSubquery+" "+lookUp.getQueryOrderBy(luname);
              }
              else
              {
-       	          //lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
-                  foreignQuery = queryLookUp+" "+queryLookUpWhere+" "+lookupValueQuery+" "+subqueryWhereForAPreviousFieldValue+lookUp.getQueryOrderBy(foreignTable);        
+       	          //lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
+                  foreignQuery = queryLookUp+" "+queryLookUpWhere+" "+lookupValueQuery+" "+subqueryWhereForAPreviousFieldValue+lookUp.getQueryOrderBy(luname);        
              }          
        if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
       {  
-          System.out.println("   IF    -t--OOOOOOOOOOO--t--UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"       entityIn:"+entityIn+"   name:"+name+"   foreignTable:"+foreignTable+"        queryClosingSubquery:"+queryClosingSubquery+"     lookupValueQuery:"+lookupValueQuery+"   foreignQuery:"+foreignQuery);
+          System.out.println("   IF    -t--OOOOOOOOOOO--t--UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"       entityIn:"+entityIn+"   name:"+luname+"   foreignTable:"+foreignTable+"        queryClosingSubquery:"+queryClosingSubquery+"     lookupValueQuery:"+lookupValueQuery+"   foreignQuery:"+foreignQuery);
       }
           }
           else
@@ -474,30 +474,33 @@ public class UtilsPanelReport implements Constants
              // queryClosingSubquery = " % ) ";
               if(utilsString.hasQueryWhere(queryLookUpWhere))
               {    
-                  lookupValueQuery =  " AND "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";  //"";//queryClosingSubquery;  //lookupValueQuery=" "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
+                  lookupValueQuery =  " AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";  //"";//queryClosingSubquery;  //lookupValueQuery=" "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
               }
               else
               {
-                  lookupValueQuery =  " WHERE "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
+                  lookupValueQuery =  " WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
               }
              if(isTypedOrSaved)     //is typed
              {                
-                  foreignQuery = queryLookUp+" "+queryLookUpWhere+" "+lookupValueQuery+" "+queryLookUpIsActive+" "+subqueryWhereForAPreviousFieldValue+" "+lookUp.getQueryOrderBy(foreignTable);
+                  foreignQuery = queryLookUp+" "+queryLookUpWhere+" "+lookupValueQuery+" "+queryLookUpIsActive+" "+subqueryWhereForAPreviousFieldValue+" "+lookUp.getQueryOrderBy(luname);
              }
              else
              {
-       	          //lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
-                  foreignQuery = queryLookUp+" " +queryLookUpWhere+" "+lookupValueQuery+" "+subqueryWhereForAPreviousFieldValue+" "+lookUp.getQueryOrderBy(foreignTable);        
+       	          //lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
+                  foreignQuery = queryLookUp+" " +queryLookUpWhere+" "+lookupValueQuery+" "+subqueryWhereForAPreviousFieldValue+" "+lookUp.getQueryOrderBy(luname);        
              }  
-      if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
-      {
-        System.out.println("   ELSE   UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"    lookupResult:"+lookupResult+"      globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"   name:"+name+"       foreignTable:"+foreignTable+"   lookupValueQuery:"+lookupValueQuery+"    foreignQuery:"+foreignQuery);
-      }
+             
+             
+             
+     // if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
+     // {
+        System.out.println("   ELSE   UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"    lookupResult:"+lookupResult+"      globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"   luname:"+luname+"       foreignTable:"+foreignTable+"   lookupValueQuery:"+lookupValueQuery+"    foreignQuery:"+foreignQuery);
+     // }
           }
       
       
 
-  //System.out.println("UtilsPanelReport.getLookupValue        --oOoOoOoOo--           isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
+  System.out.println("UtilsPanelReport.getLookupValue        --oOoOoOoOo--           isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
          try
          {          
           	    db.retrieveDBDataFromQuery(foreignQuery,"UtilsPanelReport.getLookupValue");
@@ -515,22 +518,22 @@ public class UtilsPanelReport implements Constants
               
                  rsForeign = db.retrieveRow(rsForeign, 1);// go to the only row               
               
-                //System.out.println("UtilsPanelReport.getLookupValue field "+foreignQuery+"  "+lookUp.getLookUpFieldIndex(foreignTable));
-                 //lookupResult = rsForeign.getString(lookUp.getLookUpFieldIndex(foreignTable));// get field data
+                //System.out.println("UtilsPanelReport.getLookupValue field "+foreignQuery+"  "+lookUp.getLookUpFieldIndex(luname));
+                 //lookupResult = rsForeign.getString(lookUp.getLookUpFieldIndex(luname));// get field data
                  if (rsForeign.isFirst()) // value looked up might not have been existed
                  {
-                     //System.out.println("UtilsPanelReport.getLookupValue   intField:"+intField+" :"+foreignTable+"  :"+lookUp.getLookUpFieldIndex(foreignTable));
+                     //System.out.println("UtilsPanelReport.getLookupValue   intField:"+intField+" :"+luname+"  :"+lookUp.getLookUpFieldIndex(luname));
                  	if(intField==1)
                  	{
-                 	   lookupResult = rsForeign.getString(lookUp.getLookUpFieldIndex(foreignTable));// get field data	
+                 	   lookupResult = rsForeign.getString(lookUp.getLookUpFieldIndex(luname));// get field data	
                  	}
                  	else if(intField==2)
                  	{
-                 		lookupResult = rsForeign.getString(lookUp.getLookUpField2Index(foreignTable));// get field data
+                 		lookupResult = rsForeign.getString(lookUp.getLookUpField2Index(luname));// get field data
                  	}
                  	else if(intField==3)
                  	{
-                 		lookupResult = rsForeign.getString(lookUp.getLookUpField3Index(foreignTable));// get field data
+                 		lookupResult = rsForeign.getString(lookUp.getLookUpField3Index(luname));// get field data
                  	}
                  	else
                  	{
@@ -550,13 +553,6 @@ public class UtilsPanelReport implements Constants
              sqlex.printStackTrace();
          }
          
-      
-     // }
-     // else
-    //  {
-     //     System.out.println("  ==ERROR==   UtilsPanelReport.getLookupValue     =  lookupResult:"+lookupResult);
-          //lookupResult="";  // is already setted
-    //  }
          closeDB();
          return lookupResult;
    }

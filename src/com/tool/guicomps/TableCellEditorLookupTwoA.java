@@ -91,6 +91,7 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
     protected JTable table; 
     protected int row, column;
     private String foreignTable; 
+    private String luname = "";
     private JTextField txtCompKey;
     private JTextField txtDescription;
     private int columnLength;
@@ -119,7 +120,8 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
         private String fieldVariableFromPreField;
        private int intTableOfParentDBFields;
      
-    public TableCellEditorLookupTwoA(JTextField txt,int columnLengthIn, String foreignTableIn,ArrayList listMenuCaption, String entityIn,
+     
+    public TableCellEditorLookupTwoA(JTextField txt,int columnLengthIn,String lunameIn, String foreignTableIn,ArrayList listMenuCaption, String entityIn,
             JFrame frameIn,EntityDBFields[] dbFieldsIn,int intTableOfParentDBFieldsIn,int noOfColIn, PanelManagement panelManagementIn)//,EntityReport entityReportIn)
     { 
     	dbFields=dbFieldsIn;
@@ -129,6 +131,7 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
         columnLength=columnLengthIn;
         //formGlobalTable1=formGlobalTable1In;
         foreignTable=foreignTableIn;
+        luname=lunameIn;
         lookUp= new LookUpMgt();
         winLookUp = new WindowLookUp(frame);
         utilsString = new UtilsString();
@@ -156,6 +159,7 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
         
     //    formGlobalTableToApply1=formGlobalTableToApply1In;
         noOfCol = noOfColIn;
+        
         //entityReport=entityReportIn;
         System.out.println("TableCellEditorLookupTwoA   entity:"+entity);
 
@@ -236,8 +240,8 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
        	
        	txtCompKey=txt;      
        
-    //     txt.getDocument().addDocumentListener(new DocumentHandler(0,"java.sql.Integer",foreignTable)); 
-    //    txtDescription.getDocument().addDocumentListener(new DocumentHandler(1,"java.sql.String",foreignTable)); 
+    //     txt.getDocument().addDocumentListener(new DocumentHandler(0,"java.sql.Integer",luname)); 
+    //    txtDescription.getDocument().addDocumentListener(new DocumentHandler(1,"java.sql.String",luname)); 
 
        
         // ui-tweaking 
@@ -254,7 +258,7 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
     {
          txtCompKey = (JTextField)editor.getTableCellEditorComponent(table, value, isSelected, row, column);
-
+          
          
          int width = getColumnWidth(table,column);
          
@@ -266,7 +270,8 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
          txtCompKey.setColumns(8);
          //txtDescription.setColumns(width*2/3);
          txtDescription.setColumns(width-8);
-         txtDescription.setText(utilsPanelReport.getLookupValue(entity,foreignTable,txtCompKey.getText(),1,false,"","",entity));
+         
+         txtDescription.setText(utilsPanelReport.getLookupValue(luname,foreignTable,txtCompKey.getText(),1,false,"","",entity));
          
         final JTable tableFinal=table;
         JPanel panelTextboxes = new JPanel();
@@ -309,9 +314,9 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
         };
         
 
-        documentHandlerKey = new DocumentHandler(0,"java.sql.Integer",foreignTable);
+        documentHandlerKey = new DocumentHandler(0,"java.sql.Integer",luname);
         txtCompKey.getDocument().addDocumentListener(documentHandlerKey); 
-        txtDescription.getDocument().addDocumentListener(new DocumentHandler(1,"java.sql.String",foreignTable));    
+        txtDescription.getDocument().addDocumentListener(new DocumentHandler(1,"java.sql.String",luname));    
 
 
                   // select all text when focus gained
@@ -760,10 +765,10 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
    	     String value;
    	     value = txtCompKey.getText();//value = (String)table.getValueAt(getCellEditedRow(), getCellEditedCol());
 
-                //System.out.println("TableCellEditorLookupTwoA.ActionShowDialogLookUp "+value+" "+foreignTable+" "+getCellEditedRow()+" "+getCellEditedCol());
+                //System.out.println("TableCellEditorLookupTwoA.ActionShowDialogLookUp "+value+" "+luname+" "+getCellEditedRow()+" "+getCellEditedCol());
               panelOneDataManyRecData = new PanelOneDataManyRecData(frame);
             System.out.println("TableCellEditorLookupTwoA.displayDialogLookup   value:"+value+"    dbFields:"+dbFields);
-              String selected =  panelOneDataManyRecData.displayDialogLookUp(value,foreignTable,dbFields);
+              String selected =  panelOneDataManyRecData.displayDialogLookUp(value,luname,foreignTable,dbFields);
          if (!selected.equalsIgnoreCase(""))// if cancel clicked do not change
          {
          	//System.out.println("TableCellEditorLookupTwoA.displayDialogLookup "+selected);
@@ -804,8 +809,8 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
       {
            System.out.println("TableCellEditorLookupTwoA.displayWindowLookUp "+txtCompKey.getText()+"   "+txtDescription.getText());
            //textFieldReturn.setText(txtCompKey.getText());
-           winLookUp.setEntity(txtCompKey,txtCompKey.getText(),foreignTable,lookUp, null,2,2, lookUp.getIntValidationColumn(foreignTable),
-                   lookUp.getIntValidationType(foreignTable),dbFields,noOfCol,/*fieldTxts*/null,WINDOWLOOKUP_IS_CALLED_IN_TABLE,intTableOfParentDBFields); 
+           winLookUp.setEntity(txtCompKey,txtCompKey.getText(),luname,foreignTable,lookUp, null,2,2, lookUp.getIntValidationColumn(luname),
+                   lookUp.getIntValidationType(luname),dbFields,noOfCol,/*fieldTxts*/null,WINDOWLOOKUP_IS_CALLED_IN_TABLE,intTableOfParentDBFields); 
    	   	
            
            //System.out.println("TableCellEditorLookupTwoA.displayWindowLookUp "+q);
@@ -954,7 +959,8 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
    	     	      String text = txtCompKey.getText();   	     	      
          	      if(!text.trim().equalsIgnoreCase(""))
          	      {         	      	
-         	         String val =utilsPanelReport.getLookupValue(entity,foreignTable,text,1,true,fieldVariableFromPreField,"",entity);	
+                          
+         	         String val =utilsPanelReport.getLookupValue(luname,foreignTable,text,1,true,fieldVariableFromPreField,"",entity);	
          	         	//System.out.println("PanelODORD.DocumentHandler.insertUpdate no"+no+" "+val);
          	         	txtDescription.setText(val);
          	         	
@@ -964,9 +970,9 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
 
  //        	}
          	
-         	if(foreignTable!=null)
+         	if(luname!=null)
          	{
-         		displayWindowLookUp(foreignTable,no);
+         		displayWindowLookUp(luname,no);
          		
 
  	     	               		
@@ -975,7 +981,7 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
 
        	
          	
-            //System.out.println("  change "+foreignTable); 
+            //System.out.println("  change "+luname); 
          	//ta.remove(lblIcoAttention);
          }
         
@@ -1032,12 +1038,12 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
    	     	      txtCompKey.setBackground(t.getBackground());
    	        }
          	
-         	if(foreignTable!=null)
+         	if(luname!=null)
          	{
-         		displayWindowLookUp(foreignTable,no);
+         		displayWindowLookUp(luname,no);
          	}
          	
-         	//System.out.println("  change "+foreignTable); 
+         	//System.out.println("  change "+luname); 
          }
 
     }

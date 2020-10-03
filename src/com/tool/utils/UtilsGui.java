@@ -364,14 +364,6 @@ public class UtilsGui implements Constants
         fileProperties.setProperty("date.formatEdit", dateFormatEdit);
         fileProperties.setProperty("runlogview", "0");// is read in DialogMain.main
         
-        //String proposeDateSelection = cmbProposeDate.getSelectedItem().toString();
-     /*   if (proposeCurrentDate == true )
-        {   fileProperties.setProperty("date.proposeCurrentProgramDate", "y");  }
-        else if (proposeCurrentDate == false )
-        {   fileProperties.setProperty("date.proposeCurrentProgramDate", "n");  }
-     */   //fileProperties.setProperty("number.decimalNumbers", decimalNumbers);
-        //fileProperties.setProperty("number.decimalFormat", decimalFormat);
-        //fileProperties.setProperty("textDelimiter", txtTextDelimiter.getText());
  
  //		System.out.println(VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_CONFIG) ;
 
@@ -399,6 +391,10 @@ public class UtilsGui implements Constants
         }
             }catch (IOException e)
             { System.err.println("DialogMain.setConfigToFile (cannot find file) "+e+" "+VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+FILE_CONFIG);    }
+        }
+        else // if it exists from an older version
+        {
+            //boolean isLogVisible = getIsLogVisible();
         }
 
     } 

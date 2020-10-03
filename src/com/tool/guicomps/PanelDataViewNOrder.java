@@ -419,7 +419,7 @@ import java.awt.event.*;
          	  panelOrderComboNRadio = new PanelOrderComboNRadio(i+1);
          	
 
-             System.out.println("setEntity   panelOrderComboNRadio   fieldsOrderby:"+fieldsOrderby.length+"  fieldsOrderby[i]:"+fieldsOrderby[i]+"    i:"+i);
+             //System.out.println("PanelDataViewNOrder.setEntity   panelOrderComboNRadio   fieldsOrderby:"+fieldsOrderby.length+"  fieldsOrderby[i]:"+fieldsOrderby[i]+"    i:"+i);
               panelOrderComboNRadio.setComboSelectedIndex(fieldsOrderby[i]);  
               if(boolOrderByAsc!=null &&  boolOrderByDesc!=null)
               {

@@ -34,16 +34,18 @@ import com.tool.model.LookUpMgt;
         EntityDBFields[] dbFields;
         private UtilsPanelReport utilsPanelReport;
     private String entity;
+    private String luname="";
    // private String formGlobalTableToApply1;
         //private String formGlobalField1;
         //private String formGlobalVariable1;
     private String fieldVariableFromPreField ="";
         
-    public TableCellRendererLookUp(String foreignTableIn,EntityDBFields[] dbFieldsIn,String entityIn) ///  EntityDBFields[] dbFieldsIn,
+    public TableCellRendererLookUp(String lunameIn,String foreignTableIn,EntityDBFields[] dbFieldsIn,String entityIn) ///  EntityDBFields[] dbFieldsIn,
     {
       super();
       lookUp= new LookUpMgt();
       //db = new Database();
+       luname =  lunameIn;
       foreignTable=foreignTableIn;
      dbFields=dbFieldsIn;
      entity = entityIn;
@@ -203,7 +205,7 @@ import com.tool.model.LookUpMgt;
              
              //   utilsPanelReport.getLookupValue(foreignTable,  value+"", int intField, boolean isTypedOrSaved,String subqueryWhereForAPreviousFieldValue);
 
-            String  luname =  dbFields[column].getLookupEntityName();
+            
             retValue =  utilsPanelReport.getLookupValue(luname,foreignTable,  value+"", 1, /*true*/false,fieldVariableFromPreField,"",entity);  
              
        

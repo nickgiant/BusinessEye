@@ -1,4 +1,3 @@
-// created 14-2-2009
 
 package com.tool.guicomps;
 
@@ -379,8 +378,12 @@ import javax.swing.event.*;
         if(entityFilterSettings[s].type.equalsIgnoreCase("checkboxTable"))	
         {
             String queryWhere = "";
-        	String qWhere = lookUp.getQuerySubqueryWhere(entityFilterSettings[s].dbTable);
-                String qWhereIsActive = lookUp.getQuerySubqueryIsActive(entityFilterSettings[s].dbTable);
+            
+                    String luname = entityFilterSettings[s].getLookUpName();
+                    
+            
+        	String qWhere = lookUp.getQuerySubqueryWhere(luname);//entityFilterSettings[s].getTableFromLookUpName());
+                String qWhereIsActive = lookUp.getQuerySubqueryIsActive(luname);//entityFilterSettings[s].dbTable);
                 
              //System.out.println("PanelDataFilters.setEntity: dbTable:"+entityFilterSettings[s].dbTable+"  caption:"+entityFilterSettings[s].caption+"  qWhere:"+qWhere);
                 
@@ -393,14 +396,14 @@ import javax.swing.event.*;
                    // System.out.println(" error: PanelDataFilters.setEntity NO WHERE QUERY   qWhere:"+qWhere+"   qWhereIsActive:"+qWhereIsActive);
                 }
                 
-            String queryAll = lookUp.getQuery(entityFilterSettings[s].dbTable)+" "+queryWhere+" "+lookUp.getQueryOrderBy(entityFilterSettings[s].dbTable);//"SELECT * FROM dbcompany";
+            String queryAll = lookUp.getQuery(luname)+" "+queryWhere+" "+lookUp.getQueryOrderBy(luname);//"SELECT * FROM dbcompany";
         	//String table = entityFilterSettings[s].dbTable;
         	 //lblFilterSetting = new JLabel(JLabel.RIGHT);
         	 lblFilterSetting.setText(entityFilterSettings[s].caption+":("+KEYSTROKE_F_LOOKUP_SHOW+")");
       		 JTextField  txtFilterSetting = new JTextField(intSizeOfTextBox);
              txtFilterSetting.setText(entityFilterSettings[s].getValue());
              
-             Action actionShowCheck = new ActionShowWinLookUpCheck(entityFilterSettings[s].caption,queryAll, lookUp.getEntityFilterSettings(entityFilterSettings[s].dbTable) , txtFilterSetting, lookUp.getIntValidationColumn(entityFilterSettings[s].dbTable), lookUp.getIntValidationType(entityFilterSettings[s].dbTable));
+             Action actionShowCheck = new ActionShowWinLookUpCheck(entityFilterSettings[s].caption,queryAll, lookUp.getEntityFilterSettings(luname) , txtFilterSetting, lookUp.getIntValidationColumn(luname), lookUp.getIntValidationType(luname));
 
              JTextBoxWithEditButtons txtLookUpBtn = new JTextBoxWithEditButtons();       
              txtLookUpBtn = new JTextBoxWithEditButtons(txtFilterSetting, true ,ICO_CHECKS,actionShowCheck, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	
@@ -481,9 +484,11 @@ import javax.swing.event.*;
         		   txtFilterSetting1 = new JTextField(intSizeOfTextBoxKey);
         		   txtFilterSettingText1 = new JTextField(intSizeOfTextBox);
                    
-                   String foreignTable = entityFilterSettings[s].dbTable;
+                  
+                   String luname = entityFilterSettings[s].getLookUpName();
+                    String foreignTable = entityFilterSettings[s].getTableFromLookUpName(luname);
                    //System.out.println("PanelDataFilter.setEmtity onelookup "+lu+" "+fieldTxtsLookUpId.size());
-                       Action actionShowDialogLookUp = new ActionShowDialogLookUp(foreignTable, lu,lu,s,entityFilterSettings[s].filterFromSelectedField);
+                       Action actionShowDialogLookUp = new ActionShowDialogLookUp(luname, lu,lu,s,entityFilterSettings[s].filterFromSelectedField);
         		   
                      txtLookUpBtn = new JTextBoxWithEditButtons(txtFilterSetting1, false ,ICO_LOOKUP,actionShowDialogLookUp, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	
                      txtLookUpBtnText = new JTextBoxWithEditButtons(txtFilterSettingText1, true ,ICO_LOOKUP,actionShowDialogLookUp, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	        		   
@@ -505,7 +510,7 @@ import javax.swing.event.*;
         		   final int sFinal=s;
         		   final int luFinal=lu;
 
-                   txtLookUpBtn.getDocument().addDocumentListener(new DocumentHandler(s,lu,0,foreignTable,entityFilterSettings[s].filterFromSelectedField)); 
+                   txtLookUpBtn.getDocument().addDocumentListener(new DocumentHandler(s,lu,0,luname,entityFilterSettings[s].filterFromSelectedField)); 
                    	
                    	//System.out.println("PanelDataFilter.setEntity s"+s+" lu"+lu+"---");
         	
@@ -555,7 +560,7 @@ import javax.swing.event.*;
                     });
     	               //System.out.println("PanelDataFilters.setEntity "+lu);  
 
-                     //  final String foreignTableFinal = foreignTable;
+                  
                        
 	               lu++;// look up count   
 
@@ -566,7 +571,8 @@ import javax.swing.event.*;
                     String val ="";
                     if (!lookupValue.equalsIgnoreCase(""))
                     {
-                    	val = utilsPanelReport.getLookupValue(""/*name*/,entityFilterSettings[s].dbTable,lookupValue,1,true,"","",""); //String subqueryWhereForAPreviousFieldValue,String formGlobalVariable1)
+                        //String  luname =  "";//entityFilterSettings[s].getLookupEntityName();
+                    	val = utilsPanelReport.getLookupValue(luname,entityFilterSettings[s].getTableFromLookUpName(luname),lookupValue,1,true,"","",""); //String subqueryWhereForAPreviousFieldValue,String formGlobalVariable1)
                     }
                    txtFilterSettingText1.setText(val);  
 
@@ -616,9 +622,9 @@ import javax.swing.event.*;
         		   txtFilterSetting1 = new JTextField( intSizeOfTextBoxKey);
         		   txtFilterSettingText1 = new JTextField(intSizeOfTextBox);
                    
-                   String dbtable = entityFilterSettings[s].dbTable;
-                   
-                       Action actionShowDialogLookUp = new ActionShowDialogLookUp(dbtable, lu,lu,s,entityFilterSettings[s].filterFromSelectedField);
+                   String luname = entityFilterSettings[s].getLookUpName();
+                    String foreignTable = entityFilterSettings[s].getTableFromLookUpName(luname);
+                       Action actionShowDialogLookUp = new ActionShowDialogLookUp(luname, lu,lu,s,entityFilterSettings[s].filterFromSelectedField);
         		   
         		   //System.out.println("PanelDataFilter.setEmtity fromto "+lu+" "+fieldTxtsLookUpId.size());
         		   
@@ -642,8 +648,8 @@ import javax.swing.event.*;
         		   
         		   //final int sFinal=s;
         		   //final int luFinal=lu;
-
-              txtLookUpBtn.getDocument().addDocumentListener(new DocumentHandler(s,lu,0,entityFilterSettings[s].dbTable,entityFilterSettings[s].filterFromSelectedField)); 
+                    
+              txtLookUpBtn.getDocument().addDocumentListener(new DocumentHandler(s,lu,0,luname,entityFilterSettings[s].filterFromSelectedField)); 
              
         		
         	  
@@ -690,7 +696,7 @@ import javax.swing.event.*;
         		   txtFilterSetting2 = new JTextField( intSizeOfTextBoxKey);
         		   txtFilterSettingText2 = new JTextField(intSizeOfTextBox-3);
 
-                       Action actionShowDialogLookUp2 = new ActionShowDialogLookUp(dbtable, lu,lu,s,entityFilterSettings[s].filterFromSelectedField);
+                       Action actionShowDialogLookUp2 = new ActionShowDialogLookUp(luname, lu,lu,s,entityFilterSettings[s].filterFromSelectedField);
         		   
                      txtLookUpBtn2 = new JTextBoxWithEditButtons(txtFilterSetting2, false ,ICO_LOOKUP,actionShowDialogLookUp2, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                 	
                      txtLookUpBtnText2 = new JTextBoxWithEditButtons(txtFilterSettingText2, true ,ICO_LOOKUP,actionShowDialogLookUp2, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                	        		   
@@ -708,7 +714,7 @@ import javax.swing.event.*;
 
         		  // txtFilterSettingText2.setEditable(false);
                        
-                   txtLookUpBtn2.getDocument().addDocumentListener(new DocumentHandler(s,lu,0,entityFilterSettings[s].dbTable,entityFilterSettings[s].filterFromSelectedField));         		       
+                   txtLookUpBtn2.getDocument().addDocumentListener(new DocumentHandler(s,lu,0,luname,entityFilterSettings[s].filterFromSelectedField));         		       
                    /*final int luFinal2=lu;
                        
                    txtLookUpBtn2.addFocusListener(new FocusListener()
@@ -1393,7 +1399,7 @@ public ArrayList getListOfFieldsUncompleted()
     
     
     
-   private void displayDialogLookUp(String foreignTable, int i , int j,int noOfFilter, int filterFromPreviousSelectedField)// filterFromPreviousSelectedField   for example we set here 0(companyid) when field is dbyear
+   private void displayDialogLookUp(String luname,  int i , int j,int noOfFilter, int filterFromPreviousSelectedField)// filterFromPreviousSelectedField   for example we set here 0(companyid) when field is dbyear
    { 
        //System.out.println(comp.getClass());
 
@@ -1418,20 +1424,20 @@ public ArrayList getListOfFieldsUncompleted()
        String  selectedTextValue = txtLookUpBtnEdit.getText();
 
        
-  //System.out.println("--panelDataFilter.displayDialogLookUp -- "+i+" selectedKeyValue:"+selectedKeyValue+" "+lookUp.getLookUpKeyTranslation(foreignTable)+"    noOfFilter:"+noOfFilter+"   filterFromPreviousSelectedField:"+filterFromPreviousSelectedField);
+  //System.out.println("--panelDataFilter.displayDialogLookUp -- "+i+" selectedKeyValue:"+selectedKeyValue+" "+"    noOfFilter:"+noOfFilter+"   filterFromPreviousSelectedField:"+filterFromPreviousSelectedField);
        String selected="";
        
       
        
        if(selectedKeyValue!=null && !selectedKeyValue.trim().equalsIgnoreCase(""))
        {
-       	   //where=where+lookUp.getLookUpField(foreignTable)+" LIKE '"+selectedTextValue+"%' "
+       	   //where=where+lookUp.getLookUpField(luname)+" LIKE '"+selectedTextValue+"%' "
    	  if(filterFromPreviousSelectedField==-1)
        	  {           
      	   
            String strWhere ="";
            String sub ="";
-           String where=lookUp.getQuerySubqueryWhere(foreignTable);
+           String where=lookUp.getQuerySubqueryWhere(luname);
            /*int len = lookUp.getLookUpField(foreignTable).length;
               if(where!=null  && !where.equalsIgnoreCase(""))
            {
@@ -1441,7 +1447,7 @@ public ArrayList getListOfFieldsUncompleted()
            {
                strWhere= " WHERE ";
            }
-   	   		sub=foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+selectedKeyValue+"%'";
+   	   		sub=luname+"."+lookUp.getLookUpKey(luname)+" LIKE '"+selectedKeyValue+"%'";
                */      
    	   		/*for(int o= 0; o<len ;o++)
    	   		{
@@ -1449,18 +1455,18 @@ public ArrayList getListOfFieldsUncompleted()
    	   		   String end ="";	
    	   		   	if(o==0)// if there is only one field
    	   		   	{
-   	   		   	   	sub=sub+foreignTable+"."+lookUp.getLookUpField(foreignTable)[i]+" LIKE '"+selectedKeyValue+"%'";
+   	   		   	   	sub=sub+foreignTable+"."+lookUp.getLookUpField(luname)[i]+" LIKE '"+selectedKeyValue+"%'";
    	   		   	}
    	   		   	else
    	   		   	{
-   	   		   		sub=sub+" AND "+foreignTable+"."+lookUp.getLookUpField(foreignTable)[i]+" LIKE '"+selectedKeyValue+"%'";
+   	   		   		sub=sub+" AND "+foreignTable+"."+lookUp.getLookUpField(luname)[i]+" LIKE '"+selectedKeyValue+"%'";
    	   		   	}
    	   		} */        	   
-             String sql = lookUp.getQuery(foreignTable)+/*strWhere*/" "+where+" "+lookUp.getQueryOrderBy(foreignTable);
+             String sql = lookUp.getQuery(luname)+/*strWhere*/" "+where+" "+lookUp.getQueryOrderBy(luname);
            	
-             selected = DialogLookUp.showDialog(this,foreignTable,sql,lookUp.getLookUpKeyTranslation(foreignTable) , selectedKeyValue,lookUp.getShowToolbar(foreignTable),/*yearEnforce,*/
-                   panelManagement,lookUp.getFieldsForSums(foreignTable),fieldFilterTxts1);  
-               System.out.println("panelDataFilter.displayDialogLookUp -- A "+i+" selectedKeyValue:"+selectedKeyValue+" "+lookUp.getLookUpKeyTranslation(foreignTable)+"    selected:"+selected+"   sql:"+sql);
+             selected = DialogLookUp.showDialog(this,luname,sql,lookUp.getLookUpKeyTranslation(luname) , selectedKeyValue,lookUp.getShowToolbar(luname),/*yearEnforce,*/
+                   panelManagement,lookUp.getFieldsForSums(luname),fieldFilterTxts1);  
+               System.out.println("panelDataFilter.displayDialogLookUp -- A "+i+" selectedKeyValue:"+selectedKeyValue+" "+lookUp.getLookUpKeyTranslation(luname)+"    selected:"+selected+"   sql:"+sql);
        
           }
           else// same as D (the forth else below)
@@ -1468,21 +1474,21 @@ public ArrayList getListOfFieldsUncompleted()
 
           String sub =  entityFilterSettings[filterFromPreviousSelectedField].dbField+" LIKE '"+selectedKeyValuePrevious+"'"	;
        	  String q = "";
-       	   if(utilsString.hasQueryWhere(lookUp.getQuery(foreignTable)))
+       	   if(utilsString.hasQueryWhere(lookUp.getQuery(luname)))
    	       {
-       	      q = " AND "+sub;//lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
+       	      q = " AND "+sub;//lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
    	       }
    	       else
    	       {
-   	       	  q = " WHERE "+sub;//lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
+   	       	  q = " WHERE "+sub;//lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
    	       }
 
-       	  	  selected = DialogLookUp.showDialog(this,foreignTable, lookUp.getQuery(foreignTable)+q+" "+lookUp.getQueryOrderBy(foreignTable),lookUp.getLookUpKeyTranslation(foreignTable),
-                         selectedKeyValue ,lookUp.getShowToolbar(foreignTable),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(foreignTable),fieldFilterTxts1);  
+       	  	  selected = DialogLookUp.showDialog(this,luname, lookUp.getQuery(luname)+q+" "+lookUp.getQueryOrderBy(luname),lookUp.getLookUpKeyTranslation(luname),
+                         selectedKeyValue ,lookUp.getShowToolbar(luname),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(luname),fieldFilterTxts1);  
        	  	 //System.out.println("PanelDataFilter.displayDialogLookUp filterFromPreviousSelectedField "+filterFromPreviousSelectedField + " "+noOfFilter);              
               
               
-              System.out.println("panelDataFilter.displayDialogLookUp -- B "+i+" selectedKeyValue:"+selectedKeyValue+" "+lookUp.getLookUpKeyTranslation(foreignTable)+"    selected:"+selected+"   q:"+q);
+              System.out.println("panelDataFilter.displayDialogLookUp -- B "+i+" selectedKeyValue:"+selectedKeyValue+" "+lookUp.getLookUpKeyTranslation(luname)+"    selected:"+selected+"   q:"+q);
           }
        }
        else // C
@@ -1492,16 +1498,16 @@ public ArrayList getListOfFieldsUncompleted()
               
      	   //String sub ="";
            //String strWhere ="";
-           String where=lookUp.getQuerySubqueryWhere(foreignTable);
+           String where=lookUp.getQuerySubqueryWhere(luname);
            
            
-              String sql = lookUp.getQuery(foreignTable)+" "+where+" "+lookUp.getQueryOrderBy(foreignTable);
+              String sql = lookUp.getQuery(luname)+" "+where+" "+lookUp.getQueryOrderBy(luname);
               
               
        	  	   //System.out.println("PanelDataFilter.displayDialogLookUp filterFromPreviousSelectedField "+filterFromPreviousSelectedField + " "+noOfFilter);
-       	  	  selected = DialogLookUp.showDialog(this,foreignTable, sql,lookUp.getLookUpKeyTranslation(foreignTable),
-                          selectedKeyValue,lookUp.getShowToolbar(foreignTable),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(foreignTable),fieldFilterTxts1);  
-                  System.out.println("panelDataFilter.displayDialogLookUp -- C "+i+" selectedKeyValue:"+selectedKeyValue+" "+lookUp.getLookUpKeyTranslation(foreignTable)+"    selected:"+selected);
+       	  	  selected = DialogLookUp.showDialog(this,luname, sql,lookUp.getLookUpKeyTranslation(luname),
+                          selectedKeyValue,lookUp.getShowToolbar(luname),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(luname),fieldFilterTxts1);  
+                  System.out.println("panelDataFilter.displayDialogLookUp -- C "+i+" selectedKeyValue:"+selectedKeyValue+" "+lookUp.getLookUpKeyTranslation(luname)+"    selected:"+selected);
        	  }
        	  else//  D
        	  {
@@ -1509,18 +1515,18 @@ public ArrayList getListOfFieldsUncompleted()
 
           String sub =  entityFilterSettings[filterFromPreviousSelectedField].dbField+" LIKE '"+selectedKeyValuePrevious+"'"	;
        	  String q = "";
-       	   if(utilsString.hasQueryWhere(lookUp.getQuery(foreignTable)))
+       	   if(utilsString.hasQueryWhere(lookUp.getQuery(luname)))
    	       {
-       	      q = " AND "+sub;//lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
+       	      q = " AND "+sub;//lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
    	       }
    	       else
    	       {
-   	       	  q = " WHERE "+sub;//lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
+   	       	  q = " WHERE "+sub;//lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
    	       }
    	       
-   	       //selected = DialogLookUp.showDialog(this,foreignTable, lookUp.getQuery(foreignTable)+q+lookUp.getQueryOrderBy(foreignTable),lookUp.getLookUpKeyTranslation(foreignTable) , selectedKeyValue,lookUp.getShowToolbar(foreignTable));         	  	 
+   	       //selected = DialogLookUp.showDialog(this,luname, lookUp.getQuery(luname)+q+lookUp.getQueryOrderBy(luname),lookUp.getLookUpKeyTranslation(luname) , selectedKeyValue,lookUp.getShowToolbar(foreignTable));         	  	 
        	  	 
-       	  	/* if(utilsString.hasQueryWhere(lookUp.getQuery(foreignTable)))
+       	  	/* if(utilsString.hasQueryWhere(lookUp.getQuery(luname)))
        	  	 {
        	  	    
        	  	    where=" AND "+entityFilterSettings[filterFromPreviousSelectedField].dbField+" LIKE '"+selectedKeyValuePrevious+"'"	;
@@ -1531,10 +1537,10 @@ public ArrayList getListOfFieldsUncompleted()
        	  	 	where=" WHERE "+entityFilterSettings[filterFromPreviousSelectedField].dbField+" LIKE '"+selectedKeyValuePrevious+"'"	;
        	  	 }*/
        	  	 
-       	  	  selected = DialogLookUp.showDialog(this,foreignTable, lookUp.getQuery(foreignTable)+q+" "+lookUp.getQueryOrderBy(foreignTable),lookUp.getLookUpKeyTranslation(foreignTable),
-                         selectedKeyValue ,lookUp.getShowToolbar(foreignTable),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(foreignTable),fieldFilterTxts1);  
+       	  	  selected = DialogLookUp.showDialog(this,luname, lookUp.getQuery(luname)+q+" "+lookUp.getQueryOrderBy(luname),lookUp.getLookUpKeyTranslation(luname),
+                         selectedKeyValue ,lookUp.getShowToolbar(luname),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(luname),fieldFilterTxts1);  
        	  	 //System.out.println("PanelDataFilter.displayDialogLookUp filterFromPreviousSelectedField "+filterFromPreviousSelectedField + " "+noOfFilter);
-       	     System.out.println("panelDataFilter.displayDialogLookUp -- D "+i+" selectedKeyValue:"+selectedKeyValue+" "+lookUp.getLookUpKeyTranslation(foreignTable)+"    selected:"+selected);
+       	     System.out.println("panelDataFilter.displayDialogLookUp -- D "+i+" selectedKeyValue:"+selectedKeyValue+" "+lookUp.getLookUpKeyTranslation(luname)+"    selected:"+selected);
        	  }	        	
        	
            
@@ -1572,7 +1578,7 @@ public ArrayList getListOfFieldsUncompleted()
     }
   
            // additionalCol for lookup from to for difference between the twho compnents (the same s)
-   private void calculateTextForLookupsAfterKeyIsSet(int col, int additionalCol, String foreignTable,int filterFromPreviousSelectedField)
+   private void calculateTextForLookupsAfterKeyIsSet(int col, int additionalCol,String luname, int filterFromPreviousSelectedField)
    {
    	
                           JTextBoxWithEditButtons txtLookUpBtn = (JTextBoxWithEditButtons)fieldTxtsLookUpId.get(additionalCol);
@@ -1592,9 +1598,9 @@ public ArrayList getListOfFieldsUncompleted()
          subqueryWhere =  entityFilterSettings[filterFromPreviousSelectedField].dbField+" LIKE '"+selectedKeyValuePrevious+"'"	;
        }                          
 
-                               
+                               //String  luname =  "";//entityFilterSettings[col].getLookupEntityName();
                    //             System.out.println(" ====  PanelDataFilter.calculateTextForLookupsAfterKeyIsSet  table:"+entityFilterSettings[col].dbTable +"   sub:"+subqueryWhere);
-                             String lookupResult = utilsPanelReport.getLookupValue(""/*name*/,entityFilterSettings[col].dbTable,lookupValue,1,true,"",subqueryWhere,"");
+                             String lookupResult = utilsPanelReport.getLookupValue(luname,entityFilterSettings[col].getTableFromLookUpName(luname),lookupValue,1,true,"",subqueryWhere,"");
                             
                              
                              
@@ -1789,8 +1795,8 @@ public ArrayList getListOfFieldsUncompleted()
                {  	  
                   txt1 = utilsDate.reformatDateStringToSaveToDB(txt1);
                }  	  
-           	  
-       	       String where = entityFilterSettings[s].dbTable+"."+entityFilterSettings[s].dbField+" LIKE '"+txt1+"'";
+           	 String luname = entityFilterSettings[s].getLookUpName(); 
+       	       String where = entityFilterSettings[s].getTableFromLookUpName(luname)+"."+entityFilterSettings[s].dbField+" LIKE '"+txt1+"'";
        	       //System.out.println("PanelDataFilters.displayPrintPreviewDialog where "+where);
        	       if(txtWritten>=1)
        	       {
@@ -1891,8 +1897,8 @@ public ArrayList getListOfFieldsUncompleted()
                }
 
                String where = "";
-               
-                 if(entityFilterSettings[s].dbTable.equalsIgnoreCase(""))
+               String luname = entityFilterSettings[s].getLookUpName();
+                 if(entityFilterSettings[s].getTableFromLookUpName(luname)==null || entityFilterSettings[s].getTableFromLookUpName(luname).equalsIgnoreCase(""))
                  {
                         where = entityFilterSettings[s].dbField+" >= '"+txt1+"'"+ " AND "+entityFilterSettings[s].dbField+" <= '"+txt2+"'";
   	         }
@@ -1902,7 +1908,7 @@ public ArrayList getListOfFieldsUncompleted()
   	         }
   	         else if (!entityFilterSettings[s].type.equalsIgnoreCase("lookup"))
   	         {               
-                        where = entityFilterSettings[s].dbTable+"."+entityFilterSettings[s].dbField+" >= '"+txt1+"'"+ " AND " +entityFilterSettings[s].dbTable+"."+entityFilterSettings[s].dbField+" <= '"+txt2+"'";
+                        where = entityFilterSettings[s].getTableFromLookUpName(luname)+"."+entityFilterSettings[s].getTableFromLookUpName(luname)+" >= '"+txt1+"'"+ " AND " +entityFilterSettings[s].getTableFromLookUpName(luname)+"."+entityFilterSettings[s].dbField+" <= '"+txt2+"'";
   	         }
        	      //System.out.println("PanelDataFilters.displayPrintPreviewDialog "+s+where);
        	      if(txtWritten>=1)
@@ -1944,14 +1950,14 @@ public ArrayList getListOfFieldsUncompleted()
                }
 
                String where="";
-
+                String luname = entityFilterSettings[s].getLookUpName();
                 if((txt1!=null || !txt1.equalsIgnoreCase("") ) && (txt2==null || txt2.equalsIgnoreCase("")))
                 {
-                        where = entityFilterSettings[s].dbTable+"."+entityFilterSettings[s].dbField+" >= '"+txt1+"'"; // it should be dbTable
+                        where = entityFilterSettings[s].getTableFromLookUpName(luname)+"."+entityFilterSettings[s].dbField+" >= '"+txt1+"'"; // it should be dbTable
   	        }
   	        else if ((txt1==null || txt1.equalsIgnoreCase("") ) && (txt2!=null || !txt2.equalsIgnoreCase("")))
   	        {
-  	            	where = entityFilterSettings[s].dbTable+"."+entityFilterSettings[s].dbField+" <= '"+txt2+"'";   // it should be dbTable
+  	            	where = entityFilterSettings[s].getTableFromLookUpName(luname)+"."+entityFilterSettings[s].dbField+" <= '"+txt2+"'";   // it should be dbTable
   	        }  	
   	        else
   	        {
@@ -1959,7 +1965,7 @@ public ArrayList getListOfFieldsUncompleted()
   	        }
      if(VariablesGlobal.globalShowReadSQLRow)
      {  	            
-  	         System.out.println("    ---------> PanelDataFilters.calculateSQL   s:"+s+"  '"+txtSet1.getText()+"'-'"+txtSet2.getText()+"'    table:"+entityFilterSettings[s].dbTable+"     dbForeignTable:"+entityFilterSettings[s].dbForeignTable+"    where:"+where);
+  	         System.out.println("    ---------> PanelDataFilters.calculateSQL   s:"+s+"  '"+txtSet1.getText()+"'-'"+txtSet2.getText()+"'    table:"+entityFilterSettings[s].getTableFromLookUpName(luname)+"     dbForeignTable:"+entityFilterSettings[s].dbForeignTable+"    where:"+where);
      } 	      
        	      if(txtWritten>=1)
        	      {
@@ -1974,7 +1980,8 @@ public ArrayList getListOfFieldsUncompleted()
           }  // fromto
           else
           {
-              System.out.println("  C   ELSE  UNDEFINED  PanelDataFilter.calculateSubquery "+s+" ("+entityFilterSettings[s].equivalence+")   ("+entityFilterSettings[s].dbForeignTable+")  ("+entityFilterSettings[s].dbTable+")   ("+entityFilterSettings[s].dbField+")    ("+entityFilterSettings[s].variableType);//+")      intReportGroup:"+intReportGroup);
+              String luname = entityFilterSettings[s].getLookUpName();
+              System.out.println("  C   ELSE  UNDEFINED  PanelDataFilter.calculateSubquery "+s+" ("+entityFilterSettings[s].equivalence+")   ("+entityFilterSettings[s].dbForeignTable+")  ("+entityFilterSettings[s].getTableFromLookUpName(luname)+")   ("+entityFilterSettings[s].dbField+")    ("+entityFilterSettings[s].variableType);//+")      intReportGroup:"+intReportGroup);
           }
        
           
@@ -2321,15 +2328,16 @@ public ArrayList getListOfFieldsUncompleted()
     class  ActionShowDialogLookUp extends AbstractAction                 
    {       
          String value;
-      	
-         String iForeignTable;
+      	String luname;
+         //String iForeignTable;
          int i;
          int j;
          int noOfFilter;
          int filterFromPreviousSelectedField;
-        public ActionShowDialogLookUp(String foreignTable, int iIn, int jIn, int noOfFilterIn, int filterFromPreviousSelectedFieldIn)
+        public ActionShowDialogLookUp(String lunameIn, int iIn, int jIn, int noOfFilterIn, int filterFromPreviousSelectedFieldIn)
         {
-                  iForeignTable = foreignTable;
+            luname=lunameIn;
+                 // iForeignTable = foreignTable;
                   i=iIn;
                   j=jIn;
                   noOfFilter=noOfFilterIn;       
@@ -2342,7 +2350,7 @@ public ArrayList getListOfFieldsUncompleted()
         public void actionPerformed(ActionEvent e)
       	{
                       //System.out.println("ActionShowDialogLookUp ("+iForeignTable+" , "+iF+")");
-                displayDialogLookUp(iForeignTable,i,j,noOfFilter,filterFromPreviousSelectedField);
+                displayDialogLookUp(luname,i,j,noOfFilter,filterFromPreviousSelectedField);
         }  
           // table.requestFocus(); 	
     }    
@@ -2358,16 +2366,18 @@ public ArrayList getListOfFieldsUncompleted()
     int no=0;
     int additionalCol;  // additionalCol for lookup from to for difference between the twho compnents (the same s)
     String classtype="";
-    String foreignTable = null;
+    String luname="";
+    //String foreignTable = null;
     int txtIndex=0; //   txtIndex key=0  , lookup text 1, lookup text  2
     int filterFromPreviousSelectedField=-1;
-    public DocumentHandler( int noIn, int additionalColIn,int txtIndexIn, String foreignTableIn,int filterFromPreviousSelectedFieldIn )
+    public DocumentHandler( int noIn, int additionalColIn,int txtIndexIn,String lunameIn, int filterFromPreviousSelectedFieldIn )
     {
         no = noIn;
         additionalCol = additionalColIn;
         txtIndex=txtIndexIn;
         //classtype=classtypeIn;
-        foreignTable=foreignTableIn;
+        luname=lunameIn;
+       // foreignTable=foreignTableIn;
         filterFromPreviousSelectedField=filterFromPreviousSelectedFieldIn;
     }
         
@@ -2381,11 +2391,11 @@ public ArrayList getListOfFieldsUncompleted()
       }
       else // is not date
       {*/
-         	if(foreignTable!=null)// look up
+         	if(luname!=null)// look up
          	{   
          		if(txtIndex==0)
          		{
-         			calculateTextForLookupsAfterKeyIsSet(no,additionalCol, foreignTable,filterFromPreviousSelectedField);
+         			calculateTextForLookupsAfterKeyIsSet(no,additionalCol, luname,filterFromPreviousSelectedField);
          		}
          		else if(txtIndex==1)
          		{
@@ -2393,7 +2403,7 @@ public ArrayList getListOfFieldsUncompleted()
          		}
          		else
          		{
-         	       //System.out.println("error DocumentHandler.insertUpdate"+" -> txtIndex"+txtIndex+" not defined, foreignTable "+foreignTable+" noIn"+no); 		
+         	       //System.out.println("error DocumentHandler.insertUpdate"+" -> txtIndex"+txtIndex+" not defined, luname "+luname+" noIn"+no); 		
          		}      
          	}// if is date or checklookup
 
@@ -2453,19 +2463,19 @@ public ArrayList getListOfFieldsUncompleted()
       else // is not date
       {*/
          	
-         	if(foreignTable!=null)// is look up
+         	if(luname!=null)// is look up
          	{   
          		if(txtIndex==0)
          		{
-         			calculateTextForLookupsAfterKeyIsSet(no,additionalCol, foreignTable,filterFromPreviousSelectedField);
+         			calculateTextForLookupsAfterKeyIsSet(no,additionalCol,luname,filterFromPreviousSelectedField);
          		}
          		else if(txtIndex==1)
          		{
-         		   //displayWindowLookUp(foreignTable,no);	
+         		   //displayWindowLookUp(luname,no);	
          		}
          		else
          		{
-         	       //System.out.println("error DocumentHandler.insertUpdate"+" -> txtIndex"+txtIndex+" not defined, foreignTable "+foreignTable+" noIn"+no); 		
+         	       //System.out.println("error DocumentHandler.insertUpdate"+" -> txtIndex"+txtIndex+" not defined, luname "+luname+" noIn"+no); 		
          		}      
          	} // else if is date or checklookup
      // }// is not date
@@ -2514,7 +2524,7 @@ public ArrayList getListOfFieldsUncompleted()
         { 
            hasDataChanged=true;
            
-           //System.out.println("error DocumentHandler.removeUpdate"+" -> txtIndex"+txtIndex+" not defined, foreignTable "+foreignTable+" noIn"+no); 		
+           //System.out.println("error DocumentHandler.removeUpdate"+" -> txtIndex"+txtIndex+" not defined, luname "+luname+" noIn"+no); 		
         }*/
     }
 

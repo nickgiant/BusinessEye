@@ -47,7 +47,7 @@ public class DialogLookUp extends JDialog implements Constants
     private static DialogLookUp dialog;
     private static String keyValue = "";
     private static String keyDescription = "";
-    private String lookupEntity;
+   // private String lookupEntity;
     private static String lookupQuery;
     private PanelOneDataManyRec panelOneDataManyRec;
     private LookUpMgt lookUp;
@@ -92,7 +92,7 @@ public class DialogLookUp extends JDialog implements Constants
      * of the screen.  Otherwise, the argument should be the
      * component on top of which the dialog should appear.
      */
-    public static String showDialog(Component comp, String lookupEntity, String lookupQueryIn,String keyFieldIn ,String selectedKeyValue, 
+    public static String showDialog(Component comp,String luname, /*String foreignTable,*/ String lookupQueryIn,String keyFieldIn ,String selectedKeyValue, 
             boolean showToolbar,/*String yearEnforceIn,*/ PanelManagement panelManagementIn,String[] fieldsForSumIn, ArrayList fieldTxtsIn )//,EntityReport entityReportIn)
     {  
         //entityReport=entityReportIn;
@@ -102,7 +102,7 @@ public class DialogLookUp extends JDialog implements Constants
         	lookupQuery=lookupQueryIn;
         	keyField=keyFieldIn;
           //System.out.println("DialogLookUp.showDialog  ---**    keyField:"+keyField+"     selectedKeyValue:"+selectedKeyValue+"  lookupQuery:"+lookupQuery);
-                dialog.setLookUpEntityAndQuery(lookupEntity, lookupQuery,/*yearEnforceIn,*/ panelManagementIn, fieldsForSumIn, fieldTxtsIn);//,entityReportIn);
+                dialog.setLookUpEntityAndQuery(luname,/* foreignTable, */lookupQuery,/*yearEnforceIn,*/ panelManagementIn, fieldsForSumIn, fieldTxtsIn);//,entityReportIn);
           
             dialog.setSelected(keyField,selectedKeyValue,showToolbar);
             dialog.locateOnCenterOfTheScreen();
@@ -129,33 +129,34 @@ public class DialogLookUp extends JDialog implements Constants
     }
     
     // set data for panelOneDataManyRecData
-    private void setLookUpEntityAndQuery(String lookupEntityIn, String lookupQueryIn,/*String yearEnforceIn,*/ PanelManagement panelManagementIn,String[] fieldsForSumsIn,
+    private void setLookUpEntityAndQuery(String luname,/*String lookupEntityIn,*/ String lookupQueryIn,/*String yearEnforceIn,*/ PanelManagement panelManagementIn,String[] fieldsForSumsIn,
             ArrayList fieldTxtsIn)//, EntityReport entityReportIn)
     {
-        lookupEntity = lookupEntityIn;
+        
+        //lookupEntity = lookupEntityIn;
         lookupQuery = lookupQueryIn;
         lookUp = new LookUpMgt();
         fieldsForSums=fieldsForSumsIn;
         //System.out.println("DialogLookUp.setLookUpEntityAndQuery "+lookupQuery);
         
-        this.setTitle("Επιλογή "+lookUp.getStrOfOne(lookupEntity));
+        this.setTitle("Επιλογή "+lookUp.getStrOfOne(luname));
       //  EntityInfoM eim = new EntityInfoM();
        // EntityInfo ent = (EntityInfo)
         //panelOneDataManyRec.setEntity(lookupEntity, lookupQuery,null,null,null,null,null,null,null,null,null,null,null,false,false, false,lookUp.getStrOfMany(lookupEntity),false,false); //entity, query, showExtendedSummary
        //System.out.println("DialogLookUp.setLookUpEntityAndQuery  OOO-00000-OOOOOOOO    lookupEntity:"+lookupEntity+"           entityReportIn:"+entityReportIn+"               lookupQuery:"+lookupQuery+"      queryeditable:"+lookUp.getQueryEditable(lookupEntity));
         
         
-        panelOneDataManyRec.setEntity(lookupEntity, lookupQuery,lookUp.getQueryEditable(lookupEntity),fieldsForSums,//null is for fieldsForSums,
-         "title", lookUp.getLookUpKeyTranslation(lookupEntity),lookUp.getLookUpKey(lookupEntity)/*,"",""/*formGlobalTableToApply1*/,lookUp.getIcon(lookupEntity),
-         lookUp.getEntityFilterSettings(lookupEntity),null,lookUp.getStrOfOne(lookupEntity),lookUp.getStrOfMany(lookupEntity), true,
-         lookUp.getIntValidationColumn(lookupEntity), lookUp.getIntValidationType(lookupEntity) , lookUp.getCategoryNodes(lookupEntity), lookUp.getEntityPanel(lookupEntity), 
-         lookUp.getFieldsOnTitle(lookupEntity),lookUp.getFieldsOnTitleCaption(lookupEntity),null,/*yearEnforceIn,*/fieldTxtsIn,panelManagementIn);//, entityReportIn);//, updateAdditionalIn); 
+        panelOneDataManyRec.setEntity(luname, lookupQuery,lookUp.getQueryEditable(luname),fieldsForSums,//null is for fieldsForSums,
+         "title", lookUp.getLookUpKeyTranslation(luname),lookUp.getLookUpKey(luname)/*,"",""/*formGlobalTableToApply1*/,lookUp.getIcon(luname),
+         lookUp.getEntityFilterSettings(luname),null,lookUp.getStrOfOne(luname),lookUp.getStrOfMany(luname), true,
+         lookUp.getIntValidationColumn(luname), lookUp.getIntValidationType(luname) , lookUp.getCategoryNodes(luname), lookUp.getEntityPanel(luname), 
+         lookUp.getFieldsOnTitle(luname),lookUp.getFieldsOnTitleCaption(luname),null,/*yearEnforceIn,*/fieldTxtsIn,panelManagementIn);//, entityReportIn);//, updateAdditionalIn); 
         /*  public void setEntity(String entityIn,String queryReadOnlyIn, String queryIn ,
      String titleIn,String primKey,String primKeyDbIn, ImageIcon icoIn, String[] searchCaption, 
      String[] searchFieldIn,String strOfOneIn, String strOfManyIn, Boolean isLookUpDialog,String[] categoryNodesIn,
      EntityPanel[] entityPanelIn, int[]fieldsOnTitleIn, String[] fieldsOnTitleCaptionIn)*/
       
-      intColFieldDescription=lookUp.getLookUpFieldColDescription(lookupEntity);
+      intColFieldDescription=lookUp.getLookUpFieldColDescription(luname);
       
       
       

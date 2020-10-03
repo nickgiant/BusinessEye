@@ -9,7 +9,8 @@ public class EntityFilterSettings
 	public String variableType;// if it is string,date,int,double,boolean
 	public String equivalence;// equal, greater, lesser, fromto
 	public String dbField; // townId
-	public String dbTable;// town
+	//public String dbTable;// town
+        private String luname;// lookup name
 	public String dbForeignTable;// farmer  // used for checkbox
 	public String value;
 	public int groupOfComps;
@@ -18,7 +19,7 @@ public class EntityFilterSettings
         private int fieldObligatoryOrSuggest;    // FIELD_NOCOMPLETION = 0  FIELD_OBLIGATORY = 1  FIELD_SUGGEST = 2;
         
       public EntityFilterSettings(String captionIn,String typeIn, String variableTypeIn, String equivalenceIn, 
-      	String dbFieldIn, String dbTableIn,String dbForeignTableIn, String valueIn, int groupOfCompsIn, 
+      	String dbFieldIn, String lunameIn,String dbForeignTableIn, String valueIn, int groupOfCompsIn, 
       	int filterFromSelectedFieldIn,int forEntityReportGroupIn, int fieldObligatoryOrSuggestIn)
       {
       
@@ -27,7 +28,7 @@ public class EntityFilterSettings
 	    variableType=variableTypeIn;
 	    equivalence=equivalenceIn;
 	    dbField=dbFieldIn;
-	    dbTable=dbTableIn;
+	    luname=lunameIn;
 	    dbForeignTable=dbForeignTableIn;
         value=valueIn;
         groupOfComps =groupOfCompsIn;
@@ -61,11 +62,18 @@ public class EntityFilterSettings
 	 public void setVariableType(String variableTypeIn) {variableType=variableTypeIn;}
 	 public void setEquivalence(String equivalenceIn) {equivalence=equivalenceIn;}
 	 public void setDbField(String dbFieldIn) {   dbField=dbFieldIn; }
-     public void setDbTable(String table) {   	dbTable=table;   }
+     public void setLookUpName(String name) {   	luname=name;   }
      public void setDbForeignTable(String ftable)   {    	dbForeignTable=ftable;    }
      
      
+     public String getTableFromLookUpName(String luname)
+     {
+         LookUpMgt lookup = new LookUpMgt();
+         return lookup.getFromTheNameTheForeignTable(luname);
+     }
+     
       public String getCaption() { return caption; } 
+      public String getLookUpName() {return luname;}
       public int getForEntityReportGroup() { return forEntityReportGroup; } 
       public int getFieldObligatoryOrSuggest() {return fieldObligatoryOrSuggest;}
       public String getVariableType() { return variableType; } 

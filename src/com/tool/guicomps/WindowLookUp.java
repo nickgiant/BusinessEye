@@ -56,6 +56,7 @@ public class WindowLookUp extends JDialog implements Constants
     //private boolean isSelected;
     private JButtonForPanelDecorated btnOk; 
     private UtilsString utilsString; 
+    private String luname="";
     private String foreignTable;
     private LookUpMgt lookUp;
     private String strSet= "";  
@@ -278,21 +279,21 @@ public class WindowLookUp extends JDialog implements Constants
    	this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
    	  	  
    	  
-       fieldPK=lookUp.getLookUpKey(foreignTable);
-    	/*int intValidationColumn = lookUp.getIntValidationColumn(foreignTable);
-    	int intValidationType = lookUp.getIntValidationType(foreignTable);*/  	  
+       fieldPK=lookUp.getLookUpKey(luname);
+    	/*int intValidationColumn = lookUp.getIntValidationColumn(luname);
+    	int intValidationType = lookUp.getIntValidationType(luname);*/  	  
 
-       lblSearch.setText(lookUp.getLookUpFieldLabel(foreignTable));
-        String queryLookUpWhere = lookUp.getQuerySubqueryWhere(foreignTable);
-        String queryLookUpWhereForFormVariable = lookUp.getQueryWhereForFormVariable(foreignTable);
+       lblSearch.setText(lookUp.getLookUpFieldLabel(luname));
+        String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
+        String queryLookUpWhereForFormVariable = lookUp.getQueryWhereForFormVariable(luname);
         
    	   String strWhere = "";
    	   String strEnd = "";
            
    	   if(utilsString.hasQueryWhere(queryLookUpWhere))
    	   {
-   	   	  int len = lookUp.getLookUpField(foreignTable).length;
-   	   	  if(len>1 || (lookUp.getLookUpField2(foreignTable)!=null && !lookUp.getLookUpField2(foreignTable).equals("") || lookUp.getLookUpField3(foreignTable)!=null && !lookUp.getLookUpField3(foreignTable).equals("") ))
+   	   	  int len = lookUp.getLookUpField(luname).length;
+   	   	  if(len>1 || (lookUp.getLookUpField2(luname)!=null && !lookUp.getLookUpField2(luname).equals("") || lookUp.getLookUpField3(luname)!=null && !lookUp.getLookUpField3(luname).equals("") ))
    	   	  {
    	   	  	strWhere ="AND(";
    	   	  	strEnd=")";
@@ -304,8 +305,8 @@ public class WindowLookUp extends JDialog implements Constants
    	   }
    	   else
    	   {
-   	   	 int len = lookUp.getLookUpField(foreignTable).length;
-   	   	  if(len>1 || (lookUp.getLookUpField2(foreignTable)!=null && !lookUp.getLookUpField2(foreignTable).equals("") || lookUp.getLookUpField3(foreignTable)!=null && !lookUp.getLookUpField3(foreignTable).equals("")))
+   	   	 int len = lookUp.getLookUpField(luname).length;
+   	   	  if(len>1 || (lookUp.getLookUpField2(luname)!=null && !lookUp.getLookUpField2(luname).equals("") || lookUp.getLookUpField3(luname)!=null && !lookUp.getLookUpField3(luname).equals("")))
    	   	  {   	   	
    	   	     strWhere = "WHERE(";
    	   	     strEnd=")";
@@ -321,8 +322,8 @@ public class WindowLookUp extends JDialog implements Constants
            
      	   if(utilsString.hasQueryWhere(queryLookUpWhereForFormVariable))
    	   {
-   	   	  int len = lookUp.getLookUpField(foreignTable).length;
-   	   	  if(len>1 || (lookUp.getLookUpField2(foreignTable)!=null && !lookUp.getLookUpField2(foreignTable).equals("") || lookUp.getLookUpField3(foreignTable)!=null && !lookUp.getLookUpField3(foreignTable).equals("") ))
+   	   	  int len = lookUp.getLookUpField(luname).length;
+   	   	  if(len>1 || (lookUp.getLookUpField2(luname)!=null && !lookUp.getLookUpField2(luname).equals("") || lookUp.getLookUpField3(luname)!=null && !lookUp.getLookUpField3(luname).equals("") ))
    	   	  {
    	   	  	strWhereForFormVariable ="AND(";
    	   	  	strEndForFormVariable=")";
@@ -334,8 +335,8 @@ public class WindowLookUp extends JDialog implements Constants
    	   }
    	   else
    	   {
-   	   	 int len = lookUp.getLookUpField(foreignTable).length;
-   	   	  if(len>1 || (lookUp.getLookUpField2(foreignTable)!=null && !lookUp.getLookUpField2(foreignTable).equals("") || lookUp.getLookUpField3(foreignTable)!=null && !lookUp.getLookUpField3(foreignTable).equals("")))
+   	   	 int len = lookUp.getLookUpField(luname).length;
+   	   	  if(len>1 || (lookUp.getLookUpField2(luname)!=null && !lookUp.getLookUpField2(luname).equals("") || lookUp.getLookUpField3(luname)!=null && !lookUp.getLookUpField3(luname).equals("")))
    	   	  {   	   	
    	   	     strWhereForFormVariable = "WHERE(";
    	   	     strEndForFormVariable=")";
@@ -345,82 +346,82 @@ public class WindowLookUp extends JDialog implements Constants
    	   	  	strWhereForFormVariable = "WHERE";
    	   	  }
    	   }         
-           //System.out.println("WindowLookUp.filter   '"+foreignTable+"'    strWhere:"+strWhere+"   "+utilsString.hasQueryWhere(lookUp.getQuerySubqueryWhere(foreignTable))+"    "+lookUp.getQuerySubqueryWhere(foreignTable));
+           //System.out.println("WindowLookUp.filter   '"+luname+"'    strWhere:"+strWhere+"   "+utilsString.hasQueryWhere(lookUp.getQuerySubqueryWhere(luname))+"    "+lookUp.getQuerySubqueryWhere(foreignTable));
         String q="";  
         String sub = "";
         //has second field to lookup
-   	   	if(lookUp.getLookUpField2(foreignTable)!=null && !lookUp.getLookUpField2(foreignTable).equals(""))
+   	   	if(lookUp.getLookUpField2(luname)!=null && !lookUp.getLookUpField2(luname).equals(""))
    	   	{
-   	   		//System.out.println("WindowLookUp.filter IF '"+foreignTable+"'   "+lookUp.getLookUpField2(foreignTable).length()+" "+lookUp.getLookUpField2(foreignTable).equals(""));
+   	   		//System.out.println("WindowLookUp.filter IF '"+luname+"'   "+lookUp.getLookUpField2(luname).length()+" "+lookUp.getLookUpField2(luname).equals(""));
    	   		// getLookUpField is array
-   	   	 if(lookUp.getLookUpField(foreignTable).length>=1)
+   	   	 if(lookUp.getLookUpField(luname).length>=1)
    	   	 {   	   	    
-   	   		int len = lookUp.getLookUpField(foreignTable).length;
+   	   		int len = lookUp.getLookUpField(luname).length;
    	   		for(int o= 0; o<len ;o++)
    	   		{
    	   			//System.out.println("WindowLookUp.filter 1");
    	   		   String end ="";	
    	   		   	if(o==0)
    	   		   	{
-   	   		   		//System.out.println("WindowLookUp.filter 1 a "+len+" "+o+" "+lookUp.getLookUpField(foreignTable)[o]);
-   	   		   	   	sub=sub+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+txtSearch.getText()+"%'";
+   	   		   		//System.out.println("WindowLookUp.filter 1 a "+len+" "+o+" "+lookUp.getLookUpField(luname)[o]);
+   	   		   	   	sub=sub+lookUp.getLookUpField(luname)[o]+" LIKE '"+txtSearch.getText()+"%'";
    	   		   	}
    	   		   	else
    	   		   	{
-   	   		   		//System.out.println("WindowLookUp.filter 1 b "+len+" "+o+" "+lookUp.getLookUpField(foreignTable)[o]);
-   	   		   		sub=sub+" OR "+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+txtSearch.getText()+"%'";
+   	   		   		//System.out.println("WindowLookUp.filter 1 b "+len+" "+o+" "+lookUp.getLookUpField(luname)[o]);
+   	   		   		sub=sub+" OR "+lookUp.getLookUpField(luname)[o]+" LIKE '"+txtSearch.getText()+"%'";
    	   		   	}
    	   		}
    	   	  }
    	   	  else
    	   	  {
    	   	  	 //System.out.println("WindowLookUp.filter 1 c");
-            sub = sub+" "+lookUp.getLookUpField(foreignTable)+" LIKE '"+txtSearch.getText()+"%' OR "+lookUp.getLookUpField2(foreignTable)+" LIKE '"+txtSearch.getText()+"%' OR "+lookUp.getLookUpField3(foreignTable)+" LIKE '"+txtSearch.getText()+"%') ";
+            sub = sub+" "+lookUp.getLookUpField(luname)+" LIKE '"+txtSearch.getText()+"%' OR "+lookUp.getLookUpField2(luname)+" LIKE '"+txtSearch.getText()+"%' OR "+lookUp.getLookUpField3(luname)+" LIKE '"+txtSearch.getText()+"%') ";
    	   	  }   	   		
    	   		
    	   	}   	   	
-   	  	else if(lookUp.getLookUpField2(foreignTable)!=null && !lookUp.getLookUpField2(foreignTable).equals(""))
+   	  	else if(lookUp.getLookUpField2(luname)!=null && !lookUp.getLookUpField2(luname).equals(""))
    	   	{
    	   		
    	   		//System.out.println("WindowLookUp.filter ELSE IF");
    	   		// getLookUpField is array
-   	   	 if(lookUp.getLookUpField(foreignTable).length>=1)
+   	   	 if(lookUp.getLookUpField(luname).length>=1)
    	   	 {
-   	   		int len = lookUp.getLookUpField(foreignTable).length;
+   	   		int len = lookUp.getLookUpField(luname).length;
    	   		for(int o= 0; o<len ;o++)
    	   		{
    	   		   String end ="";	
    	   		   	if(o==0)
    	   		   	{
-   	   		   	   	sub=sub+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+txtSearch.getText()+"%'";
+   	   		   	   	sub=sub+lookUp.getLookUpField(luname)[o]+" LIKE '"+txtSearch.getText()+"%'";
    	   		   	}
    	   		   	else
    	   		   	{
-   	   		   		sub=sub+" OR "+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+txtSearch.getText()+"%'";
+   	   		   		sub=sub+" OR "+lookUp.getLookUpField(luname)[o]+" LIKE '"+txtSearch.getText()+"%'";
    	   		   	}	
    	   		}
    	   	  }
    	   	  else
    	   	  {   	   		
-   	   		sub = lookUp.getLookUpField(foreignTable)+" LIKE '"+txtSearch.getText()+"%' OR "+lookUp.getLookUpField2(foreignTable)+" LIKE '"+txtSearch.getText()+"%') ";
+   	   		sub = lookUp.getLookUpField(luname)+" LIKE '"+txtSearch.getText()+"%' OR "+lookUp.getLookUpField2(luname)+" LIKE '"+txtSearch.getText()+"%') ";
    	   	  }
    	   	}
-   	   	else if(lookUp.getLookUpField(foreignTable).length>=1)
+   	   	else if(lookUp.getLookUpField(luname).length>=1)
    	   	{
    	   		//System.out.println("WindowLookUp.filter 3");
    	   	    // getLookUpField is array
-   	   		int len = lookUp.getLookUpField(foreignTable).length;
+   	   		int len = lookUp.getLookUpField(luname).length;
    	   		for(int o= 0; o<len ;o++)
    	   		{
    	   		   
    	   		   String end ="";	
    	   		   	if(o==0)
    	   		   	{
-   	   		   	   	sub=sub+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+txtSearch.getText()+"%'";
+   	   		   	   	sub=sub+lookUp.getLookUpField(luname)[o]+" LIKE '"+txtSearch.getText()+"%'";
    	   		   	}
    	   		   	else
    	   		   	{
-   	   		   		sub=sub+" OR "+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+txtSearch.getText()+"%'";
+   	   		   		sub=sub+" OR "+lookUp.getLookUpField(luname)[o]+" LIKE '"+txtSearch.getText()+"%'";
    	   		   	}
    	   		   	
    	   		}
@@ -430,13 +431,13 @@ public class WindowLookUp extends JDialog implements Constants
    	   	else //does not have second field to lookup
    	   	{
    	   		//System.out.println("WindowLookUp.filter 4");
-   	   		sub = lookUp.getLookUpField(foreignTable)+" LIKE '"+txtSearch.getText()+"%'";   	   	
+   	   		sub = lookUp.getLookUpField(luname)+" LIKE '"+txtSearch.getText()+"%'";   	   	
    	   	}  
    	   		
-        String queryLookUp = lookUp.getQuery(foreignTable);
+        String queryLookUp = lookUp.getQuery(luname);
 
-        String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(foreignTable);
-        String queryOrderByLookUp = lookUp.getQueryOrderBy(foreignTable);
+        String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(luname);
+        String queryOrderByLookUp = lookUp.getQueryOrderBy(luname);
       //   coppied from UtilsPanelReport.getLookupValue "start"----------------- not double checked
         String subQueryFilterFromRecType="";
         
@@ -446,7 +447,7 @@ public class WindowLookUp extends JDialog implements Constants
         
            int intFieldToGetTheValue = -1;
            intFieldToGetTheValue = utilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1(dbFieldsAll);        
-    //     System.out.println("WindowLookUp.filter    foreignTable:"+foreignTable+"  col:"+col+"   dbFieldsAll:"+dbFieldsAll.length+"     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable +"    intFieldToGetTheValue:"+intFieldToGetTheValue+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType);
+    //     System.out.println("WindowLookUp.filter    luname:"+luname+"  col:"+col+"   dbFieldsAll:"+dbFieldsAll.length+"     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable +"    intFieldToGetTheValue:"+intFieldToGetTheValue+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType);
         String fieldVariableFromPreFieldInText = "";
          if(intFieldToGetTheValue==-1)
          {
@@ -461,7 +462,7 @@ public class WindowLookUp extends JDialog implements Constants
          
      // if(VariablesGlobal.globalformGlobalVariable1!=null && !VariablesGlobal.globalformGlobalVariable1.equalsIgnoreCase("") && intFieldToGetTheValue!=-1)
      // {   
-       //System.out.println("WindowLookUp.filter  --------  foreignTable:"+foreignTable+"'     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable+"    VariablesGlobal.globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"     intFieldToGetTheValue:"+intFieldToGetTheValue);
+       //System.out.println("WindowLookUp.filter  --------  luname:"+luname+"'     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable+"    VariablesGlobal.globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"     intFieldToGetTheValue:"+intFieldToGetTheValue);
           
        if(calledWhenIsInTextFieldOrTable ==  WINDOWLOOKUP_IS_CALLED_IN_TEXTFIELD ) // WINDOWLOOKUP_IS_CALLED_IN_TEXTFIELD = 0;
        {    
@@ -477,20 +478,20 @@ public class WindowLookUp extends JDialog implements Constants
         }
          else
          {
-           //System.out.println("WindowLookUp.filter  ----ELSE--a--  foreignTable:"+foreignTable+"     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable +"    intFieldToGetTheValue:"+intFieldToGetTheValue+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType);
+           //System.out.println("WindowLookUp.filter  ----ELSE--a--  luname:"+luname+"     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable +"    intFieldToGetTheValue:"+intFieldToGetTheValue+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType);
          }         
-         //  System.out.println("WindowLookUp.filter  ----IF----  foreignTable:"+foreignTable+"'     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable+"  subQueryFilterFromRecType:"+subQueryFilterFromRecType);
+         //  System.out.println("WindowLookUp.filter  ----IF----  luname:"+luname+"'     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable+"  subQueryFilterFromRecType:"+subQueryFilterFromRecType);
        
        
         if( fieldVariableFromPreFieldInText!= null && !fieldVariableFromPreFieldInText.equalsIgnoreCase("")) // intFieldToGetTheValue!=-1 &&
         {
       
-   	   q = lookUp.getQuery(foreignTable)+" "+queryLookUpWhereForFormVariable+" "+subQueryFilterFromRecType+" "+strWhereForFormVariable+" "+ sub +" "+strEndForFormVariable+" "+queryLookUpIsActive+" "+queryOrderByLookUp;//+lookUp.getQueryOrderBy(foreignTable);	
+   	   q = lookUp.getQuery(luname)+" "+queryLookUpWhereForFormVariable+" "+subQueryFilterFromRecType+" "+strWhereForFormVariable+" "+ sub +" "+strEndForFormVariable+" "+queryLookUpIsActive+" "+queryOrderByLookUp;//+lookUp.getQueryOrderBy(luname);	
          
         }
         else
         {
-            q = lookUp.getQuery(foreignTable)+" "+queryLookUpWhere+" "+strWhere+" "+ sub +" "+strEnd+" "+queryLookUpIsActive+" "+queryOrderByLookUp;//+lookUp.getQueryOrderBy(foreignTable);	
+            q = lookUp.getQuery(luname)+" "+queryLookUpWhere+" "+strWhere+" "+ sub +" "+strEnd+" "+queryLookUpIsActive+" "+queryOrderByLookUp;//+lookUp.getQueryOrderBy(luname);	
         }
        
        
@@ -498,7 +499,7 @@ public class WindowLookUp extends JDialog implements Constants
        else if(calledWhenIsInTextFieldOrTable == WINDOWLOOKUP_IS_CALLED_IN_TABLE)  // WINDOWLOOKUP_IS_CALLED_IN_TABLE = 1;
        {
          EntityDBFields[] dbFieldsChild = dbFieldsAll[intTableOfParentDBFields].getDbChildFields();
-       // System.out.println("WindowLookUp.filter  WINDOWLOOKUP_IS_CALLED_IN_TABLE  foreignTable:"+foreignTable+"  col:"+col+"   dbFieldsAll:"+dbFieldsAll.length+"   dbFieldsChild:"+dbFieldsChild.length+"   calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable +"    intFieldToGetTheValue:"+intFieldToGetTheValue+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType);
+       // System.out.println("WindowLookUp.filter  WINDOWLOOKUP_IS_CALLED_IN_TABLE  luname:"+luname+"  col:"+col+"   dbFieldsAll:"+dbFieldsAll.length+"   dbFieldsChild:"+dbFieldsChild.length+"   calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable +"    intFieldToGetTheValue:"+intFieldToGetTheValue+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType);
          String fieldVariableFromPreFieldInTable = dbFieldsChild[col].getFormVariableFromField();       
         String strValueFromField = "";
         //if(intFieldToGetTheValue!=-1)
@@ -514,19 +515,19 @@ public class WindowLookUp extends JDialog implements Constants
         } 
          else
          {
-          // System.out.println("WindowLookUp.filter  ----ELSE---b-  foreignTable:"+foreignTable+"     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable +"    intFieldToGetTheValue:"+intFieldToGetTheValue+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType);
+          // System.out.println("WindowLookUp.filter  ----ELSE---b-  luname:"+luname+"     calledWhenIsInTextFieldOrTable:"+calledWhenIsInTextFieldOrTable +"    intFieldToGetTheValue:"+intFieldToGetTheValue+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType);
          }
          
         if( fieldVariableFromPreFieldInTable!= null && !fieldVariableFromPreFieldInTable.equalsIgnoreCase("")) // intFieldToGetTheValue!=-1 &&
         {
       
-   	   q = lookUp.getQuery(foreignTable)+" "+queryLookUpWhereForFormVariable+" "+subQueryFilterFromRecType+" "+strWhereForFormVariable+" "+ sub +" "+strEndForFormVariable+" "+queryLookUpIsActive+" "+queryOrderByLookUp;//+lookUp.getQueryOrderBy(foreignTable);	
-          //System.out.println("WindowLookUp.filter if     foreignTable:"+foreignTable+"        q:"+q); 
+   	   q = lookUp.getQuery(luname)+" "+queryLookUpWhereForFormVariable+" "+subQueryFilterFromRecType+" "+strWhereForFormVariable+" "+ sub +" "+strEndForFormVariable+" "+queryLookUpIsActive+" "+queryOrderByLookUp;//+lookUp.getQueryOrderBy(foreignTable);	
+          //System.out.println("WindowLookUp.filter if     luname:"+luname+"        q:"+q); 
         }
         else
         {
-            q = lookUp.getQuery(foreignTable)+" "+queryLookUpWhere+" "+strWhere+" "+ sub +" "+strEnd+" "+queryLookUpIsActive+" "+queryOrderByLookUp;//+lookUp.getQueryOrderBy(foreignTable);	
-            //System.out.println("WindowLookUp.filter else     foreignTable:"+foreignTable+"        q:"+q); 
+            q = lookUp.getQuery(luname)+" "+queryLookUpWhere+" "+strWhere+" "+ sub +" "+strEnd+" "+queryLookUpIsActive+" "+queryOrderByLookUp;//+lookUp.getQueryOrderBy(luname);	
+            //System.out.println("WindowLookUp.filter else     luname:"+luname+"        q:"+q); 
         }         
          
  
@@ -634,11 +635,11 @@ public class WindowLookUp extends JDialog implements Constants
 
     
      
-    public void setEntity(JTextComponent txtfld,String lookupText, String foreignTableIn, LookUpMgt lookUpIn,  ArrayList arrList, int loc, int typeOfSelectedTextIn,
+    public void setEntity(JTextComponent txtfld,String lookupText, String lunameIn,String foreignTableIn, LookUpMgt lookUpIn,  ArrayList arrList, int loc, int typeOfSelectedTextIn,
             int intValidationColumnIn,int intValidationTypeIn,EntityDBFields[] dbFieldsAllIn,int colIn,ArrayList fieldTxtsIn, int calledWhenIsInTextFieldOrTableIn,
             int intTableOfParentDBFieldsIn)
     {
-
+        luname=lunameIn;
     	//query=initialQuery;
     	foreignTable= foreignTableIn;
     	lookUp = lookUpIn;

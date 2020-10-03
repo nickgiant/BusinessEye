@@ -49,7 +49,7 @@ public class EntityLookUp
         //private String formGlobalTableToApply1;// for example in sxaccount lookup set 'sxaccount'
        // private EntityReport entityReport;// report for documents. I have not setted for farmersvat
 
-      public EntityLookUp(String foreignTableIn)
+      public EntityLookUp(String name)
       {}
 
         public EntityLookUp(String nameIn, String foreignTableIn, String queryIn, String querySubqueryWhereIn, String querySubqueryIsActiveIn,String queryOrderByIn, 

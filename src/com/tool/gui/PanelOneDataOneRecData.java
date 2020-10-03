@@ -787,6 +787,7 @@ int flds = 0;
              //System.out.println("panelOneDataOneRecData.setEntity "+dbFieldsIn[i].getLookupEntityName()+" "+dbFieldsIn[i].getDbField());
                                   
                String foreignTable = "";   //if foreign table = null assign
+               String luname="";
                 //if ((databaseTableMeta.findForeignTable(columnDbName)==null) && (!entity.toUpperCase().equals(rsmd.getTableName(i+1).toString().toUpperCase())))
                 if (dbFieldsInGroupOfPanels[i].getLookupType()== LOOKUPTYPE_NOLOOKUP && dbFieldsInGroupOfPanels[i].getLookupEntityName()==null)// && (!entity.toUpperCase().equalsIgnoreCase(dbFieldsIn[i].getLookupEntityName().toUpperCase())))
                 {
@@ -794,7 +795,8 @@ int flds = 0;
                 }
                 else
                 {
-                    foreignTable = dbFieldsInGroupOfPanels[i].getLookupEntityName();
+                    luname = dbFieldsInGroupOfPanels[i].getLookupEntityName();
+                    foreignTable = lookUp.getTable(luname);
                    //String ln = lookUp.getFromForeignTableTheName(entity);
                     // foreignTable = ln;//lookUp.getFromForeignTableTheName(lname);
                     /// foreignTable = dbFieldsInGroupOfPanels[i].getLookupEntityName(); // getFromForeignTableTheName
@@ -804,7 +806,7 @@ int flds = 0;
                 
              //   System.out.println("PanelODORData.setEntity  =  =  i:"+i+"   "+columnDbName+"       foreignTable:"+foreignTable+"   lookuptype:"+dbFieldsInGroupOfPanels[i].getLookupType()+"   lookupentityname:"+dbFieldsInGroupOfPanels[i].getLookupEntityName());
                 //System.out.println("PanelODORData.setEntity "+i+" "+foreignTable+" "+databaseTableMeta.findForeignTable(columnLabel) +" "+ft+" "+entity);
-                if (dbFieldsInGroupOfPanels[i].getLookupType()== LOOKUPTYPE_ONLYONE_THISFIELD && dbFieldsInGroupOfPanels[i].getLookupEntityName()!=null)//(foreignTable!= null) && (!ft.toUpperCase().equalsIgnoreCase(entity.toUpperCase())))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
+                if (dbFieldsInGroupOfPanels[i].getLookupType()== LOOKUPTYPE_ONLYONE_THISFIELD && dbFieldsInGroupOfPanels[i].getLookupEntityName()!=null)//(luname!= null) && (!ft.toUpperCase().equalsIgnoreCase(entity.toUpperCase())))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
                 {
 
                     /*ResultSetMetaData rsmdForeign;
@@ -812,11 +814,11 @@ int flds = 0;
                    //System.out.println("panelODORData.setEntity  foreignTable:"+foreignTable+"="+dbFieldsInGroupOfPanels[i].getLookupEntityName()+"  foreignMetaQuery:"+foreignMetaQuery);
                    */
                     
-                     //int luFieldIdx = lookUp.getLookUpFieldIndex(foreignTable);                  
-                    int luFieldIdx = lookUp.getLookUpFieldIndex(foreignTable);
-                    int foreignColumnWidth = lookUp.getLookUpFieldLength(foreignTable);//16; //rsmdForeign.getColumnDisplaySize(luFieldIdx);//get column width
-                    String foreignColumnType = lookUp.getLookUpFieldType(foreignTable);//rsmdForeign.getColumnClassName(luFieldIdx);
-                    //System.out.println("PanelOneDataOnRecData.setEntity  --  foreignTable:   '"+foreignTable+"'      foreignColumnWidth:"+foreignColumnWidth);
+                     //int luFieldIdx = lookUp.getLookUpFieldIndex(luname);                  
+                    int luFieldIdx = lookUp.getLookUpFieldIndex(luname);
+                    int foreignColumnWidth = lookUp.getLookUpFieldLength(luname);//16; //rsmdForeign.getColumnDisplaySize(luFieldIdx);//get column width
+                    String foreignColumnType = lookUp.getLookUpFieldType(luname);//rsmdForeign.getColumnClassName(luFieldIdx);
+                    //System.out.println("PanelOneDataOnRecData.setEntity  --  luname:   '"+luname+"'      foreignColumnWidth:"+foreignColumnWidth);
                     
                     
                     //int colWdth=20;
@@ -839,16 +841,16 @@ int flds = 0;
                     {
                     	foreignColumnWidth = foreignColumnWidth - (foreignColumnWidth/3);
                     }
-                    //System.out.println("PanelODORData.setEntity "+foreignTable+" "+colWdth);
+                    //System.out.println("PanelODORData.setEntity "+luname+" "+colWdth);
 
 
 
                     lbl = new JLabel(columnLabel+":("+KEYSTROKE_F_LOOKUP_SHOW+")", JLabel.RIGHT);
                     lbl.setIconTextGap(0);
                     
-                    JLabel lbl2 = new JLabel(lookUp.getLookUpFieldLabel(foreignTable)+":("+KEYSTROKE_F_LOOKUP_SHOW+")", JLabel.RIGHT);
-                    JLabel lbl3 = new JLabel(lookUp.getLookUpField2Label(foreignTable)+":", JLabel.RIGHT);
-                    JLabel lbl4 = new JLabel(lookUp.getLookUpField3Label(foreignTable)+":", JLabel.RIGHT);
+                    JLabel lbl2 = new JLabel(lookUp.getLookUpFieldLabel(luname)+":("+KEYSTROKE_F_LOOKUP_SHOW+")", JLabel.RIGHT);
+                    JLabel lbl3 = new JLabel(lookUp.getLookUpField2Label(luname)+":", JLabel.RIGHT);
+                    JLabel lbl4 = new JLabel(lookUp.getLookUpField3Label(luname)+":", JLabel.RIGHT);
                     
                     if(columnFieldObligatoryOrSuggest==FIELD_OBLIGATORY)
                     {
@@ -891,15 +893,15 @@ int flds = 0;
                     //tb2.setDocument(new PlainDocumentInsertText(foreignColumnWidth,foreignColumnType));
 
 
-                       Action actionShowDialogLookUp = new ActionShowDialogLookUp(foreignTable, i);
+                       Action actionShowDialogLookUp = new ActionShowDialogLookUp(luname,foreignTable, i);
                        tb.getInputMap().put(KeyStroke.getKeyStroke(KEYSTROKE_F_LOOKUP_SHOW), "showDialogLookUp"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
                        tb.getActionMap().put("showDialogLookUp", actionShowDialogLookUp);
                        tb2.getInputMap().put(KeyStroke.getKeyStroke(KEYSTROKE_F_LOOKUP_SHOW), "showDialogLookUp"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
                        tb2.getActionMap().put("showDialogLookUp", actionShowDialogLookUp);
                     
 
-                   // Action actionShowDialogNew = new ActionShowDialogNew(foreignTable, i);
-                    Action actionShowDialogEdit = new ActionShowDialogEdit(foreignTable, i);
+                   // Action actionShowDialogNew = new ActionShowDialogNew(luname, i);
+                    Action actionShowDialogEdit = new ActionShowDialogEdit(luname,foreignTable, i);
 
                    /* ArrayList listMenuCaption = new ArrayList();
 
@@ -913,7 +915,7 @@ int flds = 0;
                     
                      txtLookUpBtn = new JTextBoxWithEditButtons(tb, false ,null,null, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	
                      txtLookUpBtn2 = new JTextBoxWithEditButtons(tb2, true ,ICO_LOOKUP,actionShowDialogLookUp, true,ICO_EDIT14, actionShowDialogEdit,0, frame,"","",MONTH_DATE_ONLY);                  	
-                    //if(lookUp.getLookUpField2(foreignTable)!=null)
+                    //if(lookUp.getLookUpField2(luname)!=null)
                     //{                     
                        txtLookUpBtn3 = new JTextBoxWithEditButtons(tb3, false ,null,null, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	
                     //}
@@ -922,25 +924,25 @@ int flds = 0;
                     txtLookUpBtn2.setDocument(new PlainDocumentInsertText(foreignColumnWidth+10,foreignColumnType)); // +10 because in look up 2 text we would like to show all text
                     
                     eachDataFieldPanel.add(txtLookUpBtn.getComponent());
-                    if(lookUp.getLookUpField2(foreignTable)!=null)
+                    if(lookUp.getLookUpField2(luname)!=null)
                     {
                        eachDataFieldPanel.add(lbl2);
                     }
                     eachDataFieldPanel.add(txtLookUpBtn2.getComponent());
-                    if(lookUp.getLookUpField2(foreignTable)!=null)
+                    if(lookUp.getLookUpField2(luname)!=null)
                     {
                     	eachDataFieldPanel.add(lbl3);
                     	eachDataFieldPanel.add(txtLookUpBtn3.getComponent());
                     }
-                    if(lookUp.getLookUpField3(foreignTable)!=null)
+                    if(lookUp.getLookUpField3(luname)!=null)
                     {
                     	eachDataFieldPanel.add(lbl4);
                     	eachDataFieldPanel.add(tb4);
                     }                    
                     
                     final int finalCol = i;  //  must be final            
-                    
-                   tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,foreignTable,columnDbName));  
+                    final String lunameFin=luname;
+                   tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,luname,foreignTable,columnDbName));  
                      final String foreignTableFinal = foreignTable;
                      final JTextField tbFinal = tb;
                      final EntityDBFields[] finalDbFieldsInGroupOfPanels = dbFieldsInGroupOfPanels;
@@ -953,13 +955,13 @@ int flds = 0;
 
                             // exists in focuslost and displayDialogLookUp
 
-                           String lookUpResult = calculateTextForLookupsAfterKeyIsSet(finalCol,foreignTableFinal);
+                           String lookUpResult = calculateTextForLookupsAfterKeyIsSet(finalCol,lunameFin,foreignTableFinal);
                           //System.out.println("panelODORData.focusLost     keyChanged:"+fieldTxtsKeyChanged.get(finalCol).toString()+"    finalCol:"+finalCol);
                            if(Boolean.parseBoolean(fieldTxtsKeyChanged.get(finalCol).toString()))//keyChanged)
                            {
 	
                              // System.out.println("PanelODORData.dbFieldsCalculateSet a  hasDataChanged:"+hasDataChanged);
-                              dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol,foreignTableFinal);
+                              dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol);
                               checkFieldsIfThenElse(finalCol,CHECK_ON_ENTRY);
                               
                               calculateVarFromPreFieldAndSetGlobal(finalCol);
@@ -999,7 +1001,7 @@ int flds = 0;
                     	public void focusLost(FocusEvent e)
                         {  // if entered nothing or spaces on textbox
 
-                           //calculateTextForLookupsAfterKeyIsSet(col,foreignTable);
+                           //calculateTextForLookupsAfterKeyIsSet(col,luname);
                            // System.out.println("PanelODoRData.focusLost B  finalCol:"+finalCol);
                            if(Boolean.parseBoolean(fieldTxtsKeyChanged.get(finalCol).toString()))//keyChanged)
                            {                           
@@ -1007,7 +1009,7 @@ int flds = 0;
                               fieldTxtsKeyChanged.set(finalCol, false);
                               keyChanged=false;
                            }
-                           //  dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol,foreignTableFinal);
+                           //  dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol,lunameFinal);
                            //System.out.println("panelODORData.focusLost");
                            //System.out.println("panelODORData.focusLost "+columnLabelFin+" "+getWhereValueNameThatMatchesColumn(columnLabelFin,null));
                            //System.out.println("panelODORData.focusLost isMasterUniqueFin"+isMasterUniqueFin);
@@ -1120,21 +1122,21 @@ int flds = 0;
                    {    }
                    else
                    {
-                   	  txtLookUpBtn.getDocument().addDocumentListener(new DocumentHandler(i,0,foreignColumnType,foreignTable,columnDbName)); 
+                   	  txtLookUpBtn.getDocument().addDocumentListener(new DocumentHandler(i,0,foreignColumnType,luname,foreignTable,columnDbName)); 
                    }
 
                    if(!txtLookUpBtn2.isVisible() )// add doc handler so if there is change trigger save
                    {    }
                    else
                    {
-                   	  txtLookUpBtn2.getDocument().addDocumentListener(new DocumentHandler(i,1,"java.sql.String",foreignTable,columnDbName)); 
+                   	  txtLookUpBtn2.getDocument().addDocumentListener(new DocumentHandler(i,1,"java.sql.String",luname,foreignTable,columnDbName)); 
                    }                   
                    
                    if(txtLookUpBtn3!=null && !txtLookUpBtn3.isVisible() )// add doc handler so if there is change trigger save
                    {    }
                    else if(txtLookUpBtn3!=null && txtLookUpBtn3.isVisible())
                    {
-                   	  txtLookUpBtn3.getDocument().addDocumentListener(new DocumentHandler(i,2,"java.sql.String",foreignTable,columnDbName)); 
+                   	  txtLookUpBtn3.getDocument().addDocumentListener(new DocumentHandler(i,2,"java.sql.String",luname,foreignTable,columnDbName)); 
                    }  
                    else
                    {
@@ -1186,7 +1188,7 @@ int flds = 0;
                      eachDataFieldPanel.add(cmbBox);
                      tb = new JTextField(columnWidth); // just for document changed, 
                      
-                     tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass, null,columnDbName));      
+                     tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null, null,columnDbName));      
                       
                      final JComboBox finalCmbBox = cmbBox;
                     final int finalCol = i;  //  must be final            
@@ -1206,7 +1208,7 @@ int flds = 0;
           //                    calculateRecordAfterKeySet(finalCol);
                               System.out.println("   setEntity  cmbBox  selected  dbFieldsCalculateSet   "+dbFieldsInGroupOfPanels[finalCol].getLookupType()+"     e.getStateChange():"+e.getStateChange()+"   index:"+finalCmbBox.getSelectedIndex()+"    item:"+finalCmbBox.getSelectedItem()+"  "+e.getItem());
                                //System.out.println("PanelODORData.dbFieldsCalculateSet b  hasDataChanged:"+hasDataChanged);
-                              dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol,"");
+                              dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol);
                               checkFieldsIfThenElse(finalCol,CHECK_ON_ENTRY);
                               	//keyChanged=false;
                            //}
@@ -1235,7 +1237,7 @@ int flds = 0;
                     	columnWidth = columnWidth - (columnWidth/4);
                     }
 
-                    Action actionShowDialogLookUp = new ActionShowDialogLookUp(foreignTable, i);
+                    Action actionShowDialogLookUp = new ActionShowDialogLookUp(luname, i);
                        tb.getInputMap().put(KeyStroke.getKeyStroke(KEYSTROKE_F_LOOKUP_SHOW), "showDialogLookUp"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
                        tb.getActionMap().put("showDialogLookUp", actionShowDialogLookUp);
 
@@ -1243,7 +1245,7 @@ int flds = 0;
 
                     final int finalCol = i;  //  must be final            
                     
-                   tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,foreignTable,columnDbName));  
+                   tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,luname,columnDbName));  
                      final JTextField tbFinal = tb;
                      final EntityDBFields[] finalDbFieldsInGroupOfPanels = dbFieldsInGroupOfPanels;
                    tb.addFocusListener(new FocusListener()  // look in showRow for focus gained in tb
@@ -1253,7 +1255,7 @@ int flds = 0;
 
                             // exists in focuslost and displayDialogLookUp
   
-                           //String lookUpResult = calculateTextForLookupsAfterKeyIsSet(finalCol,foreignTableFinal);
+                           //String lookUpResult = calculateTextForLookupsAfterKeyIsSet(finalCol,luname);
                            
                            
                           //System.out.println("panelODORData.focusLost     keyChanged:"+fieldTxtsKeyChanged.get(finalCol).toString()+"    finalCol:"+finalCol);
@@ -1587,7 +1589,7 @@ int flds = 0;
                      
                      tb = new JTextField(columnWidth); // just for document changed, 
                      
-                     tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass, null,columnDbName));      
+                     tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass, null,null,columnDbName));      
                       
                      final JLabel finalLblImage = lblImage;
                     final int finalCol = i;  //  must be final            
@@ -1699,7 +1701,7 @@ int flds = 0;
                                                     
                     //scrollPaneTextArea.setOpaque(false);
                     htmlTxtArea.setDocument(new PlainDocumentInsertText(columnWidth,columnClass));//limiting the capacity of txt	
-                   	htmlTxtArea.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null,columnDbName));                          
+                   	htmlTxtArea.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null,null,columnDbName));                          
                       
                         final PanelHtmlEditor htmlTextAreaFinal = htmlTxtArea;
                     htmlTxtArea.addFocusListener(new FocusListener()  // look in showRow for focus gained in tb
@@ -1727,7 +1729,7 @@ int flds = 0;
                     scrollPaneTextArea = new JScrollPane(textArea);//textArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
                     scrollPaneTextArea.setOpaque(false);
                     textArea.setDocument(new PlainDocumentInsertText(columnWidth,columnClass));//limiting the capacity of txt	
-                   	textArea.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null,columnDbName)); 
+                   	textArea.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null,null,columnDbName)); 
                         final JTextArea textAreaFinal = textArea;
                     textArea.addFocusListener(new FocusListener()  // look in showRow for focus gained in tb
                     {
@@ -1757,7 +1759,7 @@ int flds = 0;
                       	
                       }*/
                       tb.setDocument(new PlainDocumentInsertText(columnWidth,columnClass));//limiting the capacity of txt
-                      tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null,columnDbName)); 
+                      tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null,null,columnDbName)); 
                     final JTextComponent jtc = tb;
                     
                     jtc.addFocusListener(new FocusListener()  // look in showRow for focus gained in tb
@@ -1834,7 +1836,7 @@ int flds = 0;
                         {  // if entered nothing or spaces on textbox
                                   
                                System.out.println("PanelODORData.dbFieldsCalculateSet ("+finalIntColumn+")  -columnDbName:"+columnDbName+"-     hasDataChanged:"+hasDataChanged+"  columnClass:"+columnClass);
-                              dbFieldsCalculateSet(dbFieldsInGroupOfPanels,finalIntColumn,"");
+                              dbFieldsCalculateSet(dbFieldsInGroupOfPanels,finalIntColumn);
                               checkFieldsIfThenElse(finalIntColumn,CHECK_ON_ENTRY);
                         }
 
@@ -1887,7 +1889,7 @@ int flds = 0;
                    {    }
                    else
                    {
-                   	  txtWithBtnDate.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass, null,columnDbName)); 
+                   	  txtWithBtnDate.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass, null, null,columnDbName)); 
                    }  
                   
                   }
@@ -1920,7 +1922,7 @@ int flds = 0;
                     });
 
                     
-                   	  tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass, null,columnDbName)); 
+                   	  tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null, null,columnDbName)); 
                            	    	
           	  }     //  java.lang.String//     html             
                   else if(columnDbName!=null && columnWidth>COLWIDTH_FOR_BIGTEXTBOX)
@@ -2160,7 +2162,7 @@ int flds = 0;
                    }
                    else
                    {  
-                   	  tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass, null,columnDbName)); 
+                   	  tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,null, null,columnDbName)); 
                    }                     
                    // eachDataFieldPanel.add(tb);
                     //eachDataFieldPanel.add(tb2);
@@ -2454,7 +2456,7 @@ catch(Exception e)
    *  makes the calulation between fields
    * Do NOT use here closeDB() because affects showRow(closes rs of showRow) This does not leave any dbconnections open.
    */
-   private void dbFieldsCalculateSet(EntityDBFields[] dbFieldsInGroupOfPanels,int col,String foreignTableIn)
+   private void dbFieldsCalculateSet(EntityDBFields[] dbFieldsInGroupOfPanels,int col)
    {
         //System.out.println("PanelODORData.dbFieldsCalculateSet CALLED  hasDataChanged:"+hasDataChanged);
           //int fieldCount = i;//i-1; // calculates the no of field starting from 0 when i = 1
@@ -3504,7 +3506,7 @@ catch(Exception e)
    }*/
    
    //exists modificated in PanelOneDataOneRecData and TableCellEditorLookUp
-   public String displayWindowLookUp(String foreignTable, int dbCol)
+   public String displayWindowLookUp(String luname,String foreignTable, int dbCol)
    { 
    	  int noOfCharsForOpenningWindow=1;
    	  int noOfCharsToShowWindow=1;
@@ -3515,16 +3517,16 @@ catch(Exception e)
    	  
    	  JTextComponent tbc2 =(JTextComponent)fieldTxts2.get(dbCol);
    	  JTextComponent tbc3 = null;
-   	  if(lookUp.getLookUpField2(foreignTable)!=null)
+   	  if(lookUp.getLookUpField2(luname)!=null)
    	  {
    	     tbc3 =(JTextComponent)fieldTxts3.get(dbCol);	
    	  }
    	  
-   	  //System.out.println("PanelODORData.displayWindowLookUp "+foreignTable+" "+ta.getText() +" "+tb.getText());
+   	  //System.out.println("PanelODORData.displayWindowLookUp "+luname+" "+ta.getText() +" "+tb.getText());
    	  
 
    	  
-   	 if( tbc2.getText().length()>=noOfCharsForOpenningWindow ||( lookUp.getLookUpField2(foreignTable)!=null && tbc3.getText().length()>=noOfCharsForOpenningWindow))
+   	 if( tbc2.getText().length()>=noOfCharsForOpenningWindow ||( lookUp.getLookUpField2(luname)!=null && tbc3.getText().length()>=noOfCharsForOpenningWindow))
    	 {
    	            
           //winLookUp = new WindowLookUp(frame);
@@ -3579,7 +3581,7 @@ catch(Exception e)
          System.out.println("PanelODORData.displayWindowLookUp  ===    dbCol"+dbCol+"  arGlobal");
         
          // String fieldVariableFromPreField = dbFieldsInGroupOfPanels[dbCol].getFormVariableFromField();
-          winLookUp.setEntity(tbc,tbc2.getText(),foreignTable,lookUp, null,2,2,lookUp.getIntValidationColumn(foreignTable), lookUp.getIntValidationType(foreignTable),
+          winLookUp.setEntity(tbc,tbc2.getText(),luname,foreignTable,lookUp, null,2,2,lookUp.getIntValidationColumn(luname), lookUp.getIntValidationType(luname),
                   dbFieldsInGroupOfPanels,dbCol,fieldTxts,WINDOWLOOKUP_IS_CALLED_IN_TEXTFIELD,-1); 
           //tb2.setText("");
            
@@ -3602,7 +3604,7 @@ catch(Exception e)
            final JTextComponent tb2Final = tbc2;
 
 
-         if(lookUp.getLookUpField2(foreignTable)!=null)
+         if(lookUp.getLookUpField2(luname)!=null)
    	     {
            final JTextComponent tb3Final = tbc3;
 
@@ -3612,7 +3614,7 @@ catch(Exception e)
             
        if (selected!=null && !selected.equalsIgnoreCase("")) // means not selected cancel
        {
-       System.out.println("PanelODORData.displayDialogLookUp   ====================================        foreignTable:"+foreignTable+"   selected:"+selected);      
+       System.out.println("PanelODORData.displayDialogLookUp   ====================================        luname:"+luname+"   selected:"+selected);      
              //setVariablesGlobal1(String foreignTableIn, String value)
              
 
@@ -3689,7 +3691,7 @@ catch(Exception e)
    
    
    
-   private void displayDialogLookUp(String foreignTable, int dbCol)
+   private void displayDialogLookUp(String luname,String foreignTable, int dbCol)
    {
       // Component comp =this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
        //System.out.println(comp.getClass());
@@ -3704,7 +3706,7 @@ catch(Exception e)
       //System.out.println("  == O ==>  PanelODORData.displayDialogLookUp    entity:"+entity+"   foreignTable:"+foreignTable+"   dbCol:"+dbCol);
       String fieldVariableFromPreField = dbFieldsInGroupOfPanels[dbCol].getFormVariableFromField();     
       
-       System.out.println("  == O ==>  PanelODORData.displayDialogLookUp    entity:"+entity+"   foreignTable:"+foreignTable+"   dbCol:"+dbCol);
+       System.out.println("  == O ==>  PanelODORData.displayDialogLookUp    entity:"+entity+"   luname:"+luname+"   dbCol:"+dbCol);
       String strValueFromField = calculateVarFromPreFieldAndSetGlobal(dbCol);
       /*if(fieldVariableFromPreField!= null && !fieldVariableFromPreField.equalsIgnoreCase(""))
       {
@@ -3749,43 +3751,43 @@ catch(Exception e)
 //       if(selectedKeyValue.equalsIgnoreCase(""))
  //      {
        	String sub="";
-       	if(lookUp.getLookUpField(foreignTable).length>=1)
+       	if(lookUp.getLookUpField(luname).length>=1)
    	   	{
    	   	    // getLookUpField is array
-   	   		int len = lookUp.getLookUpField(foreignTable).length;
+   	   		int len = lookUp.getLookUpField(luname).length;
    	   		for(int o= 0; o<len ;o++)
    	   		{
    	   		   
    	   		   String end ="";	
    	   		   	if(o==0)
    	   		   	{
-   	   		   	   	sub=sub+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+tb2Text+"%'";
+   	   		   	   	sub=sub+lookUp.getLookUpField(luname)[o]+" LIKE '"+tb2Text+"%'";
    	   		   	}
    	   		   	else
    	   		   	{
-   	   		   		sub=sub+" OR "+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+tb2Text+"%'";
+   	   		   		sub=sub+" OR "+lookUp.getLookUpField(luname)[o]+" LIKE '"+tb2Text+"%'";
    	   		   	}
    	   		   	
    	   		}
    	   	}
        	  String qSub = "";
           String qSubForVar = "";
-          String queryLookUpWhere = lookUp.getQuerySubqueryWhere(foreignTable);
-       	 String queryLookUpWhereForFormVariable = lookUp.getQueryWhereForFormVariable(foreignTable);
+          String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
+       	 String queryLookUpWhereForFormVariable = lookUp.getQueryWhereForFormVariable(luname);
           
           
       //if(formGlobalTableToApply1!=null && !formGlobalTableToApply1.equalsIgnoreCase(""))
       if(fieldVariableFromPreField!=null && !fieldVariableFromPreField.equalsIgnoreCase(""))
       {
-          //if(!formGlobalTableToApply1.equalsIgnoreCase(foreignTable))             //if(entityIn.equalsIgnoreCase(VariablesGlobal.globalformGlobalTableToGet1))
+          //if(!formGlobalTableToApply1.equalsIgnoreCase(luname))             //if(entityIn.equalsIgnoreCase(VariablesGlobal.globalformGlobalTableToGet1))
           //{          
           if(utilsString.hasQueryWhere(queryLookUpWhere))
    	  {
-       	      qSub = " AND( "+sub+" ) ";//lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
+       	      qSub = " AND( "+sub+" ) ";//lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
    	  }
    	  else
    	  {
-   	       	  qSub = " WHERE "+sub;//lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
+   	       	  qSub = " WHERE "+sub;//lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
    	  }
           
        
@@ -3799,7 +3801,7 @@ catch(Exception e)
   
        String subQueryFilterFromRecType="";
 
-  String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(foreignTable);
+  String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(luname);
 
       //System.out.println(" panelODORData.displayDialogLookUp    -u--o--u-  fieldVariableFromPreField:"+fieldVariableFromPreField+"   intFieldToGetTheValue:"+intFieldToGetTheValue);
       if(fieldVariableFromPreField!=null && !fieldVariableFromPreField.equalsIgnoreCase(""))
@@ -3822,7 +3824,7 @@ catch(Exception e)
       }
 
       
-    // System.out.println(" BEFORE panelODORData.displayDialogLookUp     "+foreignTable+"     ----selectedKeyValue:"+selectedKeyValue+"+++++       subQueryFilterFromRecType:"+subQueryFilterFromRecType);
+    // System.out.println(" BEFORE panelODORData.displayDialogLookUp     "+luname+"     ----selectedKeyValue:"+selectedKeyValue+"+++++       subQueryFilterFromRecType:"+subQueryFilterFromRecType);
       JTextComponent txtb = (JTextComponent)fieldTxts.get(dbCol);   
       String val = txtb.getText();
       
@@ -3832,13 +3834,13 @@ catch(Exception e)
         {
             
             
-            String queryLUWithQ = lookUp.getQuery(foreignTable)+" "+queryLookUpWhere+"  "+qSub+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(foreignTable);
+            String queryLUWithQ = lookUp.getQuery(luname)+" "+queryLookUpWhere+"  "+qSub+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(luname);
         
             //System.out.println("PanelODORData.displayDialogLookUp queryLUWithQ:"+queryLUWithQ);            
-           // EntityReport entityReportLU = lookUp.getEntityReport(foreignTable);
+           // EntityReport entityReportLU = lookUp.getEntityReport(luname);
         //System.out.println("panelODORData.displayDialogLookUp   IF     selectedKeyValue:"+selectedKeyValue+"      queryLUWithQ:"+queryLUWithQ);
-           selected = DialogLookUp.showDialog(this,foreignTable, queryLUWithQ,lookUp.getLookUpKeyTranslation(foreignTable) , 
-                   selectedKeyValue,lookUp.getShowToolbar(foreignTable),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(foreignTable),fieldTxts);//,entityReportLU); 
+           selected = DialogLookUp.showDialog(this,luname, queryLUWithQ,lookUp.getLookUpKeyTranslation(luname) , 
+                   selectedKeyValue,lookUp.getShowToolbar(luname),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(luname),fieldTxts);//,entityReportLU); 
            
            
           //System.out.println("panelODORData.displayDialogLookUp IF B  selectedKeyValue:"+selectedKeyValue+" selected:"+selected+" queryLUWithQ:"+queryLUWithQ);
@@ -3846,13 +3848,13 @@ catch(Exception e)
         else //if( !subQueryFilterFromRecType.equalsIgnoreCase(""))  //  !selectedKeyValue.equalsIgnoreCase("") &&
         {
             
-            String queryLUWithQ = lookUp.getQuery(foreignTable)+" "+queryLookUpWhereForFormVariable+" "+subQueryFilterFromRecType+" "+/*qSub+*/" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(foreignTable);
+            String queryLUWithQ = lookUp.getQuery(luname)+" "+queryLookUpWhereForFormVariable+" "+subQueryFilterFromRecType+" "+/*qSub+*/" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(luname);
         
          // System.out.println("PanelODORData.displayDialogLookUp   ELSE IF      selectedKeyValue:"+selectedKeyValue+"     queryLUWithQ:"+queryLUWithQ);            
-           // EntityReport entityReportLU = lookUp.getEntityReport(foreignTable);
+           // EntityReport entityReportLU = lookUp.getEntityReport(luname);
       //  System.out.println("panelODORData.displayDialogLookUp  ELSE  IF     selectedKeyValue:"+selectedKeyValue+"      queryLUWithQ:"+queryLUWithQ);
-           selected = DialogLookUp.showDialog(this,foreignTable, queryLUWithQ,lookUp.getLookUpKeyTranslation(foreignTable) , 
-                   selectedKeyValue,lookUp.getShowToolbar(foreignTable),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(foreignTable),fieldTxts);//,entityReportLU); 
+           selected = DialogLookUp.showDialog(this,luname, queryLUWithQ,lookUp.getLookUpKeyTranslation(luname) , 
+                   selectedKeyValue,lookUp.getShowToolbar(luname),/*yearEnforce,*/panelManagement,lookUp.getFieldsForSums(luname),fieldTxts);//,entityReportLU); 
 
         }
 
@@ -3861,7 +3863,7 @@ catch(Exception e)
        if (selected!=null && !selected.equalsIgnoreCase("")) // means not selected cancel
        {
        //System.out.println("PanelODORData.displayDialogLookUp   ====================================    formGlobalTableToGet1:"+formGlobalTableToGet1+"   formGlobalTableToApply1:"+formGlobalTableToApply1+"    foreignTable:"+foreignTable+"   selected:"+selected);      
-             //setVariablesGlobal1(String foreignTableIn, String value)
+             //setVariablesGlobal1(String luname, String value)
               //tb.getText();
              if(!val.equalsIgnoreCase(selected)) // if changed
              {
@@ -3873,9 +3875,9 @@ catch(Exception e)
              }
               tb.setText(selected.trim());
  
-     //     System.out.println("PanelODORData.displayDialogLookUp    if2  bef   foreignTable:"+foreignTable+"   selected:"+selected);      
+     //     System.out.println("PanelODORData.displayDialogLookUp    if2  bef   luname:"+luname+"   selected:"+selected);      
                             // exists in setEntity focuslost and displayDialogLookUp
-                           String lookUpResult = calculateTextForLookupsAfterKeyIsSet(dbCol,foreignTable);
+                           String lookUpResult = calculateTextForLookupsAfterKeyIsSet(dbCol,luname,foreignTable);
                            if(Boolean.parseBoolean(fieldTxtsKeyChanged.get(dbCol).toString()))//keyChanged)
                            {
                   //            calculateRecordAfterKeySet(dbCol);	
@@ -3891,7 +3893,7 @@ catch(Exception e)
                            }    
                            
                             //System.out.println("PanelODORData.dbFieldsCalculateSet c  hasDataChanged:"+hasDataChanged);
-                              dbFieldsCalculateSet(dbFieldsInGroupOfPanels,dbCol,foreignTable); 
+                              dbFieldsCalculateSet(dbFieldsInGroupOfPanels,dbCol); 
                               
                          
                               checkFieldsIfThenElse(dbCol,CHECK_ON_ENTRY);
@@ -4133,7 +4135,7 @@ catch(Exception e)
   /*
    *  parts also included in report record zoom in ReportAreaGenerated.clickedOnRow()
    */
-   private void displayDialogNew(String foreignTable, int dbCol)
+   private void displayDialogNew(String luname,String foreignTable, int dbCol)
    { 
       // Component comp =this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
        //System.out.println(comp.getClass());
@@ -4165,27 +4167,27 @@ catch(Exception e)
         LookUpMgt lookUp = new LookUpMgt();
         
         
-        String[] fieldsOnTitle=lookUp.getFieldsOnTitle(foreignTable);
-         String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(foreignTable);
-        String editTitle=lookUp.getStrOfOne(foreignTable);
-        EntityPanel[] entityPanel = lookUp.getEntityPanel(foreignTable);
-  //      String primKey = lookUp.getLookUpKey(foreignTable);
-        ImageIcon iconLU=lookUp.getIcon(foreignTable);
-        String queryLookUp = lookUp.getQuery(foreignTable);
-        String queryLookUpWhere = lookUp.getQuerySubqueryWhere(foreignTable);
-        String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(foreignTable);
-        String queryOrderByLookUp = lookUp.getQueryOrderBy(foreignTable);
+        String[] fieldsOnTitle=lookUp.getFieldsOnTitle(luname);
+         String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(luname);
+        String editTitle=lookUp.getStrOfOne(luname);
+        EntityPanel[] entityPanel = lookUp.getEntityPanel(luname);
+  //      String primKey = lookUp.getLookUpKey(luname);
+        ImageIcon iconLU=lookUp.getIcon(luname);
+        String queryLookUp = lookUp.getQuery(luname);
+        String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
+        String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(luname);
+        String queryOrderByLookUp = lookUp.getQueryOrderBy(luname);
    //     panelEditOneDataRec.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,null,null,/*query,*/
    //     editTitle,ico,true,isNewRec,isNewRecFromCopy,true,categoryNodes, false);	
-        String[] categoryNodes = lookUp.getCategoryNodes(foreignTable); // when it is new show only panel for edit
+        String[] categoryNodes = lookUp.getCategoryNodes(luname); // when it is new show only panel for edit
 
            if(utilsString.hasQueryWhere(queryLookUpWhere))
            {
-               queryLookUp=queryLookUp+" "+queryLookUpWhere+" AND "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+primKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
+               queryLookUp=queryLookUp+" "+queryLookUpWhere+" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+primKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
            }
            else
            {
-               queryLookUp=queryLookUp+" WHERE "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+primKeyValue+"'";//+rs.getString(primKey)+"' ";//+" "+queryLookUpIsActive;//queryLookUpIsActive already has AND
+               queryLookUp=queryLookUp+" WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+primKeyValue+"'";//+rs.getString(primKey)+"' ";//+" "+queryLookUpIsActive;//queryLookUpIsActive already has AND
            }
         
 
@@ -4232,7 +4234,7 @@ catch(Exception e)
    /*
    *  parts also included in report record zoom in ReportAreaGenerated.clickedOnRow()
    */
-   private void displayDialogEdit(String foreignTable, int dbCol)
+   private void displayDialogEdit(String luname,String foreignTable, int dbCol)
    { 
       // Component comp =this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
        //System.out.println(comp.getClass());
@@ -4270,7 +4272,7 @@ catch(Exception e)
 //       if(selectedKeyValue.equalsIgnoreCase(""))
  //      {
        	String sub="";
-       System.out.println("PanelODORData.displayDialogEdit    00000000     selectedKeyValue:"+selectedKeyValue+"   dbCol:"+dbCol+"   foreignTable:"+foreignTable);
+       System.out.println("PanelODORData.displayDialogEdit    00000000     selectedKeyValue:"+selectedKeyValue+"   dbCol:"+dbCol+"   luname:"+luname);
      if(!selectedKeyValue.equals(""))
      {
        //PanelOneDataManyRecData PanelOneDataManyRecData;
@@ -4283,61 +4285,61 @@ catch(Exception e)
         LookUpMgt lookUp = new LookUpMgt();
         
         
-        String[] fieldsOnTitle=lookUp.getFieldsOnTitle(foreignTable);
-         String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(foreignTable);
-        String editTitle=lookUp.getStrOfOne(foreignTable);
-        EntityPanel[] entityPanel = lookUp.getEntityPanel(foreignTable);
-        String primKey = lookUp.getLookUpKey(foreignTable);
-        ImageIcon iconLU=lookUp.getIcon(foreignTable);
-        String queryLookUp = lookUp.getQuery(foreignTable);
-        String queryLookUpWhere = lookUp.getQuerySubqueryWhere(foreignTable);
-         String queryLookUpWhereForFormVariable = lookUp.getQueryWhereForFormVariable(foreignTable);
-        String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(foreignTable);
-        String queryOrderByLookUp = lookUp.getQueryOrderBy(foreignTable);
+        String[] fieldsOnTitle=lookUp.getFieldsOnTitle(luname);
+         String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(luname);
+        String editTitle=lookUp.getStrOfOne(luname);
+        EntityPanel[] entityPanel = lookUp.getEntityPanel(luname);
+        String primKey = lookUp.getLookUpKey(luname);
+        ImageIcon iconLU=lookUp.getIcon(luname);
+        String queryLookUp = lookUp.getQuery(luname);
+        String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
+         String queryLookUpWhereForFormVariable = lookUp.getQueryWhereForFormVariable(luname);
+        String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(luname);
+        String queryOrderByLookUp = lookUp.getQueryOrderBy(luname);
    //     panelEditOneDataRec.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,null,null,/*query,*/
    //     editTitle,ico,true,isNewRec,isNewRecFromCopy,true,categoryNodes, false);	
    
 
    
    
- 	if(lookUp.getLookUpField(foreignTable).length>=1)
+ 	if(lookUp.getLookUpField(luname).length>=1)
    	   	{
    	   	    // getLookUpField is array
-   	   		int len = lookUp.getLookUpField(foreignTable).length;
+   	   		int len = lookUp.getLookUpField(luname).length;
    	   		for(int o= 0; o<len ;o++)
    	   		{
    	   		   
    	   		   String end ="";	
    	   		   	if(o==0)
    	   		   	{
-   	   		   	   	sub=sub+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+tb2Text+"%'";
+   	   		   	   	sub=sub+lookUp.getLookUpField(luname)[o]+" LIKE '"+tb2Text+"%'";
    	   		   	}
    	   		   	else
    	   		   	{
-   	   		   		sub=sub+" OR "+lookUp.getLookUpField(foreignTable)[o]+" LIKE '"+tb2Text+"%'";
+   	   		   		sub=sub+" OR "+lookUp.getLookUpField(luname)[o]+" LIKE '"+tb2Text+"%'";
    	   		   	}
    	   		   	
    	   		}
    	   	}
        	  String qSub = "";
          String  qSubForVar = "";
-          //String queryLookUpWhere = lookUp.getQuerySubqueryWhere(foreignTable);
+          //String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
        	 
           
           
      // if(formGlobalTableToApply1!=null && !formGlobalTableToApply1.equalsIgnoreCase(""))
      // {
-      //    if(!formGlobalTableToApply1.equalsIgnoreCase(foreignTable))             //if(entityIn.equalsIgnoreCase(VariablesGlobal.globalformGlobalTableToGet1))
+      //    if(!formGlobalTableToApply1.equalsIgnoreCase(luname))             //if(entityIn.equalsIgnoreCase(VariablesGlobal.globalformGlobalTableToGet1))
          // {  
          if(fieldVariableFromPreField!= null && !fieldVariableFromPreField.equalsIgnoreCase(""))
          {
            if(utilsString.hasQueryWhere(queryLookUpWhere))
    	  {
-       	      qSub = " AND( "+sub+" ) ";//lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
+       	      qSub = " AND( "+sub+" ) ";//lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
    	  }
    	  else
    	  {
-   	       	  qSub = " WHERE "+sub;//lookUp.getLookUpField(foreignTable)+" LIKE '"+tb2Text+"%' "
+   	       	  qSub = " WHERE "+sub;//lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
    	  }  
            
          
@@ -4351,54 +4353,54 @@ catch(Exception e)
   
         String subQueryFilterFromRecType="";
 
-  //String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(foreignTable);
+  //String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(luname);
 
      String queryLUWithQ ="";
       //if(formGlobalTableToApply1!=null && !formGlobalTableToApply1.equalsIgnoreCase(""))
          if(fieldVariableFromPreField!= null && !fieldVariableFromPreField.equalsIgnoreCase(""))
          {
-          //if(formGlobalTableToApply1.equalsIgnoreCase(foreignTable))             //if(entityIn.equalsIgnoreCase(VariablesGlobal.globalformGlobalTableToGet1))
+          //if(formGlobalTableToApply1.equalsIgnoreCase(luname))             //if(entityIn.equalsIgnoreCase(VariablesGlobal.globalformGlobalTableToGet1))
           //{
 
-          //String queryLookUpWhereTableOfForm = lookUp.getQuerySubqueryWhere(foreignTable);
+          //String queryLookUpWhereTableOfForm = lookUp.getQuerySubqueryWhere(luname);
          // queryClosingSubquery =  subQueryFilterFromRecType;      //queryLookUpWhereTableOfForm+subQueryFilterFromRecType;
           subQueryFilterFromRecType =  strValueFromField +" ) "; 
-          System.out.println(" panelODORData.displayDialogLookUp    IF         foreignTable:"+foreignTable+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType+"       VariablesGlobal.globalformGlobalVariable1"+VariablesGlobal.globalformGlobalVariable1);
-           queryLUWithQ = lookUp.getQuery(foreignTable)+" "+queryLookUpWhereForFormVariable+" "+subQueryFilterFromRecType+" "+qSubForVar ;//+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(foreignTable);
-           queryLUWithQ=queryLUWithQ+" AND "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
+          System.out.println(" panelODORData.displayDialogLookUp    IF         luname:"+luname+"     subQueryFilterFromRecType:"+subQueryFilterFromRecType+"       VariablesGlobal.globalformGlobalVariable1"+VariablesGlobal.globalformGlobalVariable1);
+           queryLUWithQ = lookUp.getQuery(luname)+" "+queryLookUpWhereForFormVariable+" "+subQueryFilterFromRecType+" "+qSubForVar ;//+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(luname);
+           queryLUWithQ=queryLUWithQ+" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
         } 
         else
         {
           
-          System.out.println(" panelODORData.displayDialogLookUp    ----+++-----         foreignTable:"+foreignTable+"     VariablesGlobal.globalformGlobalVariable1"+VariablesGlobal.globalformGlobalVariable1);
-          queryLUWithQ = lookUp.getQuery(foreignTable)+" "+queryLookUpWhere+" "+subQueryFilterFromRecType+" "+qSub ;//+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(foreignTable);
+          System.out.println(" panelODORData.displayDialogLookUp    ----+++-----         luname:"+luname+"     VariablesGlobal.globalformGlobalVariable1"+VariablesGlobal.globalformGlobalVariable1);
+          queryLUWithQ = lookUp.getQuery(luname)+" "+queryLookUpWhere+" "+subQueryFilterFromRecType+" "+qSub ;//+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(luname);
         
           if(utilsString.hasQueryWhere(queryLookUpWhere))
            {
-               //queryLookUp=queryLookUp+" "+queryLookUpWhere+" AND "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
-               queryLUWithQ=queryLUWithQ+" AND "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
+               //queryLookUp=queryLookUp+" "+queryLookUpWhere+" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
+               queryLUWithQ=queryLUWithQ+" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
            }
            else
            {
-                queryLUWithQ=queryLUWithQ+" WHERE "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"' ";//+" "+queryLookUpIsActive;//queryLookUpIsActive already has AND
+                queryLUWithQ=queryLUWithQ+" WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"' ";//+" "+queryLookUpIsActive;//queryLookUpIsActive already has AND
            }          
 
 
 // subQueryFilterFromRecType = ""; //for lookup dialog of no globalvariable
-             //System.out.println("ELSE ELSE     panelODORData.displayDialogLookUp    ELSE       globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"    foreignTable:"+foreignTable);
+             //System.out.println("ELSE ELSE     panelODORData.displayDialogLookUp    ELSE       globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"    luname:"+luname);
        }
         //   coppied from UtilsPanelReport.getLookupValue "end"  ------------- not double checked
  
-      //String queryLookUp = lookUp.getQuery(foreignTable)+" "+queryLookUpWhere+" "+subQueryFilterFromRecType+" "+queryLookUpIsActive+" "+queryOrderByLookUp;      
+      //String queryLookUp = lookUp.getQuery(luname)+" "+queryLookUpWhere+" "+subQueryFilterFromRecType+" "+queryLookUpIsActive+" "+queryOrderByLookUp;      
             
 
       
-     // System.out.println(" BEFORE panelODORData.displayDialogLookUp   "+foreignTable+"    selectedKeyValue:"+selectedKeyValue+"       subQueryFilterFromRecType:"+subQueryFilterFromRecType+"        queryLookUp:"+queryLookUp);
+     // System.out.println(" BEFORE panelODORData.displayDialogLookUp   "+luname+"    selectedKeyValue:"+selectedKeyValue+"       subQueryFilterFromRecType:"+subQueryFilterFromRecType+"        queryLookUp:"+queryLookUp);
       
 
     
             
-            // queryLUWithQ = lookUp.getQuery(foreignTable)+" "+queryLookUpWhere+" "+subQueryFilterFromRecType+" "+qSub ;//+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(foreignTable);
+            // queryLUWithQ = lookUp.getQuery(luname)+" "+queryLookUpWhere+" "+subQueryFilterFromRecType+" "+qSub ;//+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(luname);
     
    
    
@@ -4584,7 +4586,7 @@ catch(Exception e)
 	         String classtype = dbFieldsInGroupOfPanels[i].getColClassName();  // if integer then not add ' and ' between values 
                  int intFieldOfTable =  dbFieldsInGroupOfPanels[i].getFieldOfTableThatWillBeSummed();
                  
-                 dbFieldsCalculateSet( dbFieldsInGroupOfPanels,i,"");
+                 dbFieldsCalculateSet( dbFieldsInGroupOfPanels,i);
                  
          //}
       }
@@ -4810,10 +4812,13 @@ catch(Exception e)
          
           
           
-          String foreignTable = dbFieldsInGroupOfPanels[i].getLookupEntityName();//databaseTableMeta.findForeignTable(columnLabel);  
-          //System.out.println(" PanelODORData.showRow    i:"+i+"    colName:"+colName+"   class name:"+dbFieldsInGroupOfPanels[i].getColClassName()+"    lookup type:"+dbFieldsInGroupOfPanels[i].getLookupType());
-          if (dbFieldsInGroupOfPanels[i].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD && foreignTable!= null )
-          {             
+          String luname = dbFieldsInGroupOfPanels[i].getLookupEntityName();//databaseTableMeta.findForeignTable(columnLabel); 
+          System.out.println(" PanelODORData.showRow    i:"+i+"    colName:"+colName+"   class name:"+dbFieldsInGroupOfPanels[i].getColClassName()+"    lookup type:"+dbFieldsInGroupOfPanels[i].getLookupType()+"   luname:"+luname);
+         
+          
+          if (dbFieldsInGroupOfPanels[i].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD && luname!= null )
+          {        
+               String foreignTable = lookUp.getFromTheNameTheForeignTable(luname);
               // show field value in tb
                
               
@@ -4826,7 +4831,7 @@ catch(Exception e)
               
          
               int intFieldToGetTheValue = calculateAllFieldsForFormVariable1(); 
-              //System.out.println("PanelODoRData.showRow     foreignTable:"+foreignTable+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue);
+              //System.out.println("PanelODoRData.showRow     luname:"+luname+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue);
           String fieldVariableFromPreField =  "";
           if(dbFieldsInGroupOfPanels!=null && intFieldToGetTheValue!=-1)
           {
@@ -4836,7 +4841,7 @@ catch(Exception e)
               }
               else
               {
-                  System.out.println("error -> PanelODoRData.showRow     foreignTable:"+foreignTable+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue+" < "+dbFieldsInGroupOfPanels.length);
+                  System.out.println("error -> PanelODoRData.showRow     luname:"+luname+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue+" < "+dbFieldsInGroupOfPanels.length);
               }
           }
           
@@ -4905,7 +4910,7 @@ catch(Exception e)
                       //        System.out.println("  showRow finalCol:"+finalCol+"      type"+dbFieldsInGroupOfPanels[finalCol].getLookupType());
                              //System.out.println("PanelODORData.showRow   ====================================  "+finalCol+"  formGlobalTableToGet1:"+formGlobalTableToGet1);
                               //System.out.println("PanelODORData.dbFieldsCalculateSet d  hasDataChanged:"+hasDataChanged); 
-                             dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol,foreignTableFinal);
+                             dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol);
                               	//keyChanged=false;
                                
                            }                              
@@ -4941,23 +4946,23 @@ catch(Exception e)
               {
 
                 
-        
-                  lookupText = utilsPanelReport.getLookupValue(entity,foreignTable,rs.getString(colName),1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);
-         //    System.out.println("PanelODORData.showRow   =+++++++++++   +   +++++++++  i:"+i+"        colName:"+colName+"      foreignTable:"+foreignTable+"      fieldVariableFromPreField:"+ fieldVariableFromPreField +"  rs.getString(colName):"+rs.getString(colName) +"  lookupText:" +lookupText);               
-                if(lookUp.getLookUpField2(foreignTable)!=null)
+                  // String  luname =  finalDbFieldsInGroupOfPanels[finalCol].getLookupEntityName();
+                  lookupText = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);
+         //    System.out.println("PanelODORData.showRow   =+++++++++++   +   +++++++++  i:"+i+"        colName:"+colName+"      luname:"+luname+"      fieldVariableFromPreField:"+ fieldVariableFromPreField +"  rs.getString(colName):"+rs.getString(colName) +"  lookupText:" +lookupText);               
+                if(lookUp.getLookUpField2(luname)!=null)
                 {
-                   //System.out.println("panelODORData.showRow "+lookUp.getLookUpField2Index(foreignTable));
-                  // lookupText3 =rsForeign.getString(lookUp.getLookUpField2Index(foreignTable));// get field data	
+                   //System.out.println("panelODORData.showRow "+lookUp.getLookUpField2Index(luname));
+                  // lookupText3 =rsForeign.getString(lookUp.getLookUpField2Index(luname));// get field data	
                    //System.out.println("panelODORData.showRow "+lookupText3);
-                   lookupText3 = utilsPanelReport.getLookupValue(entity,foreignTable,rs.getString(colName),2,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);
+                   lookupText3 = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),2,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);
                 }
  
-                if(lookUp.getLookUpField3(foreignTable)!=null)
+                if(lookUp.getLookUpField3(luname)!=null)
                 {
                    //System.out.println("panelODORData.showRow "+lookUp.getLookUpField2Index(foreignTable));
                   // lookupText4 =rsForeign.getString(lookUp.getLookUpField3Index(foreignTable));// get field data	
                    //System.out.println("panelODORData.showRow "+lookupText3);
-                   lookupText4 = utilsPanelReport.getLookupValue(entity,foreignTable,rs.getString(colName),3,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);
+                   lookupText4 = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),3,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);
                 }               
                 //System.out.println("panelODORData.showRow if 2 "+(i)+" columnLabel "+columnLabel+" text "+lookupText);            
 
@@ -5462,7 +5467,7 @@ catch(Exception e)
                     //          System.out.println(" showrow  i:"+finalCol+"        type"+dbFieldsInGroupOfPanels[finalCol].getLookupType());
                              //System.out.println("PanelODORData.showRow   ====================================  "+finalCol+"  formGlobalTableToGet1:"+formGlobalTableToGet1);
                               //System.out.println("PanelODORData.dbFieldsCalculateSet e  hasDataChanged:"+hasDataChanged); 
-                             dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol,"");
+                             dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol);
                               	//keyChanged=false;
                               
                            }                            
@@ -9139,7 +9144,7 @@ ps.setBytes(i, b);
      /*
       *  shows in second txt the value from table
       */
-   private String calculateTextForLookupsAfterKeyIsSet(int col, String foreignTable)
+   private String calculateTextForLookupsAfterKeyIsSet(int col,String  luname , String foreignTable)
    {
 	String lookupResult1="-";
                             JTextComponent txtb = (JTextComponent)fieldTxts.get(col);
@@ -9156,7 +9161,7 @@ ps.setBytes(i, b);
                       //  System.out.println("PanelODORData.calculateTextForLookupsAfterKeyIsSet   =++++++++++++++++++=    ");
                            if (!lookupValue.equalsIgnoreCase("")&&!lookupValue.equalsIgnoreCase(" ")&&!lookupValue.equalsIgnoreCase("  "))
                            {
-                  
+                  //=  dbFieldsInGroupOfPanels[col].getLookupEntityName();
                   int intFieldToGetTheValue = utilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1(dbFieldsAll);               
                   String strValueFromField = calculateVarFromPreFieldAndSetGlobal(col);
                   
@@ -9179,22 +9184,23 @@ ps.setBytes(i, b);
                                
                                
                                
-                          String subqueryWhereForAPreviousFieldValue = lookUp.getQueryWhereForFormVariable(foreignTable);     
+                          String subqueryWhereForAPreviousFieldValue = lookUp.getQueryWhereForFormVariable(luname);     
                               // String fieldVariableFromPreField = dbFieldsInGroupOfPanels[col].getFormVariableFromField();
-                          //System.out.println("panelODORData.calculateTextForLookupsAfterKeyIsSet    '"+foreignTable+"'   "+lookupValue);
-                             lookupResult1 = utilsPanelReport.getLookupValue(entity,foreignTable,lookupValue,1,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/subqueryWhereForAPreviousFieldValue,entity);// last variable is to filter values from a value in a previous field
+                          //System.out.println("panelODORData.calculateTextForLookupsAfterKeyIsSet    '"+foreignTable+"'   "+lookupValue
+                          
+                             lookupResult1 = utilsPanelReport.getLookupValue(luname,foreignTable,lookupValue,1,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/subqueryWhereForAPreviousFieldValue,entity);// last variable is to filter values from a value in a previous field
      //System.out.println("panelODORData.calculateTextForLookupsAfterKeyIsSet    foreignTable:"+foreignTable+"   lookupValue:"+lookupValue+"   lookupResult1:"+lookupResult1+"  col:"+col+"     fieldVariableFromPreField:"+fieldVariableFromPreField);   
                              
                              String lookupResult2 ="";
                              String lookupResult3 ="";
-                             if(lookUp.getLookUpField2Index(foreignTable)!=0)
+                             if(lookUp.getLookUpField2Index(luname)!=0)
                              {
-                                lookupResult2 = utilsPanelReport.getLookupValue(entity,foreignTable,lookupValue,2,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);// last variable is to filter values from a value in a previous field
+                                lookupResult2 = utilsPanelReport.getLookupValue(luname,foreignTable,lookupValue,2,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);// last variable is to filter values from a value in a previous field
                              }
 
-                             if(lookUp.getLookUpField3Index(foreignTable)!=0)
+                             if(lookUp.getLookUpField3Index(luname)!=0)
                              {
-                                lookupResult3 = utilsPanelReport.getLookupValue(entity,foreignTable,lookupValue,3,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);// last variable is to filter values from a value in a previous field
+                                lookupResult3 = utilsPanelReport.getLookupValue(luname,foreignTable,lookupValue,3,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);// last variable is to filter values from a value in a previous field
                              }
                             
                              //  System.out.println("panelODORData.calculateTextForLookupsAfterKeyIsSet  hasDataChanged"+hasDataChanged+" guiLoaded"+guiLoaded+" "+lookupResult1); 
@@ -11307,14 +11313,16 @@ ps.setBytes(i, b);
   
     int no=0;
     String classtype="";
+    String luname = "";
     String foreignTable = null;
     int txtIndex=0; //   txtIndex key=0  , lookup text 1, lookup text  2
     String columnDbName;
-    public DocumentHandler( int noIn, int txtIndexIn, String classtypeIn, String foreignTableIn,String columnDbNameIn )
+    public DocumentHandler( int noIn, int txtIndexIn, String classtypeIn, String lunameIn, String foreignTableIn, String columnDbNameIn )
     {
         no = noIn;
         txtIndex=txtIndexIn;
         classtype=classtypeIn;
+        luname=lunameIn;
         foreignTable=foreignTableIn;
         columnDbName=columnDbNameIn;
         //System.out.println("PanelODORData.DocumentHandler  "+no+"  "+classtype+" "+foreignTable+"."+columnDbName);
@@ -11434,7 +11442,7 @@ ps.setBytes(i, b);
          	          tac.setBackground(t.getBackground());
          	}
          	
-         	if(dbFieldsInGroupOfPanels[no].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD && foreignTable!=null)// look up
+         	if(dbFieldsInGroupOfPanels[no].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD && luname!=null)// look up
          	{   
                     
          		if(txtIndex==0)
@@ -11443,7 +11451,7 @@ ps.setBytes(i, b);
                             JTextComponent tb2 =(JTextComponent)fieldTxts2.get(no);
                              //System.out.println("PanelODORData.  DocumentHandler.insertUpdate   ====================================  txtIndex:"+txtIndex+" ("+no+") formGlobalTableToGet1:"+formGlobalTableToGet1);  
                             //System.out.println("PanelODORData.DocumentHandler.insertUpdate  ("+no+")   keyChanged:"+fieldTxtsKeyChanged.get(no) +"   txtIndex:"+txtIndex+" countOfUniqueKeys:"+countOfUniqueKeys+" isMasterUnique:"+isMasterUnique);
-         		    tb2.setText(calculateTextForLookupsAfterKeyIsSet(no, foreignTable));
+         		    tb2.setText(calculateTextForLookupsAfterKeyIsSet(no,luname, foreignTable));
          		   //if (countOfUniqueKeys >0 && isMasterUnique )
 
                                 fieldTxtsKeyChanged.set(no, true);
@@ -11456,7 +11464,7 @@ ps.setBytes(i, b);
                               if(tb2.hasFocus())//display window when the focus in on tb2. Not show when the focus in in tb1 and keyb is setted
                               {
                                 //System.out.println("PanelODORData.DocumentHandler.insertUpdate  ("+no+")   keyChanged:"+fieldTxtsKeyChanged.get(no) +"   txtIndex:"+txtIndex+" countOfUniqueKeys:"+countOfUniqueKeys+"   hasDataChanged:"+hasDataChanged);
-                                displayWindowLookUp(foreignTable,no);
+                                displayWindowLookUp(luname,foreignTable,no);
                               }
          		}
          		else
@@ -11480,7 +11488,7 @@ ps.setBytes(i, b);
                    System.out.println("PanelODORData.DocumentHandler.insertUpdate ++++ != FIELD_VISIBLE_AND_EDITABLE ("+no+")   "+dbFieldsInGroupOfPanels[no].getCaption()+"      "+fieldTxtsKeyChanged.get(no).toString());
                       //        calculateRecordAfterKeySet(no);	
                     
-                    dbFieldsCalculateSet(dbFieldsInGroupOfPanels,no,foreignTable);  
+                    dbFieldsCalculateSet(dbFieldsInGroupOfPanels,no);  
                     fieldTxtsKeyChanged.set(no, false);
                     hasDataChanged=false;
                     //System.out.println("PanelODORData.dbFieldsCalculateSet f  hasDataChanged:"+hasDataChanged);
@@ -11631,10 +11639,12 @@ ps.setBytes(i, b);
    class  ActionShowDialogLookUp extends AbstractAction                 
    {       
          String iForeignTable;
+         String luname;
          int iF;
          int tb2N;
-        public ActionShowDialogLookUp(String foreignTable, int f)
+        public ActionShowDialogLookUp(String lunameIn,String foreignTable, int f)
         {
+            luname=lunameIn;
                   iForeignTable = foreignTable;
                   iF=f;
                   //tb2N=tb2No;
@@ -11644,17 +11654,18 @@ ps.setBytes(i, b);
     	public void actionPerformed(ActionEvent e)
       	{
                  //    System.out.println("ActionShowDialogLookUp ("+iForeignTable+" , "+iF+")");
-                displayDialogLookUp(iForeignTable, iF);
+                displayDialogLookUp(luname,iForeignTable, iF);
         }    	
     }                
 
    class  ActionShowDialogNew extends AbstractAction                 
-   {       
+   {       String luname;
          String iForeignTable;
          int iF;
          int tb2N;
-        public ActionShowDialogNew(String foreignTable, int f)
+        public ActionShowDialogNew(String lunameIn,String foreignTable, int f)
         {
+            luname=lunameIn;
                   iForeignTable = foreignTable;
                   iF=f;
                   //tb2N=tb2No;
@@ -11666,7 +11677,7 @@ ps.setBytes(i, b);
     	public void actionPerformed(ActionEvent e)
       	{
                       //System.out.println("ActionShowDialogLookUp ("+iForeignTable+" , "+iF+")");
-                displayDialogNew(iForeignTable, iF);
+                displayDialogNew(luname,iForeignTable, iF);
 
         }    	
     } 
@@ -11675,10 +11686,12 @@ ps.setBytes(i, b);
    class  ActionShowDialogEdit extends AbstractAction                 
    {       
          String iForeignTable;
+         String luname;
          int iF;
          int tb2N;
-        public ActionShowDialogEdit(String foreignTable, int f)
+        public ActionShowDialogEdit(String lunameIn,String foreignTable, int f)
         {
+            luname =lunameIn;
                   iForeignTable = foreignTable;
                   iF=f;
                   //tb2N=tb2No;
@@ -11690,7 +11703,7 @@ ps.setBytes(i, b);
     	public void actionPerformed(ActionEvent e)
       	{
                       //System.out.println("ActionShowDialogLookUp ("+iForeignTable+" , "+iF+")");
-                displayDialogEdit(iForeignTable, iF);
+                displayDialogEdit(luname,iForeignTable, iF);
         }    	
     }    
 

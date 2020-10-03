@@ -2747,8 +2747,8 @@ class TabListener implements ChangeListener
                    	wwr.close();
                         
 	                //thread = null;     
-                       System.out.println("DialogBackup.restore  ERROR  restore "+sqle.getMessage()+"  command:"+command);
-                       txtareaLog.append("\n restore error command: command:"+command);                   
+                       System.out.println("DialogBackup.restore  ERROR  restore "+sqle.getMessage()+"  command:"+command.substring(0, 100));
+                       txtareaLog.append("\n restore error command: command:"+command.substring(0, 100));                  
      //                  utilsGui.showMessageError("DialogBackup.restore  ERROR  restoreCommand \n"+sqle.getMessage()+"     \nquery:"+command);
                    // System.out.println("DialogBackup.restore close  ERROR "+sqle.getMessage());
                    //  txtareaLog.append("\nΤο restore  error "+sqle.getMessage());

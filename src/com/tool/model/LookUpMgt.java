@@ -27,28 +27,32 @@ public class LookUpMgt
        entityData.addEntitiesLookup(listEntities);
    }
 
-   public String getFromForeignTableTheName(String foreignTable)
+
+
+
+   public String getFromTheNameTheForeignTable(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     //System.out.println("LookUp.getTable "+elu.getForeignTable()+"--"+foreignTable);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     //System.out.println("LookUp.getTable "+elu.getForeignTable()+"--"+name);
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	//System.out.println("LookUp.getTable --- "+elu.getForeignTable());
-   	     	return elu.getName();//.getForeignTable();
+   	     	return elu.getForeignTable();//.getForeignTable();
    	     }
    	  }
       return null;
    }   
+
    
-   public String getTable(String foreignTable)
+   public String getTable(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     //System.out.println("LookUp.getTable "+elu.getForeignTable()+"--"+foreignTable);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     //System.out.println("LookUp.getTable "+elu.getForeignTable()+"--"+name);
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	//System.out.println("LookUp.getTable --- "+elu.getForeignTable());
    	     	return elu.getForeignTable();
@@ -57,12 +61,12 @@ public class LookUpMgt
       return null;
    }
    
-   public String getQuery(String foreignTable)
+   public String getQuery(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getQuery();
    	     }     
@@ -70,12 +74,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getQuerySubqueryWhere(String foreignTable)
+   public String getQuerySubqueryWhere(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getQuerySubqueryWhere();
    	     }     
@@ -84,12 +88,12 @@ public class LookUpMgt
    }   
  
    
-   public String getQueryWhereForFormVariable(String foreignTable)
+   public String getQueryWhereForFormVariable(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getQueryWhereForFormVariable();
    	     }     
@@ -98,12 +102,12 @@ public class LookUpMgt
    }  
    
    
-   public String getQuerySubqueryIsActive(String foreignTable)
+   public String getQuerySubqueryIsActive(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getQuerySubqueryIsActive();
    	     }     
@@ -112,12 +116,12 @@ public class LookUpMgt
    }   
    
    
-   public String getQueryOrderBy(String foreignTable)
+   public String getQueryOrderBy(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getQueryOrderBy();
    	     }     
@@ -125,12 +129,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getLookUpKey(String foreignTable)
+   public String getLookUpKey(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpKey();
    	     }     
@@ -138,12 +142,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getLookUpKeyTranslation(String foreignTable)
+   public String getLookUpKeyTranslation(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpKeyTranslation();
    	     }     
@@ -151,12 +155,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getLookUpKeyFT(String foreignTable)
+   public String getLookUpKeyFT(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpKeyFT();
    	     }     
@@ -164,12 +168,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getLookUpLabel(String foreignTable)
+   public String getLookUpLabel(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpLabel();     //getLookUpLabel();
    	     }     
@@ -177,12 +181,12 @@ public class LookUpMgt
       return null;
    }
 
-   public int getLookUpFieldIndex(String foreignTable)
+   public int getLookUpFieldIndex(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpFieldIndex();
    	     }     
@@ -190,12 +194,12 @@ public class LookUpMgt
       return 0;
    }
 
-   public String[] getLookUpField(String foreignTable)
+   public String[] getLookUpField(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpField();
    	     }     
@@ -203,12 +207,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getLookUpFieldLabel(String foreignTable)
+   public String getLookUpFieldLabel(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpFieldLabel();
    	     }     
@@ -216,12 +220,12 @@ public class LookUpMgt
       return null;
    }
 
-  /* public String getLookUpFormGlobalTableToApply1(String foreignTable)
+  /* public String getLookUpFormGlobalTableToApply1(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpFormGlobalTableToApply1();
    	     }     
@@ -232,12 +236,12 @@ public class LookUpMgt
    
    
    
-   public int getLookUpFieldLength(String foreignTable)
+   public int getLookUpFieldLength(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpFieldLength();
    	     }     
@@ -245,12 +249,12 @@ public class LookUpMgt
       return 0;
    }   
    
-   public String getLookUpFieldType(String foreignTable)
+   public String getLookUpFieldType(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpFieldType();
    	     }     
@@ -258,12 +262,12 @@ public class LookUpMgt
       return null;
    }   
    
-   public int getLookUpField2Index(String foreignTable)
+   public int getLookUpField2Index(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpField2Index();
    	     }     
@@ -271,12 +275,12 @@ public class LookUpMgt
       return 0;
    }
 
-   public String getLookUpField2(String foreignTable)
+   public String getLookUpField2(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpField2();
    	     }     
@@ -284,12 +288,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getLookUpField2Label(String foreignTable)
+   public String getLookUpField2Label(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpField2Label();
    	     }     
@@ -297,12 +301,12 @@ public class LookUpMgt
       return null;
    }
 
-   public int getLookUpField3Index(String foreignTable)
+   public int getLookUpField3Index(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpField3Index();
    	     }     
@@ -310,12 +314,12 @@ public class LookUpMgt
       return 0;
    }
 
-   public String getLookUpField3(String foreignTable)
+   public String getLookUpField3(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpField3();
    	     }     
@@ -323,12 +327,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getLookUpField3Label(String foreignTable)
+   public String getLookUpField3Label(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getLookUpField3Label();
    	     }     
@@ -336,12 +340,12 @@ public class LookUpMgt
       return null;
    }
 
- /*  public String getLookUpFieldLabel(String foreignTable)
+ /*  public String getLookUpFieldLabel(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getForeignTable().equalsIgnoreCase(foreignTable))// non case sensitive search
+   	     if (elu.getForeignTable().equalsIgnoreCase(name))// non case sensitive search
    	     {
    	     	return elu.getLookUpFieldLabel();
    	     }     
@@ -349,12 +353,12 @@ public class LookUpMgt
       return null;
    }*/
 
-   /*public String getFields(String foreignTable)
+   /*public String getFields(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getForeignTable().equalsIgnoreCase(foreignTable))// non case sensitive search
+   	     if (elu.getForeignTable().equalsIgnoreCase(name))// non case sensitive search
    	     {
    	     	return elu.getFields();
    	     }     
@@ -362,15 +366,15 @@ public class LookUpMgt
       return null;
    }*/
 
-   /*public String[] getFieldsTranslation(String foreignTable)
+   /*public String[] getFieldsTranslation(String name)
    {
-   	//System.out.println("LookUp.getFieldsTranslation "+foreignTable);
+   	//System.out.println("LookUp.getFieldsTranslation "+name);
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getForeignTable().equalsIgnoreCase(foreignTable))// non case sensitive search
+   	     if (elu.getForeignTable().equalsIgnoreCase(name))// non case sensitive search
    	     {
-   	     	   	//System.out.println("LookUp.getFieldsTranslation "+foreignTable+" "+elu.getFieldsTranslation());
+   	     	   	//System.out.println("LookUp.getFieldsTranslation "+name+" "+elu.getFieldsTranslation());
 
    	     	return elu.getFieldsTranslation();
    	     }     
@@ -378,12 +382,12 @@ public class LookUpMgt
       return null;
    }*/
 
-   public String getQueryEditable(String foreignTable)
+   public String getQueryEditable(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getQueryEditable();
    	     }     
@@ -391,12 +395,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getStrOfOne(String foreignTable)
+   public String getStrOfOne(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getStrOfOne();
    	     }     
@@ -404,12 +408,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String getStrOfMany(String foreignTable)
+   public String getStrOfMany(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getStrOfMany();
    	     }     
@@ -417,12 +421,12 @@ public class LookUpMgt
       return null;
    }
 
-   public String[] getCategoryNodes(String foreignTable)
+   public String[] getCategoryNodes(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getCategoryNodes();
    	     }     
@@ -430,12 +434,12 @@ public class LookUpMgt
       return null;
    }
 
-   public EntityPanel[] getEntityPanel(String foreignTable)
+   public EntityPanel[] getEntityPanel(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getEntityPanel();
    	     }     
@@ -443,12 +447,12 @@ public class LookUpMgt
       return null;
    }
    
-    public String[] getFieldsOnTitle(String foreignTable)
+    public String[] getFieldsOnTitle(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getFieldsOnTitle();
    	     }     
@@ -456,12 +460,12 @@ public class LookUpMgt
       return null;
    }  
 
-    public String[] getFieldsOnTitleCaption(String foreignTable)
+    public String[] getFieldsOnTitleCaption(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getFieldsOnTitleCaption();
    	     }     
@@ -469,12 +473,12 @@ public class LookUpMgt
       return null;
    }     
 
-    public EntityFilterSettings[] getEntityFilterSettings(String foreignTable)
+    public EntityFilterSettings[] getEntityFilterSettings(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getEntityFilterSettings();
    	     }     
@@ -483,13 +487,13 @@ public class LookUpMgt
    }   
 
 
-   public int getLookUpFieldColDescription(String foreignTable)
+   public int getLookUpFieldColDescription(String name)
    {
    	int ret =-1;
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	ret= elu.getIntColFieldDescription();
    	     }     
@@ -497,14 +501,14 @@ public class LookUpMgt
       return ret;
    }
   
-   public int getLookUpIntNoOfColsWhenInTable(String foreignTable)
+   public int getLookUpIntNoOfColsWhenInTable(String name)
    {
    	int ret =-1;
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     //System.out.println("LookUp.getLookUpIntNoOfColsWhenInTable -----"+elu.getName()+" for "+foreignTable);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     //System.out.println("LookUp.getLookUpIntNoOfColsWhenInTable -----"+elu.getName()+" for "+name);
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	ret= elu.getIntNoOfColsWhenInTable();
    	     }     
@@ -512,13 +516,13 @@ public class LookUpMgt
       return ret;
    } 
    
-   public ImageIcon getIcon(String foreignTable)
+   public ImageIcon getIcon(String name)
    {
    	ImageIcon ret=null;
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	ret =  elu.getIcon();
    	     }     
@@ -526,13 +530,13 @@ public class LookUpMgt
       return ret;
    } 
    	
-   public boolean getShowToolbar(String foreignTable)
+   public boolean getShowToolbar(String name)
    {
    	boolean ret = true;
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	ret =  elu.getShowToolbar();
    	     }     
@@ -540,12 +544,12 @@ public class LookUpMgt
       return ret;
    }  
    	
-   public int getIntValidationColumn(String foreignTable)
+   public int getIntValidationColumn(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getIntValidationColumn();
    	     }     
@@ -553,12 +557,12 @@ public class LookUpMgt
       return -1;
    }
    
-   public int getIntValidationType(String foreignTable)
+   public int getIntValidationType(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getForeignTable().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getForeignTable().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getIntValidationType();
    	     }     
@@ -566,12 +570,12 @@ public class LookUpMgt
       return -1;
    }      
    
-   public String[] getFieldsForSums(String foreignTable)
+   public String[] getFieldsForSums(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getFieldsForSums();
    	     }     
@@ -579,24 +583,24 @@ public class LookUpMgt
       return null;
    }   
    
-   /*public EntityReport getEntityReport(String foreignTable)
+   /*public EntityReport getEntityReport(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getName().toUpperCase().equalsIgnoreCase(foreignTable.toUpperCase()))// non case sensitive search
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
    	     {
    	     	return elu.getEntityReport();
    	     }     
    	  }
       return null;
    }   */
- /*   public String[] getSearchField(String foreignTable)
+ /*   public String[] getSearchField(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
    	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
-   	     if (elu.getForeignTable().equalsIgnoreCase(foreignTable))// non case sensitive search
+   	     if (elu.getForeignTable().equalsIgnoreCase(name))// non case sensitive search
    	     {
    	     	return elu.getSearchField();
    	     }     
