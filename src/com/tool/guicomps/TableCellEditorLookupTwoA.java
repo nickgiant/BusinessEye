@@ -271,7 +271,7 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
          //txtDescription.setColumns(width*2/3);
          txtDescription.setColumns(width-8);
          
-         txtDescription.setText(utilsPanelReport.getLookupValue(luname,foreignTable,txtCompKey.getText(),1,false,"","",entity));
+         txtDescription.setText(utilsPanelReport.getLookupValue(luname,foreignTable,txtCompKey.getText(),1,false,"","",entity,null/*dbFieldsAll*/,null/*fieldTxts*/));
          
         final JTable tableFinal=table;
         JPanel panelTextboxes = new JPanel();
@@ -960,7 +960,7 @@ public class TableCellEditorLookupTwoA implements TableCellEditor, ActionListene
          	      if(!text.trim().equalsIgnoreCase(""))
          	      {         	      	
                           
-         	         String val =utilsPanelReport.getLookupValue(luname,foreignTable,text,1,true,fieldVariableFromPreField,"",entity);	
+         	         String val =utilsPanelReport.getLookupValue(luname,foreignTable,text,1,true,fieldVariableFromPreField,"",entity,null/*dbFieldsAll*/,null/*fieldTxts*/);
          	         	//System.out.println("PanelODORD.DocumentHandler.insertUpdate no"+no+" "+val);
          	         	txtDescription.setText(val);
          	         	

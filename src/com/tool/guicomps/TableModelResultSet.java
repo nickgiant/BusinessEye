@@ -90,6 +90,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     private UtilsDouble utilsDouble;
     private UtilsGui utilsGui;
     private UtilsString utilsString;
+    private UtilsDate utilsDate;
     //ArrayList rowsToBeDeleted;
    // ArrayList rowsToBeUpdatedQuery;  // query
    // ArrayList listRowsToBeUpdated;  // list
@@ -122,6 +123,8 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
      lookUp= new LookUpMgt();
      databaseTableMeta = new DatabaseTableMeta();
 
+     utilsDate = new UtilsDate();
+     utilsDate.readFromFileDateFormats();
    }
  
    /*
@@ -2543,6 +2546,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
         {
                   String colName = dbFieldsMany[f].getDbField();//rsmd.getColumnLabel(i); //get colunm name  
                   String colCaption = dbFieldsMany[f].getCaption();//rsmd.getColumnLabel(i); //get colunm name 
+                  String classtype = dbFieldsMany[f].getColClassName();
                   
              	 	int col = getColIntFromColName(colCaption);// from jtable
              	 	
@@ -2551,12 +2555,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
              	 		System.out.println("tableModelRS.rowDbToInsertQuery(int) column "+dbFieldsMany[f].getDbField()+" doesn't have an equal col name");
              	 	}                  
                   
-             if(dbFieldsMany[f].getLookupType()==LOOKUPTYPE_TWO_SECONDFIELD)
-             {
-                 
-                 
-             }
-             else if(dbFieldsMany[f].getPrimaryKeyIntegerAutoInc()==FIELD_PRIMARY_KEY_FROM_PARENTTABLE)
+              if(dbFieldsMany[f].getPrimaryKeyIntegerAutoInc()==FIELD_PRIMARY_KEY_FROM_PARENTTABLE)
              {
                       //System.out.println("TableModelResultSet.addEmptyRow getColumnDBName(i):"+getColumnDBName(i)+"   "+dbFieldsMany[i].getPrimaryKeyIntegerAutoInc()+"=="+FIELD_PRIMARY_KEY_FROM_PARENTTABLE+"  assign value:"+primKeyValue);
            //         record[i]=primKeyValue;
@@ -2579,15 +2578,18 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                 if(subqueryFields.indexOf(colName)== -1) //when there is a column name two times. For example in farmersvat in applicationline dbfields thne column buyerid(when we have two columns for buyerid and buyername)
                 {
                   //System.out.println("tableModelRS.rowDbToInsertQuery  IF  colName"+ colName+"  index:"+subqueryFields.indexOf(colName));
-                  if(dbFieldsMany.length>1 && f<dbFieldsMany.length-1   )
+                  Object val = getValueAt(currentTableRow, col);
+                  
+                  if(dbFieldsMany.length>1 && f<dbFieldsMany.length-1)
                   {
+
                           subqueryFields=subqueryFields+colName+", ";
-                          subqueryValues=subqueryValues+formatValueForDb(col, getValueAt(currentTableRow, col))+", ";
+                          subqueryValues=subqueryValues+formatValueForDb(col, getValueAt(currentTableRow, col))+", ";        
                   }
                   else
-                  {
+                  {     
                   	  subqueryFields=subqueryFields+colName;
-                          subqueryValues=subqueryValues+formatValueForDb(col, getValueAt(currentTableRow, col));                          
+                          subqueryValues=subqueryValues+formatValueForDb(col, getValueAt(currentTableRow, col));   
                   }
                 }
                 else
@@ -3219,7 +3221,16 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
         //case Types.BOOLEAN:
             return ((Boolean)value).booleanValue() ? "1" : "0";
         case Types.DATE:
-            return "'"+value.toString().trim()+"'"; // This will need some conversion.
+        {
+            if(value.toString().trim().equalsIgnoreCase(""))
+            {
+                return " null ";
+            }
+            else
+            {
+              return "'"+value.toString().trim()+"'"; // This will need some conversion.
+            }
+        }
         default:
             return "'"+value.toString().trim()+"'";
         } 
@@ -3359,7 +3370,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                                     System.out.println("   error  TableModelResultSet.addEmptyRow UNKNOWN default VALUE   defaultValue:"+defaultValue+"  ("+i+")  colCaption:"+colCaption);
                                 }
           	                    	   	
-          	}   
+          	}     
                 else
                 {
                               record[i] = defaultValue;

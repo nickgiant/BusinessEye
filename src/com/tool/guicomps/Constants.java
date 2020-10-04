@@ -170,8 +170,8 @@ public interface Constants
       
   public static final int LOOKUPTYPE_NOLOOKUP = 0;    
   public static final int LOOKUPTYPE_ONLYONE_THISFIELD = 1;         
-  public static final int LOOKUPTYPE_TWO_FIRSTFIELD = 2;        //like  buyerId the id
-  public static final int LOOKUPTYPE_TWO_SECONDFIELD = 3;       // like buyertitle  
+  //public static final int LOOKUPTYPE_TWO_FIRSTFIELD = 2;        //like  buyerId the id
+  //public static final int LOOKUPTYPE_TWO_SECONDFIELD = 3;       // like buyertitle  
   public static final int LOOKUPTYPE_TABLECONSTANTS = 4;
   
     public static final String KEYSTROKE_F_LOOKUP_SHOW = "F4";

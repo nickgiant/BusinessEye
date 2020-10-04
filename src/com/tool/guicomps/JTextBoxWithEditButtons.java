@@ -64,6 +64,8 @@ public class JTextBoxWithEditButtons extends JComponent implements ActionListene
         // if it is date do not forget to call .setYearEnforce(yearEnforce);
         // do not erase
   	txtComp=  new JTextField();
+        btnEdit1 = new JButton();//"<html><b>F4</b></html>"); 
+        btnEdit2 = new JButton();
   } 
     
   public JTextBoxWithEditButtons( JTextComponent txt, boolean showFirstButton,ImageIcon img1,Action a1,
@@ -80,6 +82,7 @@ public class JTextBoxWithEditButtons extends JComponent implements ActionListene
          btnEditList = new JButtonListMenu("",popupMenuTools);
       
       txtComp=  new JTextField();
+      btnEdit1 = new JButton();
 
        type=typeIn;
        txtComp= txt;
@@ -540,8 +543,8 @@ public class JTextBoxWithEditButtons extends JComponent implements ActionListene
  
    public void setBtn2Enabled(boolean enabled)
   {
-  	btnEditList.setEnabled(enabled);
-  	btnEditList.revalidate();
+  	btnEdit2.setEnabled(enabled);
+  	btnEdit2.revalidate();
   } 
   
   public void setBtn1Visible(boolean visible)
@@ -551,7 +554,7 @@ public class JTextBoxWithEditButtons extends JComponent implements ActionListene
  
    public void setBtn2Visible(boolean visible)
   {
-  	btnEditList.setVisible(visible);
+  	btnEdit2.setVisible(visible);
   } 
   
    public void addFocusListener(FocusListener fl)

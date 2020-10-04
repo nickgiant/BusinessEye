@@ -913,8 +913,15 @@ int flds = 0;
                     menuListItemEdit.addActionListener(actionShowDialogEdit);
                     listMenuCaption.add(menuListItemEdit);  */                  
                     
-                     txtLookUpBtn = new JTextBoxWithEditButtons(tb, false ,null,null, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	
-                     txtLookUpBtn2 = new JTextBoxWithEditButtons(tb2, true ,ICO_LOOKUP,actionShowDialogLookUp, true,ICO_EDIT14, actionShowDialogEdit,0, frame,"","",MONTH_DATE_ONLY);                  	
+                     txtLookUpBtn = new JTextBoxWithEditButtons(tb, false ,null,null, false,null,null,0, frame,"","",MONTH_DATE_ONLY);  
+                    if(lookUp.getShowToolbar(luname))  
+                    {
+                       txtLookUpBtn2 = new JTextBoxWithEditButtons(tb2, true ,ICO_LOOKUP,actionShowDialogLookUp, true,ICO_EDIT14, actionShowDialogEdit,0, frame,"","",MONTH_DATE_ONLY);                  	
+                    }  
+                    else   // on lookup dialog no toolbar so must be not be editable
+                    {
+                         txtLookUpBtn2 = new JTextBoxWithEditButtons(tb2, true ,ICO_LOOKUP,actionShowDialogLookUp, false,null, null,0, frame,"","",MONTH_DATE_ONLY);                  	
+                    }
                     //if(lookUp.getLookUpField2(luname)!=null)
                     //{                     
                        txtLookUpBtn3 = new JTextBoxWithEditButtons(tb3, false ,null,null, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	
@@ -939,6 +946,8 @@ int flds = 0;
                     	eachDataFieldPanel.add(lbl4);
                     	eachDataFieldPanel.add(tb4);
                     }                    
+                    
+ 
                     
                     final int finalCol = i;  //  must be final            
                     final String lunameFin=luname;
@@ -3772,7 +3781,41 @@ catch(Exception e)
    	   	}
        	  String qSub = "";
           String qSubForVar = "";
+          
+          
           String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
+          // replace # with text, array if they are more than one         
+          String [] textsInput = lookUp.getFieldsReplacedInsideQuery(luname);
+          ArrayList listTextString = new ArrayList();
+      if(textsInput!=null)    
+      {
+        for(int i =0;i<textsInput.length;i++)  
+        {
+          for(int c=0;c<dbFieldsInGroupOfPanels.length;c++)
+          {
+              //System.out.println("--------c:"+c+"   getDbField:"+dbFieldsInGroupOfPanels[c].getDbField()+"   "+textsInput[i]);
+                       if(textsInput[i].equalsIgnoreCase(dbFieldsInGroupOfPanels[c].getDbField()))
+                       {
+                           //System.out.println("=======================c:"+c+"   getDbField:"+dbFieldsInGroupOfPanels[c].getDbField()+"   "+textsInput[i]);
+                          JTextComponent tbToGet = (JTextComponent)fieldTxts.get(c);
+                          listTextString.add(tbToGet.getText().trim()); 
+                          
+                       }          
+          } 
+        }
+          String[] arrayText = new  String[listTextString.size()];
+          for(int a= 0; a<listTextString.size();a++)
+          {
+              arrayText[a]=(String)listTextString.get(a);
+          }
+
+                                int indexOfHashChar = queryLookUpWhere.indexOf("#");
+                               
+                               if(indexOfHashChar!=-1)
+                               {    
+                                queryLookUpWhere = utilsString.replaceTextOfAStringWithText("#", queryLookUpWhere, arrayText, null);
+                               }          
+      }   
        	 String queryLookUpWhereForFormVariable = lookUp.getQueryWhereForFormVariable(luname);
           
           
@@ -3797,7 +3840,7 @@ catch(Exception e)
            
          
            
-     //System.out.println("---panelODORData.displayDialogLookUp   dbCol:"+dbCol+"   selectedKeyValue:"+selectedKeyValue+"      tb2Text:"+tb2Text);
+     //System.out.println("---panelODORData.displayDialogLookUp   dbCol:"+dbCol+"   selectedKeyValue:"+selectedKeyValue+"  queryLookUpWhere:"+queryLookUpWhere+"    tb2Text:"+tb2Text);
   
        String subQueryFilterFromRecType="";
 
@@ -3836,7 +3879,7 @@ catch(Exception e)
             
             String queryLUWithQ = lookUp.getQuery(luname)+" "+queryLookUpWhere+"  "+qSub+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(luname);
         
-            //System.out.println("PanelODORData.displayDialogLookUp queryLUWithQ:"+queryLUWithQ);            
+            System.out.println("PanelODORData.displayDialogLookUp queryLUWithQ:"+queryLUWithQ);            
            // EntityReport entityReportLU = lookUp.getEntityReport(luname);
         //System.out.println("panelODORData.displayDialogLookUp   IF     selectedKeyValue:"+selectedKeyValue+"      queryLUWithQ:"+queryLUWithQ);
            selected = DialogLookUp.showDialog(this,luname, queryLUWithQ,lookUp.getLookUpKeyTranslation(luname) , 
@@ -4701,16 +4744,16 @@ catch(Exception e)
                         {
                            rsDoc.absolute(d);
                      //System.out.println("   strFieldWhere:"+strFieldWhere+"   strFieldValue:"+strFieldValue);
-                     String strField = rsDoc.getString(strReadFieldWhere);
-                     String strValue = rsDoc.getString(strReadFieldValue);
+                     //String strField = rsDoc.getString(strReadFieldWhere);
+                   //  String strValue = rsDoc.getString(strReadFieldValue);
                    //  String strField2 = rsDoc.getString(strFieldWhere2);
                    //  String strValue2 = rsDoc.getString(strFieldValue2);                     
                     // System.out.println("calculationFromToolBarButton   strField:"+strField+"   strValue:"+strValue);
 
-                     String strJs =   "document.getElementsByName('" + strField + "')[0].value='" + strValue + "';";
-                     System.out.println("PanelODORData.showHtmlFormElements  "+intDocCount+"     "+strJs);
+                     //String strJs =   "document.getElementsByName('" + strField + "')[0].value='" + strValue + "';";
+                    // System.out.println("PanelODORData.showHtmlFormElements  "+intDocCount+"     "+strJs);
                          //panelHtmlBrowser.addFieldsToTextFieldsList(strFieldsNValuesAdditional[f],strFieldsNValuesAdditionalValue[f]); 
-                         listHtmlFieldsAndValues.add(strJs);
+                    //     listHtmlFieldsAndValues.add(strJs);
                     // panelHtmlBrowser.addFieldsToTextFieldsList(strField, strValue); // for one text, ie subject to vat
                      
                       //   listHtmlFieldsAndValues.add(strDocField+strField);
@@ -4947,14 +4990,14 @@ catch(Exception e)
 
                 
                   // String  luname =  finalDbFieldsInGroupOfPanels[finalCol].getLookupEntityName();
-                  lookupText = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);
+                  lookupText = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
          //    System.out.println("PanelODORData.showRow   =+++++++++++   +   +++++++++  i:"+i+"        colName:"+colName+"      luname:"+luname+"      fieldVariableFromPreField:"+ fieldVariableFromPreField +"  rs.getString(colName):"+rs.getString(colName) +"  lookupText:" +lookupText);               
                 if(lookUp.getLookUpField2(luname)!=null)
                 {
                    //System.out.println("panelODORData.showRow "+lookUp.getLookUpField2Index(luname));
                   // lookupText3 =rsForeign.getString(lookUp.getLookUpField2Index(luname));// get field data	
                    //System.out.println("panelODORData.showRow "+lookupText3);
-                   lookupText3 = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),2,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);
+                   lookupText3 = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),2,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
                 }
  
                 if(lookUp.getLookUpField3(luname)!=null)
@@ -4962,7 +5005,7 @@ catch(Exception e)
                    //System.out.println("panelODORData.showRow "+lookUp.getLookUpField2Index(foreignTable));
                   // lookupText4 =rsForeign.getString(lookUp.getLookUpField3Index(foreignTable));// get field data	
                    //System.out.println("panelODORData.showRow "+lookupText3);
-                   lookupText4 = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),3,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);
+                   lookupText4 = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),3,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
                 }               
                 //System.out.println("panelODORData.showRow if 2 "+(i)+" columnLabel "+columnLabel+" text "+lookupText);            
 
@@ -7816,23 +7859,7 @@ ps.setBytes(i, b);
                            }
                            else
                            {
-                                 if(fieldDBName.equalsIgnoreCase(strReadFieldWhere))
-                                 {
-                                //      subQueryFieldNames = subQueryFieldNames+" "+fieldDBName+", ";
-                                //      subQueryFieldValues = subQueryFieldValues + listFields.get(d)+", ";
-                                         
-                                   
-                                 }
-                                 else if(fieldDBName.equalsIgnoreCase(strReadFieldValue))
-                                 {
-                                //      subQueryFieldNames = subQueryFieldNames+" "+fieldDBName+", ";
-                                //      subQueryFieldValues = subQueryFieldValues + listFieldValues.get(d)+", ";
-                                     
-                                 }
-                                 else
-                                 {
-                                     System.out.println("PanelODORData.rowInsertHtmlFormElements   ERROR   ELSE    f"+f+"   fieldDBName:"+fieldDBName);
-                                 }
+
                            }
                     }
                     
@@ -9188,19 +9215,19 @@ ps.setBytes(i, b);
                               // String fieldVariableFromPreField = dbFieldsInGroupOfPanels[col].getFormVariableFromField();
                           //System.out.println("panelODORData.calculateTextForLookupsAfterKeyIsSet    '"+foreignTable+"'   "+lookupValue
                           
-                             lookupResult1 = utilsPanelReport.getLookupValue(luname,foreignTable,lookupValue,1,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/subqueryWhereForAPreviousFieldValue,entity);// last variable is to filter values from a value in a previous field
+                             lookupResult1 = utilsPanelReport.getLookupValue(luname,foreignTable,lookupValue,1,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/subqueryWhereForAPreviousFieldValue,entity,dbFieldsInGroupOfPanels,fieldTxts);// last variable is to filter values from a value in a previous field
      //System.out.println("panelODORData.calculateTextForLookupsAfterKeyIsSet    foreignTable:"+foreignTable+"   lookupValue:"+lookupValue+"   lookupResult1:"+lookupResult1+"  col:"+col+"     fieldVariableFromPreField:"+fieldVariableFromPreField);   
                              
                              String lookupResult2 ="";
                              String lookupResult3 ="";
                              if(lookUp.getLookUpField2Index(luname)!=0)
                              {
-                                lookupResult2 = utilsPanelReport.getLookupValue(luname,foreignTable,lookupValue,2,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);// last variable is to filter values from a value in a previous field
+                                lookupResult2 = utilsPanelReport.getLookupValue(luname,foreignTable,lookupValue,2,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);// last variable is to filter values from a value in a previous field
                              }
 
                              if(lookUp.getLookUpField3Index(luname)!=0)
                              {
-                                lookupResult3 = utilsPanelReport.getLookupValue(luname,foreignTable,lookupValue,3,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);// last variable is to filter values from a value in a previous field
+                                lookupResult3 = utilsPanelReport.getLookupValue(luname,foreignTable,lookupValue,3,true,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);// last variable is to filter values from a value in a previous field
                              }
                             
                              //  System.out.println("panelODORData.calculateTextForLookupsAfterKeyIsSet  hasDataChanged"+hasDataChanged+" guiLoaded"+guiLoaded+" "+lookupResult1); 
@@ -10152,7 +10179,13 @@ ps.setBytes(i, b);
 
            	                 JTextBoxWithEditButtons textEditFormatedDate = (JTextBoxWithEditButtons)fieldTxts.get(i);
                                  textEditFormatedDate.setEnabled(false);
+                                    // textEditFormatedDate.setEditable(false);
+                                     textEditFormatedDate.setFocusable(false);                                  
                                  textEditFormatedDate.setBackground(lbl.getBackground());
+                                 textEditFormatedDate.setBtn1Visible(false);
+                                 textEditFormatedDate.setBtn1Enabled(false);
+                                 textEditFormatedDate.setBtn2Visible(false);
+                                 textEditFormatedDate.setBtn2Enabled(false);                                 
                               }
                               else if(columnClass.equalsIgnoreCase("table"))
                               {
@@ -10176,6 +10209,29 @@ ps.setBytes(i, b);
                                      cb.setEnabled(false);
                                      cb.setEditable(false);
                                      cb.setFocusable(false); 
+                                 }
+                                 else if(dbFieldsInGroupOfPanels[i].getLookupType() == LOOKUPTYPE_ONLYONE_THISFIELD)
+                                 {
+                                    
+                                    
+           	                 JTextComponent textEdit = (JTextComponent)fieldTxts.get(i);
+                                 textEdit.setEnabled(false);
+                                    textEdit.setEditable(false);
+                                     textEdit.setFocusable(false);                                  
+                                 textEdit.setBackground(lbl.getBackground());
+                                 //textEdit.setBtn1Visible(false);
+                                 //textEdit.setBtn1Enabled(false);
+                                 //textEdit.setBtn2Visible(false);
+                                 //textEdit.setBtn2Enabled(false);
+                                  JTextComponent txtb2 = (JTextComponent)fieldTxts2.get(i);//i-1);
+                      	          txtb2.setEditable(false);
+                                  txtb2.setFocusable(false);
+                                  txtb2.setBackground(lbl.getBackground());
+                                  
+                                  JTextComponent txtb3 = (JTextComponent)fieldTxts3.get(i);//i-1);
+                      	          txtb3.setEditable(false);
+                                  txtb3.setFocusable(false);
+                                  txtb3.setBackground(lbl.getBackground()); 
                                  }
                                  else
                                  {
@@ -10226,6 +10282,10 @@ ps.setBytes(i, b);
 
            	                 JTextBoxWithEditButtons textEditFormatedDate = (JTextBoxWithEditButtons)fieldTxts.get(i);
                                  textEditFormatedDate.setVisible(true);
+                                 textEditFormatedDate.setBtn1Visible(false);
+                                 textEditFormatedDate.setBtn1Enabled(false);
+                                 textEditFormatedDate.setBtn2Visible(false);
+                                 textEditFormatedDate.setBtn2Enabled(false);                                 
                                  
                               }      
                               else if(columnClass.equalsIgnoreCase("table"))
@@ -10252,6 +10312,21 @@ ps.setBytes(i, b);
                                      JComboBox cb = (JComboBox) fieldTxts.get(i);
                                      cb.setVisible(true);
                                      //cb.setFocusable(false); 
+                                 }
+                                 else if(dbFieldsInGroupOfPanels[i].getLookupType() == LOOKUPTYPE_ONLYONE_THISFIELD)
+                                 {
+                                    
+
+           	                 JTextBoxWithEditButtons textEdit = (JTextBoxWithEditButtons)fieldTxts.get(i);
+                                 textEdit.setEnabled(false);
+                                    // textEdit.setEditable(false);
+                                 textEdit.setFocusable(false);                                  
+                                 textEdit.setBackground(lbl.getBackground());
+                                 textEdit.setBtn1Visible(false);
+                                 textEdit.setBtn1Enabled(false);
+                                 textEdit.setBtn2Visible(false);
+                                 textEdit.setBtn2Enabled(false);
+
                                  }
                                  else
                                  {                                  
@@ -10349,6 +10424,7 @@ ps.setBytes(i, b);
                                   //pnlODMRData.setEditable(false);
                               }                                    
                               else
+                              {
                                   if(dbFieldsInGroupOfPanels[i].getLookupType()==LOOKUPTYPE_TABLECONSTANTS)
                                   {
                                       //System.out.println("PanelODORData.setVisibleOrEditableFields ELSE A  "+i+"  fieldName:"+fieldName+"      dbFieldsInGroupOfPanels[i].getLookupType():"+dbFieldsInGroupOfPanels[i].getLookupType());
@@ -10373,7 +10449,8 @@ ps.setBytes(i, b);
                       	          txtb3.setEditable(false);
                                   txtb3.setFocusable(false);
                                   txtb3.setBackground(lbl.getBackground());                                  
-                                  }                             
+                                  }
+                              }
                          
                          } 
                          else // not read only 

@@ -2304,7 +2304,7 @@ System.out.println("---->B PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  
                     
                     PanelOneDataManyRecData pnlODMRData = new PanelOneDataManyRecData(frame);//(PanelOneDataManyRecData)fieldTxts.get(i);//,PanelOneDataManyRecData);
  System.out.println("---->C PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")       "+dbFieldsInGroupOfPanels[i].getCaption()+"    sql:"+sql+"    primKeyDb:"+primKeyDb+"="+primKeyValue+"     dbFieldsChild.length:"+dbFieldsChild.length+"   queryChild:"+queryChild+"    sql:"+sql);
-                    pnlODMRData.setEntity(dbFieldsInGroupOfPanels[i].getCaption(),sql,tableChild,true,true,null/*dbFieldsParent*/,dbFieldsChild,false/*isNewRec*/,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,//formGlobalField1,formGlobalVariable1,*/
+                    pnlODMRData.setEntity(dbFieldsInGroupOfPanels[i].getCaption(),sql,tableChild,true,true,dbFieldsChild/*instead of dbFieldsParent use dbFieldsChild*/,dbFieldsChild,false/*isNewRec*/,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,//formGlobalField1,formGlobalVariable1,*/
                             primKeyValue,fieldsForSums,fieldTxts,null,intTableOfParentDBFields);//,updateAdditional);
 
                     pnlODMRData.filterToDeleteForWritableTable(sql,false);

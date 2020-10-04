@@ -475,7 +475,7 @@ public class PanelPrintPreview extends JxPanel implements Constants
                 String[] arrayOfValueOfPksOfRecordToShowIn)
       {
           entityPanel = entityPanelIn;
-          entity=entityPanel.getName();
+          entity=entityPanel.getEntity();//.getName();
             entityReport=entityReportIn;
             name = entityReport.getName();
             viewType=entityReport.getType();

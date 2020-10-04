@@ -206,7 +206,7 @@ import com.tool.model.LookUpMgt;
              //   utilsPanelReport.getLookupValue(foreignTable,  value+"", int intField, boolean isTypedOrSaved,String subqueryWhereForAPreviousFieldValue);
 
             
-            retValue =  utilsPanelReport.getLookupValue(luname,foreignTable,  value+"", 1, /*true*/false,fieldVariableFromPreField,"",entity);  
+            retValue =  utilsPanelReport.getLookupValue(luname,foreignTable,  value+"", 1, /*true*/false,fieldVariableFromPreField,"",entity,null,null);  
              
        
            

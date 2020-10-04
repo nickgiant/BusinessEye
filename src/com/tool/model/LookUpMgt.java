@@ -88,6 +88,20 @@ public class LookUpMgt
    }   
  
    
+   public String[] getFieldsReplacedInsideQuery(String name)
+   {
+   	  for(int i =0; i<listEntities.size(); i++)
+   	  {  
+   	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
+   	     {
+   	     	return elu.getFieldsReplacedInsideQuery();
+   	     }     
+   	  }
+      return null;
+   }
+   
+   
    public String getQueryWhereForFormVariable(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)

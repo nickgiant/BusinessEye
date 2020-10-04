@@ -572,7 +572,7 @@ import javax.swing.event.*;
                     if (!lookupValue.equalsIgnoreCase(""))
                     {
                         //String  luname =  "";//entityFilterSettings[s].getLookupEntityName();
-                    	val = utilsPanelReport.getLookupValue(luname,entityFilterSettings[s].getTableFromLookUpName(luname),lookupValue,1,true,"","",""); //String subqueryWhereForAPreviousFieldValue,String formGlobalVariable1)
+                    	val = utilsPanelReport.getLookupValue(luname,entityFilterSettings[s].getTableFromLookUpName(luname),lookupValue,1,true,"","","",null,null/*fieldFilterTxts1*/); //String subqueryWhereForAPreviousFieldValue,String formGlobalVariable1)
                     }
                    txtFilterSettingText1.setText(val);  
 
@@ -1600,7 +1600,7 @@ public ArrayList getListOfFieldsUncompleted()
 
                                //String  luname =  "";//entityFilterSettings[col].getLookupEntityName();
                    //             System.out.println(" ====  PanelDataFilter.calculateTextForLookupsAfterKeyIsSet  table:"+entityFilterSettings[col].dbTable +"   sub:"+subqueryWhere);
-                             String lookupResult = utilsPanelReport.getLookupValue(luname,entityFilterSettings[col].getTableFromLookUpName(luname),lookupValue,1,true,"",subqueryWhere,"");
+                             String lookupResult = utilsPanelReport.getLookupValue(luname,entityFilterSettings[col].getTableFromLookUpName(luname),lookupValue,1,true,"",subqueryWhere,"",null,null/*fieldFilterTxts1*/);
                             
                              
                              

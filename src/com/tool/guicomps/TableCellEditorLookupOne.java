@@ -176,6 +176,14 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
         // customEditorButton2 = new JButtonListMenu("",popupMenuTools);        
         customEditorButton2 = new JButton();
         
+        if(! lookUp.getShowToolbar(luname))
+        {
+            customEditorButton2.setEnabled(false);
+            customEditorButton2.setVisible(false);
+        }
+        
+        
+        
         customEditorButton.setIcon(ICO_LOOKUP);
         
         DefaultCellEditor editor = new DefaultCellEditor(txt);
@@ -291,7 +299,8 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
          //txtDescription.setColumns(width*2/3);
          txtDescription.setColumns(width-8);
          //String  luname =  dbFieldsTable[column].getLookupEntityName();// haven't checked it, just want luname
-         txtDescription.setText(utilsPanelReport.getLookupValue(luname,foreignTable,txtCompKey.getText(),1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity));
+
+         txtDescription.setText(utilsPanelReport.getLookupValue(luname,foreignTable,txtCompKey.getText(),1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsAll,fieldTxts));
          
         final JTable tableFinal=table;
         JPanel panelTextboxes = new JPanel();
@@ -527,7 +536,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
 
 
    private void displayDialogEdit()
-   { 
+   {
       // Component comp =this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
        //System.out.println(comp.getClass());
     	customEditorButton2.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -854,7 +863,8 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
                           
                                
          	         String val =utilsPanelReport.getLookupValue(luname,foreignTable,text,1,true,fieldVariableFromPreField,
-                                 /*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity);	
+                                 /*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsAll,fieldTxts);	
+        
          	         	//System.out.println("PanelODORD.DocumentHandler.insertUpdate no"+no+" "+val);
          	         	txtDescription.setText(val);
          	         	

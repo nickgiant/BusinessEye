@@ -12,7 +12,8 @@ import javax.swing.table.*;
 import java.lang.reflect.*;
 
 import java.util.*;
-import javax.swing.JTable;
+import javax.swing.*;
+import javax.swing.text.*;
 
 public class UtilsPanelReport implements Constants
 {
@@ -392,7 +393,7 @@ public class UtilsPanelReport implements Constants
    // int intField no of field in lookup. isTypedOrSaved: true when is typed in keytextxtbox (use of queryLookUpIsActive), is false when is already saved (not use of queryLookUpIsActive)
    //  also appears partially in WindowLookUp.filter 
    public String getLookupValue(String luname, String foreignTable, String lookupValue, int intField, boolean isTypedOrSaved,String formVariableFromField,/*String formGlobalTableToGet1In,String formGlobalTableToApply1In,*/
-           String subqueryWhereForAPreviousFieldValue, String entityIn) 
+           String subqueryWhereForAPreviousFieldValue, String entityIn, EntityDBFields[] dbFieldsInGroupOfPanels, ArrayList fieldTxts) 
    { 
          String lookupResult="-";
       
@@ -400,6 +401,44 @@ public class UtilsPanelReport implements Constants
               String foreignQuery="";
               String qWhere = "";
               String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
+   
+        // replace # with text, array if they are more than one         
+          String [] textsInput = lookUp.getFieldsReplacedInsideQuery(luname);
+          ArrayList listTextString = new ArrayList();
+      if(textsInput!=null)    
+      {
+        for(int i =0;i<textsInput.length;i++)  
+        {
+         for(int c=0;c<dbFieldsInGroupOfPanels.length;c++)
+          {
+               //System.out.println("--------c:"+c+"   getDbField:"+dbFieldsInGroupOfPanels[c].getDbField()+"   "+textsInput[i]);
+                       if(textsInput[i].equalsIgnoreCase(dbFieldsInGroupOfPanels[c].getDbField()))
+                       {
+                           //System.out.println("=======================c:"+c+"   getDbField:"+dbFieldsInGroupOfPanels[c].getDbField()+"   "+textsInput[i]);
+                          JTextComponent tbToGet = (JTextComponent)fieldTxts.get(c);
+                          listTextString.add(tbToGet.getText().trim()); 
+                          
+                       }          
+          } 
+        }
+          String[] arrayText = new  String[listTextString.size()];
+          for(int a= 0; a<listTextString.size();a++)
+          {
+              arrayText[a]=(String)listTextString.get(a);
+          }
+
+                                int indexOfHashChar = queryLookUpWhere.indexOf("#");
+                               
+                               if(indexOfHashChar!=-1)
+                               {    
+                                queryLookUpWhere = utilsString.replaceTextOfAStringWithText("#", queryLookUpWhere, arrayText, null);
+                               }          
+      }                         
+              
+              
+              
+              
+              
               
              String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(luname);
 
@@ -492,10 +531,10 @@ public class UtilsPanelReport implements Constants
              
              
              
-     // if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
-     // {
+      if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
+      {
         System.out.println("   ELSE   UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"    lookupResult:"+lookupResult+"      globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"   luname:"+luname+"       foreignTable:"+foreignTable+"   lookupValueQuery:"+lookupValueQuery+"    foreignQuery:"+foreignQuery);
-     // }
+      }
           }
       
       
@@ -859,7 +898,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                     for(int cf = 0; cf<tableDBFields.length;cf++)
                     {
                         
-                        if(tableDBFields[cf].getDbField().equalsIgnoreCase(primKeyDb)) // when prim key is the prim key of chield
+                        if(tableDBFields[cf].getDbField()!=null && tableDBFields[cf].getDbField().equalsIgnoreCase(primKeyDb)) // when prim key is the prim key of child
                         {
                             //System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK   IF    entity:"+entity+"    primKeyDb:"+primKeyDb+"     "+tableDBFields[cf].getTableName()+"."+tableDBFields[cf].getDbField()+" = "+dbFields[c].getTableName()+"."+dbFields[c].getDbField()); 
                            listDbFieldsPKs.add(tableDBFields[cf]);
@@ -1296,7 +1335,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                     primkeyFixedValueArray[intPrimkeyFixed] = pkValueFromParentTable;//  intPkValueFromParentTable;//getPrimKeyValue();//dbFieldsAll[c].getDefaultValue();          // TO DO: CHANGE IT         
                     
                     //primkeyAutoInc = dbFieldsAll[c].getDbField();
-                  System.out.println("     -ELSE-   UtilPanelReport.getNoOfPKAutoIncOfNewRecord   intPrimkeyFixed:"+intPrimkeyFixed+" c:"+c+"  FIELD_PRIMARY_KEY_FROM_PARENTTABLE  entity:"+entity+"    primkeyFixedArray:"+primkeyFixedArray[intPrimkeyFixed]+"="+primkeyFixedValueArray[intPrimkeyFixed]+"   dbFieldsAll[c].getPrimaryKeyIntegerAutoInc():"+dbFieldsAll[c].getPrimaryKeyIntegerAutoInc()+"     primkeyAutoInc:"+primkeyAutoInc+"   intPrimkeyFixed:"+intPrimkeyFixed+"    primKeyValue:"+primKeyValue);
+                  System.out.println("     -ELSE-   UtilPanelReport.getNoOfPKAutoIncOfNewRecord   intPrimkeyFixed:"+intPrimkeyFixed+" c:"+c+"  FIELD_PRIMARY_KEY_FROM_PARENTTABLE  entity:"+entity+"    primkeyFixedArray:"+primkeyFixedArray[intPrimkeyFixed]+"="+primkeyFixedValueArray[intPrimkeyFixed]+"   pkValueFromParentTable:"+pkValueFromParentTable+"  dbFieldsAll[c].getPrimaryKeyIntegerAutoInc():"+dbFieldsAll[c].getPrimaryKeyIntegerAutoInc()+"     primkeyAutoInc:"+primkeyAutoInc+"   intPrimkeyFixed:"+intPrimkeyFixed+"    primKeyValue:"+primKeyValue);
                    intPrimkeyFixed++;
                 }
                 else if(dbFieldsAll[c].getPrimaryKeyIntegerAutoInc()!=FIELD_NORMAL_NO_PRIMARY_KEY)
@@ -1312,7 +1351,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
          
          
         
-  	//System.out.println("PanelODORData.getNoOfPKOfNewRecord ===> "+entity+"  dbFieldsAll.length("+dbFieldsAll.length+")    primkeyAutoInc:"+primkeyAutoInc+"    primkeyFixed:"+intPrimkeyFixed+"       primKeyValue:"+primKeyValue);
+  	//System.out.println("UtilPanelReport.getNoOfPKAutoIncOfNewRecord ===> "+entity+"  dbFieldsAll.length("+dbFieldsAll.length+")    primkeyAutoInc:"+primkeyAutoInc+"    primkeyFixed:"+intPrimkeyFixed+"       primKeyValue:"+primKeyValue);
 
         
     
@@ -1347,7 +1386,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
              {
                  sql = "SELECT "+primkeyAutoInc+" FROM "+entity+" ORDER BY "+primkeyAutoInc;
              }
-         // System.out.println("UtilsPanelReport.getNoOfPKOfNewRecord    -    primkeyAutoInc:"+primkeyAutoInc+"   intPrimkeyFixed:"+intPrimkeyFixed+"    intPrimkeyFixed:"+intPrimkeyFixed+"         sql:"+sql);
+         System.out.println("UtilsPanelReport.getNoOfPKOfNewRecord    -    primkeyAutoInc:"+primkeyAutoInc+"   intPrimkeyFixed:"+intPrimkeyFixed+"    intPrimkeyFixed:"+intPrimkeyFixed+"         sql:"+sql);
   	 	
   	    db.retrieveDBDataFromQuery(sql,"UtilsPanelReport.getNoOfPKOfNewRecord");
    	    ResultSet rspk=db.getRS();
@@ -1368,7 +1407,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
         }
   	catch(SQLException e)
   	{
-  	 	System.out.println("error  PanelODORData.getNoOfPKOfNewRecord   sql:"+sql+"    "+e.getMessage());
+  	 	System.out.println("error  UtilPanelReport.getNoOfPKAutoIncOfNewRecord   sql:"+sql+"    "+e.getMessage());
                 if(VariablesGlobal.globalShowPrintStackTrace)
                 {
                     e.printStackTrace();
@@ -1419,7 +1458,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                     //System.out.println(" ELSE  PanelODORData.getNoOfPKOfNewRecord          primkeyAutoInc:"+primkeyAutoInc+"       intLastNo:"+intLastNo+"           returnNumber:"+returnNumber+"       rowsAddedInJtableBeforeSavedInDB:"+rowsAddedInJtableBeforeSavedInDB);
         }
         
-        System.out.println("  +++  PanelODORData.getNoOfPKOfNewRecord      returnNumber:"+returnNumber +"    before->    isDoNotAddOne:"+isDoNotAddOne);
+        System.out.println("  +++  UtilPanelReport.getNoOfPKAutoIncOfNewRecord      returnNumber:"+returnNumber +"    before->    isDoNotAddOne:"+isDoNotAddOne);
          if(isDoNotAddOne)
          {
                if(returnNumber>0)             

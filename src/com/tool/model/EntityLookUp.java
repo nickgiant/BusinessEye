@@ -10,6 +10,7 @@ public class EntityLookUp
         public String foreignTable;
         public String query; //query read only. the one that apeares in dialogEdit and in showrow of panel (without is active)
         public String querySubqueryWhere;
+        private String[] fieldsReplacedInsideQuery; // if query has character # replace
         public String querySubqueryIsActive; //(is added in list only)
         public String queryOrderBy;
         String queryWhereForFormVariable;
@@ -52,7 +53,7 @@ public class EntityLookUp
       public EntityLookUp(String name)
       {}
 
-        public EntityLookUp(String nameIn, String foreignTableIn, String queryIn, String querySubqueryWhereIn, String querySubqueryIsActiveIn,String queryOrderByIn, 
+        public EntityLookUp(String nameIn, String foreignTableIn, String queryIn, String querySubqueryWhereIn,String[] fieldsReplacedInsideQueryIn ,String querySubqueryIsActiveIn,String queryOrderByIn, 
            String queryWhereForFormVariableIn,String lookUpKeyIn, String lookUpKeyTranslationIn, String lookUpKeyFTIn, String lookUpLabelIn, int lookUpFieldIndexIn,
            String[] lookUpFieldIn,String lookUpFieldLabelIn,int  lookUpFieldLengthIn,String lookUpFieldTypeIn,int lookUpField2IndexIn, String lookUpField2In,
            String lookUpField2LabelIn, int lookUpField3IndexIn, String lookUpField3In, String lookUpField3LabelIn, String queryEditableIn, /*EntityDBFields[] fieldsIn,*/ 
@@ -64,6 +65,7 @@ public class EntityLookUp
           foreignTable = foreignTableIn;
           query = queryIn;
           querySubqueryWhere=querySubqueryWhereIn;
+          fieldsReplacedInsideQuery = fieldsReplacedInsideQueryIn;
           querySubqueryIsActive=querySubqueryIsActiveIn;
           queryOrderBy=queryOrderByIn;
           queryWhereForFormVariable = queryWhereForFormVariableIn;
@@ -129,6 +131,11 @@ public class EntityLookUp
         {
            return querySubqueryWhere;
         }        
+        
+        public String[] getFieldsReplacedInsideQuery()
+        {
+            return fieldsReplacedInsideQuery;
+        }
         
         public String getQuerySubqueryIsActive()
         {
