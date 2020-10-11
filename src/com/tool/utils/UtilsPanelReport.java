@@ -487,12 +487,26 @@ public class UtilsPanelReport implements Constants
           //String queryLookUpWhereTableOfForm = lookUp.getQuerySubqueryWhere(luname);
           //queryClosingSubquery =  subQueryFilterFromRecType;      //queryLookUpWhereTableOfForm+subQueryFilterFromRecType;
               if(utilsString.hasQueryWhere(queryLookUpWhere))
-              {  
-                 lookupValueQuery=" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+              {
+                  if(lookupValue.equalsIgnoreCase(""))
+                  {
+                      
+                  }
+                  else
+                  {                  
+                     lookupValueQuery=" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                  }
               }
               else
               {
-                  lookupValueQuery=" WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                  if(lookupValue.equalsIgnoreCase(""))
+                  {
+                      
+                  }
+                  else
+                  {                  
+                     lookupValueQuery=" WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                  }
               }
              if(isTypedOrSaved)     //is typed
              {                
@@ -513,11 +527,25 @@ public class UtilsPanelReport implements Constants
              // queryClosingSubquery = " % ) ";
               if(utilsString.hasQueryWhere(queryLookUpWhere))
               {    
-                  lookupValueQuery =  " AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";  //"";//queryClosingSubquery;  //lookupValueQuery=" "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
+                  if(lookupValue.equalsIgnoreCase(""))
+                  {
+                      
+                  }
+                  else
+                  {
+                      lookupValueQuery =  " AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";  //"";//queryClosingSubquery;  //lookupValueQuery=" "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
+                  }
               }
               else
               {
-                  lookupValueQuery =  " WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                  if(lookupValue.equalsIgnoreCase(""))
+                  {
+                      
+                  }
+                  else
+                  {                  
+                    lookupValueQuery =  " WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                  }
               }
              if(isTypedOrSaved)     //is typed
              {                
@@ -542,7 +570,8 @@ public class UtilsPanelReport implements Constants
   System.out.println("UtilsPanelReport.getLookupValue        --oOoOoOoOo--           isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
          try
          {          
-          	    db.retrieveDBDataFromQuery(foreignQuery,"UtilsPanelReport.getLookupValue");
+             
+          	    db.retrieveDBDataFromQuery(utilsString.removeCaptionsFromQuerySubStringSelect(foreignQuery),"UtilsPanelReport.getLookupValue");
    	            rsForeign=db.getRS();
 
            if(rsForeign==null)   
@@ -588,11 +617,15 @@ public class UtilsPanelReport implements Constants
          }//try
          catch ( SQLException sqlex)
          {
-             System.out.println("error: UtilsPanelReport.getLookupValue(): "+sqlex.getMessage());
+             System.out.println("error: UtilsPanelReport.getLookupValue(): "+sqlex.getMessage()+"   foreignQuery:"+foreignQuery);
              sqlex.printStackTrace();
          }
+         finally
+         {
+             closeDB();
+         }
          
-         closeDB();
+         
          return lookupResult;
    }
 

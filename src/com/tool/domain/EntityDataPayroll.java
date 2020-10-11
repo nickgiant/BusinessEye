@@ -41,8 +41,10 @@ public class EntityDataPayroll extends EntityData implements Constants
     public static final String SYSTEM_CAT_2 = "παροχής υπηρεσίας";
     public static final String SYSTEM_CAT_3 = "εσόδων - εξόδων";
     
+   public static final String OSYK_DATE_GRATER_THAN = "201901";
  
-        
+    
+    
         EntityDBFields[] dbCompanyDBFields = new EntityDBFields[26];        
         EntityGroupOfComps[] dbCompanyEntityGroupOfComps= new EntityGroupOfComps[8];
         EntityGroupOfPanels[] dbCompanyEntityGroupOfPanels = new EntityGroupOfPanels[4];
@@ -123,8 +125,8 @@ public class EntityDataPayroll extends EntityData implements Constants
         EntityDBFields[] employmentperiodDBFields = new EntityDBFields[33];
         
         // same as second (and the rest) query in etityParameters
-        EntityGroupOfComps[] employmentperiodEntityGroupOfComps =new EntityGroupOfComps[6];
-        EntityGroupOfPanels[] employmentperiodEntityGroupOfPanels = null;
+        EntityGroupOfComps[] employmentperiodEntityGroupOfComps =new EntityGroupOfComps[8];
+        EntityGroupOfPanels[] employmentperiodEntityGroupOfPanels = new EntityGroupOfPanels[2];
         
         
         String employmentperiodQueryEditable = "SELECT * FROM pay_employmentperiod";//product.productId AS \"Νο προϊόντος\", product.productName AS \"ονομασία\", product.currencyId FROM product";
@@ -181,7 +183,7 @@ public class EntityDataPayroll extends EntityData implements Constants
         
         
         //EntityDBFields[] actionTypeLineDBFields = new EntityDBFields[7];
-        EntityDBFields[] efkaΚadDBFields = new EntityDBFields[3];
+        EntityDBFields[] efkaΚadDBFields = new EntityDBFields[2];
 
         
         EntityGroupOfComps[] efkaΚadEntityGroupOfComps = new EntityGroupOfComps[1];
@@ -189,7 +191,7 @@ public class EntityDataPayroll extends EntityData implements Constants
         
         
         String efkaΚadQueryEditable="SELECT * FROM pay_efkakad";//geoCatId AS\"Νο πόλης\", geoCatName AS\"πόλη/χωριό\",state AS \"νομός\", postCode AS\"ΤΚ\", phoneCode AS\"κωδ τηλ\" FROM town";
-        String[] fieldsOnTitleΕfkaΚad ={"codeEfkaKad","description"};
+        String[] fieldsOnTitleΕfkaΚad ={"efkaKadCode","description"};
         String[] fieldsOnTitleCaptionΕfkaΚad  ={"κωδικός","περιγραφή"};     
             String[] fieldsUniqueΕfkaΚad = null; 
             EntityCheckFields[] entityCheckFieldsΕfkaΚad =null;
@@ -197,6 +199,38 @@ public class EntityDataPayroll extends EntityData implements Constants
         EntityPanel[] entityPanelΕfkaΚad = new EntityPanel[] {entityPanelΕfkaΚadDataentry};        
         
     //----------------------------------------------------------------
+        EntityDBFields[] efkaEidikotitaDBFields = new EntityDBFields[2];
+
+        
+        EntityGroupOfComps[] efkaEidikotitaEntityGroupOfComps = new EntityGroupOfComps[1];
+        EntityGroupOfPanels[] efkaEidikotitaEntityGroupOfPanels = new EntityGroupOfPanels[1];        
+        
+      String efkaEidikotitaQueryEditable ="SELECT * FROM pay_efkaeidikotita";
+     String[] fieldsOnTitleEfkaEidikotita = {"efkaeidikotitaId" };
+     String[] fieldsOnTitleCaptionEfkaEidikotita = {"κωδικός"};
+            String[] fieldsUniqueΕfkaEidikotita = null; 
+            EntityCheckFields[] entityCheckFieldsΕfkaEidikotita =null;     
+     EntityPanel entityPanelΕfkaEidikotitaDataentry = new EntityPanel("ODOR","pay_efkaeidikotita",efkaEidikotitaDBFields,efkaEidikotitaEntityGroupOfComps,efkaEidikotitaEntityGroupOfPanels,"Νο","","efkaEidikotitaId",efkaEidikotitaQueryEditable,"βασικά στοιχεία",null, false, true,fieldsUniqueΕfkaEidikotita,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,entityCheckFieldsΕfkaEidikotita,null);  
+        EntityPanel[] entityPanelEfkaEidikotita = new EntityPanel[] {entityPanelΕfkaEidikotitaDataentry};        
+      
+        //----------------------------------------------------------------
+        //EntityDBFields[] actionTypeLineDBFields = new EntityDBFields[7];
+        EntityDBFields[] efkaKpkDBFields = new EntityDBFields[2];
+
+        
+        EntityGroupOfComps[] efkaKpkEntityGroupOfComps = new EntityGroupOfComps[1];
+        EntityGroupOfPanels[] efkaKpkEntityGroupOfPanels = new EntityGroupOfPanels[1];
+        
+        
+        String efkaKpkQueryEditable="SELECT * FROM pay_efkakpk";//geoCatId AS\"Νο πόλης\", geoCatName AS\"πόλη/χωριό\",state AS \"νομός\", postCode AS\"ΤΚ\", phoneCode AS\"κωδ τηλ\" FROM town";
+        String[] fieldsOnTitleEfkaKpk ={"codeEfkaKpk","description"};
+        String[] fieldsOnTitleCaptionEfkaKpk  ={"Νο","ονομασία"};     
+            String[] fieldsUniqueEfkaKpk = null;    
+        EntityCheckFields[] entityCheckFieldsEfkaKpk = null;
+        EntityPanel entityPanelEfkaKpkDataentry = new EntityPanel("ODOR","pay_efkakpk",efkaKpkDBFields,efkaKpkEntityGroupOfComps,efkaKpkEntityGroupOfPanels,"Νο","","codeEfkaKpk",efkaKpkQueryEditable,"βασικά στοιχεία",null, false, true,fieldsUniqueEfkaKpk,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,entityCheckFieldsEfkaKpk,null);    
+        EntityPanel[] entityPanelEfkaKpk = new EntityPanel[] {entityPanelEfkaKpkDataentry};        
+                
+     
         
   public void addDocumentNodes()
   {
@@ -261,30 +295,49 @@ public class EntityDataPayroll extends EntityData implements Constants
       //------------------------------------------------------------------ 
 
          EntityFilterSettings[] efkaΚadErs = new EntityFilterSettings[2];       
-        efkaΚadErs[0]=new EntityFilterSettings("κωδικός","","string","equals","codeEfkaKad","pay_efkakad",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        efkaΚadErs[0]=new EntityFilterSettings("κωδικός","","string","equals","efkaKadCode","pay_efkakad",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         efkaΚadErs[1]=new EntityFilterSettings("περιγραφή","","string","equals","description","pay_efkakad",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         //actionTypeErs[1]=new EntityFilterSettings("τύπος","checkboxTable","string","","actionTypeCatId","stockcat","stock","",-1,-1,-1,FIELD_NOCOMPLETION);
        
         
         String[] lookUpFieldΕfkaΚad={"description"};                   
     
-     entities.add(entityLookUp = new EntityLookUp("pay_efkakad","pay_efkakad","SELECT pay_efkakad.efkaKadId AS\"Νο\", pay_efkakad.codeEfkaKad AS \"κωδικός\", pay_efkakad.description  AS\"περιγραφή\"  FROM pay_efkakad",""/*WHERE pay_efkakad.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/,null,""/*"AND pay_efkakad.isActive LIKE 1"*/,"ORDER BY pay_efkakad.efkaKadId","","efkaKadId","Νο","pay_efkakad","ΕΦΚΑ ΚΑΔ",3,lookUpFieldΕfkaΚad,"περιγραφή",33,"java.lang.String",0,null,null,0,null,null,efkaΚadQueryEditable,"ΕΦΚΑ ΚΑΔ","ΕΦΚΑ ΚΑΔ",null,entityPanelΕfkaΚad,fieldsOnTitleΕfkaΚad,fieldsOnTitleCaptionΕfkaΚad,efkaΚadErs,2,1,null,false,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("pay_efkakad","pay_efkakad","SELECT pay_efkakad.efkaKadCode AS \"Νο\", pay_efkakad.description  AS\"περιγραφή\"  FROM pay_efkakad",""/*WHERE pay_efkakad.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/,null,""/*"AND pay_efkakad.isActive LIKE 1"*/,"ORDER BY pay_efkakad.efkaKadCode","","efkaKadCode","Νο","pay_efkakad","ΕΦΚΑ ΚΑΔ",2,lookUpFieldΕfkaΚad,"περιγραφή",33,"java.lang.String",0,null,null,0,null,null,efkaΚadQueryEditable,"ΕΦΚΑ ΚΑΔ","ΕΦΚΑ ΚΑΔ",null,entityPanelΕfkaΚad,fieldsOnTitleΕfkaΚad,fieldsOnTitleCaptionΕfkaΚad,efkaΚadErs,2,1,null,false,-1,-1,null));    	 	
   
          
-     entities.add(entityLookUp = new EntityLookUp("pay_efkakadFromCompany","pay_efkakad","SELECT pay_efkakad.efkaKadId AS\"Νο\", pay_efkakad.codeEfkaKad AS \"κωδικός\", pay_efkakad.description  AS\"περιγραφή\"  FROM pay_efkakad, pay_companyefkakad","WHERE pay_companyefkakad.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND pay_efkakad.efkaKadId = pay_companyefkakad.efkaKadId"/*WHERE pay_efkakad.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/,null,""/*"AND pay_efkakad.isActive LIKE 1"*/,"ORDER BY pay_efkakad.efkaKadId","","efkaKadId","Νο","pay_efkakad","ΕΦΚΑ ΚΑΔ",3,lookUpFieldΕfkaΚad,"περιγραφή",33,"java.lang.String",0,null,null,0,null,null,efkaΚadQueryEditable,"ΕΦΚΑ ΚΑΔ","ΕΦΚΑ ΚΑΔ",null,entityPanelΕfkaΚad,fieldsOnTitleΕfkaΚad,fieldsOnTitleCaptionΕfkaΚad,efkaΚadErs,2,1,null,false,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("pay_efkakadFromCompany","pay_efkakad","SELECT pay_efkakad.efkaKadCode AS \"Νο\", pay_efkakad.description  AS\"περιγραφή\"  FROM pay_efkakad, pay_companyefkakad","WHERE pay_companyefkakad.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND pay_efkakad.efkaKadCode = pay_companyefkakad.efkaKadCode"/*WHERE pay_efkakad.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/,null,""/*"AND pay_efkakad.isActive LIKE 1"*/,"ORDER BY pay_efkakad.efkaKadCode","","efkaKadCode","Νο","pay_efkakad","ΕΦΚΑ ΚΑΔ",2,lookUpFieldΕfkaΚad,"περιγραφή",33,"java.lang.String",0,null,null,0,null,null,efkaΚadQueryEditable,"ΕΦΚΑ ΚΑΔ","ΕΦΚΑ ΚΑΔ",null,entityPanelΕfkaΚad,fieldsOnTitleΕfkaΚad,fieldsOnTitleCaptionΕfkaΚad,efkaΚadErs,2,1,null,false,-1,-1,null));    	 	
      
      //---------------------------------------------------------------
-     EntityFilterSettings[] efkaEidikotitaSpecialErs = new EntityFilterSettings[1];       
-     payContractSpecialErs[0]=new EntityFilterSettings("ονομασία","","string","equals","description","pay_efkaeidikotita",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+     EntityFilterSettings[] efkaEidikotitaSpecialErs = new EntityFilterSettings[2];       
+     efkaEidikotitaSpecialErs[0]=new EntityFilterSettings("κωδικός","","string","equals","codeEfkaEidikotita","pay_efkaeidikotita",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+     efkaEidikotitaSpecialErs[1]=new EntityFilterSettings("ονομασία","","string","equals","description","pay_efkaeidikotita",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         //actionTypeErs[1]=new EntityFilterSettings("τύπος","checkboxTable","string","","actionTypeCatId","stockcat","stock","",-1,-1,-1,FIELD_NOCOMPLETION);
      String[] lookUpFieldEfkaEidikotita={"description"}; 
-     //String payContractSpecialQueryEditable ="";
-     //EntityPanel[] entityPanelPayContractSpecial=null;
-     //String[] fieldsOnTitlePayContractSpecial = null;
-     //String[] fieldsOnTitleCaptionPayContractSpecial = null;
-     String[] fieldsReplacedInsideQueryEfkaEidikotita = {"contractOfEmploymentId"};// get it from dbfields
-     entities.add(entityLookUp = new EntityLookUp("pay_efkaeidikotita","pay_efkaeidikotita","SELECT pay_efkaeidikotita.efkaeidikotitaId AS\"Νο\",  pay_efkaeidikotita.description  AS \"ειδικότητα\" FROM pay_efkaeidikotita, pay_efkakadeidkpk, pay_efkakad","WHERE pay_contractspecialty.contractId = pay_contract.contractId AND pay_contractspecialty.contractId LIKE # ", fieldsReplacedInsideQueryPayContractSpecial/*"WHERE pay_contract.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/,""/*"AND pay_efkakad.isActive LIKE 1"*/,"ORDER BY pay_contractspecialty.contractSpecialtyId ","","contractSpecialtyId","Νο","pay_contractspecialty","ειδικότητα σύμβασης",4,lookUpFieldPayContractSpecial,"περιγραφή",20,"java.lang.String",0,null,null,0,null,null,payContractSpecialQueryEditable,"ειδικότητα σύμβασης εργασίας","ειδικότητες συμβάσεων εργασίας",null,entityPanelPayContractSpecial,fieldsOnTitlePayContractSpecial,fieldsOnTitleCaptionPayContractSpecial,payContractSpecialErs,2,1,null,false,-1,-1,null));    	 	
+     
+     //String efkaEidikotitaQueryEditable ="";
+     //EntityPanel[] entityPanelEfkaEidikotita=null;
+     //String[] fieldsOnTitleEfkaEidikotita = null;
+     //String[] fieldsOnTitleCaptionEfkaEidikotita = null;
+     String[] fieldsReplacedInsideQueryEfkaEidikotita = {"efkaKadCode"};// get it from dbfields
+     entities.add(entityLookUp = new EntityLookUp("pay_efkaeidikotita","pay_efkaeidikotita","SELECT pay_efkaeidikotita.codeEfkaEidikotita AS \"Νο\",   pay_efkaeidikotita.description  AS \"ειδικότητα\", pay_efkakpk.codeEfkaKpk AS \"ΚΠΚ\" FROM pay_efkakad, pay_efkaeidikotita, pay_efkakadeidkpk, pay_efkakpk","WHERE pay_efkakad.efkaKadCode = pay_efkakadeidkpk.efkaKadCode AND pay_efkaeidikotita.codeEfkaEidikotita = pay_efkakadeidkpk.codeEfkaEid" +
+      " AND pay_efkakpk.codeEfkaKpk =  pay_efkakadeidkpk.codeEfkaKpk AND pay_efkakad.efkaKadCode LIKE '#' AND pay_efkakadeidkpk.dateEnd = 999912  AND pay_efkakpk.dateStart > "+OSYK_DATE_GRATER_THAN,
+       fieldsReplacedInsideQueryEfkaEidikotita,""/*"AND pay_efkakad.isActive LIKE 1"*/,"ORDER BY pay_efkaeidikotita.description","","codeEfkaEidikotita","Νο","pay_efkaeidikotita","ειδικότητα",2,lookUpFieldEfkaEidikotita,"περιγραφή",20,"java.lang.String",0,null,null,0,null,null,efkaEidikotitaQueryEditable,"ειδικότητα","ειδικότητες",null,entityPanelEfkaEidikotita,fieldsOnTitleEfkaEidikotita,fieldsOnTitleCaptionEfkaEidikotita,efkaEidikotitaSpecialErs,2,1,null,false,-1,-1,null));    	 	
       //------------------------------------------------------------------ 
+      
+            
+
+         EntityFilterSettings[] efkaKpkErs = new EntityFilterSettings[2];       
+        efkaKpkErs[0]=new EntityFilterSettings("κωδικός","","string","equals","codeEfkaKpk","pay_efkakpk",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+         efkaKpkErs[1]=new EntityFilterSettings("ονομασία","","string","equals","description","pay_efkakpk",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        //actionTypeErs[1]=new EntityFilterSettings("τύπος","checkboxTable","string","","sxActionTypeCatId","servicecat","sxaccount","",-1,-1,-1,FIELD_NOCOMPLETION);
+       
+        
+        String[] lookUpFieldEfkaKpk={"description"};                   
+    
+     entities.add(entityLookUp = new EntityLookUp("pay_efkakpk","pay_efkakpk","SELECT pay_efkakpk.codeEfkaKpk AS\"Νο\", pay_efkakpk.description AS \"περιγραφή\", pay_efkakpk.employeePercentage AS \"% εργαζόμενου\", pay_efkakpk.employerPercentage AS \"% εργοδότη\"  FROM pay_efkakpk","WHERE pay_efkakpk.dateStart > "+OSYK_DATE_GRATER_THAN,null,""/*active = 1*/,"ORDER BY pay_efkakpk.codeEfkaKpk ","","codeEfkaKpk","Νο","pay_efkakpk","ΚΠΚ",2,lookUpFieldEfkaKpk,"περιγραφή",20,"java.lang.String",0,null,null,0,null,null,efkaKpkQueryEditable,"ΚΠΚ","ΚΠΚ"/*φορμών εκτύπωσης*/,null,entityPanelEfkaKpk,fieldsOnTitleEfkaKpk,fieldsOnTitleCaptionEfkaKpk,efkaKpkErs,2,1,null,false,-1,-1,null));    	 	
+               
+     //------------------------------------------------------------------
+      
            return entities;
    } 
    
@@ -419,7 +472,7 @@ public class EntityDataPayroll extends EntityData implements Constants
         
         String[] fieldsForSumsemploymentperiod = null;//{"ποσότητα","προ φπα", "φπα","σύνολο"};
         
-        EntityInfo pf = new EntityInfo("pay_employmentperiod", "SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", pay_employmentperiod.dbCompanyId, pay_employmentperiod.employeeId, companyBranchId, actualEmploymenStartDate, actualEmploymentEndDate FROM pay_employmentperiod WHERE pay_employmentperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" ORDER BY pay_employmentperiod.employmentPeriodId"  ,"SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", pay_employmentperiod.dbCompany","FROM pay_employmentperiod","WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId ,null,fieldsForSumsemploymentperiod,"περίοδοι εργασίας","DORM","","Νο","pay_employmentPeriodId",/*"","",*/employmentperiodErs,employmentperiodErsEntityGroupOfComps,"περίοδος εργασίας","περιόδων εργασίας",employmentperiodCategories,entityPanelService,fieldsOnTitleemploymentperiod,fieldsOnTitleCaptionemploymentperiod,employmentperiodFieldsOrderby,-1,-1,null,globalYearPlusOne);
+        EntityInfo pf = new EntityInfo("pay_employmentperiod", "SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", pay_employmentperiod.dbCompanyId, pay_employmentperiod.employeeId, companyBranchId, actualEmploymenStartDate, actualEmploymentEndDate, contractOfEmploymentId, efkaKadCode, efkaEidikotitaCode FROM pay_employmentperiod "/*WHERE pay_employmentperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+*/+" ORDER BY pay_employmentperiod.employmentPeriodId"  ,"SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", pay_employmentperiod.dbCompany","FROM pay_employmentperiod",""/*"WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/ ,null,fieldsForSumsemploymentperiod,"περίοδοι εργασίας","DORM","","Νο","employmentPeriodId",/*"","",*/employmentperiodErs,employmentperiodErsEntityGroupOfComps,"περιόδου εργασίας","περιόδων εργασίας",employmentperiodCategories,entityPanelService,fieldsOnTitleemploymentperiod,fieldsOnTitleCaptionemploymentperiod,employmentperiodFieldsOrderby,-1,-1,null,globalYearPlusOne);
         EntityMenu empf = new EntityMenu();
         empf.setEntityInfo(pf,ICO_TABLE16);
         empf.setEntityType(ENTITY_TYPE_DATAENTRY);
@@ -477,7 +530,7 @@ public class EntityDataPayroll extends EntityData implements Constants
   }
 
   
-     public EntityDataPayroll()
+   public EntityDataPayroll()
    {
        
           // need them
@@ -516,7 +569,7 @@ public class EntityDataPayroll extends EntityData implements Constants
         EntityDBFields[]  companyEfkaKadDBFields = new EntityDBFields[5];
         companyEfkaKadDBFields[0] = new EntityDBFields("pay_companyefkakad","id","Νο",0,"java.lang.Integer",15, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");       
         companyEfkaKadDBFields[1] = new EntityDBFields("pay_companyefkakad","dbCompanyId","Νο εταιρίας",0,"java.lang.String",4,FIELD_PRIMARY_KEY_FROM_PARENTTABLE,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,""); //uses FIELD_PRIMARY_KEY_FROM_PARENTTABLE, not:VariablesGlobal.globalCompanyId
-        companyEfkaKadDBFields[2] = new EntityDBFields("pay_companyefkakad","efkaKadId","ΕΦΚΑ ΚΑΔ",0,"java.lang.Integer",35,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_efkakad", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        companyEfkaKadDBFields[2] = new EntityDBFields("pay_companyefkakad","efkaKadCode","ΕΦΚΑ ΚΑΔ",0,"java.lang.String",35,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_efkakad", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         companyEfkaKadDBFields[3] = new EntityDBFields("pay_companyefkakad","affectEfkaKadStartDate","από ημερομηνία",0,"java.sql.Date",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
         companyEfkaKadDBFields[4] = new EntityDBFields("pay_companyefkakad","affectEfkaKadEndDate","εως ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
         
@@ -683,69 +736,83 @@ public class EntityDataPayroll extends EntityData implements Constants
         //traderEntityGroupOfPanels[2] = new EntityGroupOfPanels("χρηματικά",1);
        
         //-------------------------------------------
-       
+        int[] inputContractSalaryCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+        int[] inputContractSalary ={9,8};
+        //10,inputService,"SELECT vatcat.vatPercentage FROM stock, vatcat  WHERE stock.vatCatId=vatcat.vatCatId AND stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND stock.stockId=");
+        EntityDBFieldsCalculation[] fieldsCalculationContractSalarySelect = new EntityDBFieldsCalculation[1];
+        fieldsCalculationContractSalarySelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,10,inputContractSalaryCategory,inputContractSalary,"SELECT pay_contractspecialty.amount FROM pay_contractspecialty  WHERE pay_contractspecialty.contractSpecialtyId LIKE # AND pay_contractspecialty.contractId LIKE #");
+        
+        int[] inputKpkCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
+        int[] inputKpk ={16,17};
+        //10,inputService,"SELECT vatcat.vatPercentage FROM stock, vatcat  WHERE stock.vatCatId=vatcat.vatCatId AND stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND stock.stockId=");
+        EntityDBFieldsCalculation[] fieldsCalculationKpk = new EntityDBFieldsCalculation[1];
+        fieldsCalculationKpk[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,19,inputKpkCategory,inputKpk,"SELECT pay_efkakadeidkpk.codeEfkaKpk FROM pay_efkakadeidkpk  WHERE pay_efkakadeidkpk.efkaKadCode LIKE '#' AND pay_efkakadeidkpk.codeEfkaEid LIKE '#'");        
         
         employmentperiodDBFields[0] = new EntityDBFields("pay_employmentperiod","employmentPeriodId","Νο",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");        
-        employmentperiodDBFields[1] = new EntityDBFields("pay_employmentperiod","dbCompanyId","εταιρία",0,"java.lang.String",5,FIELD_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"dbCompanyForPay",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalCompanyId,"");
-        employmentperiodDBFields[2] = new EntityDBFields("pay_employmentperiod","employeeId","εργαζόμενος",0,"java.lang.Integer",5,FIELD_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"hr_employee", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[3] = new EntityDBFields("pay_employmentperiod","actualEmploymenStartDate","από ημερομηνία",1,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[4] = new EntityDBFields("pay_employmentperiod","actualEmploymentEndDate","εως ημερομηνία",1,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-
+        employmentperiodDBFields[1] = new EntityDBFields("pay_employmentperiod","dbCompanyId","εταιρία",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"dbCompanyForPay",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,VariablesGlobal.globalCompanyId,"");
+        employmentperiodDBFields[2] = new EntityDBFields("pay_employmentperiod","employeeId","εργαζόμενος",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"hr_employee", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[3] = new EntityDBFields("pay_employmentperiod","workingTimeId","ωράριο εργασίας",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[4] = new EntityDBFields("pay_employmentperiod","employmentYekaSpecialtyId","κωδικός ειδικότητας ΥΕΚΑ",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
+        employmentperiodDBFields[5] = new EntityDBFields("pay_employmentperiod","efkaPlhresOrario","πλήρες ωράριο",2,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
+        employmentperiodDBFields[6] = new EntityDBFields("pay_employmentperiod","efkaOlesErgasimes","όλες οι ημέρες εργάσιμες",2,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[7] = new EntityDBFields("pay_employmentperiod","efkaKuriakes","εργασία τις Κυριακές",2,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
+                 
+        employmentperiodDBFields[8] = new EntityDBFields("pay_employmentperiod","experienceOnTheSameEmployerYears","χρόνια προυπηρεσίας στον ίδιο εργοδότη",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[9] = new EntityDBFields("pay_employmentperiod","experienceOnTheSameEmployerMonths","μήνες προυπηρεσίας στον ίδιο εργοδότη",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
+        employmentperiodDBFields[10] = new EntityDBFields("pay_employmentperiod","experienceAllEmployersYears","χρόνια προυπηρεσίας γενικά",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[11] = new EntityDBFields("pay_employmentperiod","experienceAllEmployersMonths","μήνες προυπηρεσίας γενικά",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
+                      
         
-        employmentperiodDBFields[5] = new EntityDBFields("pay_employmentperiod","employmentPeriodIsDefined","ορισμένου/αορίστου",1,"java.lang.Integer",3, FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCTypeOfContract",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"1","");
-        employmentperiodDBFields[6] = new EntityDBFields("pay_employmentperiod","employmentPeriodEndDate","εως ημερομηνία",1,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[7] = new EntityDBFields("pay_employmentperiod","contractOfEmploymentId","σύμβαση",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[8] = new EntityDBFields("pay_employmentperiod","contractOfEmploymentSpecialId","ειδικότητα σύμβασης",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"contractspecialty", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[9] = new EntityDBFields("pay_employmentperiod","salaryByLaw","νόμιμος μισθός",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        employmentperiodDBFields[10] = new EntityDBFields("pay_employmentperiod","salaryAgreed","συμφωνηθείς μισθος",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");         
+        
+        employmentperiodDBFields[12] = new EntityDBFields("pay_employmentperiod","actualEmploymenStartDate","από ημερομηνία",4,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[13] = new EntityDBFields("pay_employmentperiod","actualEmploymentEndDate","εως ημερομηνία",4,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[14] = new EntityDBFields("pay_employmentperiod","employmentPeriodIsDefined","ορισμένου/αορίστου",4,"java.lang.Integer",3, FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCTypeOfContract",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"1","");
+        employmentperiodDBFields[15] = new EntityDBFields("pay_employmentperiod","employmentPeriodEndDate","εως ημερομηνία",4,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[16] = new EntityDBFields("pay_employmentperiod","contractOfEmploymentId","σύμβαση",4,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[17] = new EntityDBFields("pay_employmentperiod","contractOfEmploymentSpecialId","ειδικότητα σύμβασης",4,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"contractspecialty", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationContractSalarySelect,"");        
+        employmentperiodDBFields[18] = new EntityDBFields("pay_employmentperiod","salaryByLaw","νόμιμος μισθός",4,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        employmentperiodDBFields[19] = new EntityDBFields("pay_employmentperiod","salaryAgreed","συμφωνηθείς μισθος",4,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");         
        // employmentperiodDBFields[3] = new EntityDBFields("pay_employmentperiod","active","ενεργή",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");            
 
-        employmentperiodDBFields[11] = new EntityDBFields("pay_employmentperiod","experienceOnTheSameEmployerYears","χρόνια προυπηρεσίας στον ίδιο εργοδότη",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[12] = new EntityDBFields("pay_employmentperiod","experienceOnTheSameEmployerMonths","μήνες προυπηρεσίας στον ίδιο εργοδότη",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
-        employmentperiodDBFields[13] = new EntityDBFields("pay_employmentperiod","experienceAllEmployersYears","χρόνια προυπηρεσίας γενικά",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[14] = new EntityDBFields("pay_employmentperiod","experienceAllEmployersMonths","μήνες προυπηρεσίας γενικά",2,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
-              
-       
+
+        employmentperiodDBFields[20] = new EntityDBFields("pay_employmentperiod","typeOfHourOrDaywageOrSalaryId","μισθώτός/ημερομίσθιος/ωρομίσθιος",5,"java.lang.Integer",5, FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCTypeOfSalary",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"1","");
+        employmentperiodDBFields[21] = new EntityDBFields("pay_employmentperiod","montlySalary","μισθός",5,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        employmentperiodDBFields[22] = new EntityDBFields("pay_employmentperiod","dailyWage","ημερομίσθιο",5,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,""); 
+        employmentperiodDBFields[23] = new EntityDBFields("pay_employmentperiod","hourlyWage","ωρομίσθιο",5,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,""); 
+        
+        employmentperiodDBFields[24] = new EntityDBFields("pay_employmentperiod","efkaKadCode","ΕΦΚΑ ΚΑΔ",5,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_efkakadFromCompany", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[25] = new EntityDBFields("pay_employmentperiod","efkaEidikotitaCode","ειδικότητα",5,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_efkaeidikotita", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationKpk,"");                
+        employmentperiodDBFields[26] = new EntityDBFields("pay_employmentperiod","efkaSpecialId","ειδική περίπτωση",5,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[27] = new EntityDBFields("pay_employmentperiod","codeEfkaKpk","κωδικός πακέτου κάλυψης",5,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_efkakpk", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
         
         
-        employmentperiodDBFields[15] = new EntityDBFields("pay_employmentperiod","typeOfHourOrDaywageOrSalaryId","μισθώτός/ημερομίσθιος/ωρομίσθιος",3,"java.lang.Integer",5, FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCTypeOfSalary",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"1","");
+        employmentperiodDBFields[28] = new EntityDBFields("pay_employmentperiod","daysPerWeekWorking","ημέρες εργασίας την εβδομάδα",6,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[29] = new EntityDBFields("pay_employmentperiod","daysPerMonthWorking","ημέρες εργασίας το μήνα",6,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
+        employmentperiodDBFields[30] = new EntityDBFields("pay_employmentperiod","hoursPerWeekWorking","ώρες εργασίας την εβδομάδα",6,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        employmentperiodDBFields[31] = new EntityDBFields("pay_employmentperiod","hoursPerDayWorking","ώρες εργασίας την ημέρα",6,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
         
-        employmentperiodDBFields[16] = new EntityDBFields("pay_employmentperiod","montlySalary","μισθός",3,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        employmentperiodDBFields[17] = new EntityDBFields("pay_employmentperiod","dailyWage","ημερομίσθιο",3,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,""); 
-        employmentperiodDBFields[18] = new EntityDBFields("pay_employmentperiod","hourlyWage","ωρομίσθιο",3,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,""); 
-        
-        employmentperiodDBFields[19] = new EntityDBFields("pay_employmentperiod","efkaKadId","ΕΦΚΑ ΚΑΔ",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_efkakadFromCompany", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[20] = new EntityDBFields("pay_employmentperiod","efkaEidikotitaId","ειδικότητα",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
-        employmentperiodDBFields[21] = new EntityDBFields("pay_employmentperiod","efkaSpecialId","ειδική περίπτωση",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[22] = new EntityDBFields("pay_employmentperiod","efkaKpkId","κωδικός πακέτου κάλυψης",3,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
-        
-        
-        employmentperiodDBFields[23] = new EntityDBFields("pay_employmentperiod","daysPerWeekWorking","ημέρες εργασίας την εβδομάδα",4,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[24] = new EntityDBFields("pay_employmentperiod","daysPerMonthWorking","ημέρες εργασίας το μήνα",4,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
-        employmentperiodDBFields[25] = new EntityDBFields("pay_employmentperiod","hoursPerWeekWorking","ώρες εργασίας την εβδομάδα",4,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[26] = new EntityDBFields("pay_employmentperiod","hoursPerDayWorking","ώρες εργασίας την ημέρα",4,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
-        employmentperiodDBFields[27] = new EntityDBFields("pay_employmentperiod","workingTimeId","ωράριο εργασίας",4,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
 
         
-        employmentperiodDBFields[28] = new EntityDBFields("pay_employmentperiod","employmentYekaSpecialtyId","κωδικός ειδικότητας ΥΕΚΑ",5,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_contract", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
+        
 
-        employmentperiodDBFields[29] = new EntityDBFields("pay_employmentperiod","isCalculateEisforaAllhleguhs","να υπολογίζεται εισφορά αλληλεγγύης",5,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[30] = new EntityDBFields("pay_employmentperiod","efkaPlhresOrario","πλήρες ωράριο",5,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
-        employmentperiodDBFields[31] = new EntityDBFields("pay_employmentperiod","efkaOlesErgasimes","όλες οι ημέρες εργάσιμες",5,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        employmentperiodDBFields[32] = new EntityDBFields("pay_employmentperiod","efkaKuriakes","εργασία τις Κυριακές",5,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
-                 
+        employmentperiodDBFields[32] = new EntityDBFields("pay_employmentperiod","isCalculateEisforaAllhleguhs","να υπολογίζεται εισφορά αλληλεγγύης",7,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+
         
         
         employmentperiodEntityGroupOfComps[0]= new EntityGroupOfComps("βασικά",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        //employmentperiodEntityGroupOfComps[1]= new EntityGroupOfComps("εργαζόμενος",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        employmentperiodEntityGroupOfComps[1]= new EntityGroupOfComps("περίοδος εργασίας - σύμβαση",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        employmentperiodEntityGroupOfComps[2]= new EntityGroupOfComps("προυπηρεσία",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        employmentperiodEntityGroupOfComps[1]= new EntityGroupOfComps("εργαζόμενος",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        employmentperiodEntityGroupOfComps[2]= new EntityGroupOfComps("διάφορα",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        employmentperiodEntityGroupOfComps[3]= new EntityGroupOfComps("προυπηρεσία",8,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        employmentperiodEntityGroupOfComps[4]= new EntityGroupOfComps("περίοδος εργασίας - σύμβαση",4,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        
         //employmentperiodEntityGroupOfComps[4]= new EntityGroupOfComps("σύμβαση",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        employmentperiodEntityGroupOfComps[3]= new EntityGroupOfComps("αμοιβή - κρατήσεις",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        employmentperiodEntityGroupOfComps[5]= new EntityGroupOfComps("αμοιβή - κρατήσεις",4,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         //employmentperiodEntityGroupOfComps[6]= new EntityGroupOfComps("κρατήσεις",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        employmentperiodEntityGroupOfComps[4]= new EntityGroupOfComps("χρόνος εργασίας",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        employmentperiodEntityGroupOfComps[5]= new EntityGroupOfComps("διάφορα",6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        employmentperiodEntityGroupOfComps[6]= new EntityGroupOfComps("χρόνος εργασίας",8,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        employmentperiodEntityGroupOfComps[7]= new EntityGroupOfComps("διάφορα",6,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
+        employmentperiodEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1);
+        employmentperiodEntityGroupOfPanels[1] = new EntityGroupOfPanels("υπολογιστικά",1);
        //---------------------------------------------------------------------       
        
          //------------------------- 
@@ -786,9 +853,9 @@ public class EntityDataPayroll extends EntityData implements Constants
         //-------------------------        
         
            
-         efkaΚadDBFields[0] = new EntityDBFields("pay_efkakad","efkaKadId","Νο",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
-         efkaΚadDBFields[1] = new EntityDBFields("pay_efkakad","codeEfkaKad","κωδικός",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
-         efkaΚadDBFields[2] = new EntityDBFields("pay_efkakad","description","περιγραφή",0,"java.lang.String",40,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");
+         //efkaΚadDBFields[0] = new EntityDBFields("pay_efkakad","efkaKadId","Νο",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+         efkaΚadDBFields[0] = new EntityDBFields("pay_efkakad","efkaKadCode","κωδικός",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+         efkaΚadDBFields[1] = new EntityDBFields("pay_efkakad","description","περιγραφή",0,"java.lang.String",40,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");
                    
           efkaΚadEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         /*payContractEntityGroupOfComps[1] = new EntityGroupOfComps("εκτύπωση για laser - γραφικά",2,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
@@ -797,7 +864,37 @@ public class EntityDataPayroll extends EntityData implements Constants
         */
         
         efkaΚadEntityGroupOfPanels[0] = new EntityGroupOfPanels("ιδιότητες",1);     
+        
+        //-----------------------------------------------------
+         //efkaEidikotitaDBFields[0] = new EntityDBFields("pay_efkaeidikotita","efkaEidikotitaId","Νο",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+         efkaEidikotitaDBFields[0] = new EntityDBFields("pay_efkaeidikotita","codeEfkaEidikotita","κωδικός",0,"java.lang.String",10,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+         efkaEidikotitaDBFields[1] = new EntityDBFields("pay_efkaeidikotita","description","περιγραφή",0,"java.lang.String",40,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"","");
+                   
+          efkaEidikotitaEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+
+        efkaEidikotitaEntityGroupOfPanels[0] = new EntityGroupOfPanels("ιδιότητες",1);         
+
+        
+         //-------------------------        
+         efkaKpkDBFields[0] = new EntityDBFields("pay_efkakpk","codeEfkaKpk","Νο φόρμας",0,"java.lang.String",10, FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+         efkaKpkDBFields[1] = new EntityDBFields("pay_efkakpk","description","περιγραφή",0,"java.lang.String",20,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+         //efkaKpkDBFields[2] = new EntityDBFields("pay_efkakpk","efkaKpkName","φόρμα εκτύπωσης",0,"java.lang.String",40,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"","");
+         //efkaKpkDBFields[3] = new EntityDBFields("pay_efkakpk","isActive","ενεργή",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");             
+         //efkaKpkDBFields[4] = new EntityDBFields("pay_efkakpk","efkaKpkLaser","",1,"java.lang.String",45000,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        
+        
+        
+        efkaKpkEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        //efkaKpkEntityGroupOfComps[1] = new EntityGroupOfComps("εκτύπωση για laser - γραφικά",2,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
        
+        
+        efkaKpkEntityGroupOfPanels[0] = new EntityGroupOfPanels("ιδιότητες",1);
+        //efkaKpkEntityGroupOfPanels[1] = new EntityGroupOfPanels("φορμα laser",1);
+
+        //-------------------------        
+        
+        
+        
    }
   
       public void addReportSettings()  // do not add ORDER BY to second sql because DialogPrinterSettings will have problem

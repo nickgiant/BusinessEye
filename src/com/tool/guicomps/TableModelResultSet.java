@@ -266,6 +266,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
        
               query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
    	    db.retrieveDBDataFromQuery(query,"TableModelResultSet.setQuery");
+            System.out.println("TableModelRS.setQuery     =====-------++++ query:"+query);
    	    rs=db.getRS();
    	    rsmd=db.getRSMetaData();      
        
@@ -513,7 +514,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                 String foreignQuery="";
                 String lookupText="";
                 
-                //System.out.println("TableModelResultSet "+lookUp.getLookUpKey(foreignTable).toString());
+                System.out.println("TableModelResultSet.setQuery  --------==--  "+lookUp.getLookUpKey(foreignTable).toString()+" foreignTable:"+foreignTable);
                 int k = rs.getInt(lookUp.getLookUpKey(foreignTable).toString()); //dbColNo); 
                 if (k!=0)
                 {

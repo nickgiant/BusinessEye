@@ -8226,8 +8226,15 @@ ps.setBytes(i, b);
           	       }
           	       else
           	       {*/
-                	   subqueryValues = subqueryValues+"'"+utilsDate.reformatDateStringToSaveToDB(fieldValue.trim())+"'";
- //                  }
+                     String dateval = utilsDate.reformatDateStringToSaveToDB(fieldValue.trim());
+                     if(dateval == null)
+                     {
+                	   subqueryValues = subqueryValues+" null ";
+                     }
+                     else
+                     {
+                         subqueryValues = subqueryValues+" '"+dateval+"' ";
+                     }
                  }
                  else
                  {

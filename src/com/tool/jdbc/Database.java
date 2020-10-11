@@ -635,7 +635,7 @@ public class Database implements Constants
              System.out.println("-- error --:Database.retrieveDBDataFromQuery() "+ "error code in class:  "+classNameForMessage+"  "+sqlex.getErrorCode()+" " + sqlex.getMessage()+" sql "+query);
              System.out.println("-- error");
              
-             if(sqlex.getErrorCode()==1146)
+             if(sqlex.getErrorCode()==1146)// || sqlex.getErrorCode()==1054)// 1054 Unknown column
              {
                  
              }
