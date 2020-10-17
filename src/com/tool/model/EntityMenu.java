@@ -20,7 +20,7 @@ import javax.swing.*;
       private EntityManyDataManyRec entityManyDataManyRec;// for many parameters or other many panels
       private EntityReport entityReport;
       private EntityStatistics[] entityStatistics;
-      private EntityTask entityTask;
+      private EntityTask[] entityTask;
       private EntityTool entityTool;
       private EntityScoreBoard entityScoreBoard;
       
@@ -99,14 +99,19 @@ import javax.swing.*;
     	icon=iconIn;
     }
 
-    public void setEntityTask(EntityTask entityTaskIn, ImageIcon iconIn)
+    public void setEntityTask(String captionIn, EntityTask[] entityTaskIn, ImageIcon iconIn)
     {
     	entityTask=entityTaskIn;
-    	caption=entityTask.caption;
+    	caption=captionIn;
     	icon=iconIn;
     }
 
-    
+    public void setEntityTaskOne(EntityTask entityTaskIn, ImageIcon iconIn)
+    {
+    	entityTask[0]=entityTaskIn;
+    	caption=entityTaskIn.caption;
+    	icon=iconIn;
+    }    
     public void setEntityTool(EntityTool entityToolIn, ImageIcon iconIn)
     {
     	entityTool=entityToolIn;
@@ -150,7 +155,8 @@ import javax.swing.*;
     public  EntityParameter getEntityParameter()  { return  entityParameter;  }
     public  EntityReport getEntityReport()  { return  entityReport;  }
     public  EntityStatistics[] getEntityStatistics()  { return  entityStatistics;  }
-    public  EntityTask getEntityTask()  { return  entityTask;  }
+    public  EntityTask[] getEntityTaskArray()  { return  entityTask;  }
+    public  EntityTask getEntityTask()  { return  entityTask[0];  }
     public  EntityScoreBoard getEntityScoreBoard()  { return  entityScoreBoard;  }
     
     public  String getEntityCategory()  { return  entityCategory;  }

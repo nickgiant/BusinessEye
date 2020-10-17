@@ -2161,24 +2161,24 @@ lblMainMenu.setHorizontalAlignment(SwingConstants.LEFT);*/
         	
         	initializePanel(PANEL_TYPE_TASK);
         	
-        	EntityTask task;
+        	EntityTask[] task;
         	
         	//if is menu or is node
 //          if(objEntity==null)
 //          {
-          	task  = (EntityTask)entityMenu.getEntityTask();
+          	task  = (EntityTask[])entityMenu.getEntityTaskArray();
 //          }
 //          else
 //          {
 //          	task = (EntityTask)objEntity;
 //          }        	
         	
-        	addShowTabWithPanel(task.getCaption(),entityMenu.getEntityIcon(), panelTask,PANEL_TYPE_TASK);
+        	addShowTabWithPanel(entityMenu.getEntityCaption(),entityMenu.getEntityIcon(), panelTask,PANEL_TYPE_TASK);
           	/*if(!)
           	{ */       	
         	//panelCenterRight.add(panelStatistics,BorderLayout.CENTER);
         	//navigationTreeModel.getStatisticsNode().toString()+"/"+
-        	panelTask.setEntity(task,this);
+        	panelTask.setEntity(entityMenu.getEntityCaption(),task,this);
         	//}
         	//panelReportsList.setText(nodeText);
         	//panelReportsList.chooseReports(nodeText);

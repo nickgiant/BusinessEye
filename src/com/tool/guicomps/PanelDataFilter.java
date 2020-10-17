@@ -231,8 +231,50 @@ import javax.swing.event.*;
      {
        panelReportFilters.setLayout(new GridLayoutVariable(GridLayoutVariable.FIXED_NUM_COLUMNS, 4));
        //panelReportFilters.setBorder(new TitledBorder("φίλτρα εγγραφών")); 
-       panelMain.add(panelReportFilters);  
-       intSizeOfTextBox=13;  
+       
+
+       if(entityGroupOfComps!=null)
+       {
+       	 
+        	JxPanel panelHolder = new JxPanel();
+        	panelHolder.setOpaque(false);
+        	GridLayoutVariable layout1 = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 1);
+        	panelHolder.setLayout(layout1);
+        	//System.out.println("PanelODORData.setEntity fields "+fields.length+" "+groupOfComps.length);
+        	
+        	 for(int gc=0;gc<entityGroupOfComps.length;gc++)
+        	 {
+        	 	 if(entityGroupOfComps[gc]==null)
+        	 	 {
+        	 	 	System.out.println("error PanelODORData.setEntity entityGroupOfComps is "+entityGroupOfComps[gc]);
+        	 	 }
+        	 	 
+        	 	 JxPanel panelGroup = new JxPanel();
+        	 	 
+        	 	 GridLayoutVariable layoutGroup = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, entityGroupOfComps[gc].getColumnsOfObjects());
+        	 	 panelGroup.setLayout(layoutGroup);
+        	 	 
+        	if(!entityGroupOfComps[gc].getCaption().equalsIgnoreCase(""))
+                {
+                 panelGroup.setBorder( new TitledBorder(BorderFactory.createTitledBorder(null, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       	 	 
+                }
+                 listPanelGroups.add(panelGroup);
+        	 	 panelHolder.add(panelGroup);
+        	 }
+       	  
+       	  panelMain.add(panelHolder);
+       }
+       else
+       {
+       	    //panelReportFilters.setBorder(new TitledBorder("φίλτρα εγγραφών")); 
+            panelReportFilters.setBorder( new TitledBorder(BorderFactory.createTitledBorder(null, "φίλτρα εγγραφών",TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       
+             //panelReportFilters.setBorder(new TitledBorder(new MatteBorder(1,0,0,0,this.getBackground().brighter()),"φίλτρα εγγραφών"));  // CLR_PANEL_BORDER
+       	    panelMain.add(panelReportFilters); 
+       } 
+
+
+       //panelMain.add(panelReportFilters);  
+       intSizeOfTextBox=16;  
        intSizeOfTextBoxKey=5;
      }
      else if(calledFromPanel==PANEL_FILTER_CALCULATE_DIALOG)
@@ -264,7 +306,11 @@ import javax.swing.event.*;
           
                           //  below is the only change
                 	 //	 panelGroup.setBorder( new TitledBorder(BorderFactory.createTitledBorder(lineBorder, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       
+                // panelGroup.setBorder( new TitledBorder(BorderFactory.createTitledBorder(null, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       	 	 
+                if(!entityGroupOfComps[gc].getCaption().equalsIgnoreCase(""))
+                {
                  panelGroup.setBorder( new TitledBorder(BorderFactory.createTitledBorder(null, entityGroupOfComps[gc].getCaption(),TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null,CLR_PANEL_BORDER)));                                       	 	 
+                }
            
                  listPanelGroups.add(panelGroup);
         	 	 panelHolder.add(panelGroup);
@@ -1040,7 +1086,7 @@ import javax.swing.event.*;
                   	 }
                   	 else
                   	 {
-                  	 	 //System.out.println("PanelDataFilter.setEntity "+groupOfComps);
+                  	 	 System.out.println("PanelDataFilter.setEntity  groupOfComps:"+groupOfComps);
                   	 	
                   	     JxPanel panelGroup = (JxPanel)listPanelGroups.get(groupOfComps);
                   	 

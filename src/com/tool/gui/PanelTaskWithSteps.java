@@ -1,4 +1,3 @@
-
 package com.tool.gui;
 
 import com.tool.model.EntityGroupOfComps;
@@ -17,9 +16,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.tree.*;
 import javax.swing.event.*;
-import javax.swing.table.*;
 
- public class PanelTask extends JxPanel implements Constants
+ public class PanelTaskWithSteps extends JxPanel implements Constants
 {
         private JFrame frame;
         private String name;
@@ -29,15 +27,14 @@ import javax.swing.table.*;
         private JLabel lblStepHeader;
         private int pageCurrent = 0;
         private int pageTotal = 0;
-        private String[] calculationOption;
-        private EntityTask[] entityTaskArray;
-        private int intCalculationOption;
-        private String strCalculationOption;
+        private String[] calculationType;
+        private int intCalculationType;
+        private String strCalculationType;
         private EntityFilterSettings[] entityFilterSettings;
         private EntityQuery[] entityQuery;
         
         private JxPanel panelMain;
-        private JxPanel panelCalculationOption;
+        private JxPanel panelCalculationType;
         private PanelDataFilter panelDataFilter;
       //  private PanelUpdateWithCriteria panelUpdateWithCriteria;
         private JxPanel panelDFilters;
@@ -56,7 +53,7 @@ import javax.swing.table.*;
         private PanelManagement panelManagement;
         private String yearEnforce;
         
-    public PanelTask(JFrame frame)
+    public PanelTaskWithSteps(JFrame frame)
     {
         try {
             initialize(frame);
@@ -77,14 +74,13 @@ import javax.swing.table.*;
     	lblSubtitle= new JLabel("subTitle",JLabel.CENTER);
     	lblSubtitle.setBackground(Color.white);
     	lblSubtitle.setOpaque(true);
-
+    	
     	panelMain.add(lblSubtitle, BorderLayout.PAGE_START);
     	panelMain.setBorder(new TitledBorder(""));
-    	//panelMain.setPreferredSize(new Dimension(625,365));///////////////////////size width, height
+    	panelMain.setPreferredSize(new Dimension(625,365));///////////////////////size width, height
     	
-    	panelCalculationOption = new JxPanel();
-    	panelCalculationOption.setLayout(new GridLayoutVariable(GridLayoutVariable.FIXED_NUM_COLUMNS, 1));
-        
+    	panelCalculationType = new JxPanel();
+    	panelCalculationType.setLayout(new GridLayoutVariable(GridLayoutVariable.FIXED_NUM_COLUMNS, 1));
     	
     	panelExecute = new JxPanel(new BorderLayout());
     	
@@ -131,10 +127,73 @@ import javax.swing.table.*;
         tableModel= new TableModelReadOnly();
         table.setModel(tableModel);
             	
-        
-        JxPanel panelButtons = new JxPanel(new FlowLayout());
-        
-         btnExecute = new JButtonForPanelDecorated("εκτέλεση");
+    	
+    	
+    	JxPanel panelButtons = new JxPanel(new FlowLayout());
+    	
+    	JButtonForPanelDecorated btnFirst = new JButtonForPanelDecorated("αρχικό");
+    	btnFirst.setIcon(ICO_FIRST16);
+          btnFirst.addActionListener(new ActionListener()
+          {
+	        public void actionPerformed(ActionEvent e) 
+	        {  
+	           	   pageCurrent=1;
+	           	  setStepNumber(pageCurrent);
+	        }
+	      });    	
+    	btnPrevious = new JButtonForPanelDecorated("προηγούμενο");
+    	btnPrevious.setIcon(ICO_PREVIOUS16);
+          btnPrevious.addActionListener(new ActionListener()
+          {
+	        public void actionPerformed(ActionEvent e) 
+	        {  
+	           if(pageCurrent>1)
+	           {
+	           	if(areFieldsCompleted())
+                        {    
+                             pageCurrent=pageCurrent-1; 
+                             setStepNumber(pageCurrent);
+                        }
+	           	
+                        
+                             
+                        
+                        
+	           }
+	           else if(pageCurrent==1)
+	           {
+	           	   pageCurrent=1;
+	           	  setStepNumber(pageCurrent);
+	           	  
+	           }
+	            
+	        }
+	      });    	
+        btnNext = new JButtonForPanelDecorated("επόμενο");
+    	btnNext.setIcon(ICO_NEXT16);
+          btnNext.addActionListener(new ActionListener()
+          {
+	        public void actionPerformed(ActionEvent e) 
+	        {  
+	        
+	           if(pageCurrent<pageTotal)
+	           {
+	           	//System.out.println(pageCurrent+1);
+	           	
+                        if(areFieldsCompleted())
+                        {    
+                            pageCurrent=pageCurrent+1;    
+                            setStepNumber(pageCurrent);                      
+                        }
+	           	
+	           }
+	           else if(pageCurrent==pageTotal)
+	           {
+	           	  setStepNumber(pageCurrent);
+	           }
+	        }
+	      });    	
+    	 btnExecute = new JButtonForPanelDecorated("εκτέλεση");
     	 btnExecute.setIcon(ICO_TASK);
           btnExecute.addActionListener(new ActionListener()
           {
@@ -143,8 +202,11 @@ import javax.swing.table.*;
 	            execute();
 	        }
 	      });    	
+    	
+    	panelButtons.add(btnFirst);
+    	panelButtons.add(btnPrevious);
+    	panelButtons.add(btnNext);
     	panelButtons.add(btnExecute);
-        
         
         panelExecute.add(scrollpaneTable, BorderLayout.CENTER);
         
@@ -152,14 +214,14 @@ import javax.swing.table.*;
     	panelDataFilter = new PanelDataFilter(frame);
     	//panelDataFilter.setOpaque(true);
         panelDFilters.add(panelDataFilter.getPanelFilters());
-         
+
      //   panelUpdateWithCriteria = new PanelUpdateWithCriteria(frame);
 
     	JxPanel panelCenter = new JxPanel();
-    	panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.PAGE_AXIS));//new FlowLayout());
+    	panelCenter.setLayout(new FlowLayout()); // new BoxLayout(panelCenter, BoxLayout.PAGE_AXIS));//new FlowLayout());
+    	panelCenter.add(panelCalculationType);
     	panelCenter.add(panelDFilters);
-        panelCenter.add(panelCalculationOption);
-    	panelCenter.add(panelButtons);
+    //	panelCenter.add(panelUpdateWithCriteria);
     	panelCenter.add(panelExecute);
     	
     	//JScrollPane scrol = new JScrollPane();
@@ -183,7 +245,7 @@ import javax.swing.table.*;
     	  	
     	panelMain.add(panelCenterOrientation, BorderLayout.CENTER);*/
     	panelMain.add(panelCenter, BorderLayout.CENTER);
-    	panelMain.add(panelCenter, BorderLayout.PAGE_END);
+    	panelMain.add(panelButtons, BorderLayout.PAGE_END);
 
     	//this.setLayout(new BorderLayout());
     	this.add(panelMain);
@@ -197,7 +259,7 @@ import javax.swing.table.*;
         }
    
         
-/*   private void setStepNumber(int pgCurrent)
+   private void setStepNumber(int pgCurrent)
    {
 
         String taskSubTitle="";
@@ -219,12 +281,12 @@ import javax.swing.table.*;
    	    btnNext.setEnabled(true);
    	  }
    	  
-   	  if(calculationOption.length>1) // if more than one task
+   	  if(calculationType.length>1) // if more than one task
    	  {
    	     if(pgCurrent==1)
    	     {
    	     	btnPrevious.setEnabled(false);
-   	    	panelCalculationOption.setVisible(true);
+   	    	panelCalculationType.setVisible(true);
    	    	panelDFilters.setVisible(false);
    	    	panelExecute.setVisible(false);  
    	    //	panelUpdateWithCriteria.setVisible(false);  
@@ -234,11 +296,11 @@ import javax.swing.table.*;
    	     else if (pgCurrent==2)
    	     {
         
-   	      panelDataFilter.setEntity(entityFilterSettings,entityGroupOfComps,PANEL_FILTER_TASK,panelManagement);
+   	      panelDataFilter.setEntity(entityFilterSettings,entityGroupOfComps,PANEL_FILTER_TASK,/*yearEnforce,*/panelManagement);
    	  	    
    	  	btnPrevious.setEnabled(true);
    	    	panelDFilters.setVisible(true);
-   	    	panelCalculationOption.setVisible(false);
+   	    	panelCalculationType.setVisible(false);
    	    	panelExecute.setVisible(false); 
    	    //	panelUpdateWithCriteria.setVisible(false);  
    	    	taskSubTitle="-> Επιλογές φιλτραρίσματος εγγραφών.";
@@ -247,7 +309,7 @@ import javax.swing.table.*;
    	     {   	      
    	     	btnPrevious.setEnabled(true);
    	    	panelDFilters.setVisible(false);
-   	    	panelCalculationOption.setVisible(false);
+   	    	panelCalculationType.setVisible(false);
    	    	panelExecute.setVisible(false);    	         
    	     /*    panelUpdateWithCriteria.setVisible(true);  
    	         if(panelUpdateWithCriteria.getCountOfCriteriaUpdateLines()==0)
@@ -257,12 +319,12 @@ import javax.swing.table.*;
    	         taskSubTitle="-> Εισάγετε κριτήρια υπολογισμού";  */
    	         
    	     //}
-   	 /*    else if(pgCurrent==pageTotal)
+   	     else if(pgCurrent==pageTotal)
    	     {
    	     	btnPrevious.setEnabled(true);
    	    	  panelExecute.setVisible(true); 
    	    	  panelDFilters.setVisible(false);
-   	    	  panelCalculationOption.setVisible(false);
+   	    	  panelCalculationType.setVisible(false);
    	    //	  panelUpdateWithCriteria.setVisible(false);  
    	    	  taskSubTitle="-> Πατήστε 'εκτέλεση' για υπολογισμό.";
    	  	  
@@ -271,7 +333,7 @@ import javax.swing.table.*;
    	     {
    	     	btnPrevious.setEnabled(false);
    	    	panelDFilters.setVisible(false);
-   	     	panelCalculationOption.setVisible(false);
+   	     	panelCalculationType.setVisible(false);
    	     	panelExecute.setVisible(false);   	  
    	    // 	panelUpdateWithCriteria.setVisible(false); 
    	     	taskSubTitle=""; 	
@@ -282,11 +344,11 @@ import javax.swing.table.*;
    	     if (pgCurrent==1)
    	     {
         
-   	        panelDataFilter.setEntity(entityFilterSettings,entityGroupOfComps,PANEL_FILTER_TASK, panelManagement);
+   	        panelDataFilter.setEntity(entityFilterSettings,entityGroupOfComps,PANEL_FILTER_TASK, /*yearEnforce,*/panelManagement);
    	  	    
    	  	    btnPrevious.setEnabled(false);
    	    	panelDFilters.setVisible(true);
-   	    	panelCalculationOption.setVisible(false);
+   	    	panelCalculationType.setVisible(false);
    	    	panelExecute.setVisible(false); 
    	    //	panelUpdateWithCriteria.setVisible(false);
    	    	taskSubTitle="-> Επιλογές φιλτραρίσματος εγγραφών.";    
@@ -296,7 +358,7 @@ import javax.swing.table.*;
           	  
           	btnPrevious.setEnabled(true);  	
    	    	panelDFilters.setVisible(false);
-   	    	panelCalculationOption.setVisible(false);
+   	    	panelCalculationType.setVisible(false);
    	    	panelExecute.setVisible(false); 
    	    	panelUpdateWithCriteria.setVisible(true); 
    	    	 
@@ -306,12 +368,12 @@ import javax.swing.table.*;
    	         }  
    	        taskSubTitle="-> Εισάγετε/αφαιρέστε συνθήκες υπολογισμού.";*/
    	     //}    	        	  	
-   	   /*  else if(pgCurrent==pageTotal)
+   	     else if(pgCurrent==pageTotal)
    	     {
    	     	  btnPrevious.setEnabled(true);
    	    	  panelExecute.setVisible(true); 
    	    	  panelDFilters.setVisible(false);
-   	    	  panelCalculationOption.setVisible(false);
+   	    	  panelCalculationType.setVisible(false);
    	   // 	  panelUpdateWithCriteria.setVisible(false); 
    	    	  taskSubTitle="-> Πατήστε 'εκτέλεση' για υπολογισμό.";
    	  	  
@@ -320,7 +382,7 @@ import javax.swing.table.*;
    	     {
    	     	btnPrevious.setEnabled(true);
    	    	panelDFilters.setVisible(false);
-   	     	panelCalculationOption.setVisible(false);
+   	     	panelCalculationType.setVisible(false);
    	     	panelExecute.setVisible(false); 
    	 //    	panelUpdateWithCriteria.setVisible(false);  
    	     	taskSubTitle=""; 	  	
@@ -335,50 +397,25 @@ import javax.swing.table.*;
    	  	+"<tr><td align='center'> <FONT COLOR='#585858'>"+taskSubTitle+"</FONT><b> (βήμα "+pgCurrent+" από "+pageTotal+")"+"</b></td></tr>"
    	  	+"</table></html>");   	  
    	
-   }*/
+   }
    
-   public void setEntity(String captionIn, EntityTask[] entityTaskArrayIn, PanelManagement panelManagementIn)
+   public void setEntity(EntityTask entityTask, PanelManagement panelManagementIn)
    {
-   //public void setEntity(String nameIn,String captionIn,String subTitleIn, String[] calculationOptionIn, 
+   //public void setEntity(String nameIn,String captionIn,String subTitleIn, String[] calculationTypeIn, 
    //EntityFilterSettings[] entityFilterSettingsIn,EntityQuery[] entityQueryIn, boolean isNullifyIn)
-      entityTaskArray=entityTaskArrayIn;
+      
    
-         if(entityTaskArray!=null)
-         {
-             ButtonGroup group = new ButtonGroup();
-             for(int t= 0;t<entityTaskArray.length;t++)
-             {
-            JRadioButton radio = new JRadioButton(entityTaskArray[t].getCaption());
-            radio.setToolTipText(entityTaskArray[t].getSubTitle());
-            radio.setOpaque(false);
-            radio.setActionCommand(entityTaskArray[t].getCaption());
-            radio.addActionListener(new ActionSelectCalculationOption());
-            if(t==0)
-            {
-            	radio.setSelected(true);
-                strCalculationOption=entityTaskArray[0].getCaption();
-            }
-         
-         
-            group.add(radio);
-            panelCalculationOption.add(radio); 
-            panelCalculationOption.add(new JLabel("<html><table>"  //  bgcolor='F8F8F8'
-   	  	+"<tr><td align='center' <FONT COLOR='#707070'>"+entityTaskArray[t].getSubTitle()+"</FONT></td></tr>"     
-                    +"</table></html>"));   
-                    
-                    
-
-             }
-             
-         }
-         
-         entityFilterSettings=entityTaskArray[0].getEntityFilterSettings();
-         entityGroupOfComps = entityTaskArray[0].getEntityGroupOfComps();
-         //name=entityTaskArray.getName();
+         /*name=nameIn;
          caption=captionIn;
-         subTitle=entityTaskArray[0].getSubTitle();
-         /*entityQuery=entityTask.getEntityQuery();
-         calculationOption=entityTask.getCalculationType();
+         subTitle=subTitleIn; 
+         entityQuery=entityQueryIn;  
+         isNullify=isNullifyIn;*/
+         
+         name=entityTask.getName();
+         caption=entityTask.getCaption();
+         subTitle=entityTask.getSubTitle();
+         entityQuery=entityTask.getEntityQuery();
+         calculationType=entityTask.getCalculationType();
          entityFilterSettings=entityTask.getEntityFilterSettings();
          isNullify=entityTask.getIsNullify();
          tableForFilters=entityTask.getTableForFilters();
@@ -386,9 +423,9 @@ import javax.swing.table.*;
          panelManagement=panelManagementIn;
          yearEnforce=entityTask.getYearEnforce();
          
-         pageTotal=3;*/
+         pageTotal=3;
          
-         System.out.println("PanelTask      entityGroupOfComps:"+entityGroupOfComps.length);
+         
          
          
          //if(isNullify)
@@ -396,56 +433,40 @@ import javax.swing.table.*;
         // 	pageTotal=pageTotal-1;
         // }
          
-         //pageCurrent=1;
-        panelDataFilter.setEntity(entityFilterSettings,entityGroupOfComps,PANEL_FILTER_TASK,/*yearEnforce,*/panelManagement);        
+         pageCurrent=1;
+        
 
-        
-   	  // html colors
-   	  // http://www.w3schools.com/Html/html_colors.asp
-   	  lblSubtitle.setText("<html><table>"  //  bgcolor='F8F8F8'
-   	  	+"<tr><td align='center'  bgcolor='F0F0F0'><b>"+caption+"</b></td></tr>"
-   	  	+"<tr><td align='center'> <FONT COLOR='#707070'>"+subTitle+"</FONT></td></tr>"
-   	  	+"</table></html>");     	        
-        
-        
-         //btnExecute.setEnabled(false);
+         btnExecute.setEnabled(false);
        
 
-      /* if(calculationOption.length>1)
+       if(calculationType.length>1)
        {
           ButtonGroup group = new ButtonGroup();
-         for(int c=0;c<calculationOption.length;c++)  
+         for(int c=0;c<calculationType.length;c++)  
          {
-            JRadioButton radio = new JRadioButton(calculationOption[c]);
-            radio.setActionCommand(calculationOption[c]);
+            JRadioButton radio = new JRadioButton(calculationType[c]);
+            radio.setActionCommand(calculationType[c]);
             radio.addActionListener(new ActionSelectCalculationType());
             if(c==0)
             {
             	radio.setSelected(true);
-         	    strCalculationOption=calculationOption[0];
+         	    strCalculationType=calculationType[0];
             }
          
          
             group.add(radio);
-            panelCalculationOption.add(radio);
+            panelCalculationType.add(radio);
           } 
+            setStepNumber(1);   
        }
        else
        {
-          intCalculationOption=0; // if >0 is selected in actioSelectCalculationType
-       	  strCalculationOption=calculationOption[0];
-       	            
-       }*/
-    /*        setStepNumber(1);   
-       }
-       else
-       {
-       	  intCalculationOption=0; // if >0 is selected in actioSelectCalculationType
-       	  strCalculationOption=calculationOption[0];
+       	  intCalculationType=0; // if >0 is selected in actioSelectCalculationType
+       	  strCalculationType=calculationType[0];
        	  pageTotal=pageTotal-1;
        	  setStepNumber(1); 
        	  
-       }*/
+       }
       
       
       /*
@@ -463,35 +484,27 @@ import javax.swing.table.*;
    private void execute()
    {
 
-   	  //System.out.println("PanelTaskWithSteps.execute  "+strCalculationOption);
+   	  //System.out.println("PanelTaskWithSteps.execute  "+strCalculationType);
    	 /*   String[] record = new String[colCount];
         for (int i = 0; i < colCount; i++) // for each field
         {
           record[i] = rs.getString(i + 1);
         }*/
-       TableModelReadOnly dm = (TableModelReadOnly) table.getModel();
-      int rowCount = dm.getRowCount();
-      //Remove rows one by one from the end of the table
-      for (int i = rowCount - 1; i >= 0; i--)
-      {
-       dm.deleteTableRow(i);//;.removeRow(i);
-      }
+       
         
    	  int colCount = 1;
    	  String[] record = new String[colCount];
    	  String[] headers = {"πληροφορίες"};// new String[colCount];
       
-      tableModel.addRow("Εκκίνηση εργασίας ("+strCalculationOption+")",headers); 
+      tableModel.addRow("Εκκίνηση εργασίας ("+strCalculationType+")",headers); 
       
    	  ArrayList listEntityQuery = new ArrayList();
-   	 entityQuery = entityTaskArray[intCalculationOption].getEntityQuery();
-          for(int eq=0;eq<entityQuery.length;eq++)
+   	  for(int eq=0;eq<entityQuery.length;eq++)
    	  {
-   	  	//if(entityQuery[eq].getType()==intCalculationOption)
-   	  	//{
-   	  	    listEntityQuery.add(entityQuery[eq]);
-                    System.out.println("PanelTask.execute .eq"+eq+"     intCalculationOption"+intCalculationOption+"     "+entityQuery[eq]);
-   	  	//}
+   	  	if(entityQuery[eq].getType()==intCalculationType)
+   	  	{
+   	  	    listEntityQuery.add(entityQuery[eq]);	
+   	  	}
    	  }
 
 
@@ -621,11 +634,11 @@ import javax.swing.table.*;
       
    	  if(successfulOutcome)
    	  {
-   	  	tableModel.addRow("Η εργασία ("+strCalculationOption+") ολοκληρώθηκε με επιτυχία.",headers);
+   	  	tableModel.addRow("Η εργασία ("+strCalculationType+") ολοκληρώθηκε με επιτυχία.",headers);
    	  }
    	  else
    	  {
-   	  	tableModel.addRow(" Έγιναν λάθη στην εργασία ("+strCalculationOption+").",headers);
+   	  	tableModel.addRow(" Έγιναν λάθη στην εργασία ("+strCalculationType+").",headers);
    	  }
    	  
           closeDB();
@@ -646,27 +659,27 @@ import javax.swing.table.*;
    }
    
    
-   class  ActionSelectCalculationOption extends AbstractAction                 
+   class  ActionSelectCalculationType extends AbstractAction                 
    {       
-        public ActionSelectCalculationOption()
+        public ActionSelectCalculationType()
         {      }
       	
     	public void actionPerformed(ActionEvent e)
       	{  
       	    String sel = (String)e.getActionCommand(); 
             
-            for(int ct =0; ct<entityTaskArray.length;ct++)
+            for(int ct =0; ct<calculationType.length;ct++)
             {
             	
-               if (sel.equalsIgnoreCase(entityTaskArray[ct].getCaption()))
+               if (sel.equalsIgnoreCase(calculationType[ct]))
                {
-             	  intCalculationOption=ct;
-             	  strCalculationOption=entityTaskArray[ct].getCaption();
+             	  intCalculationType=ct;
+             	  strCalculationType=calculationType[ct];
                }
            		            	
             }
   
-      	 // System.out.println("PanelTaskWithSteps.ActionSelectCalculationType "+intCalculationOption);
+      	 // System.out.println("PanelTaskWithSteps.ActionSelectCalculationType "+intCalculationType);
           
            /*    CardLayout cl = (CardLayout)(cards.getLayout());
              cl.show(cards, (String)sel);

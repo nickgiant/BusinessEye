@@ -1,5 +1,3 @@
-// created 25/09/2006
-
 package com.tool.guicomps;
 
 import com.tool.jdbc.*;
@@ -313,6 +311,23 @@ public class TableModelReadOnly extends AbstractTableModel
             
    }
 
+       public void deleteTableRow(int row)
+    {
+
+       // Vector v =this.getTableDataVector();            
+       // Object orow = v.get(row);
+
+        //listRecsHashToBeRemoved.add(orow.hashCode());
+        dataVector.remove(row);
+        //countOfJTableNewRowsBeforeSavedInDB--;
+        //strPkValue--;
+        //checksums.remove(row);
+    	//System.out.println("  TableModelRS.deleteTableRow           -          row:"+row+"  orow.hashCode():"+orow.hashCode());
+        fireTableRowsDeleted(row,row);
+    	//renumberColumnAA(row,1);
+  
+    }
+   
    public void closeDB()
    {
    	

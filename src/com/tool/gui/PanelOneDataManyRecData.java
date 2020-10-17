@@ -121,7 +121,7 @@ import javax.swing.text.JTextComponent;
      
      
         private JButton btnManyInsert;
-        private JButton btnManyInsertDown;
+        private JButton btnManyInsertInLine;
         private JButton btnManyMultiInsert;
         private JButton btnManyDelete;
         private JButton btnManyCopyAboveCell;
@@ -4126,7 +4126,7 @@ class ToolBarDataMany extends JToolBar implements Constants
             
             
         btnManyInsert = new JButton();
-        btnManyInsertDown = new JButton();
+        btnManyInsertInLine = new JButton();
         btnManyMultiInsert = new JButton();
         btnManyCopyAboveCell = new JButton();
         btnManyDelete = new JButton();
@@ -4142,14 +4142,15 @@ class ToolBarDataMany extends JToolBar implements Constants
         //btnManyInsert.setText("<html>εισαγωγή</html>"); //   <b>ins</b>
         btnManyInsert.setText("εισαγωγή");
         btnManyInsert.setOpaque(false);
-        btnManyInsert.setToolTipText("εισαγωγή στην επιλεγμένη σειρά");
-        btnManyInsert.setIcon(ICO_ADD);
+        btnManyInsert.setToolTipText("εισαγωγή");
+        btnManyInsert.setIcon(ICO_ADDBELOW);
         btnManyInsert.setFocusable(false);        
         btnManyInsert.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
 	        {	   
-	           	   addNewRowIfThereIsnt(false);      
+                     addNewRowBelow();
+	           	   
 	        } 
 	    });
         Action actionNewRecMany = new ActionNewRecMany();
@@ -4157,40 +4158,41 @@ class ToolBarDataMany extends JToolBar implements Constants
  //       btnManyInsert.getActionMap().put("newRecMany", actionNewRecMany);
 
         
-       // btnManyInsertDown.setText("<html>εισαγωγή κάτω</html>");
-        btnManyInsertDown.setText("εισαγωγή κάτω");
-        btnManyInsertDown.setOpaque(false);
-        btnManyInsertDown.setToolTipText("εισαγωγή στην τελευταία σειρά");
-        btnManyInsertDown.setIcon(ICO_ADDBELOW);
-        btnManyInsertDown.setFocusable(false);        
-        btnManyInsertDown.addActionListener(new ActionListener()
+       // btnManyInsertInLine.setText("<html>εισαγωγή κάτω</html>");
+        btnManyInsertInLine.setText("εισαγωγή στη γραμμή");
+        btnManyInsertInLine.setOpaque(false);
+        btnManyInsertInLine.setToolTipText("εισαγωγή στην επιλεγμένη γραμμή");
+        btnManyInsertInLine.setIcon(ICO_ADD);
+        btnManyInsertInLine.setFocusable(false);        
+        btnManyInsertInLine.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
 	        {	   
-	           	   addNewRowBelow();      
+	           	   addNewRowIfThereIsnt(false);      
+                           //addNewRowBelow();      
 	        } 
 	    });
         //Action actionNewRecManyDown = new ActionNewRecMany();
-        //btnManyInsertDown.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "newRecMany"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
-        //btnManyInsertDown.getActionMap().put("newRecMany", actionNewRecMany);        
+        //btnManyInsertInLine.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "newRecMany"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
+        //btnManyInsertInLine.getActionMap().put("newRecMany", actionNewRecMany);        
         
  
-       // btnManyInsertDown.setText("<html>εισαγωγή κάτω</html>");
-        btnManyInsertDown.setText("εισαγωγή κάτω");
-        btnManyInsertDown.setOpaque(false);
-        btnManyInsertDown.setToolTipText("εισαγωγή στην τελευταία σειρά");
-        btnManyInsertDown.setIcon(ICO_ADDBELOW);
-        btnManyInsertDown.setFocusable(false);        
-        btnManyInsertDown.addActionListener(new ActionListener()
+       // btnManyInsertInLine.setText("<html>εισαγωγή κάτω</html>");
+       /* btnManyInsertInLine.setText("εισαγωγή κάτω");
+        btnManyInsertInLine.setOpaque(false);
+        btnManyInsertInLine.setToolTipText("εισαγωγή στην τελευταία σειρά");
+        btnManyInsertInLine.setIcon(ICO_ADDBELOW);
+        btnManyInsertInLine.setFocusable(false);        
+        btnManyInsertInLine.addActionListener(new ActionListener()
         {
 	        public void actionPerformed(ActionEvent e) 
 	        {	   
 	           	   addNewRowBelow();      
 	        } 
-	    });
+	    });*/
         //Action actionNewRecManyDown = new ActionNewRecMany();
-        //btnManyInsertDown.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "newRecMany"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
-        //btnManyInsertDown.getActionMap().put("newRecMany", actionNewRecMany);        
+        //btnManyInsertInLine.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "newRecMany"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
+        //btnManyInsertInLine.getActionMap().put("newRecMany", actionNewRecMany);        
   
         //btnManyDelete.setText("<html>διαγραφή επιλογής</html>"); //  <b>del</b>
         btnManyDelete.setText("<html>διαγραφή επιλογής</html>");
@@ -4327,7 +4329,7 @@ class ToolBarDataMany extends JToolBar implements Constants
 	//    addSeparator();          
         //addSeparator();
         add(btnManyInsert);
-        add(btnManyInsertDown);
+        add(btnManyInsertInLine);
         add(btnManyMultiInsert);
         add(btnManyCopyAboveCell);
         add(btnManyDelete);

@@ -907,7 +907,7 @@ public class EntityDataFarmersVat implements Constants
        
        
        EntityMenu emib = new EntityMenu();
-       emib.setEntityTask(entityTaskDelivery[0],ICO_TASK);
+       emib.setEntityTaskOne(entityTaskDelivery[0],ICO_TASK);
        emib.setEntityType(ENTITY_TYPE_TASK);
        //listEntities.add(emib);
        DataTreeNode nodeemib = new DataTreeNode(emib);
@@ -915,7 +915,7 @@ public class EntityDataFarmersVat implements Constants
        
        
        EntityMenu emic = new EntityMenu();
-       emic.setEntityTask(entityTaskDelivery[1],ICO_TASK);
+       emic.setEntityTaskOne(entityTaskDelivery[1],ICO_TASK);
        emic.setEntityType(ENTITY_TYPE_TASK);
        //listEntities.add(emib);
        DataTreeNode nodeemic = new DataTreeNode(emic);
