@@ -248,7 +248,17 @@ import java.time.*;// new date api
       
        return ret;
   } 
-    
+  
+   public String getCurrentYearFormattedLocaly(String dateCurrent)
+  {
+      String ret = "";
+
+      String dat = getCurrentDateStringFormattedLocaly(dateCurrent);
+      ret = getDateNameGreek(dat,"yyyy",null,null);        
+      
+      
+       return ret;
+  }  
   
   public String reformatDateStringToReadFromDB(String  dateString)
   {     
@@ -278,6 +288,8 @@ import java.time.*;// new date api
       //System.out.println("UtilsDate.reformatDateStringToSave "+reformatDateString(dateString,allowedPatternsToRead, getDateFormatSaving()));
      return reformatDateString(dateString,allowedPatternsToReadFromGui, dateFormatSavingToDB);
   }
+  
+
 
  
  public String getDateNameGreek(String date, String returnPattern, String enforceDateFrom, String enforceDateTo)
@@ -422,6 +434,9 @@ import java.time.*;// new date api
     	UtilsDate d =new UtilsDate();
     	d.readFromFileDateFormats();
     	System.out.println(d.dateFormatReading+" "+d.dateFormatEditing+" "+d.dateFormatSavingToDB);
+        
+        System.out.println("year:"+d.getCurrentYearFormattedLocaly("31/12/2020"));
+        
         
         String[] allowedPatternsToRead = {"dd-MM-yyyy","dd/MM/yyyy"};
         System.out.println("date 31-02-2007"+ d.getDateNameGreek("31-02-2007","EEEEEEEE","01-01-2007","31-01-2007"));

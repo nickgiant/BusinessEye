@@ -52,6 +52,7 @@ import javax.swing.event.*;
         private EntityGroupOfComps[] entityGroupOfComps;
         private PanelManagement panelManagement;
         private String yearEnforce;
+        private UtilsGui utilsGui;
         
     public PanelTaskWithSteps(JFrame frame)
     {
@@ -67,7 +68,7 @@ import javax.swing.event.*;
     {
     	
     	db= new Database();
-    	
+    	utilsGui = new UtilsGui();
     	frame = frameIn;
     	panelMain = new JxPanel();
     	panelMain.setLayout(new BorderLayout());  // new CardLayout());//new BorderLayout());
@@ -496,7 +497,6 @@ import javax.swing.event.*;
    	  String[] record = new String[colCount];
    	  String[] headers = {"πληροφορίες"};// new String[colCount];
       
-      tableModel.addRow("Εκκίνηση εργασίας ("+strCalculationType+")",headers); 
       
    	  ArrayList listEntityQuery = new ArrayList();
    	  for(int eq=0;eq<entityQuery.length;eq++)
@@ -515,13 +515,18 @@ import javax.swing.event.*;
    	    listEntityQuery.add(updateEntityQueryFromUpdateWithCriteria[e])	;
    	  }
    */	  
+          ArrayList lstFieldsUncompleted = panelDataFilter.getListOfFieldsUncompleted();
+    if(lstFieldsUncompleted.size()==0)	   
+    {
+        tableModel.addRow("Εκκίνηση εργασίας",headers); 
+        
          Database dbTransaction = new Database();
          boolean successfulOutcome=false;
       try
       {
           dbTransaction.transactionLoadConnection();
           dbTransaction.setTransactionAutoCommit(false);
-         System.out.println("PanelTask.execute    listEntityQuery.size():"+listEntityQuery.size()+"    dbTransaction:"+dbTransaction); 	  
+         System.out.println("PanelTaskWithSteps.execute    listEntityQuery.size():"+listEntityQuery.size()+"    dbTransaction:"+dbTransaction); 	  
 
    	
    	for(int q=0;q<listEntityQuery.size();q++ )
@@ -567,21 +572,30 @@ import javax.swing.event.*;
           //System.out.println("PanelTaskWithSteps.execute replace WHERE with AND");
        }
 
-   	      System.out.println("PanelTask.execute    q:"+q+"   size:"+listEntityQuery.size()+"     entQuery.getIsUpdate:"+entQuery.getIsUpdate()+"     getQuery():"+entQuery.getQuery());
+   	      System.out.println("PanelTaskWithSteps.execute    q:"+q+"   size:"+listEntityQuery.size()+"     entQuery.getType:"+entQuery.getType()+"     getQuery():"+entQuery.getQuery());
    	     int ret = 0;
-   	     if(entQuery.getIsUpdate())
+   	     if(entQuery.getType()==QUERY_UPDATE)
    	     {
    	     	String sql = entQuery.getQuery()+" "+sqlWhere;
    	        
    	        //ret = db.updateQuery(sql,"PanelTaskWithSteps.execute", true);
-                ret = dbTransaction.transactionUpdateQuery(sql,"PanelTask.execute", true);
-                System.out.println("PanelTask.execute   q:"+q+"  IF   getIsUpdate:"+entQuery.getIsUpdate()+"   ret:"+ret+"    update  sql:"+sql)	;
+                ret = dbTransaction.transactionUpdateQuery(sql,"PanelTaskWithSteps.execute", true);
+                System.out.println("PanelTaskWithSteps.execute   q:"+q+"  IF   getIsUpdate:"+entQuery.getType()+"   ret:"+ret+"    update  sql:"+sql)	;
    	     }
-   	     else
-   	     {
-   	     	db.retrieveDBDataFromQuery(entQuery.getQuery(),"PanelTask.execute");
+             else if(entQuery.getType()==QUERY_UPDATE_STOREDPROCEDURE)
+   	     { 
+                System.out.println("PanelTaskWithSteps.execute   q:"+q+"  IF   getIsUpdate:"+entQuery.getType()+" QUERY_UPDATE_STOREDPROCEDURE    NOT IMPLEMENTED  ret:"+ret+"    update  sql:"+entQuery.getQuery())	; 
+             }            
+             else if (entQuery.getType()==QUERY_READ)
+             {
+   	     	db.retrieveDBDataFromQuery(entQuery.getQuery(),"PanelTaskWithSteps.execute");
    	     	db.getRS();
-   	     	System.out.println("PanelTask.execute rs   q:"+q+"   ELSE    getIsUpdate:"+entQuery.getIsUpdate()+"      getQuery():"+entQuery.getQuery());
+   	     	System.out.println("PanelTaskWithSteps.execute rs   q:"+q+"   ELSE    getIsUpdate:"+entQuery.getType()+"      getQuery():"+entQuery.getQuery());
+                 
+             }
+             else
+   	     {
+                System.out.println("PanelTaskWithSteps.execute   q:"+q+"  IF   getIsUpdate:"+entQuery.getType()+"   NOT DEFINED  ret:"+ret+"    update  sql:"+entQuery.getQuery())	;  
    	     }
    	     
    	    
@@ -602,10 +616,10 @@ import javax.swing.event.*;
    	        tableModel.addRow(ret+" "+entQuery.getMessageSuccess(),headers);		
    	        successfulOutcome=true;
    	     }
-   	     System.out.println("PanelTask.execute  q:"+q+"     size:"+ listEntityQuery.size()+"     successfulOutcome:"+successfulOutcome+"     "+entQuery.getQuery());
+   	     System.out.println("PanelTaskWithSteps.execute  q:"+q+"     size:"+ listEntityQuery.size()+"     successfulOutcome:"+successfulOutcome+"     "+entQuery.getQuery());
    	}// for q
         
-        System.out.println("PanelTask.execute   commit all  dbTransactions:"+dbTransaction);    
+        System.out.println("PanelTaskWithSteps.execute   commit all  dbTransactions:"+dbTransaction);    
         dbTransaction.transactionCommit();
         dbTransaction.updateShowWindowSuccessSave("");
         dbTransaction.setTransactionAutoCommit(true);               
@@ -614,7 +628,7 @@ import javax.swing.event.*;
        catch(SQLException e)
        {
            dbTransaction.transactionRollback();
-           System.out.println(" error  PanelTask.execute   rollBack  dbTransaction:"+dbTransaction);    
+           System.out.println(" error  PanelTaskWithSteps.execute   rollBack  dbTransaction:"+dbTransaction);    
          if(VariablesGlobal.globalShowPrintStackTrace)  
          {
            e.printStackTrace();     
@@ -622,12 +636,13 @@ import javax.swing.event.*;
        }
        finally
 	{
-            System.out.println("PanelTask.execute  finally    O  "+dbTransaction.isTransactionConnectionNull());
+            System.out.println("PanelTaskWithSteps.execute  finally    O  "+dbTransaction.isTransactionConnectionNull());
 	      if (!dbTransaction.isTransactionConnectionNull())
               {
                   
 	           dbTransaction.transactionClose();
               }
+              closeDB();
         } 
 
       
@@ -640,8 +655,12 @@ import javax.swing.event.*;
    	  {
    	  	tableModel.addRow(" Έγιναν λάθη στην εργασία ("+strCalculationType+").",headers);
    	  }
-   	  
-          closeDB();
+    }
+    else
+    {
+        utilsGui.showMessageError("Παρακαλώ συμπληρώστε τα πεδία.");
+    }   	  
+          
    	  
    	 /* record[1] = "success";
    	  tableModel.addRow(record,headers);

@@ -1548,7 +1548,7 @@ import javax.swing.text.JTextComponent;
     	    	UtilsString uString = new UtilsString();
     	
     	EntityQuery[] entityQuery = new EntityQuery[1]; 
-        entityQuery[0]= new EntityQuery(uString.getQueryWithoutOrderby(query),false,0,null,null,null,null,null);
+        entityQuery[0]= new EntityQuery(uString.getQueryWithoutOrderby(query),QUERY_READ,null,null,null,null,null);
     	
         PanelReportSettingsPreview panelReportSettingsPreview = new PanelReportSettingsPreview(frame);
 

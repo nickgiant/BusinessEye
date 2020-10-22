@@ -153,11 +153,11 @@ import javax.swing.event.*;
     	{    // executed before calculation in order to be 0 before calculation (if null cannot add)
     	   ret = new  EntityQuery[listPanelLines.size()+1];
     	    
-    	   ret[0] = new EntityQuery("UPDATE "+table+" SET "+fieldToCalculate+" = 0 ",true,0,null,null,tableForFilters,"ενημερώσεις με 0.","Η ενημέρωση δεν έγινε.");	
+    	   ret[0] = new EntityQuery("UPDATE "+table+" SET "+fieldToCalculate+" = 0 ",QUERY_UPDATE,null,null,tableForFilters,"ενημερώσεις με 0.","Η ενημέρωση δεν έγινε.");	
     		
     	  for(int l =0; l<listPanelLines.size();l++)
     	  {
-    		ret[l+1] = new EntityQuery(getConfigForCriteriaUpdateLine(l),true,0,null,null,tableForFilters,"ενημερώσεις.","Η ενημέρωση δεν έγινε.");
+    		ret[l+1] = new EntityQuery(getConfigForCriteriaUpdateLine(l),QUERY_UPDATE,null,null,tableForFilters,"ενημερώσεις.","Η ενημέρωση δεν έγινε.");
     	  }
     	
     	}

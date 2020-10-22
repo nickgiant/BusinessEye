@@ -164,6 +164,10 @@ public interface Constants
        public static final int SOURCE_SALES = 2;
        public static final int SOURCE_ESOEXO = 1;
        
+       public static final int QUERY_READ = 0;
+       public static final int QUERY_UPDATE = 1;
+       public static final int QUERY_UPDATE_STOREDPROCEDURE =2;
+       
   public static final int INTSETTINGSREPORT_SHOWINALLPAGES = 0;
   public static final int INTSETTINGSREPORT_SHOWFIRSTPAGE = 1;
   public static final int INTSETTINGSREPORT_NOTSHOW = 2;

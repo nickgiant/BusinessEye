@@ -8,8 +8,8 @@ import com.tool.gui.*;
     public class EntityQuery
     {
         private String query;
-        private boolean isUpdate;
-        private int type;
+        //private boolean isUpdate;
+        private int type; // QUERY_READ, QUERY_UPDATE, QUERY_UPDATE_STOREDPROCEDURE
         private String primKeyName;
         private String primKeyTable;
         private String tableForFilters; // if different than EntityFilterSettings
@@ -17,11 +17,11 @@ import com.tool.gui.*;
         private String messageFailure;
 
     
-        public EntityQuery(String queryIn, boolean isUpdateIn,int typeIn,String primKeyNameIn,String primKeyTableIn,
+        public EntityQuery(String queryIn, int typeIn,String primKeyNameIn,String primKeyTableIn,
         String tableForFiltersIn,String messageSuccessIn, String messageFailureIn)
         {
          query=queryIn;
-         isUpdate=isUpdateIn;
+         //isUpdate=isUpdateIn;
          type=typeIn;  
          primKeyName=primKeyNameIn;
          primKeyTable=primKeyTableIn;
@@ -53,7 +53,7 @@ import com.tool.gui.*;
         {  query=queryIn;  }
 
         public String getQuery()  {   return query;  }
-        public boolean getIsUpdate()  {   return isUpdate;  }
+        //public boolean getIsUpdate()  {   return isUpdate;  }
         public int getType()  {   return type;  }        
         public String getPrimKeyName()  {   return primKeyName;  }          
         public String getPrimKeyTable()  {   return primKeyTable;  }  

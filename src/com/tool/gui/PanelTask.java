@@ -41,7 +41,7 @@ import javax.swing.table.*;
         private PanelDataFilter panelDataFilter;
       //  private PanelUpdateWithCriteria panelUpdateWithCriteria;
         private JxPanel panelDFilters;
-        private JxPanel panelExecute;
+        private JxPanel panelExecuteLog;
         private JButtonForPanelDecorated  btnNext;
         private JButtonForPanelDecorated btnPrevious;
         
@@ -55,6 +55,7 @@ import javax.swing.table.*;
         private EntityGroupOfComps[] entityGroupOfComps;
         private PanelManagement panelManagement;
         private String yearEnforce;
+        private UtilsGui utilsGui;
         
     public PanelTask(JFrame frame)
     {
@@ -70,7 +71,7 @@ import javax.swing.table.*;
     {
     	
     	db= new Database();
-    	
+    	utilsGui = new UtilsGui();
     	frame = frameIn;
     	panelMain = new JxPanel();
     	panelMain.setLayout(new BorderLayout());  // new CardLayout());//new BorderLayout());
@@ -86,7 +87,7 @@ import javax.swing.table.*;
     	panelCalculationOption.setLayout(new GridLayoutVariable(GridLayoutVariable.FIXED_NUM_COLUMNS, 1));
         
     	
-    	panelExecute = new JxPanel(new BorderLayout());
+    	panelExecuteLog = new JxPanel(new BorderLayout());
     	
     	JScrollPane scrollpaneTable = new JScrollPane();
     	scrollpaneTable.setOpaque(false);
@@ -146,7 +147,7 @@ import javax.swing.table.*;
     	panelButtons.add(btnExecute);
         
         
-        panelExecute.add(scrollpaneTable, BorderLayout.CENTER);
+        panelExecuteLog.add(scrollpaneTable, BorderLayout.CENTER);
         
     	panelDFilters = new JxPanel();
     	panelDataFilter = new PanelDataFilter(frame);
@@ -157,10 +158,12 @@ import javax.swing.table.*;
 
     	JxPanel panelCenter = new JxPanel();
     	panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.PAGE_AXIS));//new FlowLayout());
-    	panelCenter.add(panelDFilters);
+    	
         panelCenter.add(panelCalculationOption);
+        panelCenter.add(panelDFilters);
+        
     	panelCenter.add(panelButtons);
-    	panelCenter.add(panelExecute);
+    	panelCenter.add(panelExecuteLog);
     	
     	//JScrollPane scrol = new JScrollPane();
     	//scrol.setOpaque(true);
@@ -182,7 +185,7 @@ import javax.swing.table.*;
                 0));
     	  	
     	panelMain.add(panelCenterOrientation, BorderLayout.CENTER);*/
-    	panelMain.add(panelCenter, BorderLayout.CENTER);
+    	//panelMain.add(panelCenter, BorderLayout.CENTER);
     	panelMain.add(panelCenter, BorderLayout.PAGE_END);
 
     	//this.setLayout(new BorderLayout());
@@ -226,7 +229,7 @@ import javax.swing.table.*;
    	     	btnPrevious.setEnabled(false);
    	    	panelCalculationOption.setVisible(true);
    	    	panelDFilters.setVisible(false);
-   	    	panelExecute.setVisible(false);  
+   	    	panelExecuteLog.setVisible(false);  
    	    //	panelUpdateWithCriteria.setVisible(false);  
    	    	taskSubTitle="";
 
@@ -239,7 +242,7 @@ import javax.swing.table.*;
    	  	btnPrevious.setEnabled(true);
    	    	panelDFilters.setVisible(true);
    	    	panelCalculationOption.setVisible(false);
-   	    	panelExecute.setVisible(false); 
+   	    	panelExecuteLog.setVisible(false); 
    	    //	panelUpdateWithCriteria.setVisible(false);  
    	    	taskSubTitle="-> Επιλογές φιλτραρίσματος εγγραφών.";
    	     }
@@ -248,7 +251,7 @@ import javax.swing.table.*;
    	     	btnPrevious.setEnabled(true);
    	    	panelDFilters.setVisible(false);
    	    	panelCalculationOption.setVisible(false);
-   	    	panelExecute.setVisible(false);    	         
+   	    	panelExecuteLog.setVisible(false);    	         
    	     /*    panelUpdateWithCriteria.setVisible(true);  
    	         if(panelUpdateWithCriteria.getCountOfCriteriaUpdateLines()==0)
    	         {
@@ -260,7 +263,7 @@ import javax.swing.table.*;
    	 /*    else if(pgCurrent==pageTotal)
    	     {
    	     	btnPrevious.setEnabled(true);
-   	    	  panelExecute.setVisible(true); 
+   	    	  panelExecuteLog.setVisible(true); 
    	    	  panelDFilters.setVisible(false);
    	    	  panelCalculationOption.setVisible(false);
    	    //	  panelUpdateWithCriteria.setVisible(false);  
@@ -272,7 +275,7 @@ import javax.swing.table.*;
    	     	btnPrevious.setEnabled(false);
    	    	panelDFilters.setVisible(false);
    	     	panelCalculationOption.setVisible(false);
-   	     	panelExecute.setVisible(false);   	  
+   	     	panelExecuteLog.setVisible(false);   	  
    	    // 	panelUpdateWithCriteria.setVisible(false); 
    	     	taskSubTitle=""; 	
    	     } 
@@ -287,7 +290,7 @@ import javax.swing.table.*;
    	  	    btnPrevious.setEnabled(false);
    	    	panelDFilters.setVisible(true);
    	    	panelCalculationOption.setVisible(false);
-   	    	panelExecute.setVisible(false); 
+   	    	panelExecuteLog.setVisible(false); 
    	    //	panelUpdateWithCriteria.setVisible(false);
    	    	taskSubTitle="-> Επιλογές φιλτραρίσματος εγγραφών.";    
    	     }
@@ -297,7 +300,7 @@ import javax.swing.table.*;
           	btnPrevious.setEnabled(true);  	
    	    	panelDFilters.setVisible(false);
    	    	panelCalculationOption.setVisible(false);
-   	    	panelExecute.setVisible(false); 
+   	    	panelExecuteLog.setVisible(false); 
    	    	panelUpdateWithCriteria.setVisible(true); 
    	    	 
    	    	 if(panelUpdateWithCriteria.getCountOfCriteriaUpdateLines()==0)
@@ -309,7 +312,7 @@ import javax.swing.table.*;
    	   /*  else if(pgCurrent==pageTotal)
    	     {
    	     	  btnPrevious.setEnabled(true);
-   	    	  panelExecute.setVisible(true); 
+   	    	  panelExecuteLog.setVisible(true); 
    	    	  panelDFilters.setVisible(false);
    	    	  panelCalculationOption.setVisible(false);
    	   // 	  panelUpdateWithCriteria.setVisible(false); 
@@ -321,7 +324,7 @@ import javax.swing.table.*;
    	     	btnPrevious.setEnabled(true);
    	    	panelDFilters.setVisible(false);
    	     	panelCalculationOption.setVisible(false);
-   	     	panelExecute.setVisible(false); 
+   	     	panelExecuteLog.setVisible(false); 
    	 //    	panelUpdateWithCriteria.setVisible(false);  
    	     	taskSubTitle=""; 	  	
    	     }    	  	
@@ -388,7 +391,7 @@ import javax.swing.table.*;
          
          pageTotal=3;*/
          
-         System.out.println("PanelTask      entityGroupOfComps:"+entityGroupOfComps.length);
+         //System.out.println("PanelTask      entityGroupOfComps:"+entityGroupOfComps.length);
          
          
          //if(isNullify)
@@ -481,7 +484,7 @@ import javax.swing.table.*;
    	  String[] record = new String[colCount];
    	  String[] headers = {"πληροφορίες"};// new String[colCount];
       
-      tableModel.addRow("Εκκίνηση εργασίας ("+strCalculationOption+")",headers); 
+      
       
    	  ArrayList listEntityQuery = new ArrayList();
    	 entityQuery = entityTaskArray[intCalculationOption].getEntityQuery();
@@ -490,7 +493,7 @@ import javax.swing.table.*;
    	  	//if(entityQuery[eq].getType()==intCalculationOption)
    	  	//{
    	  	    listEntityQuery.add(entityQuery[eq]);
-                    System.out.println("PanelTask.execute .eq"+eq+"     intCalculationOption"+intCalculationOption+"     "+entityQuery[eq]);
+                    //System.out.println("PanelTask.execute .eq"+eq+"     intCalculationOption"+intCalculationOption+"     "+entityQuery[eq]);
    	  	//}
    	  }
 
@@ -501,14 +504,19 @@ import javax.swing.table.*;
    	  {
    	    listEntityQuery.add(updateEntityQueryFromUpdateWithCriteria[e])	;
    	  }
-   */	  
+   */	 
+          ArrayList lstFieldsUncompleted = panelDataFilter.getListOfFieldsUncompleted();
+    if(lstFieldsUncompleted.size()==0)	   
+    {
+        tableModel.addRow("Εκκίνηση εργασίας ("+strCalculationOption+")",headers); 
+        
          Database dbTransaction = new Database();
          boolean successfulOutcome=false;
       try
       {
           dbTransaction.transactionLoadConnection();
           dbTransaction.setTransactionAutoCommit(false);
-         System.out.println("PanelTask.execute    listEntityQuery.size():"+listEntityQuery.size()+"    dbTransaction:"+dbTransaction); 	  
+         //System.out.println("PanelTask.execute    listEntityQuery.size():"+listEntityQuery.size()+"    dbTransaction:"+dbTransaction); 	  
 
    	
    	for(int q=0;q<listEntityQuery.size();q++ )
@@ -543,34 +551,63 @@ import javax.swing.table.*;
    	  }
    	   
    	   
-   	   
+
    	    
    	   String sqlWhere = panelDataFilter.getSubquery("");//,q);// (-1 all) filters apply to all the groups of data
        //System.out.println("PanelTaskWithSteps.execute >"+sqlWhere);
   	     
-   	   if(entQuery.getQuery().contains("WHERE"))
+       if(entQuery.getQuery().contains("WHERE"))
        {
           sqlWhere=sqlWhere.replaceFirst("WHERE", "AND");
           //System.out.println("PanelTaskWithSteps.execute replace WHERE with AND");
        }
+           
+   	  
 
-   	      System.out.println("PanelTask.execute    q:"+q+"   size:"+listEntityQuery.size()+"     entQuery.getIsUpdate:"+entQuery.getIsUpdate()+"     getQuery():"+entQuery.getQuery());
+   	      System.out.println("PanelTask.execute  ::  q:"+q+"   size:"+listEntityQuery.size()+"    entQuery.getType:"+entQuery.getType()+"     getQuery():"+entQuery.getQuery());
    	     int ret = 0;
-   	     if(entQuery.getIsUpdate())
+  	     if(entQuery.getType()==QUERY_UPDATE)
    	     {
    	     	String sql = entQuery.getQuery()+" "+sqlWhere;
    	        
    	        //ret = db.updateQuery(sql,"PanelTaskWithSteps.execute", true);
+                System.out.println("PanelTask.execute   q:"+q+"  IF1   getIsUpdate:"+entQuery.getType()+"     update  sql:"+sql)	;
                 ret = dbTransaction.transactionUpdateQuery(sql,"PanelTask.execute", true);
-                System.out.println("PanelTask.execute   q:"+q+"  IF   getIsUpdate:"+entQuery.getIsUpdate()+"   ret:"+ret+"    update  sql:"+sql)	;
+                
    	     }
-   	     else
-   	     {
-   	     	db.retrieveDBDataFromQuery(entQuery.getQuery(),"PanelTask.execute");
+             else if(entQuery.getType()==QUERY_UPDATE_STOREDPROCEDURE)
+   	     { 
+
+                 String sql = entQuery.getQuery();
+                
+                 if(entityFilterSettings!=null && entityFilterSettings.length>0)
+                {           
+                    EntityFilterSettings[] ent = new EntityFilterSettings[entityFilterSettings.length];
+                    for(int e=0;e<ent.length;e++)
+                    {
+                            sql=sql.replaceFirst("#", panelDataFilter.getFilterValue(e));
+                                   // System.out.println("PanelTask.execute ===============   e:"+e+"  "+panelDataFilter.getFilterValue(e)+"   sql:"+sql);
+                    }
+                }                
+                System.out.println("PanelTask.execute   q:"+q+"  IF2   getIsUpdate:"+entQuery.getType()+" QUERY_UPDATE_STOREDPROCEDURE      update  sql:"+sql)	; 
+   	        //ret = db.updateQuery(sql,"PanelTaskWithSteps.execute", true);
+                ret = dbTransaction.transactionUpdateQuery(sql,"PanelTask.execute", true);
+                
+             }            
+             else if (entQuery.getType()==QUERY_READ)
+             {
+   	     	System.out.println("PanelTask.execute rs   q:"+q+"   IF3    getIsUpdate:"+entQuery.getType()+"      getQuery():"+entQuery.getQuery());
+                db.retrieveDBDataFromQuery(entQuery.getQuery(),"PanelTask.execute");
    	     	db.getRS();
-   	     	System.out.println("PanelTask.execute rs   q:"+q+"   ELSE    getIsUpdate:"+entQuery.getIsUpdate()+"      getQuery():"+entQuery.getQuery());
+   	     	
+                 
+             }
+             else
+   	     {
+                System.out.println("PanelTask.execute   q:"+q+"  ELSE   getIsUpdate:"+entQuery.getType()+"   NOT DEFINED    update  sql:"+entQuery.getQuery())	;  
    	     }
-   	     
+ 
+   	     System.out.println("PanelTask.execute   ret:"+ret);
    	    
    	      
    	     if(ret==0)
@@ -589,7 +626,7 @@ import javax.swing.table.*;
    	        tableModel.addRow(ret+" "+entQuery.getMessageSuccess(),headers);		
    	        successfulOutcome=true;
    	     }
-   	     System.out.println("PanelTask.execute  q:"+q+"     size:"+ listEntityQuery.size()+"     successfulOutcome:"+successfulOutcome+"     "+entQuery.getQuery());
+   	     System.out.println("PanelTask.execute  q:"+q+"  :   size:"+ listEntityQuery.size()+"     successfulOutcome:"+successfulOutcome);
    	}// for q
         
         System.out.println("PanelTask.execute   commit all  dbTransactions:"+dbTransaction);    
@@ -609,12 +646,13 @@ import javax.swing.table.*;
        }
        finally
 	{
-            System.out.println("PanelTask.execute  finally    O  "+dbTransaction.isTransactionConnectionNull());
+            System.out.println("PanelTask.execute  finally      "+dbTransaction.isTransactionConnectionNull());
 	      if (!dbTransaction.isTransactionConnectionNull())
               {
                   
 	           dbTransaction.transactionClose();
               }
+               closeDB();
         } 
 
       
@@ -627,8 +665,12 @@ import javax.swing.table.*;
    	  {
    	  	tableModel.addRow(" Έγιναν λάθη στην εργασία ("+strCalculationOption+").",headers);
    	  }
-   	  
-          closeDB();
+    }
+    else
+    {
+        utilsGui.showMessageError("Παρακαλώ συμπληρώστε τα πεδία.");
+    }
+         
    	  
    	 /* record[1] = "success";
    	  tableModel.addRow(record,headers);
