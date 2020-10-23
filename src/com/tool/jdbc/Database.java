@@ -408,6 +408,40 @@ public class Database implements Constants
        
    }
    
+
+   public String[] retrieveDBProcedures() //copy from DatabaseMeta
+  {
+    try
+    {
+      con = getConnection();//get from connection factory
+           // also getProcedures or getFunctions
+            DatabaseMetaData metadata = con.getMetaData();
+            ResultSet result = metadata.getProcedures(null, "%", "%");
+      tableCount = 0;
+      while ( result.next() )
+      {  
+      	  tableCount++; 
+      	  //System.out.println(tableCount+rs.getString("TABLE_NAME"));
+      }
+       result.first();
+       tableNames = new String[tableCount];
+        
+  	for (int i=0; i<tableCount; i++)
+        {
+            tableNames[i] = result.getString("PROCEDURE_NAME");
+
+           result.next();
+        } 
+       
+       
+       DbConnection.releaseConnection(con);
+    }
+    catch ( SQLException sqlex)
+    {
+        System.out.println("error:Database.retrieveTables() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
+    }
+    return tableNames;
+  }
    
   
    public String[] retrieveDBObjects(String table, String tableName) //copy from DatabaseMeta
@@ -437,6 +471,9 @@ public class Database implements Constants
            rs.next();
         } 
        //rs.close();
+
+            
+       
        DbConnection.releaseConnection(con);
     }
     catch ( SQLException sqlex)

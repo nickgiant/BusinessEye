@@ -2359,33 +2359,40 @@ class TabListener implements ChangeListener
       // txtareaLog.setText(txtareaLog.getText()+"\n tables:"+(tableNames.length));
       
        
-       String[] viewNames = db.retrieveDBObjects("VIEW","TABLE_NAME");
+      /* String[] viewNames = db.retrieveDBObjects("VIEW","TABLE_NAME");
        for(int t = 0;t<viewNames.length;t++)
        {
            wwb.setComment("view:"+t+" από:"+viewNames.length);
            writer.println("\n");
            setQueryCreateObjectExceptTable("SHOW CREATE VIEW "+viewNames[t]);   
-       }       
+       } */      
        // txtareaLog.setText(txtareaLog.getText()+"\n views:"+(viewNames.length));
       
 
-       String[] nameFunctions = db.retrieveDBObjects("FUNCTION","TABLE_NAME");
+       /*String[] nameFunctions = db.retrieveDBObjects("FUNCTION","TABLE_NAME");
        for(int t = 0;t<nameFunctions.length;t++)
        {
            wwb.setComment("functions:"+t+" από:"+nameFunctions.length);
            writer.println("\n");
            setQueryCreateObjectExceptTable("SHOW CREATE FUNCTION "+nameFunctions[t]);   
-       }       
+       }     */  
        // txtareaLog.setText(txtareaLog.getText()+"\n functions:"+(viewFunctions.length));
- 
-       
-        String[] viewProcedures = db.retrieveDBObjects("PROCEDURE","TABLE_NAME"); // PROCEDURE_NAME
+       writer.println("\n");
+       writer.println("DELIMITER // ");
+       writer.println("\n");
+        String[] viewProcedures = db.retrieveDBProcedures(); // PROCEDURE_NAME
        for(int t = 0;t<viewProcedures.length;t++)
        {
             wwb.setComment("procedures:"+t+" από:"+viewProcedures.length);
            writer.println("\n");
-           setQueryCreateObjectExceptTable("SHOW CREATE PROCEDURE "+viewProcedures[t]);   
-       }       
+          // txtareaLog.setText(txtareaLog.getText()+"\n procedures:"+(viewProcedures[t]));
+           setQueryCreateObjectSProcedure("SHOW CREATE PROCEDURE "+viewProcedures[t]);   
+           // after each procedure replace END; with END//
+       }
+       
+       writer.println("\n");
+       writer.println("DELIMITER ; ");
+       writer.println("\n");       
         //txtareaLog.setText(txtareaLog.getText()+"\n procedures:"+(viewProcedures.length));
     //txtareaLog.setText(txtareaLog.getText()+"\n close");         
         writer.println("\n\nSET @@foreign_key_checks = 1;");
@@ -2897,10 +2904,10 @@ private void restoreCommand(Connection con,StringBuffer command)throws SQLExcept
       }       
    }    
     
-   private void setQueryCreateObjectExceptTable(String sql)
+   private void setQueryCreateObjectSProcedure(String sql)
    {
        
-       db.retrieveDBDataFromQuery(sql, "PanelBackup.setQueryCreateObjectExceptTable");
+       db.retrieveDBDataFromQuery(sql, "PanelBackup.setQueryCreateObjectSProcedure");
        ResultSet rs = db.getRS();
        
        try
@@ -2909,15 +2916,19 @@ private void restoreCommand(Connection con,StringBuffer command)throws SQLExcept
        
            //System.out.println(""+rs.getString(2));
           
-           String createOrig = rs.getString(2);
-           String createRepl = createOrig.replaceAll("CREATE DATABASE", "CREATE DATABASE IF NOT EXISTS");      // when database, change accordingly      
-           writer.println("\n\n"+createRepl+";");
+           String createOrig = rs.getString(3);
+           // after each procedure replace END; with END//
+           String procedure = createOrig.replaceAll("END;", "END// "); // at the end, the delimiter is different
+           
+           
+           //String createRepl = createOrig.replaceAll("CREATE DATABASE", "CREATE DATABASE IF NOT EXISTS");      // when database, change accordingly      
+           writer.println("\n\n"+procedure+";");
 
           rs.close();
        }
        catch ( SQLException sqlex)
       {
-         System.out.println("error: PanelBackup.setQueryCreateTable() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
+         System.out.println("error: PanelBackup.setQueryCreateObjectSProcedure() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
       }       
    }
    
@@ -2969,9 +2980,9 @@ private void restoreCommand(Connection con,StringBuffer command)throws SQLExcept
                    {
                        String data = rs.getString(c);
 
-
+                      String d = data.replaceAll("'", "\\\\'");// in 'description' fields sometimes has '
 //String text = String.format(data.replaceAll("\n","%n"/*"\\n"*/));   //      "\\n"                       
-                    String text = data.replaceAll("\n","\\\\n");   //      "\\n"                       
+                    String text = d.replaceAll("\n","\\\\n");   //      "\\n"                       
                   //  System.out.printf(data.replaceAll("\n","%n"),data);
                     //System.out.print("  ("+c+"  "+text+")");  
                        

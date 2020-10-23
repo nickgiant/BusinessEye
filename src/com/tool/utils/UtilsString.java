@@ -1811,8 +1811,9 @@ System.out.println(a.getVerbal(123.22));
 //System.out.println("checkafm "+a.checkGreekAFM("EL0120315679"));
 //System.out.println("checkafm "+a.checkGreekAFM("121315679"));
 //System.out.println("checkafm "+a.checkGreekAFM("120315679"));
-
-
+String data = " 'and' ";
+String d = data.replaceAll("'", "\\\\'");
+System.out.println(d);
  //System.out.println(" query "+a.queryReplaceWildcardWithStarInWhereClause("SELECT * from buyer where afm like'*123*'"));
  
  System.out.println(" query "+a.replaceWhereWithAnd("WHERE dbcompanyid like 1"));
