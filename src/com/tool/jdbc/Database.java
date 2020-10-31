@@ -411,25 +411,26 @@ public class Database implements Constants
 
    public String[] retrieveDBProcedures() //copy from DatabaseMeta
   {
+       String[] procNames = null;
     try
     {
       con = getConnection();//get from connection factory
            // also getProcedures or getFunctions
             DatabaseMetaData metadata = con.getMetaData();
             ResultSet result = metadata.getProcedures(null, "%", "%");
-      tableCount = 0;
+      int procCount = 0;
       while ( result.next() )
       {  
-      	  tableCount++; 
+      	  procCount++; 
       	  //System.out.println(tableCount+rs.getString("TABLE_NAME"));
       }
        result.first();
-       tableNames = new String[tableCount];
+       procNames = new String[procCount];
         
-  	for (int i=0; i<tableCount; i++)
+  	for (int i=0; i<procCount; i++)
         {
-            tableNames[i] = result.getString("PROCEDURE_NAME");
-
+            procNames[i] = result.getString("PROCEDURE_NAME");
+            System.out.println("Database.retrieveDBProcedures   "+procNames[i]);
            result.next();
         } 
        
@@ -438,12 +439,50 @@ public class Database implements Constants
     }
     catch ( SQLException sqlex)
     {
-        System.out.println("error:Database.retrieveTables() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
+        System.out.println("error:Database.retrieveDBProcedures() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
     }
-    return tableNames;
+    return procNames;
   }
    
-  
+
+   
+      public String[] retrieveDBFunctions() //copy from DatabaseMeta
+  {
+          String[] funcNames = null;
+    try
+    {
+      con = getConnection();//get from connection factory
+           // also getProcedures or getFunctions
+            DatabaseMetaData metadata = con.getMetaData();
+            ResultSet result = metadata.getFunctions(null, "%", "%");
+     int funcCount = 0;
+      while ( result.next() )
+      {  
+      	  funcCount++; 
+      	  //System.out.println(tableCount+rs.getString("TABLE_NAME"));
+      }
+       result.first();
+      funcNames = new String[funcCount];
+        
+  	for (int i=0; i<funcCount; i++)
+        {
+            funcNames[i] = result.getString("FUNCTION_NAME ");//"PROCEDURE_NAME");
+            System.out.println("Database.retrieveDBFunctions "+funcNames[i]);
+           result.next();
+        } 
+       
+       
+       DbConnection.releaseConnection(con);
+    }
+    catch ( SQLException sqlex)
+    {
+        System.out.println("error:Database.retrieveDBFunctions() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
+    }
+    return funcNames;
+  }
+   
+   
+   
    public String[] retrieveDBObjects(String table, String tableName) //copy from DatabaseMeta
   {
     try

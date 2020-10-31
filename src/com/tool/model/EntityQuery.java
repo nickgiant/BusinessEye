@@ -1,5 +1,3 @@
-// created 07-05-2009
-
 package com.tool.model;
 
 import com.tool.gui.*;

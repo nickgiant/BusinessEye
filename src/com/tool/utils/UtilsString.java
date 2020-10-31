@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
  {
   	
   //private static ResourceBundle res = ResourceBundle.getBundle("org.isqlviewer.resource.ResourceStrings");  	
-  	           ArrayList listQueryFieldToGetTheValueFrom ;
+  	   ArrayList listQueryFieldToGetTheValueFrom ;
            ArrayList listQueryValue ;
            
     private static String secretKey = "s!!!n!g!rg1651651gr";

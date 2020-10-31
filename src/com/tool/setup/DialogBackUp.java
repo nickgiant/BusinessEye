@@ -2378,20 +2378,40 @@ class TabListener implements ChangeListener
        }     */  
        // txtareaLog.setText(txtareaLog.getText()+"\n functions:"+(viewFunctions.length));
        writer.println("\n");
-       writer.println("DELIMITER // ");
+       //writer.println("DELIMITER // ");
        writer.println("\n");
-        String[] viewProcedures = db.retrieveDBProcedures(); // PROCEDURE_NAME
+
+       /* String[] viewFunctions = db.retrieveDBFunctions(); 
+       for(int t = 0;t<viewFunctions.length;t++)
+       {
+            wwb.setComment("functions:"+t+" από:"+viewFunctions.length);
+           writer.println("\n");
+          // txtareaLog.setText(txtareaLog.getText()+"\n procedures:"+(viewProcedures[t]));
+           setQueryCreateObjectFunction("SHOW CREATE FUNCTION "+viewFunctions[t]);   
+           // after each procedure replace END; with END//
+       }  */     
+       
+       String[] viewProcedures = db.retrieveDBProcedures(); // PROCEDURE_NAME
        for(int t = 0;t<viewProcedures.length;t++)
        {
             wwb.setComment("procedures:"+t+" από:"+viewProcedures.length);
            writer.println("\n");
           // txtareaLog.setText(txtareaLog.getText()+"\n procedures:"+(viewProcedures[t]));
+          if(viewProcedures[t].startsWith("fn"))
+          {
+              writer.println("\n\n DROP FUNCTION IF EXISTS "+viewProcedures[t]+";");
+              setQueryCreateObjectFunction("SHOW CREATE FUNCTION "+viewProcedures[t]);   
+          }
+          else
+          {
+              writer.println("\n\n DROP PROCEDURE IF EXISTS "+viewProcedures[t]+";");
            setQueryCreateObjectSProcedure("SHOW CREATE PROCEDURE "+viewProcedures[t]);   
+          }
            // after each procedure replace END; with END//
        }
        
        writer.println("\n");
-       writer.println("DELIMITER ; ");
+       //writer.println("DELIMITER ; ");
        writer.println("\n");       
         //txtareaLog.setText(txtareaLog.getText()+"\n procedures:"+(viewProcedures.length));
     //txtareaLog.setText(txtareaLog.getText()+"\n close");         
@@ -2697,6 +2717,74 @@ class TabListener implements ChangeListener
                 }
                 String trimmedLine = line.trim();
                 //String trimmedLine = line.trim();
+ 
+                
+          if(trimmedLine.startsWith("CREATE PROCEDURE") )
+          {
+              System.out.println("DialogBackup.    CREATE PROCEDURE:"+trimmedLine);
+              String lineSp=null;
+              command = new StringBuffer(trimmedLine);
+              while ((lineSp = br.readLine()) != null )//&& !(lineSp.startsWith("END") && lineSp.endsWith("END")))//&& !line.trim().equalsIgnoreCase(""))
+              {
+                  
+                if (lineSp.startsWith("--") || lineSp.startsWith("//") || lineSp.startsWith("#") ||  lineSp.startsWith("/*"))
+                {
+                    //out.flush();
+                } 
+                else if(lineSp.startsWith("CREATE PROCEDURE") )// does not get into it
+                {
+                   // command = new StringBuffer(lineSp.substring(0,lineSp.length()));
+                   // doNotExecuteOnlyAppend=false;
+                   // System.out.println("DialogBackup.    CREATE PROCEDURE     command:"+command+"     trimmedLine:"+trimmedLine);
+                }
+                else if(lineSp.startsWith("END;") && lineSp.endsWith("END;"))
+                {
+                    command.append("END;");    
+                    doNotExecuteOnlyAppend=true;
+                    break;
+                }
+                else
+                {
+                    command.append(lineSp.substring(0, lineSp.length())+" "+TXT_CHANGELINE);  
+                    doNotExecuteOnlyAppend= true;
+                }
+              }
+              //System.out.println("DialogBackup. command:"+command);
+          }
+          else if (trimmedLine.startsWith("CREATE FUNCTION"))
+          {
+              System.out.println("DialogBackup.    CREATE FUNCTION:"+trimmedLine);
+              String lineSp=null;
+              command = new StringBuffer(trimmedLine);
+              while ((lineSp = br.readLine()) != null )//&& !(lineSp.startsWith("END") && lineSp.endsWith("END")))//&& !line.trim().equalsIgnoreCase(""))
+              {
+                  
+                if (lineSp.startsWith("--") || lineSp.startsWith("//") || lineSp.startsWith("#") ||  lineSp.startsWith("/*"))
+                {
+                    //out.flush();
+                } 
+                else if(lineSp.startsWith("CREATE FUNCTION"))// does not get into it
+                {
+                   // command = new StringBuffer(lineSp.substring(0,lineSp.length()));
+                   // doNotExecuteOnlyAppend=false;
+                   // System.out.println("DialogBackup.    CREATE PROCEDURE     command:"+command+"     trimmedLine:"+trimmedLine);
+                }
+                else if(lineSp.startsWith("END;") && lineSp.endsWith("END;"))
+                {
+                    command.append("END;");    
+                    doNotExecuteOnlyAppend=true;
+                    break;
+                }
+                else
+                {
+                    command.append(lineSp.substring(0, lineSp.length())+" "+TXT_CHANGELINE);  
+                    doNotExecuteOnlyAppend= true;
+                }
+              }
+          
+          }
+          else
+          {
                 if (trimmedLine.startsWith("--") || trimmedLine.startsWith("//") || trimmedLine.startsWith("#") ||  trimmedLine.startsWith("/*"))
                 {
                     //out.flush();
@@ -2728,6 +2816,13 @@ class TabListener implements ChangeListener
                     //command.insert(0, trimmedLine.substring(0,trimmedLine.indexOf(delimiter)+1));
                      //System.out.println(" command C:"+command);                        
                     }
+                    else if(trimmedLine.startsWith("DELIMITER"))// look also in "restoreCommand". (for example when to load stored procedures)
+                    {
+                       //delimiter = trimmedLine.substring("DELIMITER".length(),trimmedLine.length());
+                       System.out.println("DialogBackUp.restore           not used     DELIMITER    found  ");
+                    // command = new StringBuffer(trimmedLine.substring(0,trimmedLine.length()));
+                     doNotExecuteOnlyAppend = false;                        
+                    }
                     else
                     {
                    command.append(trimmedLine.substring(0, trimmedLine.length()));    
@@ -2735,15 +2830,15 @@ class TabListener implements ChangeListener
                  // System.out.println(" command   doNotExecuteOnlyAppend:"+doNotExecuteOnlyAppend+"  D:"+command);
                     }
                 }
-              //  try
-             //  {
-                   if(command.toString().endsWith(delimiter) && !doNotExecuteOnlyAppend)
+          }   
+                   if(command.toString().endsWith(delimiter) && !command.toString().endsWith("END;") && !doNotExecuteOnlyAppend)
                    {
                        
                        try
                        {
                     
                     //System.out.println("DialogBackUp  command :"+command);
+                   
                     restoreCommand(con, command);
                     wasRestoreSuccessful=true;
                   
@@ -2754,13 +2849,73 @@ class TabListener implements ChangeListener
                    	wwr.close();
                         
 	                //thread = null;     
-                       System.out.println("DialogBackup.restore  ERROR  restore "+sqle.getMessage()+"  command:"+command.substring(0, 100));
-                       txtareaLog.append("\n restore error command: command:"+command.substring(0, 100));                  
+                        String msgCommand ="";
+                        if(command.length()>100)
+                        {
+                            msgCommand = command.substring(0, 100)+"";
+                        }
+                        else
+                        {
+                            msgCommand= command+"";
+                        }
+                       System.out.println("DialogBackup.restore  ERROR  restore "+sqle.getMessage()+"  command:"+msgCommand);
+                       txtareaLog.append("\n restore error command: command:"+msgCommand);                  
      //                  utilsGui.showMessageError("DialogBackup.restore  ERROR  restoreCommand \n"+sqle.getMessage()+"     \nquery:"+command);
                    // System.out.println("DialogBackup.restore close  ERROR "+sqle.getMessage());
                    //  txtareaLog.append("\nΤο restore  error "+sqle.getMessage());
                      // break; // avoid because shows only one error
-                      }                     
+                      } 
+
+                   }
+                   else if(  command.toString().startsWith("DELIMITER"))
+                   {
+                       
+                   }
+                   else if(command.toString().equalsIgnoreCase("") || command.toString().startsWith("CREATE TABLE"))
+                   {
+                       
+                   }
+                   else
+                   {
+                       //command= command+" END"
+                       //System.out.println("DialogBackup.  ELSE  command:"+command);
+                       try
+                       {
+                    
+                    //System.out.println("DialogBackUp  command :"+command);
+                   
+                    restoreCommand(con, command);
+                    wasRestoreSuccessful=true;
+                  
+                       } 
+                       catch (SQLException sqle)
+                       {
+                         wasRestoreSuccessful=false;
+                   	wwr.close();
+                        
+	                //thread = null;     
+                        String msgCommand ="";
+                        if(command.length()>100)
+                        {
+                            msgCommand = command.substring(0, 400)+"";
+                        }
+                        else
+                        {
+                            msgCommand= command+"";
+                        }
+                       System.out.println("DialogBackup.restore  ELSE  ERROR  restore "+sqle.getMessage()+"  command:"+msgCommand);
+                       txtareaLog.append("\n restore error command: command:"+msgCommand);                  
+     //                  utilsGui.showMessageError("DialogBackup.restore  ERROR  restoreCommand \n"+sqle.getMessage()+"     \nquery:"+command);
+                   // System.out.println("DialogBackup.restore close  ERROR "+sqle.getMessage());
+                   //  txtareaLog.append("\nΤο restore  error "+sqle.getMessage());
+                     // break; // avoid because shows only one error
+                      } 
+                      
+                       
+                       
+                       
+                       
+                       
                    }
 
              countQuery++;
@@ -2840,7 +2995,7 @@ private void restoreCommand(Connection con,StringBuffer command)throws SQLExcept
      String strDatabase = "";
      
              //try
-            // {
+             //{
             
                      Statement statement = con.createStatement();//(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
                     strDatabase = con.getCatalog();
@@ -2852,33 +3007,21 @@ private void restoreCommand(Connection con,StringBuffer command)throws SQLExcept
                        // System.out.println("PanelBackup.restore() execute:"+command.toString());
                         statement.execute(command.toString());
                     }
+                    else if(command.toString().startsWith("DELIMITER"))
+                    {
+                        //statement.executeBatch(command);
+                    }
                     else
                     {
                        // System.out.println("PanelBackup.restore() executeUpdate:"+command.toString());
                         statement.executeUpdate(command.toString());
                         //db.transactionUpdateQuery(command.toString(),"DialogBackUp.restore write "+pathNFile, true);
                     }
-             /*}
-             catch ( SQLException sqlex)
-      {
           
-           txtareaLog.append("\nΤο restore της '"+strDatabase+"' δεν ολοκληρώθηκε. "+sqlex.getMessage());	
-//          db.transactionRollback();
-                  System.out.println("error: PanelBackup.restore()  sqlex:"+sqlex.getMessage());
-                  sqlex.printStackTrace();
-      }
-      finally
-      {
-          
- 
-       }*/
- 
+
  
  
  }
-
-
- 
  
    
    private void setQueryCreateTable(String sql)
@@ -2904,6 +3047,37 @@ private void restoreCommand(Connection con,StringBuffer command)throws SQLExcept
       }       
    }    
     
+   private void setQueryCreateObjectFunction(String sql)
+   {
+       
+       db.retrieveDBDataFromQuery(sql, "PanelBackup.setQueryCreateObjectFunction");
+       ResultSet rs = db.getRS();
+       
+       try
+       {       
+           rs.first();
+       
+           //System.out.println(""+rs.getString(2));
+          
+           String createOrig = rs.getString(3);
+           // after each procedure replace END; with END//
+           
+           //System.out.println("---replaceAll(END;, END// )");
+          String function = "";//createOrig.replaceAll("END;", "END// "); // at the end, the delimiter is different
+          function =  createOrig.replaceFirst(createOrig.substring(createOrig.indexOf("DEFINER"), createOrig.indexOf("FUNCTION")), "");
+           
+           //String createRepl = createOrig.replaceAll("CREATE DATABASE", "CREATE DATABASE IF NOT EXISTS");      // when database, change accordingly      
+           writer.println("\n\n"+function+";");
+
+          rs.close();
+       }
+       catch ( SQLException sqlex)
+      {
+         System.out.println("error: PanelBackup.setQueryCreateObjectFunction() "+ "error code: " +sqlex.getErrorCode()+" " + sqlex.getMessage());
+      }       
+   }   
+   
+   
    private void setQueryCreateObjectSProcedure(String sql)
    {
        
@@ -2918,8 +3092,11 @@ private void restoreCommand(Connection con,StringBuffer command)throws SQLExcept
           
            String createOrig = rs.getString(3);
            // after each procedure replace END; with END//
-           String procedure = createOrig.replaceAll("END;", "END// "); // at the end, the delimiter is different
            
+           //System.out.println("---replaceAll(END;, END// )");
+           String procedure = "";//createOrig.replaceAll("END;", "END// "); // at the end, the delimiter is different
+           
+           procedure =  createOrig.replaceFirst(createOrig.substring(createOrig.indexOf("DEFINER"), createOrig.indexOf("PROCEDURE")), "");
            
            //String createRepl = createOrig.replaceAll("CREATE DATABASE", "CREATE DATABASE IF NOT EXISTS");      // when database, change accordingly      
            writer.println("\n\n"+procedure+";");

@@ -2846,7 +2846,7 @@ manager.addChangeListener(updateListener);*/
   *
   * called by isRestoreCompleted
   */
-    public boolean updateDb(double oldVersion, double newVersion)
+    private boolean updateDb(double oldVersion, double newVersion)
     {
         boolean ret = false;
          wwu = new WindowWait("αναβάθμιση  βάσης",WINDOW_LOCATION_CENTER,ICO_RELOAD16, ICO_RELOADB16);
@@ -3373,6 +3373,7 @@ manager.addChangeListener(updateListener);*/
                oldVersion=oldStartVersion;
            }
            
+           System.out.println("DialogMain.main     "+oldVersion+"-"+Double.parseDouble(VariablesGlobal.appSubVersion+""));
            //--  setup when first time run
            boolean isUpdated = dialogMain.updateDb(oldVersion,Double.parseDouble(VariablesGlobal.appSubVersion+""));
            System.out.println("DialogMain.main    isUpdated:"+isUpdated+" because "+oldVersion+"-"+Double.parseDouble(VariablesGlobal.appSubVersion+""));
