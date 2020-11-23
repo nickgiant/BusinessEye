@@ -591,9 +591,9 @@ import javax.swing.text.JTextComponent;
       //STATS be careful to have in this query all the fields that are also in the title
        String que = querySelect+" "+queryFrom+" "+queryWhere+" "+queryGroupBy+" "+queryOrderBy ;
        String entity = drillEntityPanels[0].getEntity();
-        String primKeyDbDrill = drillEntityPanels[0].getPrimKeyDb();
+        String primKeyDbDrill = drillEntityPanels[0].getPrimKeyDb();   //    <-- try delete if primKeys  is ok
         EntityDBFields[] dbFields =  drillEntityPanels[0].getDBFields();
-                          utilsPanelReport.retrievePrimKeyValueForOnePK(que, selectedTableRow+1,dbFields,null,false, /*primKey, 0, null, null,*/ entity,/* tableModel,*/ primKeyDbDrill);
+        utilsPanelReport.retrievePrimKeyValueForOnePK(que, selectedTableRow+1,dbFields,null,false, /*primKey, 0, null, null,*/ entity,/* tableModel,*/ primKeyDbDrill);
                           //utilsPanelReport.getPrimKeyValue();
 
              String[] primKeys = utilsPanelReport.getPrimKeys();
@@ -601,7 +601,7 @@ import javax.swing.text.JTextComponent;
          // System.out.println("-->  PanelOneDataOneRec.setEntity  entityIn:"+entityIn+" '"+entityPanel.getEntity()+"' selectedRow:"+selectedRow+"  primKeys.length:"+primKeys.length); 
              int primKeysCount = primKeys.length;
              String[] primKeysValue = utilsPanelReport.getPrimKeysValue();                             
-           String pkValue = utilsPanelReport.getPrimKeyValue();
+       //    String pkValue = utilsPanelReport.getPrimKeyValue();
      // System.out.println("panelStatistics.displayDrillDialog selectedTableRow:"+(selectedTableRow+1)+" primKeyDbDrill:"+primKeyDbDrill+"="+utilsPanelReport.getPrimKeyValue()+" query:"+query);                            
 
       
@@ -659,9 +659,9 @@ import javax.swing.text.JTextComponent;
      
      //  String q = "SELECT "+selectTitleFields+" "+queryFrom+" "+queryWhere+" "+queryGroupBy+" "+queryOrderBy ; //  <-----
        
-       System.out.println("panelStatistics.displayDrillDialog    OOOOO   drillEntityPanels.length:"+drillEntityPanels.length+"    drill entity report bands length 0 0 :"+drillEntityPanels[0].getEntityReportForm().getEntityReportBands()[0]+"           primKeyDbDrill:"+primKeyDbDrill+" pkValue:"+pkValue+"   drillEntityPanels:"+drillEntityPanels+"   q:"+q);
+       System.out.println("panelStatistics.displayDrillDialog    OOOOO   drillEntityPanels.length:"+drillEntityPanels.length+"    drill entity report bands length 0 0 :"+drillEntityPanels[0].getEntityReportForm().getEntityReportBands()[0]+"       drillEntityPanels:"+drillEntityPanels+"   q:"+q);
        
-        panelEODR.setEntity(entity, drillEntityPanels,fieldsOnStatisticsTitle,fieldsOnStatisticsTitleCaption,false,primKeyDbDrill,pkValue,primKeyDbDrill,/*formGlobalTableToGet1,
+        panelEODR.setEntity(entity, drillEntityPanels,selectedTableRow,fieldsOnStatisticsTitle,fieldsOnStatisticsTitleCaption,false,primKeys,primKeysValue,/*primKeyValue usually for dbcompanysettings,*//*primKeyDbDrill,/*formGlobalTableToGet1,
                 formGlobalTableToApply1,*/q,//queryReadOnly,//query,//
                 editTitle,ico,false,false,true,categoryNodes, false,panelManagement);//,drillEntityPanels[0].getEntityReportForm());
       

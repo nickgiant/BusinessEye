@@ -446,7 +446,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
          
     entityGroupOfFilterCompsMyf[0] = new EntityGroupOfComps("φίλτρα εγγραφών εσόδων εξόδων",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
     
-         sqlQueryTableCalcMyf[0] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', sxesoexoheader.oppositeSign AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
+         sqlQueryTableCalcMyf[0] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', sxesoexoheader.oppositeSign AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ', sum(priceBeforeVat) + sum(vatValue) AS 'μικτό' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
@@ -460,7 +460,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "AND sxactiontype.myfCatId LIKE 1 "+  //tableCount
 "GROUP BY trader.traderId, sxesoexoheader.oppositeSign";
 
-             sqlQueryTableCalcMyf[1] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
+             sqlQueryTableCalcMyf[1] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ', sum(priceBeforeVat) + sum(vatValue) AS 'μικτό' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
@@ -474,7 +474,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "AND sxactiontype.myfCatId LIKE 2 "+  //tableCount
 "GROUP BY trader.traderId";
  
-               sqlQueryTableCalcMyf[2] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', sxesoexoheader.oppositeSign AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
+               sqlQueryTableCalcMyf[2] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', sxesoexoheader.oppositeSign AS 'isNormalOrCredit', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ', sum(priceBeforeVat) + sum(vatValue) AS 'μικτό' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
@@ -488,7 +488,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 "AND sxactiontype.myfCatId LIKE 3 "+  //tableCount
 "GROUP BY trader.traderId, sxesoexoheader.oppositeSign";
 
-             sqlQueryTableCalcMyf[3] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' FROM sxesoexoline "+
+             sqlQueryTableCalcMyf[3] = "SELECT trader.vatNo AS 'ΑΦΜ',  trader.title AS 'συναλλασσόμενος', count(priceBeforeVat) AS 'πλήθος', sum(priceBeforeVat) AS 'προ ΦΠΑ', sum(vatValue) AS 'ΦΠΑ' , sum(priceBeforeVat) + sum(vatValue) AS 'μικτό' FROM sxesoexoline "+
 "INNER JOIN sxesoexoheader ON sxesoexoline.esoexoHeaderId = sxesoexoheader.esoexoHeaderId "+
 "INNER JOIN sxactiontype ON sxactiontype.sxActionTypeId = sxesoexoheader.sxActionTypeId "+
 "INNER JOIN sxaccount ON sxaccount.accountId = sxesoexoline.accountId "+
@@ -1867,9 +1867,9 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
      
      String[] lookUpFieldtrader={"title","vatNo"};
             
-     entities.add(entityLookUp = new EntityLookUp("trader","trader","SELECT trader.traderId AS\"Νο συναλλασόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1",null,"AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασόμενου","traderId","συναλλασσόμενος",3,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",4,"vatNo", "Α.Φ.Μ.",0,null,null,traderQueryEditable, "συναλλασόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,2,2,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
+     entities.add(entityLookUp = new EntityLookUp("trader","trader","SELECT trader.traderId AS\"Νο συναλλασόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1",null,"AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασόμενου","traderId","συναλλασσόμενος",3,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",4,"vatNo", "Α.Φ.Μ.",0,null,null,traderQueryEditable, "συναλλασόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,-1,2,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
 
-     entities.add(entityLookUp = new EntityLookUp("trader1Col","trader","SELECT trader.traderId AS\"Νο συναλλασόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1",null,"AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασόμενου","traderId","συναλλασσόμενος",2,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",0,null,null,0,null,null,traderQueryEditable, "συναλλασόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,2,1,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
+     entities.add(entityLookUp = new EntityLookUp("trader1Col","trader","SELECT trader.traderId AS\"Νο συναλλασόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1",null,"AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασόμενου","traderId","συναλλασσόμενος",2,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",0,null,null,0,null,null,traderQueryEditable, "συναλλασόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,3,1,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
      
      
      //------------------------------------------------------------------ 
@@ -1885,7 +1885,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         
      String[] lookUpFieldAccount={"accountCode","accountDescr"};
        // , priceWhole AS \"τιμή\"  ,  sum(esoexoline.quantity) AS \"ποσότητα\", sum(esoexoline.priceBeforeVat) AS \"προ ΦΠΑ\", sum(esoexoline.vatValue) AS \"ΦΠΑ\", sum(esoexoline.valueWithVat) AS \"σύνολο\"          LEFT JOIN esoexoline ON esoexoline.accountId = sxaccount.accountId                                                                                                                                                                                                                                                                                                                       
-     entities.add(entityLookUp = new EntityLookUp("sxaccount","sxaccount","SELECT sxaccount.accountId AS\"Νο λογαριασμού\", sxaccount.accountCode AS\"κωδ. λογαριασμού\", sxaccount.accountDescr AS \"ονομασία\", lookupconstants.name,  vatcat.vatDescr FROM sxaccount LEFT JOIN vatcat ON vatcat.vatCatId = sxaccount.vatCatId INNER JOIN lookupconstants ON sxaccount.accountCatId = lookupconstants.lookupconstantsId"," WHERE lookupconstants.constantstypeId = 4 ",null,"AND sxaccount.active LIKE 1"," ORDER BY sxaccount.accountCode "," WHERE lookupconstants.constantstypeId = 4 AND sxaccount.accountCatId LIKE (SELECT sxActionTypeCatId FROM sxactiontype WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxactiontype.sxActionTypeId LIKE  "/*the closing parenthesis is added in PanelODMRData.displayDialogLookUp*/,"accountId","Νο λογαριασμού","accountId","λογαριασμός",2,lookUpFieldAccount,"κωδικός ή ονομασία",12,"java.lang.String",0,null,null,0,null,null,sxaccountQueryEditable,"λογαριασμού","λογαριασμών",null,entityPanelSXAccount,fieldsOnTitleSXAccount,fieldsOnTitleCaptionSXAccount,accountErs,2,1,null,true,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("sxaccount","sxaccount","SELECT sxaccount.accountId AS\"Νο λογαριασμού\", sxaccount.accountCode AS\"κωδ. λογαριασμού\", sxaccount.accountDescr AS \"ονομασία\", lookupconstants.name,  vatcat.vatDescr FROM sxaccount LEFT JOIN vatcat ON vatcat.vatCatId = sxaccount.vatCatId INNER JOIN lookupconstants ON sxaccount.accountCatId = lookupconstants.lookupconstantsId"," WHERE lookupconstants.constantstypeId = 4 ",null,"AND sxaccount.active LIKE 1"," ORDER BY sxaccount.accountCode "," WHERE lookupconstants.constantstypeId = 4 AND sxaccount.accountCatId LIKE (SELECT sxActionTypeCatId FROM sxactiontype WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxactiontype.sxActionTypeId LIKE  "/*the closing parenthesis is added in PanelODMRData.displayDialogLookUp*/,"accountId","Νο λογαριασμού","accountId","λογαριασμός",2,lookUpFieldAccount,"κωδικός ή ονομασία",12,"java.lang.String",0,null,null,0,null,null,sxaccountQueryEditable,"λογαριασμού","λογαριασμών",null,entityPanelSXAccount,fieldsOnTitleSXAccount,fieldsOnTitleCaptionSXAccount,accountErs,-1,1,null,true,-1,-1,null));    	 	
 
      //entities.add(entityLookUp = new EntityLookUp("sxaccountnofilter","sxaccount","SELECT sxaccount.accountId AS\"Νο λογαριασμού\", sxaccount.accountCode AS\"κωδ. λογαριασμού\", sxaccount.accountDescr AS \"ονομασία\", sxaccount.accountCatId AS \"Νο κατηγορίας\",  vatcat.vatDescr FROM sxaccount LEFT JOIN vatcat ON vatcat.vatCatId = sxaccount.vatCatId ","WHERE sxaccount.active LIKE 1","sxaccount.active LIKE 1"," ORDER BY sxaccount.accountDescr ","accountId","Νο λογαριασμού","accountId","λογαριασμός",2,lookUpFieldService,"ονομασία",12,"java.lang.String",0,null,null,0,null,null,sxaccountQueryEditable,"λογαριασμού","λογαριασμών",null,entityPanelSXAccount,fieldsOnTitleSXAccount,fieldsOnTitleCaptionSXAccount,accountErs,2,1,null,true,-1,-1,null));    	 	
 
@@ -1898,7 +1898,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
            
      String[] lookUpFieldSale={"esoexoCodeOfDocument"};                   
     
-     entities.add(entityLookUp = new EntityLookUp("sxesoexoheader","sxesoexoheader","SELECT sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.sxActionTypeId, sxesoexoheader.traderId  FROM sxesoexoheader ","WHERE sxesoexoheader.dbCompanyId LIKE "+ VariablesGlobal.globalCompanyId,null,"","ORDER BY sxesoexoheader.dateOfEsoexo, sxesoexoheader.esoexoheaderId ","","esoexoheaderId","Νο εσόδων εξόδων","esoexoheaderId","έσοδα έξοδα",3,lookUpFieldSale,"κωδ. παραστατικού",15,"java.lang.String",0,null,null,0,null,null,saleQueryEditable,"εσόδων εξόδων","πωλήσεων",null,entityPanelEsex,fieldsOnTitleEsex,fieldsOnTitleCaptionEsex,saleErs,2,1,null,true,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("sxesoexoheader","sxesoexoheader","SELECT sxesoexoheader.esoexoCodeOfDocument, sxesoexoheader.sxActionTypeId, sxesoexoheader.traderId  FROM sxesoexoheader ","WHERE sxesoexoheader.dbCompanyId LIKE "+ VariablesGlobal.globalCompanyId,null,"","ORDER BY sxesoexoheader.dateOfEsoexo, sxesoexoheader.esoexoheaderId ","","esoexoheaderId","Νο εσόδων εξόδων","esoexoheaderId","έσοδα έξοδα",3,lookUpFieldSale,"κωδ. παραστατικού",15,"java.lang.String",0,null,null,0,null,null,saleQueryEditable,"εσόδων εξόδων","πωλήσεων",null,entityPanelEsex,fieldsOnTitleEsex,fieldsOnTitleCaptionEsex,saleErs,-1,1,null,true,-1,-1,null));    	 	
 
  
      //------------------------------------------------------------------ 
@@ -1910,7 +1910,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         
         String[] lookUpFieldPrintForm={"printFormName"};                   
     
-     entities.add(entityLookUp = new EntityLookUp("printform","printform","SELECT printform.printformId AS\"Νο φόρμας\", printform.printformName AS \"φόρμα εκτύπωσης\"  FROM printform","WHERE printform.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"AND printform.isActive LIKE 1","ORDER BY printform.printformName ","","printformId","Νο φόρμας","printform","φόρμα",2,lookUpFieldPrintForm,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,printFormQueryEditable,"φόρμας εκτύπωσης","φορμών εκτύπωσης",null,entityPanelPrintForm,fieldsOnTitlePrintForm,fieldsOnTitleCaptionPrintForm,printFormErs,2,1,null,true,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("printform","printform","SELECT printform.printformId AS\"Νο φόρμας\", printform.printformName AS \"φόρμα εκτύπωσης\"  FROM printform","WHERE printform.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"AND printform.isActive LIKE 1","ORDER BY printform.printformName ","","printformId","Νο φόρμας","printform","φόρμα",2,lookUpFieldPrintForm,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,printFormQueryEditable,"φόρμας εκτύπωσης","φορμών εκτύπωσης",null,entityPanelPrintForm,fieldsOnTitlePrintForm,fieldsOnTitleCaptionPrintForm,printFormErs,-1,1,null,true,-1,-1,null));    	 	
                
      
    //----------------------------------------------------------------  
@@ -1921,7 +1921,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
    */  
       
      String[] lookUpFieldDbCompany={"title"};
-     entities.add(entityLookUp = new EntityLookUp("dbcompany","dbcompany","SELECT dbCompanyId AS \"νο\", title AS \"επωνυμία\", companyVatNo AS \"ΑΦΜ\" FROM dbcompany","",null,"", "ORDER BY title","","dbCompanyId","νο","dbCompanyId","εταιρία",2,lookUpFieldDbCompany,"τίτλος εταιρίας",15,"java.lang.String",0,null,null,0,null,null,dbCompanyQueryEditable,"της εταιρίας","εταιριών",null,entityPanelDbCompany,fieldsOnTitleDbCompany,fieldsOnTitleCaptionDbCompany,null,2,1,null,true,2,FIELD_VALIDATION_AFM,null));     
+     entities.add(entityLookUp = new EntityLookUp("dbcompany","dbcompany","SELECT dbCompanyId AS \"νο\", title AS \"επωνυμία\", companyVatNo AS \"ΑΦΜ\" FROM dbcompany","",null,"", "ORDER BY title","","dbCompanyId","νο","dbCompanyId","εταιρία",2,lookUpFieldDbCompany,"τίτλος εταιρίας",15,"java.lang.String",0,null,null,0,null,null,dbCompanyQueryEditable,"της εταιρίας","εταιριών",null,entityPanelDbCompany,fieldsOnTitleDbCompany,fieldsOnTitleCaptionDbCompany,null,-1,1,null,true,2,FIELD_VALIDATION_AFM,null));     
 
      return entities;
    }

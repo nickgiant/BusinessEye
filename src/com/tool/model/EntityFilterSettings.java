@@ -72,6 +72,12 @@ public class EntityFilterSettings
          return lookup.getFromTheNameTheForeignTable(luname);
      }
      
+     /*public String getTableFieldFromLookUpName(String luname)
+     {
+         LookUpMgt lookup = new LookUpMgt();
+         return lookup.getFromTheNameTheField(luname);
+     }*/     
+     
       public String getCaption() { return caption; } 
       public String getLookUpName() {return luname;}
       public int getForEntityReportGroup() { return forEntityReportGroup; } 

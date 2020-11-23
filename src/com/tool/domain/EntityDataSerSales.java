@@ -1187,10 +1187,10 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
       
      
      String[] lookUpFieldtrader={"title","vatNo"};
-            
-     entities.add(entityLookUp = new EntityLookUp("trader","trader","SELECT trader.traderId AS\"Νο συναλλασσόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1",null,"AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασσόμενου","traderId","συναλλασσόμενος",3,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",4,"vatNo", "Α.Φ.Μ.",0,null,null,traderQueryEditable, "συναλλασσόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,2,2,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
+// exist in esoexo            
+//     entities.add(entityLookUp = new EntityLookUp("trader","trader","SELECT trader.traderId AS\"Νο συναλλασσόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1",null,"AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασσόμενου","traderId","συναλλασσόμενος",3,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",4,"vatNo", "Α.Φ.Μ.",0,null,null,traderQueryEditable, "συναλλασσόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,-1,2,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
      
-      entities.add(entityLookUp = new EntityLookUp("trader1Col","trader","SELECT trader.traderId AS\"Νο συναλλασσόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1",null,"AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασσόμενου","traderId","συναλλασσόμενος",2,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",0,null,null,0,null,null,traderQueryEditable, "συναλλασσόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,2,1,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
+//      entities.add(entityLookUp = new EntityLookUp("trader1Col","trader","SELECT trader.traderId AS\"Νο συναλλασσόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\" FROM trader","WHERE trader.active LIKE 1",null,"AND trader.active LIKE 1", "ORDER BY trader.title","","traderId","Νο συναλλασσόμενου","traderId","συναλλασσόμενος",2,lookUpFieldtrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",0,null,null,0,null,null,traderQueryEditable, "συναλλασσόμενου","συναλλασομένων",strtraderCategories,entityPaneltrader,fieldsOnTitletrader,fieldsOnTitleCaptiontrader,traderErs,2,1,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
      
    //-------------------------------------------------------------------------
   
@@ -1199,7 +1199,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
      
         EntityFilterSettings[] serviceCatErs = new EntityFilterSettings[1];       
         serviceCatErs[0]=new EntityFilterSettings("ονομασία","","string","equals","catDescr","stockcat",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-     entities.add(entityLookUp = new EntityLookUp("stockcat","stockcat","SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId FROM stockcat","WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"","ORDER BY catDescr","" ,"stockCatId","Νο κατηγορίας","stockCatId","κατηγορία",2,lookUpFieldServiceCat,"κατηγορία",15,"java.lang.String",0,null,null,0,null,null,serviceCatQueryEditable,"κατηγορία υπηρεσίας","κατηγοριών υπηρεσίας",null,entityPanelServiceCat,fieldsOnTitleServiceCat, fieldsOnTitleCaptionServiceCat,serviceCatErs,2,1,null,true,-1,-1,null));
+     entities.add(entityLookUp = new EntityLookUp("stockcat","stockcat","SELECT stockCatId AS\"Νο κατηγορίας\", catDescr AS\"κατηγορία\", dbCompanyId FROM stockcat","WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"","ORDER BY catDescr","" ,"stockCatId","Νο κατηγορίας","stockCatId","κατηγορία",2,lookUpFieldServiceCat,"κατηγορία",15,"java.lang.String",0,null,null,0,null,null,serviceCatQueryEditable,"κατηγορία υπηρεσίας","κατηγοριών υπηρεσίας",null,entityPanelServiceCat,fieldsOnTitleServiceCat, fieldsOnTitleCaptionServiceCat,serviceCatErs,-1,1,null,true,-1,-1,null));
      
   
 
@@ -1211,7 +1211,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
     
      String[] lookUpFieldService={"descr"};                   
     
-     entities.add(entityLookUp = new EntityLookUp("stock","stock","SELECT stock.stockId AS\"Νο υπηρεσίας\", stock.descr AS \"ονομασία\", stock.stockCatId AS \"Νο κατηγορίας\",  vatcat.vatDescr, priceWhole AS \"τιμή\"  ,  sum(saleline.quantity) AS \"ποσότητα\", sum(saleline.priceBeforeVat) AS \"προ ΦΠΑ\", sum(saleline.vatValue) AS \"ΦΠΑ\", sum(saleline.valueWithVat) AS \"σύνολο\" FROM stock LEFT JOIN vatcat ON vatcat.vatCatId = stock.vatCatId LEFT JOIN saleline ON saleline.stockId = stock.stockId AND saleline.dbCompanyId = stock.dbCompanyId ","WHERE stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"AND stock.active LIKE 1","GROUP BY stock.stockId ORDER BY stock.descr ","","stockId","Νο υπηρεσίας","stockId","υπηρεσία",2,lookUpFieldService,"ονομασία",22,"java.lang.String",0,null,null,0,null,null,serviceQueryEditable,"υπηρεσίας","υπηρεσιών",null,entityPanelService,fieldsOnTitleService,fieldsOnTitleCaptionService,serviceErs,2,1,null,true,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("stock","stock","SELECT stock.stockId AS\"Νο υπηρεσίας\", stock.descr AS \"ονομασία\", stock.stockCatId AS \"Νο κατηγορίας\",  vatcat.vatDescr, priceWhole AS \"τιμή\"  ,  sum(saleline.quantity) AS \"ποσότητα\", sum(saleline.priceBeforeVat) AS \"προ ΦΠΑ\", sum(saleline.vatValue) AS \"ΦΠΑ\", sum(saleline.valueWithVat) AS \"σύνολο\" FROM stock LEFT JOIN vatcat ON vatcat.vatCatId = stock.vatCatId LEFT JOIN saleline ON saleline.stockId = stock.stockId AND saleline.dbCompanyId = stock.dbCompanyId ","WHERE stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"AND stock.active LIKE 1","GROUP BY stock.stockId ORDER BY stock.descr ","","stockId","Νο υπηρεσίας","stockId","υπηρεσία",2,lookUpFieldService,"ονομασία",22,"java.lang.String",0,null,null,0,null,null,serviceQueryEditable,"υπηρεσίας","υπηρεσιών",null,entityPanelService,fieldsOnTitleService,fieldsOnTitleCaptionService,serviceErs,-1,1,null,true,-1,-1,null));    	 	
 
      
 //---------------------------------------------------------------------------    
@@ -1222,7 +1222,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
            
      String[] lookUpFieldSale={"saleCodeOfDocument"};                   
     
-     entities.add(entityLookUp = new EntityLookUp("saleheader","saleheader","SELECT saleheader.saleCodeOfDocument, saleheader.actionseriesId, saleheader.saleCodeNo, saleheader.traderId  FROM saleheader ",/*, currency WHERE product.currencyId=currency.currencyId"*/"WHERE saleheader.dbCompanyId LIKE "+ VariablesGlobal.globalCompanyId,null,"","ORDER BY saleheader.dateOfSale, saleheader.saleHeaderId ","","saleHeaderId","Νο πώλησης","saleHeaderId","πώληση",3,lookUpFieldSale,"κωδ. παραστατικού",15,"java.lang.String",0,null,null,0,null,null,saleQueryEditable,"πώλησης","πωλήσεων",null,entityPanelSale,fieldsOnTitleSale,fieldsOnTitleCaptionSale,saleErs,2,1,null,true,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("saleheader","saleheader","SELECT saleheader.saleCodeOfDocument, saleheader.actionseriesId, saleheader.saleCodeNo, saleheader.traderId  FROM saleheader ",/*, currency WHERE product.currencyId=currency.currencyId"*/"WHERE saleheader.dbCompanyId LIKE "+ VariablesGlobal.globalCompanyId,null,"","ORDER BY saleheader.dateOfSale, saleheader.saleHeaderId ","","saleHeaderId","Νο πώλησης","saleHeaderId","πώληση",3,lookUpFieldSale,"κωδ. παραστατικού",15,"java.lang.String",0,null,null,0,null,null,saleQueryEditable,"πώλησης","πωλήσεων",null,entityPanelSale,fieldsOnTitleSale,fieldsOnTitleCaptionSale,saleErs,-1,1,null,true,-1,-1,null));    	 	
 
   
      //------------------------------------------------------------------ 
@@ -1234,7 +1234,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         
         String[] lookUpFieldPrintForm={"printFormName"};                   
     
-     entities.add(entityLookUp = new EntityLookUp("printform","printform","SELECT printform.printformId AS\"Νο φόρμας\", printform.printformName AS \"φόρμα εκτύπωσης\"  FROM printform","WHERE printform.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"AND printform.isActive LIKE 1","ORDER BY printform.printformName ","","printformId","Νο φόρμας","printform","φόρμα",2,lookUpFieldPrintForm,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,printFormQueryEditable,"φόρμας εκτύπωσης","φορμών εκτύπωσης",null,entityPanelPrintForm,fieldsOnTitlePrintForm,fieldsOnTitleCaptionPrintForm,printFormErs,2,1,null,true,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("printform","printform","SELECT printform.printformId AS\"Νο φόρμας\", printform.printformName AS \"φόρμα εκτύπωσης\"  FROM printform","WHERE printform.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"AND printform.isActive LIKE 1","ORDER BY printform.printformName ","","printformId","Νο φόρμας","printform","φόρμα",2,lookUpFieldPrintForm,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,printFormQueryEditable,"φόρμας εκτύπωσης","φορμών εκτύπωσης",null,entityPanelPrintForm,fieldsOnTitlePrintForm,fieldsOnTitleCaptionPrintForm,printFormErs,-1,1,null,true,-1,-1,null));    	 	
                
      
    //----------------------------------------------------------------  

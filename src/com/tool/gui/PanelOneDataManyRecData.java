@@ -477,14 +477,7 @@ import javax.swing.text.JTextComponent;
    	
    }
    
-   /*
-    * 
-    * called by PanelOneDataOneRecData.rowNewForFieldsExceptUniqueKeys
-    */
-   public void setPrimKeyValue(String primKeyValueIn)
-   {
-       primKeyValue=primKeyValueIn;
-   }
+   
    
    
    /*
@@ -1597,19 +1590,24 @@ import javax.swing.text.JTextComponent;
     
     public void setPrimKeyValueInTableModelResultSet(String primKeyValueIn)
     {
+        
+        
+
+        
         tableModelResultSet.setPrimKeyValueFromPanelOneData(primKeyValueIn);
     }
     
-    /* called by this.selection, MediatorPanelTwoDataOneRec,   many, query2
+    /* called by
     * called from filterForWritableTable
      *  Has editors, can be added DocumentHandler like PanelODORData so it can understand changes in textboxes without waiting for tablemodel.savechanges
     * public for PanelODORecData.calculationFromToolBarButton table
      */
-    private void retrieveDataFromWritableTable(String queryIn,String entityIn,/*String[] sql2WhereFieldIn,String[] sql2WhereValueIn,*/String primKeyDbIn, String primKeyValueIn,
+    private void retrieveDataFromWritableTable(String queryIn,String entityIn,String primKeyDbFromParentIn, String primKeyValueFromParentIn,
             boolean isEditableIn, boolean isNewRecIn, boolean isCopyFromNewRecIn, boolean isQuery2In)
     {
         //System.out.println("PanelOneDataManyRecData.retrieveDataFromWritableTable primKeyDbIn:"+primKeyDbIn+" primKeyDb:"+primKeyDb+"     isNewRec:"+isNewRec+"   isQuery2:"+isQuery2+"  queryIn:"+queryIn +"       queryMany:"+queryMany);
-    	isQuery2=isQuery2In;
+    	
+        isQuery2=isQuery2In;
     	isNewRec=isNewRecIn;
         listTableCellEditorLookup = new ArrayList();
 //        tableModelResultSet= new TableModelResultSet();
@@ -1645,7 +1643,7 @@ import javax.swing.text.JTextComponent;
       if(VariablesGlobal.globalShowSelectDataFromWritable)
       {
         System.out.println("..... PanelOneDataManyRecData.retrieveDataFromWritableTable  queryIn:"+queryIn+"   isQuery2:"+isQuery2+"   isNewRec:"+isNewRec);
-        System.out.println("--- PanelODMRData.retrieveDataFromWritableTable   primKeyValueIn:"+primKeyValueIn+"   isNewRec:"+isNewRec+"  isQuery2:"+isQuery2+"   queryMany:"+queryMany+"      query:"+query+"      queryIn:"+queryIn);//+"  queryOrderby:"+queryOrderby+"    queryWithoutOrderby:"+queryWithoutOrderby); 
+        System.out.println("--- PanelODMRData.retrieveDataFromWritableTable   primKeyValueFromParentIn:"+primKeyValueFromParentIn+"   isNewRec:"+isNewRec+"  isQuery2:"+isQuery2+"   queryMany:"+queryMany+"      query:"+query+"      queryIn:"+queryIn);//+"  queryOrderby:"+queryOrderby+"    queryWithoutOrderby:"+queryWithoutOrderby); 
       }
         if (isQuery2)
         {
@@ -1653,9 +1651,9 @@ import javax.swing.text.JTextComponent;
 
       if(VariablesGlobal.globalShowSelectDataFromWritable)
       {
-        System.out.println("OOOO PanelOneDataManyRecData.retrieveDataFromWritableTable   A      isQuery2:"+isQuery2+"     primKeyDbIn:"+primKeyDbIn+" primKeyDb:"+primKeyDb+"     isNewRec:"+isNewRec+"   isQuery2:"+isQuery2+"   queryIn:"+queryIn +"       queryMany:"+queryMany);
+        System.out.println("OOOO PanelOneDataManyRecData.retrieveDataFromWritableTable   A      isQuery2:"+isQuery2+"     primKeyDbFromParentIn:"+primKeyDbFromParentIn+" primKeyDb:"+primKeyDb+"     isNewRec:"+isNewRec+"   isQuery2:"+isQuery2+"   queryIn:"+queryIn +"       queryMany:"+queryMany);
       }
-        retrievePrimKeyValueForWritableTable(queryIn,selectedTableRow,primKeyDb,0);  // be carefull. it is query(set in setEntity short), not queryIn
+        retrievePrimKeyValueForWritableTable(queryIn,selectedTableRow);//,primKeyDb,0);  // be carefull. it is query(set in setEntity short), not queryIn
         
         
           queryMany=queryIn;
@@ -1679,16 +1677,13 @@ import javax.swing.text.JTextComponent;
         
         
         
-    //System.out.println("O PanelOneDataManyRecData.retrieveDataFromWritableTable  A- ");
+   //System.out.println("O PanelOneDataManyRecData.retrieveDataFromWritableTable  --A--   primKeyDbFromParentIn:"+primKeyDbFromParentIn+"     primKeyDb:"+primKeyDb);
 
+    
         table.setModel(tableModelResultSet);
 //  for writable       tableModelResultSet.setQuery(queryIn, entityIn,dbFieldsMany,primKeysMany,primKeysManyTran,sql2WhereField,sql2WhereValue,primKeyValueIn);
-        tableModelResultSet.setQuery(queryMany, entityIn,dbFieldsParent,dbFieldsMany,isNewRec,isCopyFromNewRecIn,/*fieldsManyOnInsert,fieldsManyTranslationOnInsert,primKeysMany,primKeysManyTran,sql2WhereField,
-                sql2WhereValue,*/primKeyDb,primKeyValueIn,isEditableIn,panelODORData);        
-     //System.out.println("O PanelOneDataManyRecData.retrieveDataFromWritableTable  B- ");   
-         /*public void setQuery(String queryIn, String entity,EntityDBFields[] dbFieldsManyIn,String[]fieldsManyOnInsertIn,
-    String[] fieldsManyTranslationOnInsertIn,String[] primKeysManyIn,String[] primKeysManyTranIn,String[] sql2WhereFieldIn, String[] sql2WhereValueIn,
-    String primKeyValueIn, boolean isEditableIn)*/
+        tableModelResultSet.setQuery(queryMany, entityIn,dbFieldsParent,dbFieldsMany,isNewRec,isCopyFromNewRecIn,primKeyDbFromParentIn,primKeyValueFromParentIn,isEditableIn,panelODORData);        
+
         
         //   public void setQuery(String query,String entity,EntityDBFields[] dbFieldsManyIn,String[] primKeysManyIn, String[] sql2WhereFieldIn, String[] sql2WhereValueIn )
         //System.out.println("PanelOneDataManyRecData.retrieveDataFromWritableTable q "+queryIn+" tableModelResultSet "+table );
@@ -1759,11 +1754,11 @@ import javax.swing.text.JTextComponent;
                 }
                 else if (isEditableIn && dbFieldsMany[i].getLookupType()== LOOKUPTYPE_TABLECONSTANTS && (dbFieldsMany[i].getLookupEntityName()!=null) )
                 {
-                   System.out.println("--> panelODMRData.retrieveDataFromWritableTable() ELSE  LOOKUPTYPE_TABLECONSTANTS  "+luname+"  entity:"+entity+"   isEditableIn:"+isEditableIn+" columnDBName: "+columnDBName+"    dbFieldsMany[i].getLookupType(): "+dbFieldsMany[i].getLookupType()+"  dbFieldsMany[i].getLookupEntityName():"+dbFieldsMany[i].getLookupEntityName());                    
+                   System.out.println("--> panelODMRData.retrieveDataFromWritableTable() ELSE  LOOKUPTYPE_TABLECONSTANTS  luname:"+luname+"  entity:"+entity+"   isEditableIn:"+isEditableIn+" columnDBName: "+columnDBName+"    dbFieldsMany[i].getLookupType(): "+dbFieldsMany[i].getLookupType()+"  dbFieldsMany[i].getLookupEntityName():"+dbFieldsMany[i].getLookupEntityName());                    
                 }
                 else
                 {
-                    System.out.println("panelODMRData.retrieveDataFromWritableTable() ELSE NOT DEFINED  "+luname+"  entity:"+entity+"   isEditableIn:"+isEditableIn+" columnDBName: "+columnDBName+"    dbFieldsMany[i].getLookupType(): "+dbFieldsMany[i].getLookupType()+"  dbFieldsMany[i].getLookupEntityName():"+dbFieldsMany[i].getLookupEntityName());
+                    System.out.println("panelODMRData.retrieveDataFromWritableTable() ELSE NOT DEFINED  luname:"+luname+"  entity:"+entity+"   isEditableIn:"+isEditableIn+" columnDBName: "+columnDBName+"    dbFieldsMany[i].getLookupType(): "+dbFieldsMany[i].getLookupType()+"  dbFieldsMany[i].getLookupEntityName():"+dbFieldsMany[i].getLookupEntityName());
                 }
 
                 //System.out.println("panelODMRData.retrieveDataFromWritableTable() -  "+entity+" "+tableModelResultSet.getColumnTable(i)+"."+columnDBName);
@@ -1906,9 +1901,8 @@ import javax.swing.text.JTextComponent;
                       textField.setBorder(BorderFactory.createEmptyBorder());
                       textField.setDocument(new PlainDocumentInsertText(columnLength,columnType));//limiting the capacity of txt
                       //String fieldVariableFromPreField = dbFieldsMany[i].getFormVariableFromField();
-                      TableCellEditorLookupOne tceLookup = new TableCellEditorLookupOne(textField,columnLength,luname, foreignTable,listMenuCaption,entity,
-                              /*fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/frame,dbFieldsMany,i,dbFieldsParent,
-                              intTableOfParentDBFields,fieldTxts,panelManagement);
+                      TableCellEditorLookupOne tceLookup = new TableCellEditorLookupOne(textField,columnLength,luname,listMenuCaption,entity,
+                         frame,dbFieldsMany,i,dbFieldsParent, intTableOfParentDBFields,fieldTxts,panelManagement);
                       // dbFieldsParent is all when is here(table)thus in    WINDOWLOOKUP_IS_CALLED_IN_TABLE
                       
                       
@@ -1917,7 +1911,7 @@ import javax.swing.text.JTextComponent;
                       listTableCellEditorLookup.add(tceLookup);
                       
                       
-                      TableCellRendererLookUp tcrLookUp = new TableCellRendererLookUp(luname,foreignTable,dbFieldsMany,entity);
+                      TableCellRendererLookUp tcrLookUp = new TableCellRendererLookUp(luname,dbFieldsMany,entity);
                       table.getColumn(columnLabelTranslated).setCellRenderer(tcrLookUp);  
                       //System.out.println("panelODMRData.retrieveDataFromWritableTable lookup 1"+columnClass);
                       //System.out.println("panelODMRData.setEntity edit+renderer "+columnDBName);	
@@ -2019,6 +2013,11 @@ import javax.swing.text.JTextComponent;
 
     private void addNewRowBelow()
     {
+         
+       
+      // setPrimKeyValueInTableModelResultSet(getPrimKeyValue()); 
+       //System.out.println("-----panelODMRData.addNewRowBelow IF "+tableModelResultSet.hasEmptyRow()+"  primKeyValue:"+primKeyValue+"  tableModelResultSet.getRowCount():"+tableModelResultSet.getRowCount()+"    getSelectedTableRow()"+getSelectedTableRow());                
+        String pKey = getPrimKeyValue();
        if (!tableModelResultSet.hasEmptyRow() && isEditable)// && !isNewRec)
        {
        //	System.out.println("-----panelODMRData.addNewRowIfThereIsnt IF "+tableModelResultSet.hasEmptyRow()+"  afterCurrentLine:"+afterCurrentLine+"  tableModelResultSet.getRowCount():"+tableModelResultSet.getRowCount()+"    getSelectedTableRow()"+getSelectedTableRow());                
@@ -2026,7 +2025,7 @@ import javax.swing.text.JTextComponent;
                  
                  if(tableModelResultSet.getRowCount()==0)
                  {
-       	     	        tableModelResultSet.addEmptyRow(0,table);
+       	     	        tableModelResultSet.addEmptyRow(0,pKey,table);
        	     	        //table.changeSelection(0,0,true,false);
                         table.setRowSelectionInterval(0,0); 
                         
@@ -2040,7 +2039,7 @@ import javax.swing.text.JTextComponent;
                  {
                      
                      int rowlast = tableModelResultSet.getRowCount();
-                     tableModelResultSet.addEmptyRow(rowlast,table);
+                     tableModelResultSet.addEmptyRow(rowlast,pKey,table);
                      table.setRowSelectionInterval(rowlast, rowlast);
                      
                         //not working.cannot select the row  table.setRowSelectionInterval(tableModelResultSet.getRowCount()-1,tableModelResultSet.getRowCount()-1);
@@ -2076,8 +2075,12 @@ import javax.swing.text.JTextComponent;
     
     public void addNewRowIfThereIsnt(boolean afterCurrentLine)
     {
-       //System.out.println("PanelODMRData.addNewRowIfThereIsnt "+tableModelResultSet.hasEmptyRow());
-//System.out.println(" panelODMRData.addNewRowIfThereIsnt    -O-     "+tableModelResultSet.hasEmptyRow()+" "+isEditable+" "+isNewRec+"  afterCurrentLine:"+afterCurrentLine+"  tableModelResultSet.getRowCount():"+tableModelResultSet.getRowCount()+"   table:"+table);        
+       
+     
+       //setPrimKeyValueInTableModelResultSet(getPrimKeyValue());
+       String pKey = getPrimKeyValue();
+       System.out.println("-----panelODMRData.addNewRowIfThereIsnt IF "+tableModelResultSet.hasEmptyRow()+"  pKey:"+pKey+"  tableModelResultSet.getRowCount():"+tableModelResultSet.getRowCount()+"    getSelectedTableRow()"+getSelectedTableRow());                
+
        if (!tableModelResultSet.hasEmptyRow() && isEditable)// && !isNewRec)
        {
        //	System.out.println("-----panelODMRData.addNewRowIfThereIsnt IF "+tableModelResultSet.hasEmptyRow()+"  afterCurrentLine:"+afterCurrentLine+"  tableModelResultSet.getRowCount():"+tableModelResultSet.getRowCount()+"    getSelectedTableRow()"+getSelectedTableRow());                
@@ -2086,7 +2089,7 @@ import javax.swing.text.JTextComponent;
                  
                  if(tableModelResultSet.getRowCount()==0)
                  {
-       	     	        tableModelResultSet.addEmptyRow(0,table);
+       	     	        tableModelResultSet.addEmptyRow(0,pKey,table);
        	     	   // table.changeSelection(0,0,true,false);
                         table.setRowSelectionInterval(0,0); 
                         
@@ -2100,7 +2103,7 @@ import javax.swing.text.JTextComponent;
                  {
                      
                      
-                     tableModelResultSet.addEmptyRow(tableModelResultSet.getRowCount(),table);
+                     tableModelResultSet.addEmptyRow(tableModelResultSet.getRowCount(),pKey,table);
                      
                         //not working.cannot select the row  table.setRowSelectionInterval(tableModelResultSet.getRowCount()-1,tableModelResultSet.getRowCount()-1);
        	     	        //not working.cannot select the row table.setRowSelectionInterval(getSelectedTableRow()+1,getSelectedTableRow()+1);
@@ -2118,7 +2121,7 @@ import javax.swing.text.JTextComponent;
                 if(rowCount==0)
        	        {
                      //System.out.println("--o--panelODMRData.addNewRowIfThereIsnt else A  hasemptyrow:"+tableModelResultSet.hasEmptyRow()+"  colcount:"+table.getColumnCount()); 
-                    tableModelResultSet.addEmptyRow(0,table);
+                    tableModelResultSet.addEmptyRow(0,pKey,table);
                     //System.out.println("--o--panelODMRData.addNewRowIfThereIsnt else B  hasemptyrow:"+tableModelResultSet.hasEmptyRow()+"  colcount:"+table.getColumnCount()); 
                      
        	         //table.changeSelection(0,0,true,false);	
@@ -2134,12 +2137,12 @@ import javax.swing.text.JTextComponent;
                     System.out.println("addNewRowIfThereIsnt    row:"+row);
                     if(row!=-1)
                     {
-                        tableModelResultSet.addEmptyRow(row,table);	
+                        tableModelResultSet.addEmptyRow(row,pKey,table);	
        	        	table.setRowSelectionInterval(row,row);
                     }
                     else
                     {
-                        tableModelResultSet.addEmptyRow(rowCount,table);	
+                        tableModelResultSet.addEmptyRow(rowCount,pKey,table);	
        	        	table.setRowSelectionInterval(rowCount,rowCount);
                     }
                     
@@ -2158,12 +2161,12 @@ import javax.swing.text.JTextComponent;
      //               panelODORData.calculateAgainDbFields();
                 //}
        	     }
-                             int rowCount = tableModelResultSet.getRowCount();
-               System.out.println("-- --panelODMRData.addNewRowIfThereIsnt "+rowCount);
+                int rowCount = tableModelResultSet.getRowCount();
+               System.out.println("-- --panelODMRData.addNewRowIfThereIsnt   calculateSumFields "+rowCount);
                 if(rowCount>0) //  do not make calculations when the first row is inserted
                 {
                     panelODORData.calculateSumFields();
-   //                 panelODORData.calculateAgainDbFields();
+                    //panelODORData.calculateAgainDbFields();
                 }
        	     
        }
@@ -2466,10 +2469,10 @@ import javax.swing.text.JTextComponent;
          
  
            String queryAll = getQueryLookUp(luname,dbFieldsParent);
-          System.out.println("PanelODMRData.displayMultipleInsertDialog       queryAll:"+queryAll);
+          //System.out.println("PanelODMRData.displayMultipleInsertDialog       queryAll:"+queryAll);
           
           WindowLookUpMultipleCheck  winLookUpCheck = new WindowLookUpMultipleCheck(frame);
-           winLookUpCheck.setEntity(null,table,intOfColumnOfChildField, queryAll, lookUp.getEntityFilterSettings(luname), strMultiInsertCaption/*fieldTxts*/, WINDOW_LOCATION_CENTER, 0, lookUp.getIntValidationColumn(luname), lookUp.getIntValidationType(luname), panelManagement);
+           winLookUpCheck.setEntity(null,table,intOfColumnOfChildField, queryAll,getPrimKeyValue(), lookUp.getEntityFilterSettings(luname), strMultiInsertCaption/*fieldTxts*/, WINDOW_LOCATION_CENTER, 0, lookUp.getIntValidationColumn(luname), lookUp.getIntValidationType(luname), panelManagement);
            
       }
    }
@@ -3103,7 +3106,7 @@ targetModelCol = table.convertColumnIndexToModel(targetViewCol);
                         if(isQuery2)
                         {
                             // queryMany setted in  retrieveDataFromWritableTable
-                           retrievePrimKeyValueForWritableTable( queryMany, selectedTableRow, primKey,0);    
+                           retrievePrimKeyValueForWritableTable( queryMany, selectedTableRow);//, primKey,0);    
                         }
                         else
                         {
@@ -3234,10 +3237,10 @@ targetModelCol = table.convertColumnIndexToModel(targetViewCol);
     
        if(VariablesGlobal.globalShowSelectRecord)
        {
-       System.out.println("------PanelODMRData.retrievePrimKeyValueForReadOnlyTable     selectedTableRowIn:"+selectedTableRowIn+"      PKlength:"+primKeys +"     queryIn:"+queryIn);           
+       System.out.println("---sel--- PanelODMRData.retrievePrimKeyValueForReadOnlyTable     selectedTableRowIn:"+selectedTableRowIn+"      PKlength:"+primKeys +"     queryIn:"+queryIn);           
        }
        utilsPanelReport.retrievePrimKeyValueForOnePK( queryIn, selectedTableRowIn+1, dbFields,dbFieldsMany,isQuery2,/*primKeyIn,intColumnOfDescriptionIn,
-                       sql2WhereField, sql2WhereValue,*/ entity, /*tableModelReadOnly,*/ primKeyDb);
+                       sql2WhereField, sql2WhereValue,*/ entity, primKeyDb);
                        
                      
                         primKeys = utilsPanelReport.getPrimKeys();
@@ -3245,7 +3248,7 @@ targetModelCol = table.convertColumnIndexToModel(targetViewCol);
                         primKeysValue = utilsPanelReport.getPrimKeysValue();
        if(VariablesGlobal.globalShowSelectRecord)
        {                
-         System.out.println("--PanelODMRData.retrievePrimKeyValueForReadOnlyTable    PKlength:"+primKeys.length+"    queryIn:"+queryIn);           
+         System.out.println("---sel-- PanelODMRData.retrievePrimKeyValueForReadOnlyTable    PKlength:"+primKeys.length+"    queryIn:"+queryIn);           
        }
   } 
    
@@ -3285,7 +3288,7 @@ targetModelCol = table.convertColumnIndexToModel(targetViewCol);
    * 
    * called by   this.selection.
    */
-   private void retrievePrimKeyValueForWritableTable(String queryIn, int selectedTableRow, String primKeyIn,int intColumnOfDescriptionIn)
+   private void retrievePrimKeyValueForWritableTable(String queryIn, int selectedTableRow)//, String primKeyIn,int intColumnOfDescriptionIn)
    // parameters are needed for panelTwoDataManyRec
    {
       
@@ -3714,7 +3717,7 @@ public int getRowCountFromReadOnlyTable()
           String queryLookUp  = "";
               int intFieldThatIsFormVar = -1;
               intFieldThatIsFormVar = utilsPanelReport.calculateAllFieldsFromParentDBFieldsForFormVariable1(dbFieldsAllIn); // not dbFieldsParent because it is null when called by tablecelleditor
-              System.out.println("--  --  --  --- panelODMRData.displayDialogLookUp---   "+luname+"      intFieldThatIsFormVar:"+intFieldThatIsFormVar+"   noIndex:"+noIndex+"   glo var1:"+VariablesGlobal.globalformGlobalVariable1);
+              //System.out.println("--  --  --  --- panelODMRData.getQueryLookUp---   "+luname+"      intFieldThatIsFormVar:"+intFieldThatIsFormVar+"   noIndex:"+noIndex+"   glo var1:"+VariablesGlobal.globalformGlobalVariable1);
               if(intFieldThatIsFormVar!=-1 )
               {
                   
@@ -3838,7 +3841,7 @@ public int getRowCountFromReadOnlyTable()
        }
        else
        {
-           pkValue = primKeyValue; // when we wold like to edit a record(ith one and many)
+           //pkValue = primKeyValue; // when we would like to edit a record(ith one and many)
        }
    	  this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
    	   //tableModelReadOnly.filter(strSearchField,strSearch);
@@ -3919,8 +3922,11 @@ public int getRowCountFromReadOnlyTable()
         ImageIcon iconLU=lookUp.getIcon(luname);
    //     panelEditOneDataRec.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,null,null,/*query,*/
    //     editTitle,ico,true,isNewRec,isNewRecFromCopy,true,categoryNodes, false);	
-   
-       panelEditOneDataRec.setEntity(luname, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,selectedKeyValue,primKey,/*formGlobalTableToGet1,formGlobalTableToApply1,/*primKeyDb*/
+      //  -1 is the selectedTableRow in readonlytable used to get the PKs
+      
+      String[] selPrimKeys ={primKey};
+      String[] selPrimKeysValue ={selectedKeyValue};
+       panelEditOneDataRec.setEntity(luname, entityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*primKey,*/
                /*null,null,*//*,query*/"", editTitle,iconLU/*,true*/,true,false,true,null, false, panelManagement);	
    
     	
@@ -4063,8 +4069,10 @@ public int getRowCountFromReadOnlyTable()
         ImageIcon iconLU=lookUp.getIcon(luname);
    //     panelEditOneDataRec.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,null,null,/*query,*/
    //     editTitle,ico,true,isNewRec,isNewRecFromCopy,true,categoryNodes, false);	
-   
-     int selected =  panelEditOneDataRec.setEntity(foreignTable, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,selectedKeyValue,primKey,/*formGlobalTableToGet1,formGlobalTableToApply1,/*primKeyDb*/
+   //  -1 is the selectedTableRow in readonlytable used to get the PKs
+         String[] selPrimKeys ={primKey};
+      String[] selPrimKeysValue ={selectedKeyValue};
+     int selected =  panelEditOneDataRec.setEntity(foreignTable, entityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*primKey,*/
                /*null,null,*/queryLookUp, editTitle,iconLU/*,true*/,false,false,true,null, false, panelManagement);	
    
     	

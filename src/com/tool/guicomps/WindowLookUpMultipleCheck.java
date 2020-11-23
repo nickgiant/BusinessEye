@@ -32,6 +32,7 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
     private int columnToMultiUpdateTable;
     private int typeOfSelectedText; //if type = indices(1), if type text(2)   
     //JTextField txtFilter;
+    String tablePrimKeyValue;
     private ArrayList arrList;
     private String[] strArray;
     private JList list;
@@ -368,13 +369,14 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
               {
                      intToFreeRow = destTableRowCount;
               }
-         for(int r =0; r<tableModel.getRowCount();r++)
+         int rcount = tableModel.getRowCount();
+         for(int r =0; r<rcount;r++)
          {
          	if((Boolean)tableModel.getValueAt(r,0))
          	{
                    String strTextOfCell = tableModel.getValueAt(r,1)+"";//1 the no of col id	
-                   System.out.println(strTextOfCell+"  intToFreeRow:"+intToFreeRow+"  columnToMultiUpdateTable:"+columnToMultiUpdateTable);
-                   destinationTableModel.addEmptyRow(intToFreeRow, tableForMultiInsert);
+                System.out.println("   getCheckedToTextOrTable     rcount:"+rcount+"       destTableRowCount:"+destTableRowCount+"    "+strTextOfCell+"  intToFreeRow:"+intToFreeRow+"  columnToMultiUpdateTable:"+columnToMultiUpdateTable);
+                   destinationTableModel.addEmptyRow(intToFreeRow,tablePrimKeyValue, tableForMultiInsert);
                    destinationTableModel.setValueAt(strTextOfCell, intToFreeRow, columnToMultiUpdateTable);
                    intToFreeRow++;
          	} 	   
@@ -386,10 +388,11 @@ public class WindowLookUpMultipleCheck extends JDialog implements Constants
           close();
     }
      
-    public void setEntity(JTextComponent txtfld,JTable tableForMultiIn,int columnToMultiUpdateTableIn,String queryIn, EntityFilterSettings[] entityFilterSettingsIn , 
+    public void setEntity(JTextComponent txtfld,JTable tableForMultiIn,int columnToMultiUpdateTableIn,String queryIn,String tablePrimKeyValueIn, EntityFilterSettings[] entityFilterSettingsIn , 
     String dialogTitle, int loc, int typeOfSelectedTextIn, int intValidationColumnIn, int intValidationTypeIn,/*String yearEnforceIn,*/ PanelManagement panelManagement)
     {
     	query=queryIn;
+        tablePrimKeyValue=tablePrimKeyValueIn;
     	location =loc;
         textField=txtfld;
         tableForMultiInsert = tableForMultiIn;

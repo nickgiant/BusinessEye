@@ -2134,8 +2134,9 @@ lblMainMenu.setHorizontalAlignment(SwingConstants.LEFT);*/
           	addShowTabWithPanel(entParameter.caption,entityMenu.getEntityIcon(), panelOneDataOneRec,PANEL_TYPE_ONEDATAONEREC);
                // System.out.println("PanelManagement  entParameter  "+entParameter.caption+"   "+VariablesGlobal.globalCompanyId);
           	//if(!)
-          	//{          	
-            panelOneDataOneRec.setEntity(entParameter.name,/*ent.getEntityPanel(),*/entParameter.getEntityPanel()[0], /*ent.primKey*//*"1"*/ VariablesGlobal.globalCompanyId , query , entParameter.caption,false,false,
+          	//{          	// -1 is used instead of the selectedtablerow in readonlytable in order PKs to be found
+            panelOneDataOneRec.setEntity(entParameter.name,/*ent.getEntityPanel(),*/entParameter.getEntityPanel()[0],-1, /*ent.primKey*/ /*VariablesGlobal.globalCompanyId ,*/
+            query,null,null , entParameter.caption,false,false,
               /* entParameter.getFormGlobalTableToGet1(),entParameter.getFormGlobalTableToApply1(),*/ entParameter.getFieldsOnTitle(), entParameter.getFieldsOnTitleCaption(),true, entParameter.getYearEnforce(),false,true,   
                entityMenu.getEntityIcon(),this,null,IS_CALLED_BY_ONE_TABLE_ODOR);//false,false,true,false,false,
             //true,"",true,1, this,null);//1 is not known why*/

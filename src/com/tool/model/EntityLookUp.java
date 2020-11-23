@@ -20,6 +20,7 @@ public class EntityLookUp
         public String lookUpLabel;
         public int lookUpFieldIndex; // the number of column
         public String[] lookUpField;
+        //public String[] lookUpFieldsArray;
         public String lookUpFieldLabel;
         public int lookUpFieldLength;
         public String lookUpFieldType;
@@ -40,7 +41,7 @@ public class EntityLookUp
         //public String[] searchCaption;
         //public String[] searchField;
         public EntityFilterSettings[]  entityFilterSettings;
-        public int intColFieldDescription;
+        public int intColFieldDescription; // when is -1 use the intField, else uset the no of the description
         public int intNoOfColsWhenInTable; // possible values 1 or two
         public ImageIcon icon;
         public boolean showToolbar;
@@ -55,7 +56,7 @@ public class EntityLookUp
 
         public EntityLookUp(String nameIn, String foreignTableIn, String queryIn, String querySubqueryWhereIn,String[] fieldsReplacedInsideQueryIn ,String querySubqueryIsActiveIn,String queryOrderByIn, 
            String queryWhereForFormVariableIn,String lookUpKeyIn, String lookUpKeyTranslationIn, String lookUpKeyFTIn, String lookUpLabelIn, int lookUpFieldIndexIn,
-           String[] lookUpFieldIn,String lookUpFieldLabelIn,int  lookUpFieldLengthIn,String lookUpFieldTypeIn,int lookUpField2IndexIn, String lookUpField2In,
+           String[] lookUpFieldIn, String lookUpFieldLabelIn,int  lookUpFieldLengthIn,String lookUpFieldTypeIn,int lookUpField2IndexIn, String lookUpField2In,
            String lookUpField2LabelIn, int lookUpField3IndexIn, String lookUpField3In, String lookUpField3LabelIn, String queryEditableIn, /*EntityDBFields[] fieldsIn,*/ 
            String strOfOneIn,  String strOfManyIn,String [] categoryNodesIn, EntityPanel[] entityPanelIn, String[]fieldsOnTitleIn,
            String[]fieldsOnTitleCaptionIn,EntityFilterSettings[] entityFilterSettingsIn, int intColFieldDescriptionIn,
@@ -75,6 +76,7 @@ public class EntityLookUp
           lookUpLabel = lookUpLabelIn;
           lookUpFieldIndex =lookUpFieldIndexIn;
           lookUpField = lookUpFieldIn;
+          //lookUpFieldsArray=lookUpFieldsArrayIn;
           lookUpFieldLabel = lookUpFieldLabelIn;
           lookUpFieldLength = lookUpFieldLengthIn;
           lookUpFieldType = lookUpFieldTypeIn;          
@@ -179,6 +181,12 @@ public class EntityLookUp
            return lookUpField;
         }
 
+        
+        /*public String[] getLookUpFieldsArray()
+        {
+           return lookUpFieldsArray;
+        }*/        
+        
         public String getLookUpFieldLabel()
         {
            return lookUpFieldLabel;

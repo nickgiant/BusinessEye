@@ -45,6 +45,22 @@ public class LookUpMgt
       return null;
    }   
 
+  
+   
+   /*public String getFromTheNameTheField(String name)
+   {
+   	  for(int i =0; i<listEntities.size(); i++)
+   	  {  
+   	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
+   	     //System.out.println("LookUp.getTable "+elu.getForeignTable()+"--"+name);
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
+   	     {
+   	     	//System.out.println("LookUp.getTable --- "+elu.getForeignTable());
+   	     	return elu.getLookUpField();//.getForeignTable();
+   	     }
+   	  }
+      return null;
+   }*/   
    
    public String getTable(String name)
    {
@@ -208,6 +224,20 @@ public class LookUpMgt
       return 0;
    }
 
+   /*public String[] getLookUpFieldsArray(String name)
+   {
+   	  for(int i =0; i<listEntities.size(); i++)
+   	  {  
+   	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
+   	     {
+   	     	return elu.getLookUpFieldsArray();
+   	     }     
+   	  }
+      return null;
+   }*/
+
+   
    public String[] getLookUpField(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
@@ -220,7 +250,8 @@ public class LookUpMgt
    	  }
       return null;
    }
-
+   
+   
    public String getLookUpFieldLabel(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)

@@ -2850,9 +2850,9 @@ class TabListener implements ChangeListener
                         
 	                //thread = null;     
                         String msgCommand ="";
-                        if(command.length()>100)
+                        if(command.length()>200)
                         {
-                            msgCommand = command.substring(0, 100)+"";
+                            msgCommand = command.substring(0, 200)+"";
                         }
                         else
                         {
@@ -2895,9 +2895,9 @@ class TabListener implements ChangeListener
                         
 	                //thread = null;     
                         String msgCommand ="";
-                        if(command.length()>100)
+                        if(command.length()>300)
                         {
-                            msgCommand = command.substring(0, 400)+"";
+                            msgCommand = command.substring(0, 450)+"";
                         }
                         else
                         {

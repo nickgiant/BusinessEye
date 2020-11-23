@@ -169,7 +169,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     */
   public void setQuery(String queryIn, String entity,EntityDBFields[] dbFieldsParentIn, EntityDBFields[] dbFieldsManyIn,boolean isNewRecIn,boolean isCopyFromNewRecIn,/*String[]fieldsManyOnInsertIn,*/
     /*String[] fieldsManyTranslationOnInsertIn,String[] primKeysManyIn,String[] primKeysManyTranIn,String[] sql2WhereFieldIn, String[] sql2WhereValueIn,*/
-    String primKeyDbIn, String primKeyValueIn, boolean isEditableIn,PanelOneDataOneRecData panelODORDataIn)
+    String primKeyDbIn, String primKeyValueIn/*this is from parent*/, boolean isEditableIn,PanelOneDataOneRecData panelODORDataIn)
   {
       
     dataVector = new Vector();
@@ -266,7 +266,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
        
               query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
    	    db.retrieveDBDataFromQuery(query,"TableModelResultSet.setQuery");
-            System.out.println("TableModelRS.setQuery     =====-------++++ query:"+query);
+           // System.out.println("TableModelRS.setQuery     =====-------++++ query:"+query);
    	    rs=db.getRS();
    	    rsmd=db.getRSMetaData();      
        
@@ -3007,103 +3007,6 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
 
 
 
-   /*
-   * 
-   * exists in UtilsPanelReport.getValueForVariable,  in PanelOneDataOneRecData.getValueForVariable
-   * and TableModelResultSet.getValueForVariable
-   */
-  /*private String getValueForVariable(String variableName)
-  {
-      
-
-      String valueStr="";
-      if(variableName.equalsIgnoreCase("globalYear"))
-      {
-          valueStr=globalYear;
-      }
-      else if(variableName.equalsIgnoreCase("globalCompanyId"))
-      {
-          valueStr=globalCompanyId;
-      }
-      else if(variableName.equalsIgnoreCase("globalDeliveryId"))
-      {
-          valueStr=globalDeliveryId;
-      }    
-      else if(variableName.equalsIgnoreCase("primKeyValue"))
-      {
-          valueStr=primKeyValue;
-      }
-      else
-      {
-          valueStr="";
-          System.out.println("error TableModelResultSet.getValueForVariable UNKNOWN "+ variableName+"  "+valueStr);
-      }      
-            
-      
-   /*   
-  	String valueStr="";
-  	double valueDoub;
-  	int valueInt;
-  	Object valueObj;
-    try
-    {
-      //System.out.println("panelTwoDataOneRec.getValueForVariable "+ PanelTwoDataOneRec.class.getName());
-      Field thisField = TableModelResultSet.class.getField(variableName);
-
-      Class thisClassType = thisField.getType();
-      //System.out.println("panelTwoDataOneRec.getValueForVariable "+ thisField+" "+thisClassType);
-      //System.out.print("The variable '"+lookingForValue+"' contains ");
-      if (thisClassType.toString().equals("double"))
-      { 
-          valueDoub=thisField.getDouble(this);
-           valueStr=Double.toString(valueDoub);   
-      }
-      else if (thisClassType.toString().equals("int"))
-      {
-      	   valueInt=thisField.getInt(this);
-              valueStr=Integer.toString(valueInt);
-      }
-      else if (thisClassType.toString().equals("class java.lang.String"))
-      {
-           valueObj=thisField.get(this);
-           if (valueObj!=null)
-           {      valueStr=valueObj.toString();   }
-           else
-           { System.out.println("TableModelRS.getValueForVariable "+variableName+" valueObj="+valueObj);  }
-      }
-
-    }
-       catch(Exception e)
-       {  
-           System.out.println("TableModelRS.getValueForVariable "+variableName+" "+e.getMessage());
-           e.printStackTrace();
-       }
-*/
-/*    return valueStr;
-  }*/
-
-  /* private boolean checkIfNameMatchesWhereValueName(String columnLabel)
-   { 
-     boolean is=false;
-     String word="global";
-     if(sql2WhereField!=null)
-     {
-        for(int i=0;i<sql2WhereField.length;i++)
-        {
-           //System.out.println(".panelOneDataOneRecData.checkIfNameIsWhereField "+sql2WhereField[i]+" matches global");
-           if(sql2WhereValue[i].regionMatches(true,0,word,0,word.length()))   	          
-           {
-           	   //System.out.println(".panelOneDataOneRecData.checkIfNameIsWhereField "+sql2WhereValue[i]+" matches global");
-      	       if(sql2WhereField[i].equalsIgnoreCase(columnLabel))
-      	       {
-      	       	//System.out.println(".panelOneDataOneRecData.checkIfNameIsWhereField "+sql2WhereValue[i]+" matches global");
-      	          is=true	;
-      	       }
-      	   }
-        }
-      }
-   	   return is;
-   }*/
    
 /*   private String getWhereValueNameThatMatchesColumn(String columnLabel)
    {*/ 
@@ -3243,7 +3146,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
      * 
      * called by panelODMRData.addNewRowIfThereIsnt
      */
-     public void addEmptyRow(int row, JTable table)
+     public void addEmptyRow(int row, String pkValueFromParentTable,JTable table)
      {
        if(row==-1)
        {
@@ -3267,7 +3170,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
              
              //RecColumn tableColumn = (RecColumn)listTableColumns.get(i);
              //String colClass = tableColumn.getColumnClass();
-              String pkValueFromParentTable = "";
+    //          String pkValueFromParentTable = "";
               //boolean isPkFromParentTable = dbFieldsMany[i].getPrimaryKeyIntegerAutoInc()==FIELD_PRIMARY_KEY_FROM_PARENTTABLE;
               /*boolean isCalledFromListPanelOrFromEditRecPanel= true;// fromlist panel
               if(isCalledFromListPanelOrFromEditRecPanel)
@@ -3284,7 +3187,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
              }
              else
              {*/
-                  pkValueFromParentTable= primKeyValue;
+    //              pkValueFromParentTable= primKeyValue;
              //}   
 
               
@@ -3323,7 +3226,6 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
            
            if(getColumnDBName(i).toUpperCase().equalsIgnoreCase(VariablesGlobal.columnNameInc.toUpperCase()) )
            {
-             	
              	if(row!=getRowCount()) // if inserted in between
              	{
                     renumberColumnAA(row,+2);
@@ -3391,18 +3293,18 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
            
            if(dbFieldsMany[i].getPrimaryKeyIntegerAutoInc()==FIELD_PRIMARY_KEY_FROM_PARENTTABLE)
            {
-             //System.out.println("      ---OOOO---  TableModelResultSet.addEmptyRow      i:"+i+"    getColumnDBName(i):"+getColumnDBName(i)+"   "+dbFieldsMany[i].getPrimaryKeyIntegerAutoInc()+"=="+FIELD_PRIMARY_KEY_FROM_PARENTTABLE+"  primKeyValue:"+primKeyValue);
-               if(primKeyValue.trim().equalsIgnoreCase("") || isNewRec)// if is new rec show 'FIELD_PRIMARY_KEY_FROM_PARENTTABLE' as 0
+       System.out.println("      ---OOOO---  TableModelResultSet.addEmptyRow      i:"+i+"    getColumnDBName(i):"+getColumnDBName(i)+"   "+dbFieldsMany[i].getPrimaryKeyIntegerAutoInc()+"=="+FIELD_PRIMARY_KEY_FROM_PARENTTABLE+"  pkValueFromParentTable:"+pkValueFromParentTable);
+               if(pkValueFromParentTable==null || pkValueFromParentTable.trim().equalsIgnoreCase("") || isNewRec)// if is new rec show 'FIELD_PRIMARY_KEY_FROM_PARENTTABLE' as 0
                {
                    record[i]="0";
                }
                else
                {
-                   record[i]=primKeyValue;
+                   record[i]=pkValueFromParentTable;
                }
            }
            // primKeyValueIn  for example farmer
-        }
+        }//  for (int i = 0; i < table.getColumnCount(); i++)// for each field
        
         dataVector.insertElementAt(record,row);
 

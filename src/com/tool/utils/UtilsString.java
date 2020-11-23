@@ -1,4 +1,3 @@
-// created 17-02-2008
 package com.tool.utils;
 
 import com.tool.guicomps.*;
@@ -523,11 +522,11 @@ import java.util.regex.Pattern;
             }
            
             
-           System.out.println("UtilsString.getQueryAfterWhere       -------------------------------     retStr:"+retStr);
+           //System.out.println("UtilsString.getQueryAfterWhere       -------------------------------     retStr:"+retStr);
             
             
         }
-        return retStr;
+        return " "+retStr;
         
     }    
     
@@ -557,11 +556,18 @@ import java.util.regex.Pattern;
             //int indexAfterWhere = queryIn.toUpperCase().indexOf(this.getQueryAfterWhere(queryIn));
             int indexOrderBy = queryIn.toUpperCase().indexOf("ORDER BY".toUpperCase());
             int indexGroupBy = queryIn.toUpperCase().indexOf("GROUP BY".toUpperCase());
-        if(indexWhere ==-1 || indexOrderBy==-1 || indexGroupBy==-1 || indexLeftJoin==-1)
+        if(indexWhere ==-1 || indexOrderBy==-1 )
         {
-          System.out.println("error missing  UtilsString.getQueryWhere   indexWhere:"+indexWhere+"   indexOrderBy:"+indexOrderBy +"       indexGroupBy:"+indexGroupBy+"     indexLeftJoin:"+indexLeftJoin+"    queryIn:"+queryIn  );  
+          //System.out.println("error missing  UtilsString.getQueryWhere   indexWhere:"+indexWhere+"   indexOrderBy:"+indexOrderBy +"       indexGroupBy:"+indexGroupBy+"     indexLeftJoin:"+indexLeftJoin+"    queryIn:"+queryIn  );  
         }
-  
+        else if( indexGroupBy==-1)
+        {
+            //System.out.println("error missing 'indexGroupBy' UtilsString.getQueryWhere   indexWhere:"+indexWhere+"   indexOrderBy:"+indexOrderBy +"       indexGroupBy:"+indexGroupBy+"     indexLeftJoin:"+indexLeftJoin+"    queryIn:"+queryIn  );  
+        }
+        else if( indexLeftJoin==-1)
+        {
+            //System.out.println("error missing 'indexLeftJoin' UtilsString.getQueryWhere   indexWhere:"+indexWhere+"   indexOrderBy:"+indexOrderBy +"       indexGroupBy:"+indexGroupBy+"     indexLeftJoin:"+indexLeftJoin+"    queryIn:"+queryIn  );  
+        }  
         //System.out.println("   UtilsString.getQueryWhere   OOOOOOO  indexWhere:"+indexWhere+"   indexOrderBy:"+indexOrderBy+"    indexGroupBy:"+indexGroupBy +"    indexLeftJoin:"+indexLeftJoin+"     queryIn:"+queryIn  );  
         if(indexWhere ==-1)
         {

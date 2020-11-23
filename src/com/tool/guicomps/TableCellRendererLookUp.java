@@ -26,7 +26,7 @@ import com.tool.model.LookUpMgt;
   public class TableCellRendererLookUp extends DefaultTableCellRenderer implements Constants
   {
     private LookUpMgt lookUp;
-    private String foreignTable;
+    private String strTable;
     //private ResultSetMetaData rsmd; 
     //private ResultSet rsForeign;
     //private Database db;    
@@ -40,13 +40,14 @@ import com.tool.model.LookUpMgt;
         //private String formGlobalVariable1;
     private String fieldVariableFromPreField ="";
         
-    public TableCellRendererLookUp(String lunameIn,String foreignTableIn,EntityDBFields[] dbFieldsIn,String entityIn) ///  EntityDBFields[] dbFieldsIn,
+    public TableCellRendererLookUp(String lunameIn,EntityDBFields[] dbFieldsIn,String entityIn) ///  EntityDBFields[] dbFieldsIn,
     {
       super();
       lookUp= new LookUpMgt();
+      strTable = lookUp.getFromTheNameTheForeignTable(luname);
       //db = new Database();
        luname =  lunameIn;
-      foreignTable=foreignTableIn;
+     // foreignTable=foreignTableIn;
      dbFields=dbFieldsIn;
      entity = entityIn;
     // formGlobalTableToApply1 = formGlobalTableToApply1In;
@@ -80,11 +81,11 @@ import com.tool.model.LookUpMgt;
    //   System.out.println("TableCellRendererLookUp   entity:"+entity);
       
       
-      if ((dbFields[column].getLookupEntityName()!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(dbFields[column].getLookupEntityName())==2))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
+      if ((dbFields[column].getLookupEntityName()!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(luname))==2)//(dbFields[column].getLookupEntityName())==2))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
       {
       	setHorizontalAlignment(SwingConstants.RIGHT);
       }
-      else if ((dbFields[column].getLookupEntityName()!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(dbFields[column].getLookupEntityName())==1))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
+      else if ((dbFields[column].getLookupEntityName()!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(luname))==1)//(dbFields[column].getLookupEntityName())==1))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
       {
       	 setHorizontalAlignment(SwingConstants.CENTER);
     	 
@@ -193,6 +194,7 @@ import com.tool.model.LookUpMgt;
   {
      //System.out.println("TableCellRendererLookUp.setValue "+value);
 
+      strTable = lookUp.getFromTheNameTheForeignTable(luname);
 
     // double dbl;
       String v="";
@@ -204,19 +206,20 @@ import com.tool.model.LookUpMgt;
         //     System.out.println("TableCellRendererLookUp.setValue     foreignTable:"+foreignTable+"      value:"+value+"      entity:"+entity);
              
              //   utilsPanelReport.getLookupValue(foreignTable,  value+"", int intField, boolean isTypedOrSaved,String subqueryWhereForAPreviousFieldValue);
-
+              
             
-            retValue =  utilsPanelReport.getLookupValue(luname,foreignTable,  value+"", 1, /*true*/false,fieldVariableFromPreField,"",entity,null,null);  
-             
-       
+            
+            retValue =  utilsPanelReport.getLookupValue(luname,strTable,  value+"", 1, /*true*/false,fieldVariableFromPreField,"",entity,null,null);  
+   
+       //System.out.println("TableCellRendererLookUp.setValue     luname:"+luname+"      value:"+value+"    retValue:"+retValue+"    entity:"+entity);
            
           //lookupText=value.toString();
                   // }
-        if ((dbFields[column].getLookupEntityName()!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(dbFields[column].getLookupEntityName())==2))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
+        if ((dbFields[column].getLookupEntityName()!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(luname))==2)//dbFields[column].getLookupEntityName())==2))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
         {
         	v = (String)value.toString().trim();
         }
-        else if ((dbFields[column].getLookupEntityName()!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(dbFields[column].getLookupEntityName())==1))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
+        else if ((dbFields[column].getLookupEntityName()!= null) && (lookUp.getLookUpIntNoOfColsWhenInTable(luname))==1)//(dbFields[column].getLookupEntityName())==1))//(!rsmd.getTableName(i).equalsIgnoreCase(entity)))
         {
         	v = (String)retValue.toString().trim() ;// lookupText.toString().trim();
         }

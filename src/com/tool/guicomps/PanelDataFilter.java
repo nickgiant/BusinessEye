@@ -1086,7 +1086,7 @@ import javax.swing.event.*;
                   	 }
                   	 else
                   	 {
-                  	 	 System.out.println("PanelDataFilter.setEntity  groupOfComps:"+groupOfComps);
+                  	 	// System.out.println("PanelDataFilter.setEntity  groupOfComps:"+groupOfComps);
                   	 	
                   	     JxPanel panelGroup = (JxPanel)listPanelGroups.get(groupOfComps);
                   	 
@@ -1954,7 +1954,7 @@ public ArrayList getListOfFieldsUncompleted()
   	         }
   	         else if (!entityFilterSettings[s].type.equalsIgnoreCase("lookup"))
   	         {               
-                        where = entityFilterSettings[s].getTableFromLookUpName(luname)+"."+entityFilterSettings[s].getTableFromLookUpName(luname)+" >= '"+txt1+"'"+ " AND " +entityFilterSettings[s].getTableFromLookUpName(luname)+"."+entityFilterSettings[s].dbField+" <= '"+txt2+"'";
+                        where = entityFilterSettings[s].getTableFromLookUpName(luname)+"."+entityFilterSettings[s].dbField+" >= '"+txt1+"'"+ " AND " +entityFilterSettings[s].getTableFromLookUpName(luname)+"."+entityFilterSettings[s].dbField+" <= '"+txt2+"'";
   	         }
        	      //System.out.println("PanelDataFilters.displayPrintPreviewDialog "+s+where);
        	      if(txtWritten>=1)
@@ -2329,7 +2329,7 @@ public ArrayList getListOfFieldsUncompleted()
              winLookUpCheck=new WindowLookUpMultipleCheck(frame);
             
             //System.out.println("PanelDataFilter.displayWindowCheckBox "+entityFilterSettings.length);
-            winLookUpCheck.setEntity(textIn,null,-1,query, entityFilterSettings ,dialogTitle ,WINDOW_LOCATION_COMPONENT,2, intValidationColumn+1, intValidationType,/*yearEnforce,*/panelManagement);  //if type = indices(1), if type text(2)     
+            winLookUpCheck.setEntity(textIn,null,-1,query,null ,entityFilterSettings ,dialogTitle ,WINDOW_LOCATION_COMPONENT,2, intValidationColumn+1, intValidationType,/*yearEnforce,*/panelManagement);  //if type = indices(1), if type text(2)     
         }
         else
         {

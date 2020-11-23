@@ -64,8 +64,9 @@ import javax.swing.border.BevelBorder;
   private String entity;
   private String title;
   // private String query;
-   private String primKeyDb;
-   private String primKeyValue;
+  // private String primKeyDb;
+  private String[] primKeys;
+   private String[] primKeysValue;
    private boolean isNewRec;
    
    private boolean isNewRecFromCopy;
@@ -101,8 +102,10 @@ import javax.swing.border.BevelBorder;
   //private String formGlobalTableToGet1;
   //private String formGlobalTableToApply1;
   //private String formGlobalField1;
-  
-  
+  private UtilsString utilsString ;
+  private  UtilsPanelReport utilsPanelReport ;
+  private int selectedTableRow;
+  private String primKeyValue;
     public PanelEditOneDataRec(JFrame parent) 
     {
     	super();
@@ -120,7 +123,8 @@ import javax.swing.border.BevelBorder;
     	parent= parentIn;
        db= new Database();
        epm= new EntityPanelM();
-
+       utilsString = new UtilsString();
+       utilsPanelReport = new UtilsPanelReport();
         /*uDouble=new UtilsDouble();
         System.out.println("PanelEditOneDataRec init");
         uDouble.getSettingsFromDb();       */
@@ -216,9 +220,9 @@ import javax.swing.border.BevelBorder;
       	
       	
      // called by 	PanelOneDataManyRec.displayDialogEdit,   PanelOneDataManyRec.showPanelEditOneDataRec, RepoprtAreaGenerated.displayDrillDialog, tableCellEditorLookupOne.displayDialogEdit
-     public int setEntity(String entityIn, EntityPanel[] entityPanelIn,String[]fieldsOnTitleIn, String[] fieldsOnTitleCaptionIn, 
-    boolean isMasterUnique, String primKey, String primKeyValueIn,String primKeyDbIn,/*String formGlobalTableToGet1In, String formGlobalTableToApply1In,*//*String formGlobalField1In,*/
-    String queryIn,/*String[] primKeysMany,String[] primKeysManyTran,*/ String titleIn,ImageIcon ico, /*boolean dataOneIn,*/ boolean isNewRecIn,boolean isNewRecFromCopyIn ,
+     public int setEntity(String entityIn, EntityPanel[] entityPanelIn,int selectedTableRowIn,String[]fieldsOnTitleIn, String[] fieldsOnTitleCaptionIn, 
+    boolean isMasterUnique, String[] primKeysIn, String[] primKeysValueIn/*,String primKeyValueIn/*when is ie dbcompanysettings*/,/*String formGlobalTableToGet1In, String formGlobalTableToApply1In,*//*String formGlobalField1In,*/
+    String queryIn,String titleIn,ImageIcon ico, boolean isNewRecIn,boolean isNewRecFromCopyIn ,
     boolean showBtnOk, String[] categoryNodesIn, boolean showShowListButtonsIn ,PanelManagement panelManagementIn)//,EntityReport entityReportFormIn)
     {
          int selected = 0; //when 0 do not display
@@ -226,11 +230,13 @@ import javax.swing.border.BevelBorder;
         entity=entityIn;
         title=titleIn;
         query=queryIn;
-        primKeyDb=primKeyDbIn;
+        //primKeyDb=primKeyDbIn;
         //formGlobalTableToGet1=formGlobalTableToGet1In;
         //formGlobalTableToApply1=formGlobalTableToApply1In;
         //formGlobalField1 =formGlobalField1In;
-        primKeyValue=primKeyValueIn;
+        primKeys=primKeysIn;
+        primKeysValue=primKeysValueIn;
+  //      primKeyValue=primKeyValueIn;
         isNewRec=isNewRecIn;
         isNewRecFromCopy=isNewRecFromCopyIn;
         fieldsOnTitle=fieldsOnTitleIn;
@@ -241,19 +247,10 @@ import javax.swing.border.BevelBorder;
         //dataOne=dataOneIn;    
         panelManagement=panelManagementIn;        
         //entityReportForm = 
-        
-       
-       // System.out.println("PanelEditOneDataRec.setEntity   ==o=====o==      entity:"+entity);
-      // for(int w = 0; w<entityPanel.length;w++) 
-      // {  
-           
-         /*if(entityPanel[w].getType().equalsIgnoreCase("STATS"))  
-         {    
-           System.out.println("PanelEditOneDataRec.setEntity   ==o=====o==    "+w+" panel type:"+entityPanel[w].getType()+"       report form of drillpanel"+entityPanel[w].getDrillEntityPanel()[0].getEntityReportForm()+"           drill entityPanel report 00:"+entityPanel[w].getDrillEntityPanel()[0].getEntityReportForm().getEntityReportBands()[0]);
-         }*/ 
-           //      "+entityPanel[w].getEntityReportForm().getEntityReportBands()[0]+"
- //       System.out.println("PanelEditOneDataRec.setEntity   ==o=====o==    "+w+"  entity:"+entity+"     drill entityPanel report 0:"+entityPanel[w].getDrillEntityPanel()[0].getEntityReportForm()+"        entityPanel.length:"+entityPanel.length+"            primKeyDb:"+primKeyDb+"      query:"+query);
-       //}
+        selectedTableRow=selectedTableRowIn;
+              
+       //System.out.println("PanelEditOneDataRec.setEntity   ==oo==      entity:"+entity+"   query:"+query);
+
         if(ico!=null)
         {
           lblTitle.setIcon(ico);	
@@ -278,7 +275,40 @@ import javax.swing.border.BevelBorder;
                // btnSaveAndShowList.setVisible(false);
                 btnBackToListAskToSave.setVisible(false);
         }
-                
+        EntityDBFields[] dbFieldsAll = entityPanel[0].getDBFields();
+        
+  	   // db.retrieveDBDataFromQuery(query,"PanelEditOneDataRec.setEntity");
+   	    //rs=db.getRS(); 
+        //System.out.println("PanelEditOneDataRec.setEntity   ==o======o==    entity:"+entity+"  "+primKeyDb+":"+primKeyValue+"    query:"+query);
+        //int selectedRow = utilsPanelReport.getRowForPrimKey("PanelEditOneDataRec.setEntity",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+        
+        //utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedTableRow, null,dbFieldsAll,true, entity, primKeyDb); 
+        if(primKeys!=null)
+        {
+        int lengthOfPKs = primKeys.length;//utilsPanelReport.getPrimKeys().length;
+        //String[] primKeyFields = utilsPanelReport.getPrimKeys();
+        //String[] primKeyFieldValues = utilsPanelReport.getPrimKeysValue();
+        for(int pk=0;pk<lengthOfPKs;pk++)
+        {
+                        if(utilsString.hasQueryWhere(query))
+                        {
+                            String befWhere = utilsString.getQueryBeforeWhere(query);
+                            String aftWhere = utilsString.getQueryAfterWhere(query);
+                            String qWhere = utilsString.getQueryWhere(query);
+                            qWhere = qWhere + " AND "+entity+"."+primKeys[pk]+" LIKE "+primKeysValue[pk]+" ";
+                            query = befWhere + qWhere + aftWhere;
+                        }    
+                        else
+                        {
+                            System.out.println("--------*   PanelEditOneDataRec.setEntity   query has no where  query:"+query);
+                        } 
+        }
+        }
+        System.out.println("  --OOOOOO--   panelEditOneDataRec setEntity --------------------------------------- selectedTableRow:"+selectedTableRow+"  entityPanel.length:"+entityPanel.length+"        query:"+query+"     "+entityPanel[0].getQuery());
+        
+        
+        
+        
         if(entityPanel==null)
         {
         	
@@ -326,13 +356,7 @@ import javax.swing.border.BevelBorder;
             
             //(EntityPanel ep,EntityGroupOfPanels entityGroupOfPanels, int intGroupOfPanelsToShow)
             // entityPanel[cnFinal],entityGroupOfPanelsFinal[eFinal],eFinal
-       /* }
-        else
-        {
-            //panelTwoDataOneRec.setEntity(entity,query,fields,fieldsTranslation,fieldsMany,fieldsManyTranslation,fieldsManyOnInsert,fieldsManyTranslationOnInsert, entity2, sqlMany,isMasterUnique,sqlManyWhereField,sqlManyWhereValue, primKey,primKeyValue,primKeyDb,primKeysMany,primKeysManyTran,isNewRec, title, ico, strOfMany,false);
-            //panelMainCard.add(panelTwoDataOneRec, BorderLayout.CENTER);
-        }*/
-        	
+
         }
         else //if(entityPanel!=null)
         {
@@ -468,7 +492,7 @@ import javax.swing.border.BevelBorder;
             int btnMenuInt=0;
 //            askIfDataChangedToSave();
     //        panelOneDataOneRec.setGuiLoaded(false);
-          System.out.println("PanelEditOneDataRec.addVisibleMenuButtonsAndPanels  +++ entityPanel.length="+entityPanel.length+"  "+entityPanel[0].getSqlOne());
+          System.out.println("PanelEditOneDataRec.addVisibleMenuButtonsAndPanels  +++   selectedTableRow:"+selectedTableRow+" entityPanel.length="+entityPanel.length+"  "+entityPanel[0].getSqlOne());
             
             
 
@@ -495,40 +519,14 @@ import javax.swing.border.BevelBorder;
                	  EntityGroupOfPanels[] entityGroupOfPanels = entityPanel[cn].getEntityGroupOfPanels();
                   //JxToggleButton btnMenu = new JxToggleButton();
                   
-                  
-                /*   if(entityPanel.length==1 && showShowListButtons)  // when is the only one ODOR   
-                   {
-                       showShowListButtons=true;
-                   }
-                   else if(entityPanel.length==1 && !showShowListButtons)
-                   {
-                       showShowListButtons=false;
-                   }
-                   else if(entityPanel.length>1 && showShowListButtons)
-                   {
-                       showShowListButtons=true;
-                   }
-                   else if(entityPanel.length>1 && !showShowListButtons)
-                   {
-                       showShowListButtons=false;
-                   }
-                   else
-                   {
-                         System.out.println("PanelEditOneDataRec.addVisibleMenuButtonsAndPanels NOT DEFINED   showShowListButtons:"+showShowListButtons+"   "+entityPanel.length+"   "+entityPanel[cn].getQuery());                                               
-                   }*/
-                     
-                 //System.out.println("PanelEditOneDataRec.addVisibleMenuButtonsAndPanels ---------------   showShowListButtons:"+showShowListButtons+"   "+entityPanel.length+"   type:"+entityPanel[cn].getType()+"    entityGroupOfPanels:"+entityGroupOfPanels+"     "+entityPanel[cn].getQuery());                        
-                                       
-                  
-          	//System.out.println("==== PanelEditOneDataRec.addVisibleMenuButtonsAndPanels  "+entityPanel[cn].getTitle()+"-"+title+"    entityGroupOfPanels:"+entityGroupOfPanels+"     showShowListButtons:"+showShowListButtons+"    type:"+entityPanel[cn].getType()+"  "+entityPanel.length);                         
                if(entityGroupOfPanels==null)// || entityGroupOfPanels.length==1)  // ONLY ONE panel of data entry with or without statistics
                {
 
                            final String  titleOfPanel = entityPanel[cn].getTitle(); 
                
-               selected = panelOneDataOneRec.setEntity(entity,/*entityPanel,*/entityPanel[cn],primKeyValue,query,titleOfPanel+" "+title, isNewRec, isNewRecFromCopy,
-                       /*formGlobalTableToGet1,formGlobalTableToApply1,*/fieldsOnTitle,
-                        fieldsOnTitleCaption, false, "",showShowListButtons, true,entityPanel[cn].getIco(),panelManagement,this,IS_CALLED_BY_ONE_TABLE_ODOR);//,entityReportForm);
+                       selected = panelOneDataOneRec.setEntity(entity,entityPanel[cn],selectedTableRow,/*primKeyValue,*/query,primKeys,primKeysValue,titleOfPanel+" "+title, isNewRec, isNewRecFromCopy,
+                       /*formGlobalTableToGet1,formGlobalTableToApply1,*/fieldsOnTitle, fieldsOnTitleCaption, false, "",showShowListButtons, true,
+                       entityPanel[cn].getIco(),panelManagement,this,IS_CALLED_BY_ONE_TABLE_ODOR);
                            
                            //System.out.println("PanelEditODR.addVisibleMenuButtonsAndPanels  +++  ODOR loadPanelsODOR  entityGroupOfPanels=null  cn=" + cn+" titleOfPanel="+titleOfPanel);
                            //System.out.println(" --  PanelEditOneDataRec.addVisibleMenuButtonsAndPanels   size"+panelMainCard.getComponentCount());
@@ -568,7 +566,7 @@ import javax.swing.border.BevelBorder;
                            final String  titleOfPanel = entityPanel[cn].getTitle(); 
                    
       
-                 selected = panelOneDataOneRec.setEntity(entity,/*entityPanel,*/entityPanel[cn],primKeyValue,query,titleOfPanel+" "+title, isNewRec, isNewRecFromCopy,
+                 selected = panelOneDataOneRec.setEntity(entity,/*entityPanel,*/entityPanel[cn],selectedTableRow,/*primKeyValue,*/query,primKeys,primKeysValue,titleOfPanel+" "+title, isNewRec, isNewRecFromCopy,
                          /*formGlobalTableToGet1,formGlobalTableToApply1,*/fieldsOnTitle,
                           fieldsOnTitleCaption, false, "",showShowListButtons, true, entityPanel[cn].getIco(),/*cn,*/panelManagement,this,IS_CALLED_BY_ONE_TABLE_ODOR);//,entityReportForm); 
                  
@@ -752,12 +750,36 @@ import javax.swing.border.BevelBorder;
             {
                 
                
-                System.out.println("PanelEditOneDataRec.selectionInMenu      ooo-o-o-o-o-o-o-ooo    Type:"+ep.getType()+"       ep.getName():"+ep.getName()+"           getDrillEntityPanelReportForm 0 0:"+ep.getDrillEntityPanel()[0].getEntityReportForm().getEntityReportBands()[0]+"         primKeyDb:"+primKeyDb+" isNewRec:"+isNewRec);
+                System.out.println("PanelEditOneDataRec.selectionInMenu      ooo-o-o-o-o-o-o-ooo    Type:"+ep.getType()+"       ep.getName():"+ep.getName()+"           getDrillEntityPanelReportForm 0 0:"+ep.getDrillEntityPanel()[0].getEntityReportForm().getEntityReportBands()[0]+"          isNewRec:"+isNewRec);
                 // be careful below.it is 0   ep.getDrillEntityPanel()[0].getEntityReportForm()
         		//System.out.println("DialogEditRec.setVisibleTreeLeafs "+ ep.getQueryWhere()+primKeyValue+" "+ep.getQueryOrderBy());
                         //         getTitleCaption  ->  entityPanel[0] of the first panel which usually is dataentry
-        	  panelStatistics.setEntity(ep.getName(),null,null,ep.getTitle()+" "+title,true,getTitleCaption(entityPanel[0], isNewRec,primKeyDb,primKeyValue,fieldsOnTitle,fieldsOnTitleCaption),
-                          ep.getIco(),ep.getQuerySelect(),ep.getQueryFrom(),ep.getQueryWhere()+primKeyValue,ep.getQueryGroupBy(), ep.getQueryOrderBy(),ep.getIsFilterCompany(),
+        
+        int lengthOfPKs = primKeys.length;//utilsPanelReport.getPrimKeys().length;
+        //String[] primKeyFields = utilsPanelReport.getPrimKeys();
+        //String[] primKeyFieldValues = utilsPanelReport.getPrimKeysValue();
+        String qWhere="";
+        for(int pk=0;pk<lengthOfPKs;pk++)
+        {
+                       /* if(utilsString.hasQueryWhere(query))
+                        {*/
+                            //String befWhere = utilsString.getQueryBeforeWhere(query);
+                            //String aftWhere = utilsString.getQueryAfterWhere(query);
+                            //String qWhere = utilsString.getQueryWhere(query);
+                            qWhere = qWhere + " AND "+entity+"."+primKeys[pk]+" LIKE "+primKeysValue[pk]+" ";
+                            //query = befWhere + qWhere + aftWhere;
+                        /*}    
+                        else
+                        {
+                            System.out.println("--------*   PanelEditOneDataRec.setEntity   query has no where  query:"+query);
+                        } */
+        }                        
+                        String filterEntityStatisticsKeys = ep.getQueryWhere()+qWhere;   //change because of primKeys 
+                        
+                        
+                        String tit = getTitleCaption(entityPanel[0], isNewRec,fieldsOnTitle,fieldsOnTitleCaption);
+        	  panelStatistics.setEntity(ep.getName(),null,null,ep.getTitle()+" "+title,true,tit,
+                          ep.getIco(),ep.getQuerySelect(),ep.getQueryFrom(),filterEntityStatisticsKeys,ep.getQueryGroupBy(), ep.getQueryOrderBy(),ep.getIsFilterCompany(),
                           ep.getFieldCompanyIdName(),ep.getIsFilterYear(),ep.getFieldYearName(),ep.getDrillEntityPanel(),ep.getFieldsOnStatisticsTitle(),
                           ep.getFieldsOnStatisticsTitleCaption(),categoryNodes,null,null,/*formGlobalTableToGet1,formGlobalTableToApply1,*/null,null,panelManagement);  //,ep.getDrillEntityPanel()[0].getEntityReportForm());//ep.getEntityReportForm());                
                   
@@ -812,10 +834,9 @@ import javax.swing.border.BevelBorder;
   
 
     //same as PanelODOR.setTitle,for statistics
-    private String getTitleCaption(EntityPanel entityPanelTitle , boolean isNewRec , String primKeyDb, String pkValue, String[]fieldsOnTitle, String[]fieldsOnTitleCaption)
+    private String getTitleCaption(EntityPanel entityPanelTitle , boolean isNewRec , /*String primKeyDb, String pkValue,*/ String[]fieldsOnTitle, String[]fieldsOnTitleCaption)
     {
-    	UtilsString utilsString = new UtilsString();
-        UtilsPanelReport utilsPanelReport = new UtilsPanelReport();
+    	
         
      EntityDBFields[] dbFieldsAll = entityPanelTitle.getDBFields();
     	 String caption="";//"<html>";
@@ -833,14 +854,14 @@ import javax.swing.border.BevelBorder;
    String subqueryWhere = ""; // for each primary key
   	    db.retrieveDBDataFromQuery(query,"PanelEditODR.getTitleCaption");
    	    rs=db.getRS();
-            int selectedRow = utilsPanelReport.getRowForPrimKey("PanelEditODR.getTitleCaption",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
-            utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true, entityPanelTitle.getEntity(), primKeyDb);    
+       //     int selectedRow = utilsPanelReport.getRowForPrimKey("PanelEditODR.getTitleCaption",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+       //     utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true, entityPanelTitle.getEntity(), primKeyDb);    
         //     System.out.println("----O------>  PanelOneDataOneRec.showPrintPreviewForm   '"+entityPanel.getEntity()+"   primKeyDb:"+primKeyDb+"  selectedRow:"+selectedRow+"'  primKeyValue:"+primKeyValue+"  primKeys.length:"+primKeys.length+"  queryReadOnly:"+queryReadOnly);          
-             String[] primKeys = utilsPanelReport.getPrimKeys();
-             String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
+             //String[] primKeys = utilsPanelReport.getPrimKeys();
+             //String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
       
                int primKeysCount = primKeys.length;
-               String[] primKeysValue = utilsPanelReport.getPrimKeysValue(); 
+               //String[] primKeysValue = utilsPanelReport.getPrimKeysValue(); 
              String sqlEntity = entityPanelTitle.getEntity();
                
            
@@ -850,14 +871,14 @@ import javax.swing.border.BevelBorder;
 
               
                //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue);   
-               if(primKeys[i].equalsIgnoreCase(primKeyDb))
+        /*       if(primKeys[i].equalsIgnoreCase(primKeyDb))
                {
                 subqueryWhere = subqueryWhere+"("+sqlEntity+"."+primKeys[i]+" LIKE '"+pkValue+"')"; // when is updating if a second time after insert is selected
                }
                else
-               {
+               {*/
                    subqueryWhere = subqueryWhere+"("+sqlEntity+"."+primKeys[i]+" LIKE '"+primKeysValue[i]+"')";
-               }           
+        //       }           
                     if (i < primKeys.length-1 && primKeys.length>1) 
           	  // add AND but not on the last field(before where), also not when there is only one PK . -1 because arraylist starts from 0
           	  { subqueryWhere = subqueryWhere+" AND  ";   } 

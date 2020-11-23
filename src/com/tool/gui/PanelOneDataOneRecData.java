@@ -192,7 +192,11 @@ import org.xml.sax.SAXException;
   //String path = VariablesGlobal.globalDirConfiguration;
    // private String formGlobalField1; // the db field
    // private String formGlobalVariable1; // the variable
- 
+
+       
+       private String[] primKeys;
+       private String[] primKeysValue;
+       
     public PanelOneDataOneRecData(JFrame frame)
     {
            try
@@ -294,8 +298,7 @@ import org.xml.sax.SAXException;
     */
 
    public void setEntity(EntityPanel entityPanelIn, String titleIn, String entityIn,EntityDBFields[] dbFieldsIn, 
-           EntityGroupOfComps[] entityGroupOfCompsIn, EntityGroupOfPanels[] entityGroupOfPanelsIn, String primKeyIn, String primKeyValueIn,String primKeyDbIn,
-           /*String formGlobalTableToGet1In, String formGlobalTableToApply1In,*/
+           EntityGroupOfComps[] entityGroupOfCompsIn, EntityGroupOfPanels[] entityGroupOfPanelsIn, String[] primKeysIn, String[] primKeysValueIn,String primKeyDbIn,
            String queryIn, boolean isNewRecIn, boolean isNewRecFromCopyIn, /*boolean isMasterUniqueIn,*/ /*String[] sql2WhereFieldIn, String[] sql2WhereValueIn, String query2In,String entity2In, boolean isManyIn, */ 
            boolean isEditable,String yearEnforceIn,ImageIcon icoIn,ArrayList listLengthDbFieldsInGroupOfPanelsIn, int intGroupOfPanelsToShowIn,
            PanelManagement panelManagementIn)
@@ -312,12 +315,12 @@ import org.xml.sax.SAXException;
         isNewRecFromCopy=isNewRecFromCopyIn;
         title=titleIn;
         entity = entityIn;
-        primKey=primKeyIn;// the translated
-        primKeyDb=primKeyDbIn;// the one in db
+        primKeys=primKeysIn;// the translated
+        primKeyDb=primKeyDbIn;                        // delete after   []  primsKey
         //formGlobalTableToGet1=formGlobalTableToGet1In;
         //formGlobalTableToApply1=formGlobalTableToApply1In;
         //formGlobalField1 =formGlobalField1In;
-        primKeyValue=primKeyValueIn;  
+        primKeysValue=primKeysValueIn;  
         dbFieldsAll = dbFieldsIn;
 //        isMasterUnique=isMasterUniqueIn;
 //        query2=query2In;
@@ -352,7 +355,7 @@ import org.xml.sax.SAXException;
         
        //if(VariablesGlobal.globalShowReadSQLRow)
        //{
-        System.out.println("PanelODORData.setEntity      ----------o----------      queryIn:"+queryIn+"   or    entityPanel.getQuery():"+entityPanel.getQuery());
+        //System.out.println("PanelODORData.setEntity      ----------o----------      queryIn:"+queryIn+"   or    entityPanel.getQuery():"+entityPanel.getQuery());
        //}
         int intfields=0;
           if(entityGroupOfCompsIn!=null)  
@@ -655,7 +658,7 @@ int flds = 0;
         }
        //System.out.println("panelODORData.setEntity  ooo   query: "+query); 
    	
-       if(isNewRec && !isNewRecFromCopy)
+    /*   if(isNewRec && !isNewRecFromCopy)
        {
            selectedRow=0;
        }
@@ -665,26 +668,13 @@ int flds = 0;
            rs=db.getRS();
            selectedRow=0;
            selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.setEntity",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+           System.out.println("PanelOneDataOnRecData.setEntity  00000+++001111  selectedRow:"+selectedRow+"    "+primKeyDb+"="+primKeyValue+"     query:"+query);
            closeDB();
        }
+       */
         GridBagConstraints gc = new GridBagConstraints();
 
-/*       if(selectedRow != 0) 
-       {
-          rs.absolute(selectedRow); 
-       }
-       else //(selectedRow == 0 && db.getRecordCount()!=0)//  which means no line selected
-       {
-          selectedRow = 1; // 1st row if none selected
-          rs.absolute(selectedRow); 
-          
-          System.out.println(" -  panelOneDataOneRecData.setEntity() no row selected set 1");
-       }
-*/       
-        /*if(dbFieldsIn.length!=rsmd.getColumnCount())
-        {
-           System.out.println("  Info  PanelOneDataOneRecData.setEntity dbFieldsInGroupOfPanels"+dbFieldsIn.length+" rsmd"+rsmd.getColumnCount());   
-        }*/
+
          
            int a = 0;
            int b = 0;
@@ -2368,8 +2358,61 @@ int flds = 0;
                                
           if(!isNewRec)
           {
-             showSpecificRow(selectedRow,query);     // }	
-          }     
+              
+        if(primKeys!=null && primKeys.length>0)
+        {
+           for (int pk=0;pk<primKeys.length;pk++)
+           {
+               //EntityDBFields edbf = (EntityDBFields)listDbFieldsPKs.get(pk);
+               
+                        if(utilsString.hasQueryWhere(query))
+                        {
+                            String befWhere = utilsString.getQueryBeforeWhere(query);
+                            String aftWhere = utilsString.getQueryAfterWhere(query);
+                            String qWhere = utilsString.getQueryWhere(query);
+                            qWhere = qWhere + " AND "+entity+"."+primKeys[pk]+" LIKE "+primKeysValue[pk]+" ";
+                            query = befWhere + qWhere + aftWhere;
+                        }    
+                        else
+                        {
+                            System.out.println("--------*   PanelODORData.setEntity A  query has no where  query:"+query);
+                        } 
+                      
+           }
+              
+           //   System.out.println("PanelODORData.setEntity   ========================= showSpecificRow     primKeys:"+primKeys+"     query:"+query);
+             
+               
+               
+        }
+        else
+        {
+            
+             if(primKeyDb.equalsIgnoreCase(STRFIELD_DBCOMPANYID))//  exists in PanelOneDataOneRec and PanelODORData when primKeys!=null. Look for STRFIELD_DBCOMPANYID
+             {
+                 primKeyValue = VariablesGlobal.globalCompanyId;
+             }
+        
+                             
+            
+                        if(utilsString.hasQueryWhere(query))
+                        {
+                            String befWhere = utilsString.getQueryBeforeWhere(query);
+                            String aftWhere = utilsString.getQueryAfterWhere(query);
+                            String qWhere = utilsString.getQueryWhere(query);
+                            qWhere = qWhere + " AND "+entity+"."+primKeyDb+" LIKE "+primKeyValue+" ";
+                            query = befWhere + qWhere + aftWhere;
+                        }    
+                        else
+                        {
+                            System.out.println("--------*   PanelODORData.setEntity B  query has no where  query:"+query);
+                        } 
+              System.out.println("PanelODORData.setEntity   ========================= showSpecificRow      primKeys:"+primKeys+"      query:"+query);
+              
+        }
+         //showSpecificRow(selectedRow,query);     // }	
+        showSpecificRow(query);     // }	
+          }
 
 
    }
@@ -4220,8 +4263,7 @@ catch(Exception e)
         String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
         String queryLookUpIsActive = lookUp.getQuerySubqueryIsActive(luname);
         String queryOrderByLookUp = lookUp.getQueryOrderBy(luname);
-   //     panelEditOneDataRec.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,null,null,/*query,*/
-   //     editTitle,ico,true,isNewRec,isNewRecFromCopy,true,categoryNodes, false);	
+	
         String[] categoryNodes = lookUp.getCategoryNodes(luname); // when it is new show only panel for edit
 
            if(utilsString.hasQueryWhere(queryLookUpWhere))
@@ -4234,26 +4276,20 @@ catch(Exception e)
            }
         
 
-
-        
-        
         //System.out.println("panelOneDataManyRec.displayDialogEdit primKey:"+primKey+" primKeyValue:"+primKeyValue+"  queryReadOnly:"+queryReadOnly);
 
         
        //System.out.println("PanelODORData.displayDialogEdit   queryLookUp:"+queryLookUp+"     queryOrderByLookUp:"+queryOrderByLookUp+"  primKey:"+primKey+"       selectedKeyValue:"+selectedKeyValue); 
-        panelEODR.setEntity(foreignTable, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,*//*primKeyDb  (set to primKey instead of primKeyDb because in panelEditOneDataRec of buyers to the product statistics page there was an error in the title)*/
+       String[] selPrimKeys={primKey} ;
+       String[] selPrimKeysValue={primKeyValue} ;
+        
+       panelEODR.setEntity(foreignTable, entityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,*//*primKeyDb  (set to primKey instead of primKeyDb because in panelEditOneDataRec of buyers to the product statistics page there was an error in the title)*/
        /*, null,null,*/"",editTitle,iconLU,/*true,*/true,isNewRecFromCopy,true,categoryNodes, false, panelManagement);//,entityReport);	
      
-        
-        
-        
-        
-        
-        
+  
    //     String editTitle=strOfOne;
   //      panelEODR.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,/*null,null,*/queryReadOnly,
   //      editTitle,ico/*,true*/,isNewRec,isNewRecFromCopy,true,categoryNodes, false,panelManagement);//,entityReportForm);	
-    	
 
         panelEODR.setVisible(true);
         
@@ -4261,13 +4297,7 @@ catch(Exception e)
         dlg.setEntity(panelEODR,PANEL_TYPE_EDITONEDATAONEREC, "επεξεργασία "+editTitle,true);
         
         dlg.display();        
-        
-        
-        
-        
-        
-        
-        
+
      
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
    }   
@@ -4455,10 +4485,10 @@ catch(Exception e)
    
    
    
- 
-        
-       //System.out.println("PanelODORData.displayDialogEdit   queryLookUp:"+queryLookUp+"     queryOrderByLookUp:"+queryOrderByLookUp+"  primKey:"+primKey+"       selectedKeyValue:"+selectedKeyValue); 
-       int selected = panelEditOneDataRec.setEntity(foreignTable, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,selectedKeyValue,primKey,/*formGlobalTableToGet1,formGlobalTableToApply1,*//*primKeyDb  (set to primKey instead of primKeyDb because in panelEditOneDataRec of buyers to the product statistics page there was an error in the title)*/
+      String[] primKeysSel = {primKey};
+      String[] primKeysValueSel = {selectedKeyValue};
+      System.out.println("PanelODORData.displayDialogEdit LLL  queryLookUp:"+queryLookUp+"     queryOrderByLookUp:"+queryOrderByLookUp+"  primKey:"+primKey+"       selectedKeyValue:"+selectedKeyValue+"      queryLUWithQ:"+queryLUWithQ);
+      int selected = panelEditOneDataRec.setEntity(foreignTable, entityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,primKeysSel,primKeysValueSel,/*primKey,/*formGlobalTableToGet1,formGlobalTableToApply1,*//*primKeyDb  (set to primKey instead of primKeyDb because in panelEditOneDataRec of buyers to the product statistics page there was an error in the title)*/
        /*, null,null,*/queryLUWithQ/*queryLookUp*/,editTitle,iconLU,/*true,*/false,isNewRecFromCopy,true,null, false, panelManagement);//,entityReport);	
                                      
      if(selected == 0)// when 0 do not display
@@ -4856,7 +4886,7 @@ catch(Exception e)
           
           
           String luname = dbFieldsInGroupOfPanels[i].getLookupEntityName();//databaseTableMeta.findForeignTable(columnLabel); 
-          System.out.println(" PanelODORData.showRow    i:"+i+"    colName:"+colName+"   class name:"+dbFieldsInGroupOfPanels[i].getColClassName()+"    lookup type:"+dbFieldsInGroupOfPanels[i].getLookupType()+"   luname:"+luname);
+         // System.out.println(" PanelODORData.showRow    i:"+i+"    colName:"+colName+"   class name:"+dbFieldsInGroupOfPanels[i].getColClassName()+"    lookup type:"+dbFieldsInGroupOfPanels[i].getLookupType()+"   luname:"+luname);
          
           
           if (dbFieldsInGroupOfPanels[i].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD && luname!= null )
@@ -6429,20 +6459,20 @@ ps.setBytes(i, b);
                     }
                     else
                     {
-                        for(int f=0;f<dbFieldsAll.length;f++)//searches in allfields, not only dbFieldsInGroupOfPanels
+                        /*for(int f=0;f<dbFieldsAll.length;f++)//searches in allfields, not only dbFieldsInGroupOfPanels
                         {        
                                 String columnDbName = dbFieldsAll[f].getDbField(); //fields[i-1];//get colunm name 
                             //System.out.println("PanelODORData.rowUpdateTables  B  table  ("+i+")("+f+")   isNewRecIn:"+isNewRecIn+"  primKeyDb:"+primKeyDb+"    columnDbName:"+columnDbName+"      pkFromOnePanelForTables:"+pkFromOnePanelForTables);
                             if(primKeyDb.equalsIgnoreCase(columnDbName))
                             {
-                                
-                                 pnlODMRData.setPrimKeyValueInTableModelResultSet(primKeyValue); // when updating a record(there are rows of values in table) then insert the pk  that already the OneData record has    
+               
+                //                 pnlODMRData.setPrimKeyValueInTableModelResultSet(primKeyValue); // when updating a record(there are rows of values in table) then insert the pk  that already the OneData record has    
                             }
                             else
                             {
                                 
                             }
-                        }
+                        }*/
                     }
                   // 
                     // if(pnlODMRData.getRowCount()>0)
@@ -7615,6 +7645,8 @@ ps.setBytes(i, b);
             //---------------------do the dates finish-------------------------
                /*  if(columnClass.equalsIgnoreCase("htmlfile"))// like old html vatdoc
                  {*/
+               
+               System.out.println("PanelODORData.calculationFromToolBarButton    i:"+i+"    colName:"+colName+"    columnClass:"+columnClass);
                if(!columnClass.equalsIgnoreCase("table"))// calculation of ie myf
                {
                
@@ -7644,13 +7676,14 @@ ps.setBytes(i, b);
                     
                     try
                     {
-
+           if(arrayFieldAndValue1!=null && arrayFieldAndValue2!=null)// to not calc if are null. ie incomedoc
+           {
               while(rsDocument.next())
               {
                     setValuesInFieldsFromCalculationButton( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue1);
                     setValuesInFieldsFromCalculationButton( rsDocument, i, colName,  columnClass, fieldNamePreffix, arrayFieldAndValue2);
               }
-
+           }
                     }
                     catch(SQLException e)
                     {
@@ -9470,7 +9503,7 @@ ps.setBytes(i, b);
        System.out.println("PanelODORData.showSpecificRowForPKsAfterANewRecIsSaved  +++++++  pkFromOnePanel:"+pkFromOnePanel+"        query:"+query);
    //     retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, EntityDBFields[] dbFields,EntityDBFields[] dbFieldsMany, boolean isMany,
    //     /*String primKeyTranslationIn,*/ /*int intColumnOfDescription,*/ /*String[] sql2WhereField, String[] sql2WhereValue,*/ String entity, /*TableModel tableModel,*/
-  //      String primKeyDb)       
+     
       
              //int pkIntUnique =  Integer.parseInt(pkFromOnePanel);
        
@@ -10779,16 +10812,16 @@ ps.setBytes(i, b);
 
             String qOrderByAndGroupByReadOnly = utilsString.getGroupbyAndOrderbySubQuery(query);           
    String subqueryWhere = ""; // for each primary key
-  	    db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.rowNew");
-   	    rs=db.getRS();
-            int selectedRow = utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.rowNew",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
-             utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true, entityPanel.getEntity(), primKeyDb);    
-             System.out.println("----O------>  PanelOneDataOneRec.showPrintPreviewForm   '"+entityPanel.getEntity()+"   primKeyDb:"+primKeyDb+"  selectedRow:"+selectedRow+"'  primKeyValue:"+primKeyValue+"   query:"+query);          
-            String[] primKeys = utilsPanelReport.getPrimKeys();
-            String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
+  //	    db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.rowNew");
+  // 	    rs=db.getRS();
+  //          int selectedRow = utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.rowNew",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+  //           utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true, entityPanel.getEntity(), primKeyDb);    
+ //            System.out.println("----O------>  PanelOneDataOneRec.rowNew   '"+entityPanel.getEntity()+"   primKeyDb:"+primKeyDb+"  selectedRow:"+selectedRow+"'  primKeyValue:"+primKeyValue+"   query:"+query);          
+  //          String[] primKeys = utilsPanelReport.getPrimKeys();
+ //           String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
       
             int primKeysCount = primKeys.length;
-            String[] primKeysValue = utilsPanelReport.getPrimKeysValue(); 
+  //          String[] primKeysValue = utilsPanelReport.getPrimKeysValue(); 
              String sqlEntity = entityPanel.getEntity();
       //    databaseTableMeta.retrievePrimKs(entity); // first retrieve them
           for (int p = 0; p< primKeysCount; p++) // i=0 and i< because arraylist starts from 0
@@ -10797,14 +10830,15 @@ ps.setBytes(i, b);
 
               
                //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue);   
-               if(primKeys[p].equalsIgnoreCase(primKeyDb))
+            /*   if(primKeys[p].equalsIgnoreCase(primKeyDb))
                {
                 subqueryWhere = subqueryWhere+"("+sqlEntity+"."+primKeys[p]+" LIKE '"+primKeyValue+"')"; // when is updating if a second time after insert is selected
                }
                else
                {
+               */
                    subqueryWhere = subqueryWhere+"("+sqlEntity+"."+primKeys[p]+" LIKE '"+primKeysValue[p]+"')";
-               }           
+           //    }           
                     if (p < primKeys.length-1 && primKeys.length>1) 
           	  // add AND but not on the last field(before where), also not when there is only one PK . -1 because arraylist starts from 0
           	  { subqueryWhere = subqueryWhere+" AND  ";   } 
@@ -10813,7 +10847,7 @@ ps.setBytes(i, b);
            
            queryForCopy= utilsString.getQueryBeforeWhere(query)+" WHERE "+subqueryWhere+" "+qOrderByAndGroupByReadOnly; 
            
-           System.out.println("PanelOneDataOneRecData.rowNew oooooooo   queryForCopy:"+queryForCopy);
+           System.out.println("----O------>  PanelOneDataOneRec.rowNew   '"+entityPanel.getEntity()+"    selectedRow:"+selectedRow+"     queryForCopy:"+queryForCopy);          
            
            
                           showSpecificRow(queryForCopy);

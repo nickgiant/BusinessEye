@@ -1671,7 +1671,7 @@ import javax.swing.ImageIcon;
        String[] categoryNodes = {DATAENTRY,METRICS};
        System.out.println("ReportAreaGenerated.displayDrillDialog   OOOOO------>     primKeyDbDrill:"+primKeyDbDrill+"    pkValue:"+pkValue);
         
-      panelEODR.setEntity(entity, entityPanelDrill,getPanelDrillFieldsOnTitle,getPanelDrillFieldsOnTitleCaption,false,primKeyDbDrill,pkValue,primKeyDbDrill,/*formGlobalTableToGet1,
+       panelEODR.setEntity(entity, entityPanelDrill,selectedTableRowIn,getPanelDrillFieldsOnTitle,getPanelDrillFieldsOnTitleCaption,false,primKeys,primKeysValue,/*"",*//*primKeyValue usualy for dbcompanysettings,*//*primKeyDbDrill,*//*formGlobalTableToGet1,
         formGlobalTableToApply1,*/q,//queryReadOnly,//query,//
         editTitle,ico,false,false,true,categoryNodes, false,/*panelManagement*/null);//,drillEntityPanels[0].getEntityReportForm());
       

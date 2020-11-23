@@ -51,18 +51,88 @@ public class UtilsPanelReport implements Constants
 		filePrefs =VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+FILE_TABLEPREFERENCES;
 		
  }
-	
 
+ 
+ 
+    public int getRowFromPrimKeys(String calledByIn,String queryIn, ResultSet rs, String[] primKeysIn, String[] primKeysValueIn)
+   { 
+     int row=0;
+     int line=0;
+     try
+     { 
+       System.out.println("-- UtilsPanelReport.getRowFromPrimKeys -->>      calledByIn:"+calledByIn+"          rs:"+rs+"     queryIn:"+queryIn);
+        
+      rs.beforeFirst();
+      while(rs.next())
+      {
+         //System.out.println(" - + - + + + + + +  +UtilsPanelReport.getRowForPrimKey() row="+row+"     dbFields.length:"+dbFields.length+"  calledByIn:"+calledByIn+" queryIn:"+queryIn);
+      	 row=row+1; //rs starts from 1
+        
+         if(primKeysIn!=null)
+         {
+         int len = primKeysIn.length;
+           for(int pk=0;pk<len;pk++)
+           {
+          	   if(rs.getString(primKeysIn[pk])==null)  
+                   {
+                       
+                   }
+                   else
+                   {
+                      
+                     if ( rs.getString(primKeysIn[pk]).equalsIgnoreCase(primKeysValueIn[pk]))
+          	     {
+          	     	// perhaps not working when there are more than 1 pk. not tested
+          	        line=row;
+                    
+          	     	
+          	     }
+                   }
+           }
+         }
+         else
+         {
+              System.out.println(" --  err UtilsPanelReport.getRowFromPrimKeys()    primKeysIn:"+primKeysIn);
+         }
+      }
+      }
+      catch(SQLException e)
+      {  System.out.println("Error  UtilsPanelReport.getRowFromPrimKeys() " + e.getMessage());
+         
+          e.printStackTrace();
+      }
+      finally
+      {
+         closeDB();
+      }
+      	
+      if(line==0)
+      {
+          //line=row;
+         System.out.println(" ERROR         calledByIn:"+calledByIn+"     primKeysValueIn:"+primKeysValueIn+"     queryIn:"+queryIn);
+         System.out.println(" ERROR UtilsPanelReport.getRowFromPrimKeys - - DOES NOT SELECT A LINE.  primKeys.length:"+primKeysIn.length+"  row:"+row+"  line:"+line+"  perhaps not active 'service' or 'account'");	
+         System.out.println(" ERROR");
+         
+         
+      }
+   	 return line;
+
+   }
+
+    /*
+    *
+    *     To be replaced by     above  function
+    */   
    // called by PanelOneDataOneRecData and PanelODOR.setEntity
    public int getRowForPrimKey(String calledByIn,String queryIn, ResultSet rs, EntityDBFields[] dbFields,String primKey, String primKeyValueIn)
    { 
-   	      primKeyValue=primKeyValueIn; 
+   	    //  primKeyValue=primKeyValueIn; 
    	 int row=0;
    	 int line=0;
    	 String columnName="";
      try
      { 
-        //System.out.println("--UtilsPanelReport.getRowForPrimKey -->> "+primKey+"="+primKeyValue+"  rs:"+rs);
+       System.out.println("--->>>>>>-->> UtilsPanelReport.getRowForPrimKey -->>      calledByIn:"+calledByIn+"    "+primKey+"="+primKeyValueIn+"      rs:"+rs+"     queryIn:"+queryIn);
         
       rs.beforeFirst();
       while(rs.next())
@@ -85,7 +155,7 @@ public class UtilsPanelReport implements Constants
                    else
                    {
                       //System.out.println(" UtilsPanelReport  ------------- "+i+"   primKey:"+primKey+"  v:"+rs.getString(primKey)+" is ? "+primKeyValue);
-                     if ( rs.getString(primKey).equalsIgnoreCase(primKeyValue))
+                     if ( rs.getString(primKey).equalsIgnoreCase(primKeyValueIn))
           	     {
           	     	//System.out.println("UtilsPanelReport.getRowForPrimKey()   ["+row+"]    FOUND primKey:"+primKey+"="+rs.getString(primKey)+"="+primKeyValue+" row:"+row+" columnLabel:"+columnLabel);
           	        line=row;
@@ -111,7 +181,7 @@ public class UtilsPanelReport implements Constants
                    else
                    {
                       //System.out.println(" UtilsPanelReport ------------- "+i+" "+"   primKey:"+primKey+"   "+rs.getString(primKey)+" is ? "+primKeyValue);
-                     if ( rs.getString(primKey).equalsIgnoreCase(primKeyValue))
+                     if ( rs.getString(primKey).equalsIgnoreCase(primKeyValueIn))
           	     {
           	     	//System.out.println("UtilsPanelReport.getRowForPrimKey()   ["+row+"]    FOUND primKey:"+primKey+"="+rs.getString(primKey)+"="+primKeyValue+" row:"+row+" columnLabel:"+columnLabel);
           	        line=row;
@@ -142,8 +212,8 @@ public class UtilsPanelReport implements Constants
       if(line==0)
       {
           //line=row;
-          System.out.println(" ERROR         calledByIn:"+calledByIn+" queryIn:"+queryIn);
-         System.out.println(" ERROR UtilsPanelReport.getRowForPrimKey DOES NOT SELECT A LINE. dbFields.length:"+dbFields.length+" primKey:"+primKey+" primKeyValue:"+primKeyValue+" row:"+row+"  line:"+line+"  perhaps not active 'service' or 'account'");	
+         System.out.println(" ERROR         calledByIn:"+calledByIn+"     primKeyValueIn:"+primKeyValueIn+"     queryIn:"+queryIn);
+         System.out.println(" ERROR UtilsPanelReport.getRowForPrimKey DOES NOT SELECT A LINE. dbFields.length:"+dbFields.length+" primKey:"+primKey+" primKeyValueIn:"+primKeyValueIn+" row:"+row+"  line:"+line+"  perhaps not active 'service' or 'account'");	
          System.out.println(" ERROR");
          
          
@@ -392,7 +462,7 @@ public class UtilsPanelReport implements Constants
    
    // int intField no of field in lookup. isTypedOrSaved: true when is typed in keytextxtbox (use of queryLookUpIsActive), is false when is already saved (not use of queryLookUpIsActive)
    //  also appears partially in WindowLookUp.filter 
-   public String getLookupValue(String luname, String foreignTable, String lookupValue, int intField, boolean isTypedOrSaved,String formVariableFromField,/*String formGlobalTableToGet1In,String formGlobalTableToApply1In,*/
+   public String getLookupValue(String luname, String strTable,String lookupValue, int intField, boolean isTypedOrSaved,String formVariableFromField,/*String formGlobalTableToGet1In,String formGlobalTableToApply1In,*/
            String subqueryWhereForAPreviousFieldValue, String entityIn, EntityDBFields[] dbFieldsInGroupOfPanels, ArrayList fieldTxts) 
    { 
          String lookupResult="-";
@@ -463,7 +533,7 @@ public class UtilsPanelReport implements Constants
       String queryLookUp = lookUp.getQuery(luname);
       if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
       {
-     System.out.println("-t--ooo--t--UtilsPanelReport.getLookupValue     TO CHECK     luname:"+luname+"    formVariableFromField:"+formVariableFromField+"         VariablesGlobal.globalformGlobalVariable1::"+VariablesGlobal.globalformGlobalVariable1+"        foreignTable:"+foreignTable+"      entityIn:"+entityIn+"     subqueryWhereForAPreviousFieldValue:"+subqueryWhereForAPreviousFieldValue+"  lookupValue:"+lookupValue+"      queryLookUp:"+queryLookUp);             
+     System.out.println("-t--ooo--t--UtilsPanelReport.getLookupValue     TO CHECK     luname:"+luname+"    strTable:"+strTable+"     formVariableFromField:"+formVariableFromField+"         VariablesGlobal.globalformGlobalVariable1::"+VariablesGlobal.globalformGlobalVariable1+"        strTable:"+strTable+"      entityIn:"+entityIn+"     subqueryWhereForAPreviousFieldValue:"+subqueryWhereForAPreviousFieldValue+"  lookupValue:"+lookupValue+"      queryLookUp:"+queryLookUp);             
       }
      String lookupValueQuery= "";
       String subQueryFilterFromRecType = "";
@@ -494,7 +564,7 @@ public class UtilsPanelReport implements Constants
                   }
                   else
                   {                  
-                     lookupValueQuery=" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                     lookupValueQuery=" AND "+strTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
                   }
               }
               else
@@ -505,7 +575,7 @@ public class UtilsPanelReport implements Constants
                   }
                   else
                   {                  
-                     lookupValueQuery=" WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                     lookupValueQuery=" WHERE "+strTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
                   }
               }
              if(isTypedOrSaved)     //is typed
@@ -519,7 +589,7 @@ public class UtilsPanelReport implements Constants
              }          
        if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
       {  
-          System.out.println("   IF    -t--OOOOOOOOOOO--t--UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"       entityIn:"+entityIn+"   name:"+luname+"   foreignTable:"+foreignTable+"        queryClosingSubquery:"+queryClosingSubquery+"     lookupValueQuery:"+lookupValueQuery+"   foreignQuery:"+foreignQuery);
+          System.out.println("   IF    -t--OOOOOOOOOOO--t--UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"       entityIn:"+entityIn+"   name:"+luname+"         queryClosingSubquery:"+queryClosingSubquery+"     lookupValueQuery:"+lookupValueQuery+"   foreignQuery:"+foreignQuery);
       }
           }
           else
@@ -533,7 +603,7 @@ public class UtilsPanelReport implements Constants
                   }
                   else
                   {
-                      lookupValueQuery =  " AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";  //"";//queryClosingSubquery;  //lookupValueQuery=" "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
+                      lookupValueQuery =  " AND "+strTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";  //"";//queryClosingSubquery;  //lookupValueQuery=" "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
                   }
               }
               else
@@ -544,7 +614,7 @@ public class UtilsPanelReport implements Constants
                   }
                   else
                   {                  
-                    lookupValueQuery =  " WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                    lookupValueQuery =  " WHERE "+strTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
                   }
               }
              if(isTypedOrSaved)     //is typed
@@ -561,13 +631,13 @@ public class UtilsPanelReport implements Constants
              
       if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
       {
-        System.out.println("   ELSE   UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"    lookupResult:"+lookupResult+"      globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"   luname:"+luname+"       foreignTable:"+foreignTable+"   lookupValueQuery:"+lookupValueQuery+"    foreignQuery:"+foreignQuery);
+        System.out.println("   ELSE   UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"    lookupResult:"+lookupResult+"      globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"   luname:"+luname+"       strTable:"+strTable+"   lookupValueQuery:"+lookupValueQuery+"    foreignQuery:"+foreignQuery);
       }
           }
       
       
 
-  System.out.println("UtilsPanelReport.getLookupValue        --oOoOoOoOo--           isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
+      //System.out.println("UtilsPanelReport.getLookupValue        --oOoOoOoOo--      luname:"+luname+"     strTable:"+strTable+"     lookupValue:"+lookupValue +"     isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
          try
          {          
              
@@ -587,26 +657,34 @@ public class UtilsPanelReport implements Constants
                  rsForeign = db.retrieveRow(rsForeign, 1);// go to the only row               
               
                 //System.out.println("UtilsPanelReport.getLookupValue field "+foreignQuery+"  "+lookUp.getLookUpFieldIndex(luname));
-                 //lookupResult = rsForeign.getString(lookUp.getLookUpFieldIndex(luname));// get field data
                  if (rsForeign.isFirst()) // value looked up might not have been existed
                  {
                      //System.out.println("UtilsPanelReport.getLookupValue   intField:"+intField+" :"+luname+"  :"+lookUp.getLookUpFieldIndex(luname));
-                 	if(intField==1)
+                 	
+                     if(lookUp.getLookUpFieldColDescription(luname)==-1)// it is in table with int of description
+                     {
+                        if(intField==1)
                  	{
-                 	   lookupResult = rsForeign.getString(lookUp.getLookUpFieldIndex(luname));// get field data	
+                 	    lookupResult = rsForeign.getString(lookUp.getLookUpFieldIndex(luname));// get field data	
                  	}
                  	else if(intField==2)
                  	{
-                 		lookupResult = rsForeign.getString(lookUp.getLookUpField2Index(luname));// get field data
+                            lookupResult = rsForeign.getString(lookUp.getLookUpField2Index(luname));// get field data
                  	}
                  	else if(intField==3)
                  	{
-                 		lookupResult = rsForeign.getString(lookUp.getLookUpField3Index(luname));// get field data
+                            lookupResult = rsForeign.getString(lookUp.getLookUpField3Index(luname));// get field data
                  	}
                  	else
                  	{
                  		System.out.println("error UtilsPanelReport.getLookupValue intField:"+intField+" (1 or 2 or 3)");
                  	}
+                     }
+                     else
+                     {
+                         lookupResult = rsForeign.getString(lookUp.getLookUpFieldColDescription(luname));
+                        
+                     }
                     
                     
                  }
@@ -849,21 +927,14 @@ public class UtilsPanelReport implements Constants
     *  by this in getNoOfPKAutoIncOfNewRecord
     */
 public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, EntityDBFields[] dbFields,EntityDBFields[] dbFieldsMany, boolean isMany,
-        /*String primKeyTranslationIn,*/ /*int intColumnOfDescription,*/ /*String[] sql2WhereField, String[] sql2WhereValue,*/ String entity, /*TableModel tableModel,*/
-        String primKeyDb)
+        String entity, String primKeyDb)
    {
-
-
-
 
      //System.out.println(" +  +  +  +  +  +  UtilsPanelReport.retrievePrimKeyValueForOnePK ("+entity+") dbFields:"+dbFields+" dbFieldsMany:"+dbFieldsMany+" isMany:"+isMany+"    primKeyDb:"+primKeyDb);
       // EntityDBFields[] dbFieldsPKs = null;
        ArrayList listDbFieldsPKs = new ArrayList();
      String lastNo="0";
-  	 //String primkeyAutoInc="";
-         //String[] primkeyFixedArray;// like companyId
-         //String[] primkeyFixedValueArray;
-      
+  
      if(isMany)
      {
          //System.out.println(" ->  UtilsPanelReport.retrievePrimKeyValueForOnePK() isMany:"+isMany+" queryIn:"+queryIn);
@@ -876,7 +947,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
      }
      
      
-         int intPrimkeyFixed=0;
+  int intPrimkeyFixed=0;
   if(dbFields!=null && dbFields.length>0)       
   {
          for(int c=0;c<dbFields.length;c++)
@@ -905,9 +976,6 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                 }             
                 else if(dbFields[c].getPrimaryKeyIntegerAutoInc()==FIELD_PRIMARY_KEY)
                 {
-                    //primkeyFixedArray[intPrimkeyFixed]=dbFields[c].getDbField();
-                    //primkeyFixedValueArray[intPrimkeyFixed]=dbFields[c].getDefaultValue();
-                    //System.out.println("+ UtilsPanelReport.retrievePrimKeyValueForOnePK ("+entity+") FIELD_PRIMARY_KEY primkeyFixedArray:"+primkeyFixedArray[intPrimkeyFixed]+"="+primkeyFixedValueArray[intPrimkeyFixed]+"  "+intPrimkeyFixed);
                     listDbFieldsPKs.add(dbFields[c]);
                     
                     intPrimkeyFixed++;
@@ -965,7 +1033,6 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
         {
            for (int pk=0;pk<listDbFieldsPKs.size();pk++)
            {
- 
                EntityDBFields edbf = (EntityDBFields)listDbFieldsPKs.get(pk);
                
                primKeysDbField[pk]=edbf.getDbField();
@@ -973,9 +1040,6 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                //System.out.println(" o  UtilsPanelReport.retrievePrimKeyValueForOnePK("+pk+") edbf.getTableName():"+edbf.getTableName());
                primKeysDbFieldCaption[pk] = edbf.getCaption();
                //primKeysDbFieldValue[pk]
-
-          //if(primKeyTable[pk].equalsIgnoreCase(entity))  // when the entity is dbcompany dbyear
-             //   && utilsString.hasQuerySelectColumnName(q,STRFIELD_DBCOMPANYID)                 && utilsString.hasQuerySelectColumnName(q,STRFIELD_DBYEARID) 
              
            //System.out.println(" UtilsPanelReport.retrievePrimKeyValueForOnePK entity:"+entity+"    ("+pk+")  "+primKeysDbField[pk]+"="+STRFIELD_DBCOMPANYID +"  q:"+q);
           if((primKeysDbField[pk].equalsIgnoreCase(STRFIELD_DBCOMPANYID) && !utilsString.hasQuerySelectColumnName(q,STRFIELD_DBCOMPANYID) ) || (primKeysDbField[pk].equalsIgnoreCase(STRFIELD_DBYEARID) &&  !utilsString.hasQuerySelectColumnName(q,STRFIELD_DBYEARID) ))
@@ -1071,7 +1135,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
               }
                   
               
-             //System.out.println(" UtilsPanelReport.retrievePrimKeyValueForOnePK("+pk+") entity:"+entity+"="+primKeyTable[pk]+" primKeysDbField[pk]:"+primKeysDbField[pk]+" = "+primKeysDbFieldValue[pk]+" -"+utilsString.hasQuerySelectColumnName(q,STRFIELD_DBCOMPANYID)+"- PK not found in SELECT query but is a global variable.     q:"+q);
+             //System.out.println(" ==--==-------- UtilsPanelReport.retrievePrimKeyValueForOnePK("+pk+") entity:"+entity+"="+primKeyTable[pk]+" primKeysDbField[pk]:"+primKeysDbField[pk]+" = "+primKeysDbFieldValue[pk]+" -"+utilsString.hasQuerySelectColumnName(q,STRFIELD_DBCOMPANYID)+"- PK not found in SELECT query but is a global variable.     q:"+q);
          
           }
           else
@@ -1079,7 +1143,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
               //q=utilsString.removeCaptionsFromQuerySubStringSelect(q);
                 db.retrieveDBDataFromQuery(q,"UtilsPanelReport.retrievePrimKeyValueForOnePK");
                int dbCount = db.getRecordCount();//dbFields.length;//db.getRecordCount();// listDbFieldsPKs.size();
-                //System.out.println("       lb      UtilsPanelReport.retrievePrimKeyValueForOnePK ("+pk+")  entity:"+entity+"   db.getRecordCount():"+db.getRecordCount()+"     q:"+q);
+       //System.out.println("       --      UtilsPanelReport.retrievePrimKeyValueForOnePK ("+pk+")  entity:"+entity+"    "+primKeysDbField[pk]+"   dbCount:"+dbCount+"     q:"+q);
                  rs=db.getRS();
                 
                 
@@ -1095,16 +1159,12 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                     {                  
                    if(rs.isAfterLast())
                    {
-                       //rs.first();
-                     //System.out.println("-llm UtilsPanelReport.retrievePrimKeyValueForOnePK ("+pk+")  entity:"+entity+"  RS.AFTERLAST  rs:"+rs+"   selectedTableRow:"+selectedTableRow+"     primKeysDbField:"+primKeysDbField[pk]+"     q:"+q);
-                      // primKeysDbFieldValue[pk] = rs.getString(primKeysDbField[pk]); // perhaps  primKeysDbFieldCaption   primKeysDbField
-                       
+   
                    }
                    else
                    {  
                        //System.out.println("- - - - - * UtilsPanelReport.retrievePrimKeyValueForOnePK  count:("+dbCount+")     pk:"+pk+"    selectedTableRow:"+selectedTableRow+"       q:"+q);
                    
-
                       if(dbCount==1)
                       {
                             
@@ -1126,10 +1186,26 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                       
                          if(selectedTableRow>dbCount)
                          {
-                           System.out.println("--*UtilsPanelReport.retrievePrimKeyValueForOnePK <>1 (count:"+dbCount+") -("+pk+")-    listDbFieldsPKs.size():"+listDbFieldsPKs.size()+"   db.getRecordCount():"+db.getRecordCount()+"   selectedTableRow:"+selectedTableRow+"      Caption:"+primKeysDbFieldCaption[pk]+",[ DbField:"+primKeysDbField[pk]+"] = "+primKeysDbFieldValue[pk]+"   rs:"+rs);//+"  "+rs.getString(primKeysDbField[pk])+"   query q:"+q);              
+                           System.out.println("--*  !!! UtilsPanelReport.retrievePrimKeyValueForOnePK  (selectedTableRow:"+selectedTableRow+" > dbCount:"+dbCount+") -("+pk+")-    listDbFieldsPKs.size():"+listDbFieldsPKs.size()+"   Caption:"+primKeysDbFieldCaption[pk]+",[ DbField:"+primKeysDbField[pk]+"] = "+primKeysDbFieldValue[pk]+"   rs:"+rs+"   query q:"+q);  
                            rs.first();  // used in re re calculation of periodiki vat
                          }
-                        primKeysDbFieldValue[pk] = rs.getString(primKeysDbField[pk]); // perhaps  primKeysDbFieldCaption   primKeysDbField                                                        
+                        primKeysDbFieldValue[pk] = rs.getString(primKeysDbField[pk]); // perhaps  primKeysDbFieldCaption   primKeysDbField 
+                        //String valOfPk = "";//rs.getString(listDbFieldsPKs.get(pk)+""); // perhaps  primKeysDbFieldCaption   primKeysDbField 
+                        if(utilsString.hasQueryWhere(q))
+                        {
+                            String befWhere = utilsString.getQueryBeforeWhere(q);
+                            String aftWhere = utilsString.getQueryAfterWhere(q);
+                            String qWhere = utilsString.getQueryWhere(q);
+                            qWhere = qWhere + " AND "+primKeyTable[pk]+"."+primKeysDbField[pk]+" LIKE "+primKeysDbFieldValue[pk];
+                            q = befWhere + qWhere + aftWhere;
+                        }    
+                        else
+                        {
+                           // System.out.println("--------*   UtilsPanelReport.retrievePrimKeyValueForOnePK   query has no where  q:"+q);
+                        }
+                            
+                        //q = q +" AND "+primKeyTable[pk]+"."+primKeysDbField[pk]+" LIKE "+primKeysDbFieldValue[pk];
+       //System.out.println("--------****   UtilsPanelReport.retrievePrimKeyValueForOnePK   primKeys  :  ("+primKeysDbField[pk]+"="+primKeysDbFieldValue[pk]+")    pk:"+pk+"    dbCount:"+dbCount+"     selectedTableRow:"+selectedTableRow+"       q:"+q);
                          
                       }
  
@@ -1140,20 +1216,24 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                  {
                        System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK() C  getErrorCode:"+ sqlE.getErrorCode()+"    "+sqlE.getMessage()+"     selectedTableRow:"+selectedTableRow+"    query q:"+q);
                        sqlE.printStackTrace();
-                 }                  // primKeysDbFieldValue[pk] = rs.getString(primKeysDbField[pk]);
+                 } 
+                 finally
+                 {
+                     closeDB();
+                 }
+
+                    // primKeysDbFieldValue[pk] = rs.getString(primKeysDbField[pk]);
                   // System.out.println("cbj UtilsPanelReport.retrievePrimKeyValueForOnePK ELSE ("+pk+")  entity:"+entity+"   db.getRecordCount():"+db.getRecordCount()+"   rs.isAfterLast()"+rs.isAfterLast()+"  value:"+primKeysDbFieldValue[pk]+"    q:"+q);
                }
                else
                {
                    
                }
+            //   System.out.println("       --      UtilsPanelReport.retrievePrimKeyValueForOnePK ("+pk+")  entity:"+entity+"    "+primKeysDbField[pk]+"="+primKeysDbFieldValue[pk]+"   dbCount:"+dbCount+"        q:"+q);
                //closeDB();
     //    System.out.println("cf UtilsPanelReport.retrievePrimKeyValueForOnePK ("+pk+")  entity:"+entity+"  primKeysDbField:"+primKeysDbField[pk]+"="+primKeysDbFieldValue[pk]+"    db.getRecordCount():"+db.getRecordCount()+"    selectedTableRow:"+selectedTableRow+"    q:"+q);        
           }
-        
-         
-                   
-         
+
                //System.out.println(" NEW  UtilsPanelReport.retrievePrimKeyValueForOnePK ("+entity+") ("+pk+") primKeys[pk]:"+primKeysDbField[pk]+"  primKeysDbFieldCaption[pk]:"+primKeysDbFieldCaption[pk]+"="+primKeysDbFieldValue[pk]+"  queryIn:"+queryIn);
          //closeDB();
            }         
@@ -1186,25 +1266,25 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                           {
                               System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()  E getErrorCode:"+ sqlE.getErrorCode()+"     equals 0     primKeyDb:"+primKeyDb+"   " + sqlE);
                               sqlE.printStackTrace();
-                          }               
+                          }
+                          finally
+                        {
+                            closeDB();
+                        }
                         //closeDB();
             }  
             else
             {
                 System.out.println(" =============== error UtilsPanelReport.retrievePrimKeyValueForOnePK   entity:"+entity+"      pk size:"+listDbFieldsPKs.size()+"     primKeyDb:"+primKeyDb+" = null");
             }
-            
-            
-            
-            
-           
+
         }
         else
         {
             System.out.println("  error  +- UtilsPanelReport.retrievePrimKeyValueForOnePK primKeysCount ("+entity+") listDbFieldsPKs.size:"+listDbFieldsPKs.size());
         }
 
-               //System.out.println("PanelODMRData.retrievePrimKeyValueForOnePK  ("+entity+")  primKeysDbFieldValue[0]"+primKeysDbFieldValue[0]);
+              //System.out.println("PanelODMRData.retrievePrimKeyValueForOnePK  ("+entity+")  primKeysDbFieldValue[0]"+primKeysDbFieldValue[0]);
               
                // if there is only one key
       // for backward compatibility after this line  
@@ -1224,63 +1304,26 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                 if(primKeyDb!=null && primKeysDbField[pk].equalsIgnoreCase(primKeyDb))  //    primKeyDb  or  primKeyTranslationIn
                 {
                     primKeyValue =  primKeysDbFieldValue[pk];// or pk //tableModel.getValueAt(selectedTableRow,i).toString();
- //                   System.out.println(" -o-o-  UtilsPanelReport.retrievePrimKeyValueForOnePK IF ("+pk+")     primKeyValue:"+primKeyValue+"     primKeyDb:"+primKeyDb+"      "+primKeysDbField[pk]+"="+primKeysDbFieldValue[pk]);
+                   // System.out.println(" -o-o-  UtilsPanelReport.retrievePrimKeyValueForOnePK IF ("+pk+")     primKeyValue:"+primKeyValue+"     primKeyDb:"+primKeyDb+"      "+primKeysDbField[pk]+"="+primKeysDbFieldValue[pk]);
                 }
                 else // when 
                 {
-
-                    //if(primKeysDbField[pk].equalsIgnoreCase("dbCompanyId"))
- //                   System.out.println("  -  UtilsPanelReport.retrievePrimKeyValueForOnePK ELSE ("+pk+")    primKeyDb:"+primKeyDb+"   primKeysDbField:"+primKeysDbField[pk]+"="+primKeysDbFieldValue[pk]);
+                    
                 }
-                //primKeys[pk] = primKeysDbField[pk];
-                //primKeysValue[pk]=primKeysDbFieldValue[pk];
+
            }
         }
         else
         {            
-           /* if(primKeyValue==null && primKeyDb!=null) // when in PanelMDMRec is called to show dialoglookup
-            {
-                        try
-                          {
-                              
-   	                      db.retrieveDBDataFromQuery(q,"UtilsPanelReport.retrievePrimKeyValueForOnePK B ");
-   	                      rs=db.getRS();
-                              rs = db.retrieveRow(rs, selectedTableRow+1);
-                             // System.out.println("PanelODMRData.UtilsPanelReport A ELSE  entity:"+entity+"  primKeyDb:"+primKeyDb+"   queryIn:"+q);
-                              primKeyValue =rs.getString(primKeyDb); //pkName); 
-                              System.out.println("PanelODMRData.UtilsPanelReport B ELSE  entity:"+entity+"    primKeyDb:"+primKeyDb+"   primKeyValue:"+primKeyValue);
-                          }
-                          catch(SQLException sqlE)
-                          {
-                              System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK()  B " + sqlE);
-                              sqlE.printStackTrace();
-                          }     
-                        closeDB();
-            } */
+
             
             //System.out.println("error - UtilsPanelReport.retrievePrimKeyValueForOnePK primKeysCount   A  ("+entity+")    selectedTableRow:"+selectedTableRow+" listDbFieldsPKs.size:"+listDbFieldsPKs.size());
         }
-   //     System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK IF   listDbFieldsPKs.size()"+listDbFieldsPKs.size()+"    entity:"+entity+"     selectedTableRow:"+selectedTableRow+"     primKeyDb:"+primKeyDb+" primKeyValue:"+primKeyValue);
+        //System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK IF   listDbFieldsPKs.size()"+listDbFieldsPKs.size()+"    entity:"+entity+"     selectedTableRow:"+selectedTableRow+"     primKeyDb:"+primKeyDb+" primKeyValue:"+primKeyValue);
   }
   else
   {
-         /*for (int pk=0;pk<primKeysCount;pk++)
-         {
-             
-    
-             	//primKeyDb
-            	String pkName;
-             	//System.out.println("PanelODMRData.retrievePrimKeyValue isEditable "+isEditable);
-             	if (primKeyTranslationIn==null)
-             	{
-             	  pkName=databaseTableMeta.getPrimKeyName(pk);//before
-             	  //System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK  "+entity+" --- "+pk+" "+pkName+"-"+primKeyIn);
-              	}
-             	else
-             	{
-                  pkName=primKeyTranslationIn;// so translation be equal with translation
-                  //System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK  "+entity+" "+pk+" "+pkName);
-                }      */
+
                           try
                           {
    	                      db.retrieveDBDataFromQuery(queryIn,"UtilsPanelReport.retrievePrimKeyValueForOnePK C");
@@ -1289,20 +1332,23 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                               System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK ELSE   C1  entity:"+entity+"  primKeyDb:"+primKeyDb+" selectedTableRow:"+(selectedTableRow+1));
                               primKeyValue =rs.getString(primKeyDb); //pkName); 
                               System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK ELSE   C  entity:"+entity+"    selectedTableRow:"+selectedTableRow+"     primKeyDb:"+primKeyDb+"    primKeyValue:"+primKeyValue);
-                          closeDB();
+                          //closeDB();
                           }
                           catch(SQLException sqlE)
                           {
                               System.out.println("Error UtilsPanelReport.retrievePrimKeyValueForOnePK() F  getErrorCode:"+ sqlE.getErrorCode()+"    queryIn:"+queryIn+"     " + sqlE);
                               sqlE.printStackTrace();
-                          }                          
+                          }
+                           finally
+                          {
+                              closeDB();
+                          }
          
   }
-      
-   
      closeDB();
      //System.out.println("  UtilsPanelReport.retrievePrimKeyValueForOnePK  " +primKeys[0]+" "+primKeysValue[0]);
    }   
+
 
 
   /* calculate the last no of the PK that the db has, add 1 and get it
@@ -1712,7 +1758,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
       
       if(primKeyValue == null || primKeyValue.equalsIgnoreCase(""))
       {
-          System.out.println("    ERROR       UtilsPanelReport.getPrimKeyValue    primKeyValue:"+primKeyValue);
+          //System.out.println("    ERROR       UtilsPanelReport.getPrimKeyValue    primKeyValue:"+primKeyValue);
       }
       else
       {
