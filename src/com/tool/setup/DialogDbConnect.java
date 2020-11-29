@@ -1015,7 +1015,7 @@ public class DialogDbConnect  extends JDialog implements Constants
                     "PRIMARY KEY (`dbsystemid`)"+
                      ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8");
 
-                   stmnt.executeUpdate("REPLACE INTO dbsystem (dbsystemid, dbleadversion, dbsubversion) VALUES ( 1 ,  '1',  '"+STR_VERSIONSUB_START+"' )");                                  
+                   stmnt.executeUpdate("REPLACE INTO dbsystem (dbsystemid, dbleadversion, dbsubversion) VALUES ( 1 ,  '"+STR_VERSIONLEAD_START+"',  '"+STR_VERSIONSUB_START+"' )");                                  
                                   
                                   
                                   //utilsGui.showMessageError(this,"Η βάση δεδομένων '"+strReturn+"' δημιουργήθηκε.")

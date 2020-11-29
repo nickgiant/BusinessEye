@@ -316,7 +316,7 @@ import org.xml.sax.SAXException;
         title=titleIn;
         entity = entityIn;
         primKeys=primKeysIn;// the translated
-        primKeyDb=primKeyDbIn;                        // delete after   []  primsKey
+        primKeyDb=primKeyDbIn;                       
         //formGlobalTableToGet1=formGlobalTableToGet1In;
         //formGlobalTableToApply1=formGlobalTableToApply1In;
         //formGlobalField1 =formGlobalField1In;
@@ -2607,8 +2607,8 @@ catch(Exception e)
       //System.out.println("PanelODORData.dbFieldsCalculateSet  -o-o-oo--o--o-o--o-o-o   col:"+col+" -   caption:"+dbField.getCaption()+"   value:"+value);
         if(dbField!=null && fieldsCalculationSelect!=null  && value!=null && !value.toString().equalsIgnoreCase(""))
         {
-        try
-        {
+//        try
+//        {
            for(int fc=0; fc<fieldsCalculationSelect.length;fc++)
            {
               
@@ -2778,7 +2778,7 @@ catch(Exception e)
                                 {*/
                           textString[c] = elutcData[cb.getSelectedIndex()].getPk();
                                // }
-                        //  System.out.println("PanelOneDataOneRecData.dbFieldsCalculateSet sel index:"+cb.getSelectedIndex()+"  textsInput[c]:"+textString[c]+" isCalculationInputHasTable:"+isCalculationInputHasTable);
+                         //System.out.println("PanelOneDataOneRecData.dbFieldsCalculateSet sel index:"+cb.getSelectedIndex()+"  colName:"+colName+"  textsInput[c]:"+textString[c]+" isCalculationInputHasTable:"+isCalculationInputHasTable);
                             
   
                       }
@@ -2787,7 +2787,7 @@ catch(Exception e)
                             System.out.println("  error PanelOneDataOneRecData.dbFieldsCalculateSet   isCalculationInputHasTable:"+isCalculationInputHasTable+"  textsInput[c]:"+textsInput[c]+"  ("+c+")   UNKNOWN   name:"+dbFieldsInGroupOfPanels[textsInput[c]].getDbField()+"   getLookupType:"+dbFieldsInGroupOfPanels[textsInput[c]].getLookupType());
                       }    
                        
-                         //System.out.println("  error PanelOneDataOneRecData.dbFieldsCalculateSet  "+textsInput[c]+"   "+colName+"   textString[c]:"+textString[c]);
+                         //System.out.println("  error PanelOneDataOneRecData.dbFieldsCalculateSet colName:"+colName+"   "+textsInput[c]+"      textString[c]:"+textString[c]);
                          // when is double it might be a double with comma not with dot which is what database handles, so we convert it to double
                          if(dbFieldsInGroupOfPanels[textsInput[c]].getColClassName().equalsIgnoreCase("java.lang.Double") && (textString[c]!=null) && (!textString[c].equalsIgnoreCase("")) )
                          {
@@ -2795,12 +2795,13 @@ catch(Exception e)
                          }
                          else
                          {
-                             System.out.println("  error PanelOneDataOneRecData.dbFieldsCalculateSet     c:"+c+"    dbFieldOfInput:"+dbFieldsInGroupOfPanels[c].getDbField()+"   textString[c]="+textString[c]+"   dbFieldOfInput:"+dbFieldsInGroupOfPanels[textsInput[c]].getDbField()+"     getColClassName():"+dbFieldsInGroupOfPanels[textsInput[c]].getColClassName());
+                             //textString[c]= textString[c];
+                             System.out.println("  error PanelOneDataOneRecData.dbFieldsCalculateSet else    c:"+c+"      textString[c]="+textString[c]+"   dbFieldOfInput:"+dbFieldsInGroupOfPanels[textsInput[c]].getDbField()+"     getColClassName():"+dbFieldsInGroupOfPanels[textsInput[c]].getColClassName());
                          }                        
                     }
                 }
                 //System.out.println("PanelODORData.dbFieldsCalculateSet c  hasDataChanged:"+hasDataChanged);
-         // System.out.println("PanelODORData.dbFieldsCalculateSet    calculateCategoryField:"+calculateCategoryField+"    FIELDSCALCULATION_CATEGORY_SAME:"+FIELDSCALCULATION_CATEGORY_SAME);
+         // System.out.println("PanelODORData.dbFieldsCalculateSet    calculateCategoryField:"+calculateCategoryField+"   textString[c]:"+textString[c]+"    FIELDSCALCULATION_CATEGORY_SAME:"+FIELDSCALCULATION_CATEGORY_SAME);
              if(calculateCategoryField!=FIELDSCALCULATION_CATEGORY_SAME) // if not FIELDSCALCULATION_CATEGORY_SAME
              {
                  //System.out.println("PanelODORData.dbFieldsCalculateSet  ------  fc"+fc+"  calculateCategoryField:"+calculateCategoryField+"    FIELDSCALCULATION_CATEGORY_SAME:"+FIELDSCALCULATION_CATEGORY_SAME);
@@ -2883,6 +2884,8 @@ catch(Exception e)
                                //replaceTextOfAStringWithText(String textToBeReplacedBy, String str, String[] textToReplace)
                          //System.out.println("PanelODORData.dbFieldsCalculateSet table col:"+col+" table r=("+r+")  calculateField:"+calculateField+"   textStringAll:"+textStringAll.length+"       calculationEachRow:"+calculationEachRow);                                   
                          //System.out.println("PanelODORData.dbFieldsCalculateSet A  query"+calculation);
+                         try
+                         {
                                 db.retrieveDBDataFromQuery(calculationEachRow,"PanelODORData.dbFieldsCalculateSet  A   ");
    	                        rs=db.getRS();
   	          
@@ -2893,7 +2896,17 @@ catch(Exception e)
                                         //System.out.println(PanelODORData.dbFieldsCalculateSet   calculation "+calculation);
                                        val = rs.getString(1)+"";// get field data	         	
                                 }
-                             
+                                   }//try
+         catch ( SQLException sqlex)
+         {
+            
+             System.out.println("error:PanelODORData.dbFieldsCalculateSet  "+sqlex.getMessage());
+             sqlex.printStackTrace();
+         }
+         finally
+         {
+               closeDB();     
+         }   
               //             System.out.println("PanelODORData.dbFieldsCalculateSet table col:"+col+"   table   r:("+r+")  calculateField:"+calculateField+"  val:"+val+"  calculationEachRow:"+calculationEachRow);
                                
                                pnlODMRData.setTableValueAt(val,r,calculateField);
@@ -2910,9 +2923,9 @@ catch(Exception e)
                          }// t
              
                       //   closeDB(); // not use because in servicesales when in 'combo constants' the db is closed but the field after needs to get value from db
-                //System.out.println("PanelODORData.dbFieldsCalculateSet  //-  before else   calculateCategoryField:"+calculateCategoryField+"    FIELDSCALCULATION_CATEGORY_SAME:"+FIELDSCALCULATION_CATEGORY_SAME);
+               //System.out.println("PanelODORData.dbFieldsCalculateSet  //-  before else   calculateCategoryField:"+calculateCategoryField+"    FIELDSCALCULATION_CATEGORY_SAME:"+FIELDSCALCULATION_CATEGORY_SAME);
              }            
-             else  // is FIELDSCALCULATION_CATEGORY_SAME true
+             else  // is FIELDSCALCULATION_CATEGORY_SAME false
              {
 
                 int indexOfHashChar = calculation.indexOf("#");// to find # look also below
@@ -2946,7 +2959,8 @@ catch(Exception e)
                               calculation = utilsString.replaceTextOfAStringWithText("#", calculation, textString,  null);
 
                        }
-   
+                       try
+                       {
                       db.retrieveDBDataFromQuery(calculation,"PanelODORData.dbFieldsCalculateSet B  ");
    	              rs=db.getRS();
                      if (rs!=null && rs.first())
@@ -2954,7 +2968,18 @@ catch(Exception e)
                         rs = db.retrieveRow(rs, 1);// go to the only row  
                        //System.out.println(PanelODORData.dbFieldsCalculateSet   calculation "+calculation);
                         val = rs.getString(1)+"";// get field data	         	                            
-                     }               
+                     }
+                              }//try
+         catch ( SQLException sqlex)
+         {
+            
+             System.out.println("error:PanelODORData.dbFieldsCalculateSet  "+sqlex.getMessage());
+             sqlex.printStackTrace();
+         }
+         finally
+         {
+               closeDB();     
+         }
                  }//if
                  else
                  { // if has an empty string inside textString then break(do not calculate)
@@ -2965,7 +2990,8 @@ catch(Exception e)
                            {
                                // System.out.println("PanelODORData.dbFieldsCalculateSet            0              calculation:"+calculation);
                                calculation = utilsString.replaceTextOfAStringWithText("#", calculation, textString, "0");
-
+                               try
+                               {
                              db.retrieveDBDataFromQuery(calculation,"PanelODORData.dbFieldsCalculateSet C  ");
    	                    rs=db.getRS();
                             if (rs!=null && rs.first())
@@ -2975,7 +3001,18 @@ catch(Exception e)
                                 val = rs.getString(1)+"";// get field data	
                                 val = utilsDouble.getDoubleReading(val,true);
                                 System.out.println("PanelODORData.dbFieldsCalculateSet   val:"+val);
-                            }                                
+                            }  
+                                     }//try
+         catch ( SQLException sqlex)
+         {
+            
+             System.out.println("error:PanelODORData.dbFieldsCalculateSet  "+sqlex.getMessage());
+             sqlex.printStackTrace();
+         }
+         finally
+         {
+               closeDB();     
+         }
       
                            }
                            else
@@ -3002,7 +3039,7 @@ catch(Exception e)
    //         fieldTxtsKeyChanged.set(col, false); //--- -- - -  
 //        closeDB(); // not use because in servicesales when in 'combo constants' the db is closed but the field after needs to get value from db
 
-         }//try
+ /*        }//try
          catch ( SQLException sqlex)
          {
             
@@ -3013,7 +3050,7 @@ catch(Exception e)
          {
                closeDB();     
          }
-                 		
+          */       		
         }    // if
         
         //System.out.println("PanelODORData.dbFieldsCalculateSet col:("+col+")   colName:"+colName);
@@ -3031,13 +3068,7 @@ catch(Exception e)
        
   
        String v = "";
-       /*  if(!dbFieldsInGroupOfPanels[col].getColClassName().equalsIgnoreCase("table"))//.getGroupOfComps() ==-1)
-         {
-                          
-         }
-         else
-         {*/
-           if(dbFieldsInGroupOfPanels[calculateField].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD || dbFieldsInGroupOfPanels[calculateField].getLookupType()==LOOKUPTYPE_NOLOOKUP)
+          if(dbFieldsInGroupOfPanels[calculateField].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD || dbFieldsInGroupOfPanels[calculateField].getLookupType()==LOOKUPTYPE_NOLOOKUP)
           {
                 JTextComponent tbToGet = (JTextComponent)fieldTxts.get(calculateField);//i-1);
                v = tbToGet.getText()+"";                   
@@ -3111,13 +3142,9 @@ catch(Exception e)
                  
                }
                else
-               {               
+               {
                    System.out.println(" ELSE ELSE NOT Changed - PanelODORData.ifHasValueChangedChangeOtherFieldsOrNot col:("+col+")   colName:"+colName+"   classtype:"+classtype + "     val:"+val+"   lookupType:"+dbFieldsInGroupOfPanels[calculateField].getLookupType());
-               }       
-       
-      //}
-       
-       
+               }  
    }
    
    
@@ -6166,14 +6193,19 @@ ps.setBytes(i, b);
           
           String subqueryWhere = ""; // for each primary key
           
-             utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true,/*primKeyIn,intColumnOfDescriptionIn,
-             sql2WhereField, sql2WhereValue,*/ entity, /*tableModelReadOnly,*/ primKeyDb);    
+//             utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true,/*primKeyIn,intColumnOfDescriptionIn,
+//             sql2WhereField, sql2WhereValue,*/ entity, /*tableModelReadOnly,*/ primKeyDb);    
                        
-             String[] primKeys = utilsPanelReport.getPrimKeys();
+//             String[] primKeys = utilsPanelReport.getPrimKeys();
              //String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
             //System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' selectedRow:"+selectedRow+"  primKeys:"+primKeys.length); 
-             int primKeysCount = primKeys.length;
-             String[] primKeysValue = utilsPanelReport.getPrimKeysValue();              
+
+             //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  primKeys:"+primKeys+"       primKey:"+primKey+"        primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue+"   pkFromOnePanelForTables:"+pkFromOnePanelForTables);   
+            int primKeysCount = 0;
+            if(primKeys!=null)
+            {
+             primKeysCount = primKeys.length;
+//             String[] primKeysValue = utilsPanelReport.getPrimKeysValue();              
               
 
       //    databaseTableMeta.retrievePrimKs(entity); // first retrieve them
@@ -6182,8 +6214,8 @@ ps.setBytes(i, b);
                 //System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' "+primKeys[i]+"="+primKeysValue[i]); 
 
               
-            //   System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue+"   pkFromOnePanelForTables:"+pkFromOnePanelForTables);   
-               if(primKeys[i].equalsIgnoreCase(primKeyDb))
+          System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue+"   pkFromOnePanelForTables:"+pkFromOnePanelForTables);   
+/*               if(primKeys[i].equalsIgnoreCase(primKeyDb))
                {
                    if(pkFromOnePanelForTables == null || pkFromOnePanelForTables.equalsIgnoreCase(""))
                    {
@@ -6195,9 +6227,9 @@ ps.setBytes(i, b);
                    }  //primKeyValue+"')"; // when is updating if a second time after insert is selected
                }
                else
-               {
+               {*/
                    subqueryWhere = subqueryWhere+"("+primKeys[i]+" LIKE '"+primKeysValue[i]+"')";
-               }
+//               }
           	  /*if(primKeyDb.equalsIgnoreCase(primKey))
           	  {// if is prim key like farmerId get from tb.getText
                       //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere IF  ("+i+")  "+primKey+"   "+getPrimKeyValue(primKey)+"  primKeyValue:"+primKeyValue);   
@@ -6263,6 +6295,11 @@ ps.setBytes(i, b);
 
             */      
           }
+            }
+            else
+            {
+                subqueryWhere = subqueryWhere+"("+primKeyDb+" LIKE '"+primKeyValue+"')";
+            }
          
         if(!subquerySet.trim().equalsIgnoreCase("")) // subquerySet when field class is 'table' it is empty, so go to else
         {
@@ -6273,7 +6310,7 @@ ps.setBytes(i, b);
           if (VariablesGlobal.globalShowSQLEdit)
           { System.out.println("PanelODORData.rowUpdate query: "+updateQuery); }
    
-          System.out.println("PanelODORData.rowUpdate query: "+updateQuery); 
+          //System.out.println("PanelODORData.rowUpdate query: "+updateQuery); 
           
             ret = dbTransaction.transactionUpdateQuery(updateQuery,"PanelODORData.rowUpdate", showDialogOnError);
             //ret = db.updateQuery(updateQuery,"PanelODORData.rowUpdate", showDialogOnError);
@@ -6459,20 +6496,21 @@ ps.setBytes(i, b);
                     }
                     else
                     {
-                        /*for(int f=0;f<dbFieldsAll.length;f++)//searches in allfields, not only dbFieldsInGroupOfPanels
+                        for(int f=0;f<dbFieldsAll.length;f++)//searches in allfields, not only dbFieldsInGroupOfPanels
                         {        
                                 String columnDbName = dbFieldsAll[f].getDbField(); //fields[i-1];//get colunm name 
-                            //System.out.println("PanelODORData.rowUpdateTables  B  table  ("+i+")("+f+")   isNewRecIn:"+isNewRecIn+"  primKeyDb:"+primKeyDb+"    columnDbName:"+columnDbName+"      pkFromOnePanelForTables:"+pkFromOnePanelForTables);
-                            if(primKeyDb.equalsIgnoreCase(columnDbName))
+                         //System.out.println("PanelODORData.rowUpdateTables  B  table  ("+i+")("+f+")   isNewRecIn:"+isNewRecIn+"  primKeyDb:"+primKeyDb+"="+primKeyValue+"    columnDbName:"+columnDbName+"      pkFromOnePanelForTables:"+pkFromOnePanelForTables);
+                            
+                        if(primKeyDb.equalsIgnoreCase(columnDbName))
                             {
                
-                //                 pnlODMRData.setPrimKeyValueInTableModelResultSet(primKeyValue); // when updating a record(there are rows of values in table) then insert the pk  that already the OneData record has    
+                                 pnlODMRData.setPrimKeyValueInTableModelResultSet(pkFromOnePanelForTables);//primKeyValue); // when updating a record(there are rows of values in table) then insert the pk  that already the OneData record has    
                             }
                             else
                             {
                                 
                             }
-                        }*/
+                       }
                     }
                   // 
                     // if(pnlODMRData.getRowCount()>0)
@@ -8000,7 +8038,18 @@ ps.setBytes(i, b);
          }
         else
         {  
-               System.out.println("PanelODORData.rowSaveAll UPDATE    isNewRecIn:"+isNewRecIn+"     pkFromOnePanelForTables:"+pkFromOnePanelForTables+"    title:"+title);
+            
+            for(int pk =0;pk<primKeys.length;pk++)
+            {
+                if(primKeyDb.equalsIgnoreCase(primKeys[pk]))
+                {
+                    pkFromOnePanelForTables=primKeysValue[pk];
+                }
+            }
+
+            
+            
+               System.out.println("PanelODORData.rowSaveAll UPDATE    isNewRecIn:"+isNewRecIn+"     pkFromOnePanelForTables:"+pkFromOnePanelForTables+"     title:"+title);
                 ret = rowUpdateAll(dbTransaction,isNewRecIn,pkFromOnePanelForTables);
                  
        
@@ -8008,7 +8057,7 @@ ps.setBytes(i, b);
         }
    
           hasDataChanged=false;    
-         System.out.println("panelOneDataOneRecData.rowSaveAll   ---  hasDataChanged:"+hasDataChanged);
+         //System.out.println("panelOneDataOneRecData.rowSaveAll   ---  hasDataChanged:"+hasDataChanged);
          
          
             return ret;
@@ -8474,14 +8523,14 @@ ps.setBytes(i, b);
               
           String subqueryWhere = ""; // for each primary key
           
-             utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true,/*primKeyIn,intColumnOfDescriptionIn,
-             sql2WhereField, sql2WhereValue,*/ entity, /*tableModelReadOnly,*/ primKeyDb);    
+         ///    utilsPanelReport.retrievePrimKeyValueForOnePK( query, selectedRow, null,dbFieldsAll,true,/*primKeyIn,intColumnOfDescriptionIn,
+        //     sql2WhereField, sql2WhereValue,*/ entity, /*tableModelReadOnly,*/ primKeyDb);    
                        
-             String[] primKeys = utilsPanelReport.getPrimKeys();
+        //     String[] primKeys = utilsPanelReport.getPrimKeys();
              //String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
             //System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' selectedRow:"+selectedRow+"  primKeys:"+primKeys.length); 
              int primKeysCount = primKeys.length;
-             String[] primKeysValue = utilsPanelReport.getPrimKeysValue();              
+       //      String[] primKeysValue = utilsPanelReport.getPrimKeysValue();              
       
               
       //    databaseTableMeta.retrievePrimKs(entity); // first retrieve them
@@ -11234,14 +11283,14 @@ ps.setBytes(i, b);
               //System.out.println("PanelODORData.rowDelete "+entity);
 
 
-                       utilsPanelReport.retrievePrimKeyValueForOnePK(query, selectedRow, null,dbFieldsAll,true,/*primKeyIn,intColumnOfDescriptionIn,
-                       sql2WhereField, sql2WhereValue,*/ entity, /*tableModelReadOnly,*/ null);    
+        //               utilsPanelReport.retrievePrimKeyValueForOnePK(query, selectedRow, null,dbFieldsAll,true,/*primKeyIn,intColumnOfDescriptionIn,
+        ///               sql2WhereField, sql2WhereValue,*/ entity, /*tableModelReadOnly,*/ null);    
                        
-                        String[] primKeys = utilsPanelReport.getPrimKeys();
-                        String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
+        //                String[] primKeys = utilsPanelReport.getPrimKeys();
+        //                String[] primKeysCaption = utilsPanelReport.getPrimKeysCaption();
                         //System.out.println("-->  PanelOneDataOneRecData.rowDelete '"+entity+"' selectedRow:"+selectedRow+"  primKeys:"+primKeys.length); 
                         int primKeysCount = primKeys.length;
-                        String[] primKeysValue = utilsPanelReport.getPrimKeysValue();              
+       //                 String[] primKeysValue = utilsPanelReport.getPrimKeysValue();              
 
 
    	      for(int i=0;i<fieldTxts.size();i++)
@@ -11514,15 +11563,21 @@ ps.setBytes(i, b);
            JTextBoxWithEditButtons textEditFormatedDate = (JTextBoxWithEditButtons)fieldTxts.get(no);// -1 because i starts from 1
            textEditFormatedDate.findDateNameInText();// to change day name in label when different date is typed 
            textEditFormatedDate.setBackground(t.getBackground());
+                                fieldTxtsKeyChanged.set(no, true);
+         		    	keyChanged=true; // ie farmerid            
          } 
          else if(classtype.equalsIgnoreCase("java.lang.Boolean"))
          {
-             //System.out.println("PanelODORData.DocumentHandler.insertUpdate  "+no+"  "+classtype+" "+foreignTable+"."+columnDbName); 
+             //System.out.println("PanelODORData.DocumentHandler.insertUpdate  "+no+"  "+classtype+" "+foreignTable+"."+columnDbName);
+                                fieldTxtsKeyChanged.set(no, true);
+         		    	keyChanged=true; // ie farmerid  
          }
          else if(dbFieldsInGroupOfPanels[no].getLookupType()==LOOKUPTYPE_TABLECONSTANTS)
          {
                 JComboBox cmbBox =  (JComboBox) fieldTxts.get(no);
-                    //value =  cmbBox.getSelectedItem().toString();             
+                    //value =  cmbBox.getSelectedItem().toString();
+                fieldTxtsKeyChanged.set(no, true);
+                keyChanged=true; // ie farmerid  
          
          }
          else if( classtype.equalsIgnoreCase("java.awt.image.BufferedImage"))

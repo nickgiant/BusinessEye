@@ -2508,7 +2508,7 @@ class TabListener implements ChangeListener
                    Database db = new Database();
             db.retrieveDBDataFromQuery("SELECT dbleadversion, dbsubversion FROM dbsystem WHERE dbsystemid = 1","DialogBackUp.restore");
             ResultSet rs = db.getRS();
-            String strDbLeadVer = "1";
+            String strDbLeadVer = STR_VERSIONLEAD_START;
              String strDbSubVer = STR_VERSIONSUB_START;//"0.2510";
             try
             {
@@ -2897,7 +2897,7 @@ class TabListener implements ChangeListener
                         String msgCommand ="";
                         if(command.length()>300)
                         {
-                            msgCommand = command.substring(0, 450)+"";
+                            msgCommand = command.substring(0, 233)+"";
                         }
                         else
                         {

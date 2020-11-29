@@ -124,6 +124,7 @@ public class DialogMain extends JxFrame implements Constants
     private WindowWait wwu;
     
     private final String TXTCHECKFORNEWVERSION=  "έλεγχος για νέα έκδοση";
+    //private final static double STARTVERSION = 1.2610;
     private String userId;
     private Database db= new Database();
     
@@ -2823,7 +2824,7 @@ manager.addChangeListener(updateListener);*/
      if(sqlText!=null && !sqlText.equalsIgnoreCase(""))                  
      {
          //System.out.println("DialogMain.hasFileThenRestore  strVersion:"+strVersion);
-         
+         //wwu.showWindow();
           //System.out.println("DialogMain.hasFileThenRestore  TRUE  upd   zip:"+strZippedFile+"      version:"+strVersion+"   sql:"+sqlText); 
          ret = dlgBackup.restore(strZippedFile,"db"+strVersion+".sql",strVersion,"παρακαλω περιμένετε, αναβάθμιση βάσης",true);
          //System.out.println("DialogMain.hasFileThenRestore   --     upd   ret:"+ret ); 
@@ -2849,7 +2850,19 @@ manager.addChangeListener(updateListener);*/
     private boolean updateDb(double oldVersion, double newVersion)
     {
         boolean ret = false;
-         wwu = new WindowWait("αναβάθμιση  βάσης",WINDOW_LOCATION_CENTER,ICO_RELOAD16, ICO_RELOADB16);
+        
+        String strCaption ="";
+         wwu = new WindowWait(strCaption,WINDOW_LOCATION_CENTER,ICO_RELOAD16, ICO_RELOADB16);
+        if(oldVersion==Double.parseDouble(STR_VERSIONSUB_START))
+        {
+            strCaption="δημιουργία βάσης, παρακαλω περιμένετε";
+            wwu.showWindow();
+        }
+        else
+        {
+            strCaption = "αναβάθμιση  βάσης";
+        }
+        
           
          //wwu.showWindow();
          
@@ -2859,7 +2872,7 @@ manager.addChangeListener(updateListener);*/
 	          public void run()
 	          {
 	            wwu.animate();
-           	       wwu.showWindow();
+           	       
 	               wwu.setComment("εκκίνηση");
 	               //thread = null;
 	          }
@@ -2976,6 +2989,7 @@ manager.addChangeListener(updateListener);*/
            }
            else
            {
+               //ret = false;
                System.out.println("DialogMain.inStartWouldYouLikeToUpdateInNewVersion  ERROR  isUpdated:"+isUpdated+"  perhaps error in filename or directory.");
            }
 
@@ -3038,7 +3052,7 @@ manager.addChangeListener(updateListener);*/
                     "PRIMARY KEY (`dbsystemid`)"+
                      ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8");
 
-                   stmnt.executeUpdate("REPLACE INTO dbsystem (dbsystemid, dbleadversion, dbsubversion) VALUES ( 1 ,  '1',  '"+STR_VERSIONSUB_START+"' )");                                  
+                   stmnt.executeUpdate("REPLACE INTO dbsystem (dbsystemid, dbleadversion, dbsubversion) VALUES ( 1 ,  '"+STR_VERSIONLEAD_START+"',  '"+STR_VERSIONSUB_START+"' )");                                  
            ret=true;
            
            }                      
@@ -3126,13 +3140,13 @@ manager.addChangeListener(updateListener);*/
     
     private double checkVersionOfDb()
     {
-        double dbVersion = 1.2585;
+        double dbVersion = Double.parseDouble(STR_VERSIONSUB_START);
             Database db = new Database();
             db.retrieveDBDataFromQuery("SELECT dbleadversion, dbsubversion FROM dbsystem WHERE dbsystemid = 1","DialogMain.isRestoreCompleted");
             ResultSet rs = db.getRS();
 
-            String strDbLeadVer = "1";
-            String strDbSubVer = "1.2585";
+            String strDbLeadVer = STR_VERSIONLEAD_START;
+            String strDbSubVer = STR_VERSIONSUB_START;
              try
              {
             if(rs==null || rs.first()==false)
@@ -3361,7 +3375,7 @@ manager.addChangeListener(updateListener);*/
            dialogMain.readFromFileDbSettings();
            // also in isRestoreCompleted
            // used here again in order to create the db
-           double oldStartVersion = 1.2585;
+           double oldStartVersion = Double.parseDouble(STR_VERSIONSUB_START);
            double oldInstalledVersion = dialogMain.checkVersionOfDb();
            double oldVersion=0;
            if(oldInstalledVersion>oldStartVersion)

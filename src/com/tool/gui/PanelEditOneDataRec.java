@@ -1,5 +1,4 @@
 // PanelEditOneDataRec.java
-// created 02-07-2009
 
 package com.tool.gui;
 

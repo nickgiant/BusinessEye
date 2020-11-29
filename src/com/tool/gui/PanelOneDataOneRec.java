@@ -1722,7 +1722,7 @@ import javax.swing.text.JTextComponent;
            {
                isEditable=true;
            }
-           System.out.println("PanelODOR.checkForListMessages   p:"+p+"    isEditable:"+isEditable+"       listPanelOneDataOneRecData.size:"+listPanelOneDataOneRecData.size());
+           //System.out.println("PanelODOR.checkForListMessages   p:"+p+"    isEditable:"+isEditable+"       listPanelOneDataOneRecData.size:"+listPanelOneDataOneRecData.size());
        }
       
        

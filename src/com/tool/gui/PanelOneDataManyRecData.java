@@ -2074,19 +2074,18 @@ import javax.swing.text.JTextComponent;
     */
     
     public void addNewRowIfThereIsnt(boolean afterCurrentLine)
-    {
-       
+    {        
+       String pKey = utilsPanelReport.getPrimKeyValue();
      
-       //setPrimKeyValueInTableModelResultSet(getPrimKeyValue());
-       String pKey = getPrimKeyValue();
-       System.out.println("-----panelODMRData.addNewRowIfThereIsnt IF "+tableModelResultSet.hasEmptyRow()+"  pKey:"+pKey+"  tableModelResultSet.getRowCount():"+tableModelResultSet.getRowCount()+"    getSelectedTableRow()"+getSelectedTableRow());                
+       //int allRowCount = tableModelResultSet.getRowCount();
 
+  //System.out.println("-----panelODMRData.addNewRowIfThereIsnt IF "+tableModelResultSet.hasEmptyRow()+"  pKey:"+pKey+"    afterCurrentLine:"+afterCurrentLine+"    allRowCount:"+allRowCount+"   getSelectedTableRow()"+getSelectedTableRow());                
        if (!tableModelResultSet.hasEmptyRow() && isEditable)// && !isNewRec)
        {
-       //	System.out.println("-----panelODMRData.addNewRowIfThereIsnt IF "+tableModelResultSet.hasEmptyRow()+"  afterCurrentLine:"+afterCurrentLine+"  tableModelResultSet.getRowCount():"+tableModelResultSet.getRowCount()+"    getSelectedTableRow()"+getSelectedTableRow());                
+       	//System.out.println("-----panelODMRData.addNewRowIfThereIsnt IF "+tableModelResultSet.hasEmptyRow()+"  afterCurrentLine:"+afterCurrentLine+"     allRowCount:"+allRowCount+"       getSelectedTableRow()"+getSelectedTableRow());                
        	     if(afterCurrentLine)
        	     { // when true, at the end of table
-                 
+                 //System.out.println("-----panelODMRData.addNewRowIfThereIsnt IF   afterCurrentLine:"+afterCurrentLine+"     tableModelResultSet.getRowCount():"+tableModelResultSet.getRowCount()+"  pKey:"+pKey+"     getSelectedTableRow()"+getSelectedTableRow());                
                  if(tableModelResultSet.getRowCount()==0)
                  {
        	     	        tableModelResultSet.addEmptyRow(0,pKey,table);
@@ -2120,6 +2119,7 @@ import javax.swing.text.JTextComponent;
 
                 if(rowCount==0)
        	        {
+                    //System.out.println("panelODMRData.addNewRowIfThereIsnt   if  row:"+row+" rowCount:"+rowCount);
                      //System.out.println("--o--panelODMRData.addNewRowIfThereIsnt else A  hasemptyrow:"+tableModelResultSet.hasEmptyRow()+"  colcount:"+table.getColumnCount()); 
                     tableModelResultSet.addEmptyRow(0,pKey,table);
                     //System.out.println("--o--panelODMRData.addNewRowIfThereIsnt else B  hasemptyrow:"+tableModelResultSet.hasEmptyRow()+"  colcount:"+table.getColumnCount()); 
@@ -2134,7 +2134,7 @@ import javax.swing.text.JTextComponent;
        	        }
        	        else
        	        {
-                    System.out.println("addNewRowIfThereIsnt    row:"+row);
+                    //System.out.println("panelODMRData.addNewRowIfThereIsnt   else  row:"+row+" rowCount:"+rowCount);
                     if(row!=-1)
                     {
                         tableModelResultSet.addEmptyRow(row,pKey,table);	
@@ -2162,7 +2162,7 @@ import javax.swing.text.JTextComponent;
                 //}
        	     }
                 int rowCount = tableModelResultSet.getRowCount();
-               System.out.println("-- --panelODMRData.addNewRowIfThereIsnt   calculateSumFields "+rowCount);
+               System.out.println("-- --panelODMRData.addNewRowIfThereIsnt   calculateSumFields rowCount:"+rowCount);
                 if(rowCount>0) //  do not make calculations when the first row is inserted
                 {
                     panelODORData.calculateSumFields();
