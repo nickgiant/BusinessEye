@@ -1216,7 +1216,16 @@ strAll = strHtmlPage;
              //else
 
              queryFormForPrinting = queryFormForPrinting+" "+queryWhereAnd;
-
+             
+             
+             
+             System.out.println("ReportAreaForm.processAndGetFormLaserFromDB    strQueryFieldOfForm:"+strQueryFieldOfForm+"    queryFormForPrinting:"+queryFormForPrinting);
+   /* if(queryFormForPrinting.indexOf(strQueryFieldOfForm)==-1) 
+    {  
+        strReturn="Δέν έχει οριστεί φόρμα.";
+    }
+    else
+    {*/
    	    db.retrieveDBDataFromQuery(queryFormForPrinting,"ReportAreaForm.processAndGetFormLaserFromDB");
    	    rs=db.getRS();
    	   // rsmd=db.getRSMetaData();
@@ -1255,7 +1264,7 @@ strAll = strHtmlPage;
       }// try sql
       catch ( SQLException sqlex)
       {
-         System.out.println("error:ReportAreaForm.processAndGetFormLaserFromDB:   "+sqlex.getMessage()+"       queryFormForPrinting: "+queryFormForPrinting);
+         System.out.println("error:ReportAreaForm.processAndGetFormLaserFromDB:   "+sqlex.getMessage()+"      strQueryFieldOfForm:"+strQueryFieldOfForm+"        queryFormForPrinting: "+queryFormForPrinting);
          sqlex.printStackTrace();
         
       }     
@@ -1263,44 +1272,12 @@ strAll = strHtmlPage;
       {
            closeDB();
       }
-            
+    //}      
       if(strReturn==null)
       {
           strReturn ="";
       }
        
-/*        String zipFile = dirTemplateReports+VariablesGlobal.globalSystemDirectorySymbol+nameOfForm+TEMPLATE_REPORTFORMFILETYPE;   
-   	  String reportfileLaser = FILE_REPORTFORMTEMPLATE_LASER; 
-   	  //FileInputStream in = new FileInputStream();
-        StringBuilder contentBuilder = new StringBuilder();
-        try
-        {
-            System.out.println("ReportAreaForm.processAndGetFileFormLaser LASER    zipFile:"+zipFile+"    reportfileLaser:"+reportfileLaser);
-            BufferedReader in = utilsOS.getFileFromZip(reportfileLaser,zipFile);
-          //BufferedReader in = new BufferedReader(new FileReader(reportfileLaser));
-         String str = "";
-           
-        
-
-         while ((str = in.readLine()) != null)
-         {
-             
-             //str=str+str;
-            // str = str;
-         contentBuilder.append(str);
-         }
-           in.close();
-        
-        }
-        catch (IOException ex)
-        {
-          System.err.println("ReportAreaForm.processAndGetFileFormLaser LASER    IOException: "+ex.getMessage()+"     file not found:"+VariablesGlobal.globalSystemDirectorySymbol+DIR_REPORTDOCUMENTTEMPLATE+VariablesGlobal.globalSystemDirectorySymbol+nameOfForm+FILE_REPORTFORMTEMPLATE_LASER);
-          //System.err.println(ex);
-        }
- 
-        return contentBuilder.toString();      
-  */
-
       closeDB();
      return strReturn;
       //System.out.println("ReportAreaForm.setEntity zipFile "+zipFile);

@@ -65,7 +65,7 @@ public class UtilsPanelReport implements Constants
       rs.beforeFirst();
       while(rs.next())
       {
-         //System.out.println(" - + - + + + + + +  +UtilsPanelReport.getRowForPrimKey() row="+row+"     dbFields.length:"+dbFields.length+"  calledByIn:"+calledByIn+" queryIn:"+queryIn);
+      System.out.println(" - + - + + + + + +  +UtilsPanelReport.getRowFromPrimKeys() row="+row+"       calledByIn:"+calledByIn+" queryIn:"+queryIn);
       	 row=row+1; //rs starts from 1
         
          if(primKeysIn!=null)
@@ -73,6 +73,7 @@ public class UtilsPanelReport implements Constants
          int len = primKeysIn.length;
            for(int pk=0;pk<len;pk++)
            {
+               //System.out.println(" - + - + + + + + +  +UtilsPanelReport.getRowFromPrimKeys() row="+row+"   pk:"+pk+"    primKeysIn:"+primKeysIn[pk]+" = "+rs.getString(primKeysIn[pk]) );
           	   if(rs.getString(primKeysIn[pk])==null)  
                    {
                        
@@ -1058,7 +1059,8 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                              rs=db.getRS();
                     // System.out.println("gg ("+entity+") ("+pk+")   primKeysDbField:"+primKeysDbField[pk]+"    primKeysDbFieldCaption"+primKeysDbFieldCaption[pk]+"    selectedTableRow:"+selectedTableRow+"   "+queryIn);
                    //System.out.println("gg ("+pk+") Caption:"+primKeysDbFieldCaption[pk]+", DbField:"+primKeysDbField[pk]+" = "+primKeysDbFieldValue[pk]+" queryIn:"+queryIn);
-                             rs = db.retrieveRow(rs, selectedTableRow);
+                            rs.first();
+                           /* rs = db.retrieveRow(rs, selectedTableRow);
                             if(rs.isAfterLast())
                             {
                        
@@ -1067,7 +1069,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                             { 
                                  primKeysDbFieldValue[pk] = rs.getString(primKeysDbField[pk]); // perhaps  primKeysDbFieldCaption   primKeysDbField
                  //System.out.println("UtilsPanelReport.retrievePrimKeyValueForOnePK ("+pk+") Caption:"+primKeysDbFieldCaption[pk]+", DbField:"+primKeysDbField[pk]+" = "+primKeysDbFieldValue[pk]);//+"   query q:"+q);              
-                            }
+                            }*/
                         }                        
                      }
                      catch(SQLException sqlE)

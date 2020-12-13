@@ -234,7 +234,7 @@ private PanelManagement panelManagement;
                       
               PanelOneDataOneRec panelODOR =  new PanelOneDataOneRec(frame);
               // -1 is used instead for the selectedtablerow in readonlytable in order PKs to be found
-             panelODOR.setEntity(entityParameter.getName(),entityParameter.getEntityPanel()[0],-1,/*primKeyValue*//*""*/sql,null,null,"", false, false,
+             panelODOR.setEntity(entityParameter.getName(),entityParameter.getEntityPanel()[0],-1,/*primKeyValue,*//*""*/sql,null,null,"", false, false,
                       /*,formGlobalTableToGet1,formGlobalTableToApply1*/null,/* do not want to show title so null, entityParameter.getFieldsOnTitle(),
                        entityParameter.getFieldsOnTitleCaption()*/null, false, "",/*showShowListButtons*/true, true,ICO_TABLE16,
                        panelManagement,null,IS_CALLED_BY_MULTIPLE_TABLES_MDMR);  //0 the only one panel                        

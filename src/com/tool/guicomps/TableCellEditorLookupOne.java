@@ -559,13 +559,13 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
        PanelEditOneDataRec  panelEditOneDataRec = new PanelEditOneDataRec(frame);
 
                  
-        //System.out.println("panelOneDataManyRec primKeyValue "+selectedKeyValue);
+        //System.out.println("TableCellEditorLookupOne primKeyValue "+selectedKeyValue);
         LookUpMgt lookUp = new LookUpMgt();
         
         String[] fieldsOnTitle=lookUp.getFieldsOnTitle(luname);
          String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(luname);
         String editTitle=lookUp.getStrOfOne(luname);
-        EntityPanel[] entityPanel = lookUp.getEntityPanel(luname);
+        EntityPanel[] luentityPanel = lookUp.getEntityPanel(luname);
         String primKey = lookUp.getLookUpKey(luname);
         
         String query = "";
@@ -579,11 +579,113 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
         }
         
         
+        
+        
+     // exists in displayDialogLookup both in PanelODORData and table lookup cell editors
+       ArrayList listPrimKeysSel = new ArrayList();
+       ArrayList listPrimKeysValueSel = new ArrayList();
+       EntityDBFields[] luDbFields =  luentityPanel[0].getDBFields();
+       
+       int lendbf = luDbFields.length;
+       for(int dbf=0;dbf<lendbf;dbf++)
+       {
+           String className = luDbFields[dbf].getColClassName();
+           String dbFieldName = luDbFields[dbf].getDbField();
+           int pkType = luDbFields[dbf].getPrimaryKeyIntegerAutoInc();  // FIELD_NORMAL_NO_PRIMARY_KEY=0;
+
+           if(!className.equalsIgnoreCase("table"))//    not table
+           {
+             //System.out.println(" TableCellEditorLookupOne.displayDialogEdit   ===-----====    dbf:"+dbf+"     pkType:"+pkType+"    dbFieldName:"+dbFieldName);
+             if(pkType==FIELD_PRIMARY_KEY_AUTOINC)
+             {
+               listPrimKeysSel.add(dbFieldName);
+               listPrimKeysValueSel.add(selectedKeyValue);
+             }
+             else if(pkType == FIELD_PRIMARY_KEY)// exists in displayDialogLookup both in PanelODORData and table lookup cell editors
+             {
+               listPrimKeysSel.add(dbFieldName);
+               if(dbFieldName.equalsIgnoreCase(STRFIELD_DBCOMPANYID)) 
+               {
+                 listPrimKeysValueSel.add(VariablesGlobal.globalCompanyId);
+               }
+               else if(dbFieldName.equalsIgnoreCase(STRFIELD_DBYEARID))
+               {
+                  listPrimKeysValueSel.add(VariablesGlobal.globalYearId); 
+               }
+               else
+               {
+                   System.out.println("error  TableCellEditorLookupOne.displayDialogEdit    pkType:"+pkType+"    FIELD_PRIMARY_KEY   NOT Defined");
+               }
+             }
+             else
+             {   // auto pks and pks MUST be first before other fields
+                 break;
+             }
+           }
+           else if(className.equalsIgnoreCase("table"))
+           {
+              
+               EntityDBFields[] luDbChildFields = luDbFields[dbf].getDbChildFields();
+               for(int cf=0;cf<luDbChildFields.length;cf++)
+               {
+                   String dbChildFieldName = luDbChildFields[cf].getDbField();
+                   int pkChildType = luDbChildFields[cf].getPrimaryKeyIntegerAutoInc();
+                  
+                    if(pkChildType==FIELD_PRIMARY_KEY_AUTOINC)
+                    {
+                        listPrimKeysSel.add(dbChildFieldName);
+                        listPrimKeysValueSel.add(selectedKeyValue);
+                    }
+                    else if(pkChildType == FIELD_PRIMARY_KEY)// exists in displayDialogLookup both in PanelODORData and table lookup cell editors
+                    {
+                        listPrimKeysSel.add(dbChildFieldName);
+                        if(dbChildFieldName.equalsIgnoreCase(STRFIELD_DBCOMPANYID)) 
+                        {
+                            listPrimKeysValueSel.add(VariablesGlobal.globalCompanyId);
+                        }
+                        else if(dbChildFieldName.equalsIgnoreCase(STRFIELD_DBYEARID))
+                        {
+                            listPrimKeysValueSel.add(VariablesGlobal.globalYearId); 
+                        }
+                        else
+                        {
+                            System.out.println("error  TableCellEditorLookupOne.displayDialogEdit  child  pkChildType:"+pkChildType+"    FIELD_PRIMARY_KEY   NOT Defined");
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                   
+                   
+                   System.out.println(" TableCellEditorLookupOne.displayDialogEdit   ===-----====    dbf:"+dbf+" cf:"+cf+"    pkChildType:"+pkChildType+"    dbChildFieldName:"+dbChildFieldName); 
+               }
+               //System.out.println(" panelODORData.displayDialogLookUp   ===-----====    dbf:"+dbf+"     pkType:"+pkType+"    dbFieldName:"+dbFieldName);
+           }           
+       }
+   
+       
+       
+     String[] primKeysSel = new String[listPrimKeysSel.size()];
+     String[] primKeysValueSel= new String[listPrimKeysSel.size()];
+     for(int pk=0;pk<listPrimKeysSel.size();pk++)
+     {
+         primKeysSel[pk]=(String)listPrimKeysSel.get(pk);
+         primKeysValueSel[pk]=(String)listPrimKeysValueSel.get(pk);
+     }
+   
+      //String[] primKeysSel = {primKey};
+            
+        
         ImageIcon iconLU=lookUp.getIcon(luname);
-       String[] selPrimKeys={primKey} ;
-       String[] selPrimKeysValue={selectedKeyValue} ;        
+        
+        if(listPrimKeysSel.size()==1)
+        {
+           primKeysSel[0] = primKey ;
+           primKeysValueSel[0]=selectedKeyValue ;     
+        }
       // -1 is the selectedTableRow in readonlytable used to get the PKs
-     int selected =  panelEditOneDataRec.setEntity(strTable, entityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*"",*//*primKeyValue usualy for dbcompanysettings,*///primKey//formGlobalTableToGet1,formGlobalTableToApply1,
+     int selected =  panelEditOneDataRec.setEntity(strTable, luentityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,primKeysSel,primKeysValueSel,/*"",*//*primKeyValue usualy for dbcompanysettings,*///primKey//formGlobalTableToGet1,formGlobalTableToApply1,
                /*null,null,*/query, editTitle,iconLU/*,true*/,false,false,true,null, false, panelManagement);	
    
     	

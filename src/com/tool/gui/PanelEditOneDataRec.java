@@ -235,7 +235,7 @@ import javax.swing.border.BevelBorder;
         //formGlobalField1 =formGlobalField1In;
         primKeys=primKeysIn;
         primKeysValue=primKeysValueIn;
-  //      primKeyValue=primKeyValueIn;
+//        primKeyValue=primKeyValueIn;
         isNewRec=isNewRecIn;
         isNewRecFromCopy=isNewRecFromCopyIn;
         fieldsOnTitle=fieldsOnTitleIn;

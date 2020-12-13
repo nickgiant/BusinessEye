@@ -4388,7 +4388,7 @@ catch(Exception e)
         String[] fieldsOnTitle=lookUp.getFieldsOnTitle(luname);
          String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(luname);
         String editTitle=lookUp.getStrOfOne(luname);
-        EntityPanel[] entityPanel = lookUp.getEntityPanel(luname);
+        EntityPanel[] luentityPanel = lookUp.getEntityPanel(luname);
         String primKey = lookUp.getLookUpKey(luname);
         ImageIcon iconLU=lookUp.getIcon(luname);
         String queryLookUp = lookUp.getQuery(luname);
@@ -4449,7 +4449,7 @@ catch(Exception e)
         
           
            
-     System.out.println("---panelODORData.displayDialogLookUp   dbCol:"+dbCol+"   selectedKeyValue:"+selectedKeyValue+"      tb2Text:"+tb2Text);
+     System.out.println("---panelODORData.displayDialogEdit   dbCol:"+dbCol+"   selectedKeyValue:"+selectedKeyValue+"      tb2Text:"+tb2Text);
   
         String subQueryFilterFromRecType="";
 
@@ -4495,27 +4495,108 @@ catch(Exception e)
             
 
       
-     // System.out.println(" BEFORE panelODORData.displayDialogLookUp   "+luname+"    selectedKeyValue:"+selectedKeyValue+"       subQueryFilterFromRecType:"+subQueryFilterFromRecType+"        queryLookUp:"+queryLookUp);
+     // System.out.println(" BEFORE panelODORData.displayDialogEdit   "+luname+"    selectedKeyValue:"+selectedKeyValue+"       subQueryFilterFromRecType:"+subQueryFilterFromRecType+"        queryLookUp:"+queryLookUp);
       
 
     
             
             // queryLUWithQ = lookUp.getQuery(luname)+" "+queryLookUpWhere+" "+subQueryFilterFromRecType+" "+qSub ;//+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(luname);
-    
+  
+            // exists in displayDialogLookup both in PanelODORData and table lookup cell editors
+       ArrayList listPrimKeysSel = new ArrayList();
+       ArrayList listPrimKeysValueSel = new ArrayList();
+       EntityDBFields[] luDbFields =  luentityPanel[0].getDBFields();
+       
+       int lendbf = luDbFields.length;
+       for(int dbf=0;dbf<lendbf;dbf++)
+       {
+           String className = luDbFields[dbf].getColClassName();
+           String dbFieldName = luDbFields[dbf].getDbField();
+           int pkType = luDbFields[dbf].getPrimaryKeyIntegerAutoInc();  // FIELD_NORMAL_NO_PRIMARY_KEY=0;
+
+           if(!className.equalsIgnoreCase("table"))//    not table
+           {
+             //System.out.println(" panelODORData.displayDialogEdit   ===-----====    dbf:"+dbf+"     pkType:"+pkType+"    dbFieldName:"+dbFieldName);
+             if(pkType==FIELD_PRIMARY_KEY_AUTOINC)
+             {
+               listPrimKeysSel.add(dbFieldName);
+               listPrimKeysValueSel.add(selectedKeyValue);
+             }
+             else if(pkType == FIELD_PRIMARY_KEY)// exists in displayDialogLookup both in PanelODORData and table lookup cell editors
+             {
+               listPrimKeysSel.add(dbFieldName);
+               if(dbFieldName.equalsIgnoreCase(STRFIELD_DBCOMPANYID)) 
+               {
+                 listPrimKeysValueSel.add(VariablesGlobal.globalCompanyId);
+               }
+               else if(dbFieldName.equalsIgnoreCase(STRFIELD_DBYEARID))
+               {
+                  listPrimKeysValueSel.add(VariablesGlobal.globalYearId); 
+               }
+               else
+               {
+                   System.out.println("error  panelODORData.displayDialogEdit    pkType:"+pkType+"    FIELD_PRIMARY_KEY   NOT Defined");
+               }
+             }
+             else
+             {   // auto pks and pks MUST be first before other fields
+                 break;
+             }
+           }
+           else if(className.equalsIgnoreCase("table"))
+           {
+              
+               EntityDBFields[] luDbChildFields = luDbFields[dbf].getDbChildFields();
+               for(int cf=0;cf<luDbChildFields.length;cf++)
+               {
+                   String dbChildFieldName = luDbChildFields[cf].getDbField();
+                   int pkChildType = luDbChildFields[cf].getPrimaryKeyIntegerAutoInc();
+                  
+                    if(pkChildType==FIELD_PRIMARY_KEY_AUTOINC)
+                    {
+                        listPrimKeysSel.add(dbChildFieldName);
+                        listPrimKeysValueSel.add(selectedKeyValue);
+                    }
+                    else if(pkChildType == FIELD_PRIMARY_KEY)// exists in displayDialogLookup both in PanelODORData and table lookup cell editors
+                    {
+                        listPrimKeysSel.add(dbChildFieldName);
+                        if(dbChildFieldName.equalsIgnoreCase(STRFIELD_DBCOMPANYID)) 
+                        {
+                            listPrimKeysValueSel.add(VariablesGlobal.globalCompanyId);
+                        }
+                        else if(dbChildFieldName.equalsIgnoreCase(STRFIELD_DBYEARID))
+                        {
+                            listPrimKeysValueSel.add(VariablesGlobal.globalYearId); 
+                        }
+                        else
+                        {
+                            System.out.println("error  panelODORData.displayDialogEdit  child  pkChildType:"+pkChildType+"    FIELD_PRIMARY_KEY   NOT Defined");
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                   
+                   
+                   System.out.println(" panelODORData.displayDialogEdit   ===-----====    dbf:"+dbf+" cf:"+cf+"    pkChildType:"+pkChildType+"    dbChildFieldName:"+dbChildFieldName); 
+               }
+               //System.out.println(" panelODORData.displayDialogLookUp   ===-----====    dbf:"+dbf+"     pkType:"+pkType+"    dbFieldName:"+dbFieldName);
+           }           
+       }
    
+     String[] primKeysSel = new String[listPrimKeysSel.size()];
+     String[] primKeysValueSel= new String[listPrimKeysSel.size()];
+     for(int pk=0;pk<listPrimKeysSel.size();pk++)
+     {
+         primKeysSel[pk]=(String)listPrimKeysSel.get(pk);
+         primKeysValueSel[pk]=(String)listPrimKeysValueSel.get(pk);
+     }
    
-   
-   
-   
-   
-   
-   
-   
-   
-      String[] primKeysSel = {primKey};
-      String[] primKeysValueSel = {selectedKeyValue};
+      //String[] primKeysSel = {primKey};
+      //String[] primKeysValueSel = {selectedKeyValue};
       System.out.println("PanelODORData.displayDialogEdit LLL  queryLookUp:"+queryLookUp+"     queryOrderByLookUp:"+queryOrderByLookUp+"  primKey:"+primKey+"       selectedKeyValue:"+selectedKeyValue+"      queryLUWithQ:"+queryLUWithQ);
-      int selected = panelEditOneDataRec.setEntity(foreignTable, entityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,primKeysSel,primKeysValueSel,/*primKey,/*formGlobalTableToGet1,formGlobalTableToApply1,*//*primKeyDb  (set to primKey instead of primKeyDb because in panelEditOneDataRec of buyers to the product statistics page there was an error in the title)*/
+      int selected = panelEditOneDataRec.setEntity(foreignTable, luentityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,primKeysSel,primKeysValueSel,/*primKey,/*formGlobalTableToGet1,formGlobalTableToApply1,*//*primKeyDb  (set to primKey instead of primKeyDb because in panelEditOneDataRec of buyers to the product statistics page there was an error in the title)*/
        /*, null,null,*/queryLUWithQ/*queryLookUp*/,editTitle,iconLU,/*true,*/false,isNewRecFromCopy,true,null, false, panelManagement);//,entityReport);	
                                      
      if(selected == 0)// when 0 do not display
@@ -8038,7 +8119,8 @@ ps.setBytes(i, b);
          }
         else
         {  
-            
+            if(primKeys!=null)
+            {
             for(int pk =0;pk<primKeys.length;pk++)
             {
                 if(primKeyDb.equalsIgnoreCase(primKeys[pk]))
@@ -8046,7 +8128,11 @@ ps.setBytes(i, b);
                     pkFromOnePanelForTables=primKeysValue[pk];
                 }
             }
-
+            }
+            else
+            {
+                pkFromOnePanelForTables=primKeyValue;
+            }
             
             
                System.out.println("PanelODORData.rowSaveAll UPDATE    isNewRecIn:"+isNewRecIn+"     pkFromOnePanelForTables:"+pkFromOnePanelForTables+"     title:"+title);
@@ -9957,13 +10043,34 @@ ps.setBytes(i, b);
 
                 if (fieldName.equalsIgnoreCase(STRFIELD_ISPRINTED))
                 {
+                    String subqueryWhere="";
+           int primKeysCount = 0;
+            if(primKeys!=null)
+            {
+             primKeysCount = primKeys.length;
+
+          for (int pk = 0; pk< primKeysCount; pk++) // i=0 and i< because arraylist starts from 0
+          {             
+
+                   subqueryWhere = subqueryWhere+"("+primKeys[pk]+" LIKE '"+primKeysValue[pk]+"')";
+
+          	  if (pk < primKeys.length-1 && primKeys.length>1) 
+          	  // add AND but not on the last field(before where), also not when there is only one PK . -1 because arraylist starts from 0
+          	  { subqueryWhere = subqueryWhere+" AND  ";   }              
+                 
+          }
+            }
+                     String qOrderByAndGroupByReadOnly = utilsString.getGroupbyAndOrderbySubQuery(query); 
+               String querytoCheck= utilsString.getQueryBeforeWhere(query)+" WHERE "+subqueryWhere+" "+qOrderByAndGroupByReadOnly;    
+                    
              int selectedRow=0;       
-   	    db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.checkIfIsPrinted");
-   	    rs=db.getRS();   
+   	    db.retrieveDBDataFromQuery(querytoCheck,"PanelOneDataOnRecData.checkIfIsPrinted");
+   	    rs=db.getRS(); 
+            rs.first();
             //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue);
-            selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfIsPrinted",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+          //  selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfIsPrinted",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
             //System.out.println("      panelOneDataOneRecData.checkIfAllComponentsShouldBeReadOnly   selectedRow"+selectedRow+"   primKeyValue:"+primKeyValue+"  query:"+query);
-            if(selectedRow != 0) 
+          /*  if(selectedRow != 0) 
             {
                  rs.absolute(selectedRow); 
             }
@@ -9971,7 +10078,7 @@ ps.setBytes(i, b);
             {
                  selectedRow = 1; // 1st row if none selected
                  rs.absolute(selectedRow); 
-            }    
+            }*/    
           
                    int isPrintedValue = rs.getInt(fieldName); 
                    if(isPrintedValue>1)
@@ -10103,14 +10210,34 @@ ps.setBytes(i, b);
 
                 if (fieldName.equalsIgnoreCase("dbYearId") && !entity.equalsIgnoreCase("dbYear"))
                 {
+                    String subqueryWhere="";
+           int primKeysCount = 0;
+            if(primKeys!=null)
+            {
+             primKeysCount = primKeys.length;
+
+          for (int pk = 0; pk< primKeysCount; pk++) // i=0 and i< because arraylist starts from 0
+          {             
+
+                   subqueryWhere = subqueryWhere+"("+primKeys[pk]+" LIKE '"+primKeysValue[pk]+"')";
+
+          	  if (pk < primKeys.length-1 && primKeys.length>1) 
+          	  // add AND but not on the last field(before where), also not when there is only one PK . -1 because arraylist starts from 0
+          	  { subqueryWhere = subqueryWhere+" AND  ";   }              
+                 
+          }
+            }
+                     String qOrderByAndGroupByReadOnly = utilsString.getGroupbyAndOrderbySubQuery(query); 
+               String querytoCheck= utilsString.getQueryBeforeWhere(query)+" WHERE "+subqueryWhere+" "+qOrderByAndGroupByReadOnly;    
                     
                     
-   	    db.retrieveDBDataFromQuery(query,"PanelOneDataOnRecData.checkIfIsInPreviousYear");
+   	    db.retrieveDBDataFromQuery(querytoCheck,"PanelOneDataOnRecData.checkIfIsInPreviousYear");
    	    rs=db.getRS();   
+            rs.first();
             //System.out.println("      panelOneDataOneRecData.checkIfIsInPreviousYear   primKeyDb"+primKeyDb+"    primKeyValue:"+primKeyValue);
-            selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfIsInPreviousYear",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
+            //selectedRow=utilsPanelReport.getRowForPrimKey("PanelOneDataOnRecData.checkIfIsInPreviousYear",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
             //System.out.println("      panelOneDataOneRecData.checkIfIsInPreviousYear   selectedRow"+selectedRow+"    query:"+query);
-            if(selectedRow != 0) 
+           /* if(selectedRow != 0) 
             {
                  rs.absolute(selectedRow); 
             }
@@ -10118,7 +10245,7 @@ ps.setBytes(i, b);
             {
                  selectedRow = 1; // 1st row if none selected
                  rs.absolute(selectedRow); 
-            }    
+            }*/    
           
                    String yearid = rs.getString(fieldName);
                     System.out.println("PanelODORData.checkIfIsInPreviousYear  var yearId"+VariablesGlobal.globalYearId+"  fieldName:"+fieldName+"   yearid:"+yearid);             

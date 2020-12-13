@@ -754,9 +754,9 @@ import javax.swing.text.JTextComponent;
     	//setEntity("buyer", query);
     	if(VariablesGlobal.globalShowStatisticsSQL)
     	{
-    	   System.out.println("PanelStatistics.selectSQL: "+query);
+    	   System.out.println("PanelStatistics.filter: "+query);
     	}
-    	
+    	System.out.println("PanelStatistics.filter: "+query);
     	tableModel= new TableModelReadOnly();
         table.setModel(tableModel);
         

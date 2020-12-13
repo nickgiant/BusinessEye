@@ -357,7 +357,7 @@ import javax.swing.text.JTextComponent;
         //formGlobalField1=formGlobalField1In;
     	title=titleIn;
     	//primKeyDb=primKeyDbIn;
-//    	primKeyValue=primKeyValueIn;                  // when there are not pks as array, ie only 1 row(dbcompanysettings)
+    	//primKeyValue=primKeyValueIn;                  // when there are not pks as array, ie only 1 row(dbcompanysettings)
     	fieldsOnTitle=fieldsOnTitleIn;
     	fieldsOnTitleCaption=fieldsOnTitleCaptionIn;
     	panelManagement=panelManagementIn;
@@ -460,16 +460,16 @@ import javax.swing.text.JTextComponent;
         if(!isNewRec)
         {
 
-          //System.out.println(" --O-->  PanelOneDataOneRec.setEntity   entityIn:"+entityIn+" '"+entityPanel.getEntity()+"'     isNewRec:"+isNewRec+"     primKeyValue:"+primKeyValue+"  queryReadOnly:"+queryReadOnly+"  query:"+query);
+          System.out.println(" ---O--->  PanelOneDataOneRec.setEntity   entityIn:"+entityIn+" '"+entityPanel.getEntity()+"'     isNewRec:"+isNewRec+"     primKeyValue:"+primKeyValue+"  queryReadOnly:"+queryReadOnly+"  query:"+query);
 
             // also in printPreviewForm
             db.retrieveDBDataFromQuery(query,"PanelOneDataOneRec.setEntity"); // use queryReadOnly, not query because it has the 'where' clause with pk to limit
                                                                                //the rows to find the selectedRow
            rs=db.getRS();
 
-           if(primKeys!=null)
+           if(primKeys!=null && primKeys.length>0)
            {
-           selectedRow = utilsPanelReport.getRowFromPrimKeys("PanelOneDataOneRec.setEntity   selectedRow A  ",query,rs,primKeys,primKeysValue);
+           selectedRow = utilsPanelReport.getRowFromPrimKeys("PanelOneDataOneRec.setEntity   selectedRow A  entityIn:"+entityIn,query,rs,primKeys,primKeysValue);
            }
            else
            {
@@ -479,7 +479,7 @@ import javax.swing.text.JTextComponent;
              {
                  primKeyValue = VariablesGlobal.globalCompanyId;
              }               
-               
+               System.out.println("  PanelOneDataOneRec.setEntity  OOooooooOO   primKeyDb:"+primKeyDb+"="+primKeyValue+"     primKeys:"+primKeys+"     queryReadOnly:"+queryReadOnly+"  query:"+query);
              selectedRow = utilsPanelReport.getRowForPrimKey("PanelOneDataOneRec.setEntity   selectedRow B  ",query,rs,dbFieldsAll,primKeyDb,primKeyValue);
            }
            
@@ -490,7 +490,7 @@ import javax.swing.text.JTextComponent;
                      
 
     String queryWhere="";
-    if(primKeys!=null)
+    if(primKeys!=null && primKeys.length>0)
     {
              primKeysCount = primKeys.length;
              closeDB();  
@@ -1342,24 +1342,24 @@ import javax.swing.text.JTextComponent;
          
          
 
-       db.getConnection();
+      /* db.getConnection();
        db.retrieveDBDataFromQuery(queryReadOnly, "PanelODOR.showPrintPreviewForm  rsk");
        ResultSet rsk = db.getRS();
       
        db.getRecordCount();
        
-       closeDB(); 
+       closeDB(); */
          
-            int selectedRow = utilsPanelReport.getRowForPrimKey("PanelODOR.showPrintPreviewForm  rsk",queryReadOnly,rsk,dbFieldsAll,primKeyDb,primKeyValue);
-            utilsPanelReport.retrievePrimKeyValueForOnePK( queryReadOnly, selectedRow, null,dbFieldsAll,true,/*primKeyIn,intColumnOfDescriptionIn,
-             sql2WhereField, sql2WhereValue,*/ entityPanel.getEntity(), /*tableModelReadOnly,*/ primKeyDb);    
+       //     int selectedRow = utilsPanelReport.getRowForPrimKey("PanelODOR.showPrintPreviewForm  rsk",queryReadOnly,rsk,dbFieldsAll,primKeyDb,primKeyValue);
+       //     utilsPanelReport.retrievePrimKeyValueForOnePK( queryReadOnly, selectedRow, null,dbFieldsAll,true,/*primKeyIn,intColumnOfDescriptionIn,
+        //     sql2WhereField, sql2WhereValue,*/ entityPanel.getEntity(), /*tableModelReadOnly,*/ primKeyDb);    
         //     System.out.println("----O------>  PanelOneDataOneRec.showPrintPreviewForm   '"+entityPanel.getEntity()+"   primKeyDb:"+primKeyDb+"  selectedRow:"+selectedRow+"'  primKeyValue:"+primKeyValue+"  primKeys.length:"+primKeys.length+"  queryReadOnly:"+queryReadOnly);          
-             primKeys = utilsPanelReport.getPrimKeys();
-             primKeysCaption = utilsPanelReport.getPrimKeysCaption();
+       //      primKeys = utilsPanelReport.getPrimKeys();
+       //      primKeysCaption = utilsPanelReport.getPrimKeysCaption();
       
       //       primKeysCount = primKeys.length;
-             primKeysValue = utilsPanelReport.getPrimKeysValue();              
-            System.out.println("----OO------>  PanelOneDataOneRec.showPrintPreviewForm   '"+entityPanel.getEntity()+"'   primKeyDb:"+primKeyDb+"'  primKeyValue:"+primKeyValue+"  primKeys.length:"+primKeys.length);
+       //      primKeysValue = utilsPanelReport.getPrimKeysValue();              
+          //  System.out.println("----OO------>  PanelOneDataOneRec.showPrintPreviewForm   '"+entityPanel.getEntity()+"'   primKeyDb:"+primKeyDb+"'  primKeyValue:"+primKeyValue+"  primKeys.length:"+primKeys.length);
              //closeDB();  
        //    }
        
@@ -1370,20 +1370,20 @@ import javax.swing.text.JTextComponent;
              {
                  pkTableArray[k] = entityPanel.getEntity();
                  primKeysWithTable[k] = pkTableArray[k]+"."+primKeys[k];
-                 if(!primKeyValue.equalsIgnoreCase("") && primKeyDb.equalsIgnoreCase(primKeys[k]))
+/*                 if(!primKeyValue.equalsIgnoreCase("") && primKeyDb.equalsIgnoreCase(primKeys[k]))
                  {
                      System.out.println("-- ---   -- - - - - -->  PanelOneDataOneRec.showPrintPreviewForm   k:"+k+"   primKeyDb:"+primKeyDb +"    primKeyValue:"+primKeyValue);
                      primKeysValue[k] = primKeyValue;
                  }
                  System.out.println("PanelODOR.showPrintPreviewForm      --+++++++++---A     entityPanel.getEntityReportForm bands  k:"+k+"    primKeysWithTable:"+primKeysWithTable[k]+"="+primKeysValue[k]);
                  //System.out.println("PanelODOR.showPrintPreviewForm      --+++++++++---A     entityPanel.getEntityReportForm bands  k:"+k+"             getQuery:"+entityPanel.getEntityReportForm());
-             }             
+*/             }             
         
        PanelReportSettingsPreview panelReportSettingsPreview = new PanelReportSettingsPreview(frame);
        String[] arrayOfNameOfPksOfRecordToShow = primKeysWithTable;//{entityPanel.getEntity()+"."+primKeyDb, entityPanel.getEntity()+"."+"dbCompanyId"};
-       String[] arrayOfValueOfPksOfRecordToShow = primKeysValue;//{primKeyValue, VariablesGlobal.globalCompanyId};
+       //String[] arrayOfValueOfPksOfRecordToShow = primKeysValue;//{primKeyValue, VariablesGlobal.globalCompanyId};
        
-       panelReportSettingsPreview.setEntityDirectPreviewOfForm(entityPanel,entityPanel.getEntityReportForm(),arrayOfNameOfPksOfRecordToShow,arrayOfValueOfPksOfRecordToShow,true, panelManagement);      
+       panelReportSettingsPreview.setEntityDirectPreviewOfForm(entityPanel,entityPanel.getEntityReportForm(),arrayOfNameOfPksOfRecordToShow,primKeysValue,true, panelManagement);      
 
        
        
@@ -1396,7 +1396,7 @@ import javax.swing.text.JTextComponent;
               {
 
                     //System.out.println("PanelODOR.showPrintPreviewForm    ++++++++   p:"+p+"  column:"+arrayOfNameOfPksOfRecordToShow[p]+"="+arrayOfValueOfPksOfRecordToShow[p]); 
-                  queryWhereAnd = queryWhereAnd + " AND "+arrayOfNameOfPksOfRecordToShow[p]+" LIKE "+arrayOfValueOfPksOfRecordToShow[p];
+                  queryWhereAnd = queryWhereAnd + " AND "+arrayOfNameOfPksOfRecordToShow[p]+" LIKE "+primKeysValue[p];
               }
              }
              queryToGetForm = queryToGetForm+" "+queryWhereAnd;
@@ -1411,9 +1411,9 @@ import javax.swing.text.JTextComponent;
        db.getConnection();
        db.retrieveDBDataFromQuery(queryToGetForm, "PanelODOR.showPrintPreviewForm   queryToGetForm ");
        ResultSet rsForm = db.getRS();
-       hasData = rsForm.next();
-       db.getRecordCount();
-       //System.out.println(" error  PanelODOR.showPrintPreviewForm    rec count:"+db.getRecordCount()); 
+       hasData = rsForm.first();//.next();
+       //db.getRecordCount();
+       //System.out.println(" error  PanelODOR.showPrintPreviewForm  +++++++++++++++++++++++++++++++++++++++  rec count:"+db.getRecordCount()); 
        }
        catch(SQLException e)
        {
