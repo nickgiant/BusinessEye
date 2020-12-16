@@ -487,14 +487,15 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
              String ft;   //if foreign table = null assign
              
              
-             
+             String name = "";
                 if (dbFieldsMany[i].getLookupEntityName()==null)// && (!entity.toUpperCase().equalsIgnoreCase(dbFieldsIn[i].getLookupEntityName().toUpperCase())))
                 {
                      ft =entity; //rsmd.getTableName(i);
                 }
                 else
                 {
-                     ft = lookUp.getTable(dbFieldsMany[i].getLookupEntityName());
+                    name = dbFieldsMany[i].getLookupEntityName();
+                     ft = lookUp.getTable(name);
                 }                     
                      
                      
@@ -503,7 +504,8 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
              // if has foreign key then calculate
                 if (!isEditable)
                 {   ft=entity;       }
-             final String foreignTable = ft;  
+             final String foreignTable = ft;
+             final String luName = name;
 
              
              // System.out.println("foreignTable ["+foreignTable+"] "+dbColNo+" - r "+row);            
@@ -514,13 +516,13 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                 String foreignQuery="";
                 String lookupText="";
                 
-                System.out.println("TableModelResultSet.setQuery  --------==--  "+lookUp.getLookUpKey(foreignTable).toString()+" foreignTable:"+foreignTable);
-                int k = rs.getInt(lookUp.getLookUpKey(foreignTable).toString()); //dbColNo); 
+                System.out.println("TableModelResultSet.setQuery  --------==--  "+lookUp.getLookUpKey(luName).toString()+" foreignTable:"+foreignTable);
+                int k = rs.getInt(lookUp.getLookUpKey(luName).toString()); //dbColNo); 
                 if (k!=0)
                 {
 
                  
-                   foreignQuery = "SELECT * FROM "+foreignTable+" WHERE "+lookUp.getLookUpKey(foreignTable)+" = "+rs.getInt(lookUp.getLookUpKey(foreignTable));//dbColNo);     
+                   foreignQuery = "SELECT * FROM "+foreignTable+" WHERE "+lookUp.getLookUpKey(luName)+" = "+rs.getInt(lookUp.getLookUpKey(luName));//dbColNo);     
                //System.out.println("tableModelRS.foreignQuery "+row+"  "+lookUp.getLookUpKey(foreignTable)+" "+rs.getInt(lookUp.getLookUpKey(foreignTable))+" "+foreignQuery);
    	               db.retrieveDBDataFromQuery(foreignQuery,"TableModelResultSet.setQuery");
    	               rsForeign=db.getRS();
@@ -531,10 +533,10 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                    //System.out.println("tableModelRS.setQuery "+columnData+" - "+columnName+" - r "+row+" foreignTable "+foreignTable);
                //    System.out.println("tableModelRS.setQuery "+columnName+" "+lookUp.getLookUpFieldIndex(foreignTable)+" "+foreignQuery);
                    //System.out.println("tableModelRS.setQuery entity:"+entity+" foreignTable:"+foreignTable+" ["+lookUp.getLookUpFieldIndex(foreignTable)+"]  foreignQuery:"+foreignQuery);
-                   if (/*notShowFieldsFromThisInQuery2!=null &&*/ foreignTable!=null /*&& !foreignTable.equalsIgnoreCase(notShowFieldsFromThisInQuery2)*/ && isEditable)
+                   if (/*notShowFieldsFromThisInQuery2!=null &&*/ luName!=null /*&& !foreignTable.equalsIgnoreCase(notShowFieldsFromThisInQuery2)*/ && isEditable)
                    {
                        //System.out.println("TableModelRS.setQuery     foreignTable:"+foreignTable+"   llokypIndex:"+lookUp.getLookUpFieldIndex(foreignTable));
-                       lookupText = rsForeign.getString(lookUp.getLookUpFieldIndex(foreignTable)) ;// get field data
+                       lookupText = rsForeign.getString(lookUp.getLookUpFieldIndex(luName)) ;// get field data
                    }
                      
                    //System.out.println("tableModelRS.setQuery "+lookupText);
@@ -542,14 +544,14 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
               
                  record[i]=columnData;
                  
-                 if(lookUp.getLookUpIntNoOfColsWhenInTable(foreignTable)==2)
+                 if(lookUp.getLookUpIntNoOfColsWhenInTable(luName)==2)
                  {
                      record[i+1]=lookupText;
                      //System.out.println("tableModelRS.setQuery 2  -"+columnData+" "+lookupText+" - r "+row+" i"+i);
                      i=i+1;
                      //dbColNo=dbColNo+1;                 	
                  }
-                 else if(lookUp.getLookUpIntNoOfColsWhenInTable(foreignTable)==1)
+                 else if(lookUp.getLookUpIntNoOfColsWhenInTable(luName)==1)
                  {
                  	//System.out.println("tableModelRS.setQuery 1  -"+columnData+" - r "+row+" i"+i);
                  	//dbColNo=dbColNo+1;

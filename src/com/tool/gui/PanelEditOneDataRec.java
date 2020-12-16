@@ -295,6 +295,7 @@ import javax.swing.border.BevelBorder;
                             String aftWhere = utilsString.getQueryAfterWhere(query);
                             String qWhere = utilsString.getQueryWhere(query);
                             qWhere = qWhere + " AND "+entity+"."+primKeys[pk]+" LIKE "+primKeysValue[pk]+" ";
+                            System.out.println("--------*   PanelEditOneDataRec.setEntity   entity:"+entity+"    qWhere:"+qWhere);
                             query = befWhere + qWhere + aftWhere;
                         }    
                         else

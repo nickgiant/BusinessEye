@@ -4372,7 +4372,7 @@ catch(Exception e)
 //       if(selectedKeyValue.equalsIgnoreCase(""))
  //      {
        	String sub="";
-       System.out.println("PanelODORData.displayDialogEdit    00000000     selectedKeyValue:"+selectedKeyValue+"   dbCol:"+dbCol+"   luname:"+luname);
+       System.out.println("PanelODORData.displayDialogEdit    0000000000000000000000000000000     selectedKeyValue:"+selectedKeyValue+"   dbCol:"+dbCol+"   luname:"+luname);
      if(!selectedKeyValue.equals(""))
      {
        //PanelOneDataManyRecData PanelOneDataManyRecData;
@@ -8033,7 +8033,8 @@ ps.setBytes(i, b);
                                if (VariablesGlobal.globalShowSQLEdit)
                                { System.out.println("PanelODORData.rowInsertHtmlFormElements          insertQuery:"+insertQuery);}                             
               */
-                              //}          
+                              //}   
+                        System.out.println("PanelODORData.rowInsertHtmlFormElements               from query query:"+insertQuery);      
                      int intRet =  dbTransaction.transactionUpdateQuery(insertQuery,"PanelODORData.rowInsertHtmlFormElements",showDialogOnError);
                       //System.out.println("PanelODORData.rowInsertHtmlFormElements         intRet:"+intRet+"       from query query:"+insertQuery);
                      if(intRet==1)
@@ -8087,7 +8088,7 @@ ps.setBytes(i, b);
       {    
                                    checkFieldsIfThenElse(i,CHECK_ON_INSERT_OR_ON_UPDATE);//columnDbNameFinal
       }       
-         //System.out.println("panelOneDataOneRecData.rowSaveAll   ---  hasDataChanged:"+hasDataChanged+"   isNewRecIn:"+isNewRecIn);
+       System.out.println("panelOneDataOneRecData.rowSaveAll   ---  hasDataChanged:"+hasDataChanged+"   isNewRecIn:"+isNewRecIn);
 
    	 final int YES = 0;
     	 final int NO = 1;

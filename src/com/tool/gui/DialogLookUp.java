@@ -146,7 +146,7 @@ public class DialogLookUp extends JDialog implements Constants
        //System.out.println("DialogLookUp.setLookUpEntityAndQuery  OOO-00000-OOOOOOOO    lookupEntity:"+lookupEntity+"           entityReportIn:"+entityReportIn+"               lookupQuery:"+lookupQuery+"      queryeditable:"+lookUp.getQueryEditable(lookupEntity));
         
         
-        panelOneDataManyRec.setEntity(luname, lookupQuery,lookUp.getQueryEditable(luname),fieldsForSums,//null is for fieldsForSums,
+        panelOneDataManyRec.setEntity(lookUp.getTable(luname), lookupQuery,lookUp.getQueryEditable(luname),fieldsForSums,//null is for fieldsForSums,
          "title", lookUp.getLookUpKeyTranslation(luname),lookUp.getLookUpKey(luname)/*,"",""/*formGlobalTableToApply1*/,lookUp.getIcon(luname),
          lookUp.getEntityFilterSettings(luname),null,lookUp.getStrOfOne(luname),lookUp.getStrOfMany(luname), true,
          lookUp.getIntValidationColumn(luname), lookUp.getIntValidationType(luname) , lookUp.getCategoryNodes(luname), lookUp.getEntityPanel(luname), 

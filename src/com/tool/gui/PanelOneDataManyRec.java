@@ -390,7 +390,7 @@ import javax.swing.border.BevelBorder;
     	//caption=CaptionIn;
 
        
-     // System.out.println("PanelODMR.setEntity   +OooooooooooooooooooOOOooooooooooooooooooO+   entity:"+entity+"."+primKey+" "+primKeyDb+"       entityPanel.length:"+entityPanel.length+"            fieldsForSums:"+fieldsForSums);
+      System.out.println("PanelODMR.setEntity   +OooooooooooooooooooOOOooooooooooooooooooO+   entity:"+entity+"."+primKey+" "+primKeyDb+"       entityPanel.length:"+entityPanel.length+"            fieldsForSums:"+fieldsForSums);
       //for(int p = 0;p<entityPanel.length;p++)
       //{
       //    System.out.println("panelOneDataManyRec.setEntity ooo    "+p+"      title:"+entityPanel[p].getTitle()+"         ReportForm:"+entityPanel[p].getEntityReportForm() +"   form report bands:"+entityPanel[p].getEntityReportForm().getEntityReportBands()[0]+"   entityPanel dbFields:"+entityPanel[p].getDBFields());
@@ -1569,7 +1569,7 @@ private String getTitleCaption(int row)
   
   
     // part of code also in PanelOneDataOneRecData.displayDialogEdit
-    public void displayDialogEdit(boolean isNewRecIn,boolean isNewRecFromCopy)
+    private void displayDialogEdit(boolean isNewRecIn,boolean isNewRecFromCopy)
     {  
         isNewRec=isNewRecIn;
         PanelEditOneDataRec panelEODR = new PanelEditOneDataRec(frame);
@@ -1590,7 +1590,7 @@ private String getTitleCaption(int row)
         
         //System.out.println("panelOneDataManyRec.displayDialogEdit primKey:"+primKey+" primKeyValue:"+primKeyValue+"  queryReadOnly:"+queryReadOnly);
                  
-        System.out.println("panelOneDataManyRec displayDialogEdit ==========================================  primKeyValue:"+primKeyValue);
+        System.out.println("panelOneDataManyRec displayDialogEdit ========================================== entity:"+entity+"  primKeyValue:"+primKeyValue);
         
         
         String editTitle=strOfOne;
