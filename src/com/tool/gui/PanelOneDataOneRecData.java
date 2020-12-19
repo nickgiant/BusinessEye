@@ -5934,7 +5934,7 @@ catch(Exception e)
       // globalDeliveryId =VariablesGlobal.globalDeliveryId;
        globalCompanyId=VariablesGlobal.globalCompanyId;
        
-
+       System.out.println("PanelOneDataOneRecData.rowUpdate -----000000000000000000000000000000000 dbFieldsInGroupOfPanels="+dbFieldsInGroupOfPanels);
           String subquerySet = ""; // for each text field
 
           boolean addSqlComma =true;// comma after field
@@ -6295,8 +6295,9 @@ ps.setBytes(i, b);
                 //System.out.println("PanelOneDataOneRecData.rowUpdate '"+entity+"' "+primKeys[i]+"="+primKeysValue[i]); 
 
               
-          System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   "+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue+"   pkFromOnePanelForTables:"+pkFromOnePanelForTables);   
-/*               if(primKeys[i].equalsIgnoreCase(primKeyDb))
+          System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere  ("+i+")  "+primKey+"   primKeys:"+primKeys[i]+"="+primKeysValue[i]+"     primKeyDb:"+primKeyDb+"  primKeyValue:"+primKeyValue+"   pkFromOnePanelForTables:"+pkFromOnePanelForTables);   
+               // must be enabled for the >1 panels in a form
+               if(primKeys[i].equalsIgnoreCase(primKeyDb))
                {
                    if(pkFromOnePanelForTables == null || pkFromOnePanelForTables.equalsIgnoreCase(""))
                    {
@@ -6308,9 +6309,9 @@ ps.setBytes(i, b);
                    }  //primKeyValue+"')"; // when is updating if a second time after insert is selected
                }
                else
-               {*/
+               {
                    subqueryWhere = subqueryWhere+"("+primKeys[i]+" LIKE '"+primKeysValue[i]+"')";
-//               }
+               }
           	  /*if(primKeyDb.equalsIgnoreCase(primKey))
           	  {// if is prim key like farmerId get from tb.getText
                       //System.out.println("PanelOneDataOneRecData.rowUpdate  subqueryWhere IF  ("+i+")  "+primKey+"   "+getPrimKeyValue(primKey)+"  primKeyValue:"+primKeyValue);   
@@ -6593,17 +6594,18 @@ ps.setBytes(i, b);
                             }
                        }
                     }
-                  // 
-                    // if(pnlODMRData.getRowCount()>0)
-                    //{
-                    System.out.println("   o=OOO=o   PanelOneDataOneRecData.rowUpdateTables        columnName:"+columnName+"     classtype:"+classtype+"     boolIsFromCopyOfRecord:"+boolIsFromCopyOfRecord);
-                       ret = pnlODMRData.saveChanges(dbTransaction,boolIsFromCopyOfRecord,isNewRecIn);    
-                   /* }
+                     // used in order to ensure that 2nd groupofpanels will be updated(will return true at any case)
+                     if(pnlODMRData.getRowCount()>0)
+                    {
+                    
+                       ret = pnlODMRData.saveChanges(dbTransaction,boolIsFromCopyOfRecord,isNewRecIn); 
+                       
+                    }
                     else
                     {
                         ret=true;
-                    }*/
-                    
+                    }
+                    System.out.println("   o=OOO=o   PanelOneDataOneRecData.rowUpdateTables        columnName:"+columnName+"     classtype:"+classtype+"     boolIsFromCopyOfRecord:"+boolIsFromCopyOfRecord+"   count:"+pnlODMRData.getRowCount()+"   ret:"+ret);
                     
                     
                     listRetSavedAll.add(ret);
@@ -6635,7 +6637,7 @@ ps.setBytes(i, b);
            }
   
     	
-       System.out.println("  --------- PanelOneDataOneRecData.rowUpdateTables   boolIsFromCopyOfRecord:"+boolIsFromCopyOfRecord);            
+       //System.out.println("  --------- PanelOneDataOneRecData.rowUpdateTables   boolIsFromCopyOfRecord:"+boolIsFromCopyOfRecord);            
         
       return ret;
     }   
@@ -8088,7 +8090,7 @@ ps.setBytes(i, b);
       {    
                                    checkFieldsIfThenElse(i,CHECK_ON_INSERT_OR_ON_UPDATE);//columnDbNameFinal
       }       
-       System.out.println("panelOneDataOneRecData.rowSaveAll   ---  hasDataChanged:"+hasDataChanged+"   isNewRecIn:"+isNewRecIn);
+       System.out.println("panelOneDataOneRecData.rowSaveAll   ---  hasDataChanged:"+hasDataChanged+"   isNewRecIn:"+isNewRecIn+"      title:"+title);
 
    	 final int YES = 0;
     	 final int NO = 1;
@@ -8103,7 +8105,7 @@ ps.setBytes(i, b);
    	 	  if(intPanelODORData==0)  // also is 1 for second panel (ie in second panel of form )
                   {
                       
-                      System.out.println("PanelODORData.rowSaveAll INSERT - - - -- - -  -  pkFromOnePanelForTables:"+pkFromOnePanelForTables+"   isNewRec:"+isNewRec+"     title:"+title+"    intPanelODORData:"+intPanelODORData);
+                      System.out.println("PanelODORData.rowSaveAll INSERT - - - 00 -- - -  - intPanelODORData:"+intPanelODORData+" pkFromOnePanelForTables:"+pkFromOnePanelForTables+"   isNewRec:"+isNewRec+"     title:"+title);//+"    intPanelODORData:"+intPanelODORData);
                        rowInsertAll(dbTransaction,isNewRecIn,pkFromOnePanelForTables);
    	 	      
                        isNewRec=false;     
@@ -8111,7 +8113,7 @@ ps.setBytes(i, b);
                   }
                   else  // String pkFromOnePanelForTables also for second panel (ie in second panel of form )
                   {
-                      System.out.println("PanelODORData.rowSaveAll   UPDATE    isNewRecIn:"+isNewRecIn+"     title:"+title+"    pkFromOnePanelForTables:"+pkFromOnePanelForTables+"    intPanelODORData:"+intPanelODORData);
+                      System.out.println("PanelODORData.rowSaveAll   UPDATE   - - - 00 -- - - intPanelODORData:"+intPanelODORData+"   isNewRecIn:"+isNewRecIn+"     title:"+title+"    pkFromOnePanelForTables:"+pkFromOnePanelForTables);//+"    intPanelODORData:"+intPanelODORData);
                       ret = rowUpdateAll(dbTransaction,isNewRecIn,pkFromOnePanelForTables);
                       
                   }

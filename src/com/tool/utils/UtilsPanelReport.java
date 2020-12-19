@@ -640,9 +640,11 @@ public class UtilsPanelReport implements Constants
 
       //System.out.println("UtilsPanelReport.getLookupValue        --oOoOoOoOo--      luname:"+luname+"     strTable:"+strTable+"     lookupValue:"+lookupValue +"     isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
          try
-         {          
+         {     
+              foreignQuery = utilsString.removeCaptionsFromQuerySubStringSelect(foreignQuery);
              
-          	    db.retrieveDBDataFromQuery(utilsString.removeCaptionsFromQuerySubStringSelect(foreignQuery),"UtilsPanelReport.getLookupValue");
+             
+          	    db.retrieveDBDataFromQuery(foreignQuery,"UtilsPanelReport.getLookupValue");
    	            rsForeign=db.getRS();
 
            if(rsForeign==null)   
@@ -1399,7 +1401,7 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
                 {
                     primkeyFixedArray[intPrimkeyFixed]=dbFieldsAll[c].getDbField();
                     primkeyFixedValueArray[intPrimkeyFixed]=dbFieldsAll[c].getDefaultValue();
- //                   System.out.println("   -ELSE-   UtilPanelReport.getNoOfPKAutoIncOfNewRecord  c:"+c+"   FIELD_PRIMARY_KEY   primkeyFixedArray:"+primkeyFixedArray[intPrimkeyFixed]+"="+primkeyFixedValueArray[intPrimkeyFixed]+"  "+intPrimkeyFixed);
+                    System.out.println("   -ELSE-   UtilPanelReport.getNoOfPKAutoIncOfNewRecord  c:"+c+"   FIELD_PRIMARY_KEY   primkeyFixedArray:"+primkeyFixedArray[intPrimkeyFixed]+"="+primkeyFixedValueArray[intPrimkeyFixed]+"  "+intPrimkeyFixed);
                     intPrimkeyFixed++;
                 }
                 else if(dbFieldsAll[c].getPrimaryKeyIntegerAutoInc()==FIELD_PRIMARY_KEY_FROM_PARENTTABLE)// 
@@ -1488,7 +1490,8 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
         }
   	catch(SQLException e)
   	{
-  	 	System.out.println("error  UtilPanelReport.getNoOfPKAutoIncOfNewRecord   sql:"+sql+"    "+e.getMessage());
+  	 	System.out.println(" ERROR  UtilPanelReport.getNoOfPKAutoIncOfNewRecord   sql:"+sql+"    "+e.getMessage());
+                e.printStackTrace();
                 if(VariablesGlobal.globalShowPrintStackTrace)
                 {
                     e.printStackTrace();

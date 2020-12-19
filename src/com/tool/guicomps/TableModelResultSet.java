@@ -595,9 +595,9 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
         closeDB();
     }
 
-    //{
-        setTableInitialState();
-    //}
+    
+       setTableInitialState();
+    
     
     
   }
@@ -1973,8 +1973,8 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   {
       boolean ret =false;
       
-   //System.out.println("tableModelRS.checkIfThereAreAnyChanges check:"+getTableDataVector().size()+" = "+checksums.size());
-   if(this.getTableDataVector().size()== 0 &&  checksums.size()== 0)
+   
+   if(this.getTableDataVector().isEmpty() &&  checksums.isEmpty())
    {// not called from PanelODORData.rowUpdateTables. It checks there
       //utilsGui.showMessageInfo("Error. You should insert a record in the table.");
        System.out.println("tableModelRS.checkIfThereAreAnyChanges check:"+getTableDataVector().size()+" = "+checksums.size()+"  no changes");
@@ -2157,7 +2157,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
   if(!checkIfThereAreAnyChanges())
   {
       
-  System.out.println("TableModelResultSet.saveChanges  === checkIfThereAreAnyChanges:"+checkIfThereAreAnyChanges());   
+  System.out.println("TableModelResultSet.saveChanges  ==== checkIfThereAreAnyChanges:"+checkIfThereAreAnyChanges());   
     
   }
   else
