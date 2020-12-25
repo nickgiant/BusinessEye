@@ -237,7 +237,7 @@ private PanelManagement panelManagement;
              panelODOR.setEntity(entityParameter.getName(),entityParameter.getEntityPanel()[0],-1,/*primKeyValue,*//*""*/sql,null,null,"", false, false,
                       /*,formGlobalTableToGet1,formGlobalTableToApply1*/null,/* do not want to show title so null, entityParameter.getFieldsOnTitle(),
                        entityParameter.getFieldsOnTitleCaption()*/null, false, "",/*showShowListButtons*/true, true,ICO_TABLE16,
-                       panelManagement,null,IS_CALLED_BY_MULTIPLE_TABLES_MDMR);  //0 the only one panel                        
+                       panelManagement,null,IS_CALLED_BY_MULTIPLE_TABLES_MDMR,null);  //0 the only one panel                        
                listPanelODOR.add(panelODOR);    
            panelMainCard.add(panelODOR, entityParameter.getCaption());         
            

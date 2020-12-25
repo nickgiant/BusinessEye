@@ -472,7 +472,11 @@ public class UtilsPanelReport implements Constants
               String foreignQuery="";
               String qWhere = "";
               String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
-   
+              
+   if(strTable == null)
+   {
+       System.out.println("error    UtilsPanelReport.getLookupValue  perhaps wrong reference for luname:"+luname+"    strTable:"+strTable);
+   }
         // replace # with text, array if they are more than one         
           String [] textsInput = lookUp.getFieldsReplacedInsideQuery(luname);
           ArrayList listTextString = new ArrayList();
@@ -532,7 +536,7 @@ public class UtilsPanelReport implements Constants
             
              
       String queryLookUp = lookUp.getQuery(luname);
-      if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
+   //   if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
       {
      System.out.println("-t--ooo--t--UtilsPanelReport.getLookupValue     TO CHECK     luname:"+luname+"    strTable:"+strTable+"     formVariableFromField:"+formVariableFromField+"         VariablesGlobal.globalformGlobalVariable1::"+VariablesGlobal.globalformGlobalVariable1+"        strTable:"+strTable+"      entityIn:"+entityIn+"     subqueryWhereForAPreviousFieldValue:"+subqueryWhereForAPreviousFieldValue+"  lookupValue:"+lookupValue+"      queryLookUp:"+queryLookUp);             
       }
@@ -588,7 +592,7 @@ public class UtilsPanelReport implements Constants
        	          //lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
                   foreignQuery = queryLookUp+" "+queryLookUpWhere+" "+lookupValueQuery+" "+subqueryWhereForAPreviousFieldValue+lookUp.getQueryOrderBy(luname);        
              }          
-       if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
+      // if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
       {  
           System.out.println("   IF    -t--OOOOOOOOOOO--t--UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"       entityIn:"+entityIn+"   name:"+luname+"         queryClosingSubquery:"+queryClosingSubquery+"     lookupValueQuery:"+lookupValueQuery+"   foreignQuery:"+foreignQuery);
       }
@@ -638,7 +642,7 @@ public class UtilsPanelReport implements Constants
       
       
 
-      //System.out.println("UtilsPanelReport.getLookupValue        --oOoOoOoOo--      luname:"+luname+"     strTable:"+strTable+"     lookupValue:"+lookupValue +"     isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
+  System.out.println("---UtilsPanelReport.getLookupValue        --oOoOoOoOo--      luname:"+luname+"     strTable:"+strTable+"     lookupValue:"+lookupValue +"     isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
          try
          {     
               foreignQuery = utilsString.removeCaptionsFromQuerySubStringSelect(foreignQuery);

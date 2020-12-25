@@ -537,7 +537,7 @@ import javax.swing.border.BevelBorder;
         primKeyValue = panelOneDataManyRecData.getPrimKeyValue();
        
 
-       panelOneDataManyRecData.setEntity(entityIn,titleIn,queryReadOnlyIn,fieldsForSumsIn,entityPanelIn[0].getDBFields(),entityPanelIn[0].getDBFieldsMany(),null,/*null,null,*/primKey,
+       panelOneDataManyRecData.setEntity(entityIn,/*entityPanel[0],*/titleIn,queryReadOnlyIn,fieldsForSumsIn,entityPanelIn[0].getDBFields(),entityPanelIn[0].getDBFieldsMany(),/*null,*//*null,null,*/primKey,
         primKeyDbIn,/*formGlobalVariable1,*//*null,null,null,null,*/primKeyValue, false, /*false,*/false, strOfManyIn,false,entity,false, 0,"","","","",0,"", fieldsOrderby, -1,null,intValidationColumnIn, 
         intValidationTypeIn, entityFilterSettingsIn,entityGroupOfCompsIn,/*yearEnforceIn,*/fieldTxts, panelManagementIn,intTableOfParentDBFields/*,formGlobalTableToGet1,formGlobalTableToApply1*/);// String yearEnforceInLinesIn)
        //panelOneDataManyRecData.setEntity(entity,queryReadOnly,fieldsManyIn,fieldsManyTranslationIn,null,null,primKey,primKeyDb,null,null,null,null,null, false, false,false, strOfMany,false,false, 0,"","","","",0);//entity, query, showExtendedSummary
@@ -2335,7 +2335,8 @@ System.out.println("---->B PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  
                     
                     PanelOneDataManyRecData pnlODMRData = new PanelOneDataManyRecData(frame);//(PanelOneDataManyRecData)fieldTxts.get(i);//,PanelOneDataManyRecData);
  System.out.println("---->C PanelOneDataManyRec.rowDeleteChildTablesAndHtmlFile  ("+i+")       "+dbFieldsInGroupOfPanels[i].getCaption()+"    sql:"+sql+"    primKeyDb:"+primKeyDb+"="+primKeyValue+"     dbFieldsChild.length:"+dbFieldsChild.length+"   queryChild:"+queryChild+"    sql:"+sql);
-                    pnlODMRData.setEntity(dbFieldsInGroupOfPanels[i].getCaption(),sql,tableChild,true,true,dbFieldsChild/*instead of dbFieldsParent use dbFieldsChild*/,dbFieldsChild,false/*isNewRec*/,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,//formGlobalField1,formGlobalVariable1,*/
+                    pnlODMRData.setEntity(dbFieldsInGroupOfPanels[i].getCaption(),entityPanel[0],sql,tableChild,true,true,dbFieldsChild/*instead of dbFieldsParent use dbFieldsChild*/,
+                            dbFieldsChild,entityGroupOfComps,false/*isNewRec*/,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,//formGlobalField1,formGlobalVariable1,*/
                             primKeyValue,fieldsForSums,fieldTxts,null,intTableOfParentDBFields);//,updateAdditional);
 
                     pnlODMRData.filterToDeleteForWritableTable(sql,false);

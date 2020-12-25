@@ -225,13 +225,13 @@ import javax.swing.text.JTextComponent;
     
     /*
      * 
-     * called by this
+     * called by this and panelODMRData
      */
-    private PanelOneDataOneRecData loadAndGetEntityPanelsOneDataOnRecData(EntityPanel entityPanelIn,/*boolean isInsidePanelTwoData,*/ String titleIn, /*String entityIn,*/
+    PanelOneDataOneRecData loadAndGetEntityPanelsOneDataOnRecData(EntityPanel entityPanelIn,/*boolean isInsidePanelTwoData,*/ String titleIn, /*String entityIn,*/
      /*EntityDBFields[] dbFieldsIn, EntityGroupOfComps[] entityGroupOfCompsIn,EntityGroupOfPanels[] entityGroupOfPanelsIn, String primKeyIn,*/ 
      /*String primKeyValueIn,String primKeyDbIn, */String queryIn, boolean isNewRecIn, boolean isNewRecFromCopyIn, /*boolean isMasterUniqueIn,*/ 
      /*String[] sql2WhereFieldIn, String[] sql2WhereValueIn, String query2In,String entity2In, boolean isManyIn,*/ boolean isEditable,String yearEnforceIn, 
-     /*ImageIcon icoIn,*/ArrayList listLengthDbFieldsInGroupOfPanelsIn, int intGroupOfPanelsToShow/*,PanelManagement panelManagementIn*/,int whereIsCalledFrom//,
+     /*ImageIcon icoIn,*//*ArrayList listLengthDbFieldsInGroupOfPanelsIn,*/ int intGroupOfPanelsToShow/*,PanelManagement panelManagementIn*/,int whereIsCalledFrom//,
     /*String formGlobalTableToGet1In, String formGlobalTableToApply1In*/)
     {
         entityPanel=entityPanelIn;
@@ -240,7 +240,7 @@ import javax.swing.text.JTextComponent;
         String entityType = entityPanel.getType(); 
         String entity = entityPanel.getEntity();
         EntityDBFields[] fields = entityPanel.getDBFields(); 
-        String primKey = entityPanel.getPrimKey();
+        String primKey = entityPanel.getPrimKeyDb();
         //String formGlobalTableToGet1In =  entityPanel.g
         //boolean isMasterUnique = entityPanel.getIsMasterUnique();
         //boolean isMany = entityPanel.getIsMany();
@@ -283,15 +283,18 @@ import javax.swing.text.JTextComponent;
         
    //     System.out.println("  ooooo    PanelODOR .loadAndGetEntityPanelsOneDataOnRecData   ---   titleIn:"+titleIn+"    fields:"+fields+"   whereIsCalledFrom:"+whereIsCalledFrom);
         
-        
+       if(primKeyDb==null)        
+       {
+           primKeyDb = primKey;
+       }
                         
        PanelOneDataOneRecData panelOneDataOneRecDataNew = new PanelOneDataOneRecData(frame);
        panelOneDataOneRecDataNew.setLayout(new BorderLayout());
 
-       System.out.println("PanelODOR.loadAndGetEntityPanelsOneDataOnRecData ----0----> ("+intGroupOfPanelsToShow+")        primKeyDb:"+primKeyDb+"     queryIn:"+queryIn);
+       System.out.println("PanelODOR.loadAndGetEntityPanelsOneDataOnRecData   ----0---->   ("+intGroupOfPanelsToShow+")        primKeyDb:"+primKeyDb+"        primKey"+primKey+"     primKeys:"+primKeys+"      queryIn:"+queryIn);
        panelOneDataOneRecDataNew.setEntity(entityPanel,titleIn, entity ,fields,entityGroupOfComps,entityGroupOfPanels,primKeys, primKeysValue, primKeyDb,/*formGlobalTableToGet1In,
                formGlobalTableToApply1In,*/queryIn, isNewRec, isNewRecFromCopy, /*isMasterUnique,null,null,*//*for panelTwo null, null,isMany,*/true, yearEnforceIn,icon,
-               listLengthDbFieldsInGroupOfPanelsIn, intGroupOfPanelsToShow, panelManagement);//,entityReportForm); 
+               /*listLengthDbFieldsInGroupOfPanelsIn,*/ intGroupOfPanelsToShow, panelManagement,null);//,entityReportForm); 
        
     //System.out.println("PanelODOR.loadAndGetEntityPanelsOneDataOnRecData  OOOO   ("+intGroupOfPanelsToShow+") type="+entityType+" title="+titleIn +"     queryIn:"+queryIn+"     entityPanel.getQuery():"+ entityPanel.getQuery());
        
@@ -337,7 +340,7 @@ import javax.swing.text.JTextComponent;
     public int setEntity(String entityIn,EntityPanel entityPanelIn, int selectedTableRow/*, String primKeyValueIn*//*when 1 row like companysettings*/,String queryIn,String[] primKeysIn, String[] primKeysValueIn,
             String titleIn, boolean isNewRecIn, boolean isNewRecFromCopyIn/*,String formGlobalTableToGet1In, String formGlobalTableToApply1In*/, String[]fieldsOnTitleIn,  
             String[] fieldsOnTitleCaptionIn, boolean showOnlySaveNPrintButton,  String yearEnforceIn, boolean isShowBackToListButtons, boolean showToolBar, ImageIcon icon, 
-            PanelManagement panelManagementIn, PanelEditOneDataRec  panelEditOneDataRecIn, int whereIsCalledFromIn)
+            PanelManagement panelManagementIn, PanelEditOneDataRec  panelEditOneDataRecIn, int whereIsCalledFromIn, ArrayList lstDataRow)
     {
         int selectedRow=0;// when 0 do not displaydialog
         entityPanel=entityPanelIn;
@@ -674,7 +677,7 @@ import javax.swing.text.JTextComponent;
                 panelOneDataOneRecDataSetEntity = this.loadAndGetEntityPanelsOneDataOnRecData(entityPanel,entityGroupOfPanels[cp].getCaption(),/* entityPanel.getEntity(),*/
                     /*entityPanel.getDBFields(), entityPanel.getEntityGroupOfComps(),entityPanel.getEntityGroupOfPanels(),entityPanel.getPrimKey(),*/
                     /*primKeyValue, primKeyDb,*/ query, isNewRec, isNewRecFromCopy, /*entityPanel.getIsMasterUnique(),null,null,*//*for panelTwonull, null,
-                    entityPanel.getIsMany(),*/true, yearEnforce,/* icon,*/listLengthDbFieldsInGroupOfPanels, cp/*, panelManagement*/,whereIsCalledFromIn/*,
+                    entityPanel.getIsMany(),*/true, yearEnforce,/* icon,*//*listLengthDbFieldsInGroupOfPanels,*/ cp/*, panelManagement*/,whereIsCalledFromIn/*,
                     formGlobalTableToGet1, formGlobalTableToApply1*/);
                     /*    public PanelOneDataOneRecData loadAndGetEntityPanelsOneDataOnRecData(EntityPanel entityPanel,boolean isInsidePanelTwoData, String titleIn, String entityIn,
              EntityDBFields[] dbFieldsIn, EntityGroupOfComps[] entityGroupOfCompsIn,EntityGroupOfPanels[] entityGroupOfPanelsIn, String primKeyIn, 
@@ -711,7 +714,7 @@ import javax.swing.text.JTextComponent;
                   panelOneDataOneRecDataSetEntity = this.loadAndGetEntityPanelsOneDataOnRecData(entityPanel,title, /*entityPanel.getEntity() ,*/
                     /*entityPanel.getDBFields(), entityPanel.getEntityGroupOfComps(),entityPanel.getEntityGroupOfPanels(),entityPanel.getPrimKey(),*/
                     /*primKeyValue, primKeyDb,*/ query, isNewRec, isNewRecFromCopy, /*entityPanel.getIsMasterUnique(),null,null,*//*for panelTwonull, null,
-                    entityPanel.getIsMany(),*/true, yearEnforce, /*icon,*/null, 0/*, panelManagement*/,whereIsCalledFromIn/*,
+                    entityPanel.getIsMany(),*/true, yearEnforce, /*icon,*//*null,*/ 0/*, panelManagement*/,whereIsCalledFromIn/*,
                     formGlobalTableToGet1, formGlobalTableToApply1*/); // 0 is for the only panel  
            
                   listPanelOneDataOneRecData.add(panelOneDataOneRecDataSetEntity);

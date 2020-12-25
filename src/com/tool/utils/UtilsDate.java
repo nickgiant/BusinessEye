@@ -160,7 +160,7 @@ import java.time.*;// new date api
   {
   	boolean retBool = false;
   	
-  	if(dt.equalsIgnoreCase(""))
+  	if(dt==null || dt.equalsIgnoreCase(""))
   	{
   		retBool = true;
   	} 

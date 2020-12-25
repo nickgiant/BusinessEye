@@ -154,7 +154,7 @@ import org.xml.sax.SAXException;
     private EntityDBFields[] dbFieldsAll;
     private PanelManagement panelManagement;
     private EntityPanel entityPanel;
-    private ArrayList listLengthDbFieldsInGroupOfPanels;
+ //   private ArrayList listLengthDbFieldsInGroupOfPanels;
     private int intOfListLengthDbFieldsInGroupOfPanels;
     //private PanelEditOneDataRec  panelEditOneDataRec;
     
@@ -177,8 +177,8 @@ import org.xml.sax.SAXException;
   private ArrayList listFields = new ArrayList();
   
   
-             private  String strReadFieldWhere = "";
-             private String strReadFieldValue = "";
+            // private  String strReadFieldWhere = "";
+           //  private String strReadFieldValue = "";
              
              
              private String qIsTemplateToBeReplaced="";
@@ -261,7 +261,7 @@ import org.xml.sax.SAXException;
         
         listHtmlFieldsAndValues = new ArrayList();
         
-        listLengthDbFieldsInGroupOfPanels = new ArrayList();
+     //   listLengthDbFieldsInGroupOfPanels = new ArrayList();
  	intOfListLengthDbFieldsInGroupOfPanels = 0;
  	  //  dataPanel = new JPanel(false); //panel that contains all components
    	  //  dataPanel.setLayout(new FlowLayout()); //public FlowLayout(int alignment,int horizontalGap,int verticalGap)
@@ -300,15 +300,13 @@ import org.xml.sax.SAXException;
    public void setEntity(EntityPanel entityPanelIn, String titleIn, String entityIn,EntityDBFields[] dbFieldsIn, 
            EntityGroupOfComps[] entityGroupOfCompsIn, EntityGroupOfPanels[] entityGroupOfPanelsIn, String[] primKeysIn, String[] primKeysValueIn,String primKeyDbIn,
            String queryIn, boolean isNewRecIn, boolean isNewRecFromCopyIn, /*boolean isMasterUniqueIn,*/ /*String[] sql2WhereFieldIn, String[] sql2WhereValueIn, String query2In,String entity2In, boolean isManyIn, */ 
-           boolean isEditable,String yearEnforceIn,ImageIcon icoIn,ArrayList listLengthDbFieldsInGroupOfPanelsIn, int intGroupOfPanelsToShowIn,
-           PanelManagement panelManagementIn)
+           boolean isEditable,String yearEnforceIn,ImageIcon icoIn,/*ArrayList listLengthDbFieldsInGroupOfPanelsIn,*/ int intGroupOfPanelsToShowIn,
+           PanelManagement panelManagementIn,ArrayList lstTempDataRec)
    {
-        
        //----------------------------------------------
-               strReadFieldWhere = "fieldName";
-               strReadFieldValue = "fieldValue";
+              // strReadFieldWhere = "fieldName";
+              // strReadFieldValue = "fieldValue";
         //---------------------------------------------
-       
         entityPanel= entityPanelIn;
         entityCheckFields = entityPanel.getEntityCheckFields();
         isNewRec=isNewRecIn;
@@ -339,7 +337,7 @@ import org.xml.sax.SAXException;
         fieldValidation = new int[dbFieldsAll.length];
         isVisibleOrEditable = new int[dbFieldsAll.length];
         defaultValue =  new String[dbFieldsAll.length];
-        listLengthDbFieldsInGroupOfPanels=listLengthDbFieldsInGroupOfPanelsIn;
+      //  listLengthDbFieldsInGroupOfPanels=listLengthDbFieldsInGroupOfPanelsIn;
         
         entityGroupOfPanels = entityGroupOfPanelsIn;
         
@@ -386,7 +384,7 @@ import org.xml.sax.SAXException;
 //System.out.println("");
 //           System.out.println("PanelODORData.setEntity   A->>>>     entity:"+entity+"    dbFieldsAll.length:"+dbFieldsAll.length+"      dbFieldsInGroupOfPanels.length:"+dbFieldsInGroupOfPanels.length+"   intGroupOfPanelsToShowIn:"+intGroupOfPanelsToShowIn+"   intfields:"+intfields);           
 //System.out.println("");
-int flds = 0;
+          int flds = 0;
           if(entityGroupOfCompsIn!=null)  
           {
         	for(int egc = 0; egc<entityGroupOfCompsIn.length; egc++)
@@ -451,11 +449,7 @@ int flds = 0;
                {
            //System.out.println("PanelODORData.setEntity  --oo--  ("+f+") "+dbFieldsInGroupOfPanels[f].getDbField()+"  "+entityGroupOfCompsIn[egc].getCaption()+"   "+entityGroupOfCompsIn[egc].getIncludedInGroupOfPanels()+"    "+intGroupOfPanelsToShow);                                                       
                }
-               
 
-               
-               
-               
             } //for egc    
           }
           else   // entityGroupOfCompsIn==null
@@ -474,27 +468,19 @@ int flds = 0;
                 primaryKeyIntegerAutoInc[f] = dbFieldsInGroupOfPanels[f].getPrimaryKeyIntegerAutoInc();
                 listButtonValid.add(new JButton("l"));// add so when set or get have the same length              
           }
-          
-          
-          
-          //System.out.println("PanelODORData.setEntity         f:("+f+") "+fields[f]+"    dbFieldsInGroupOfPanels[f].getColClassName():"+dbFieldsInGroupOfPanels[f].getColClassName()+"   fieldTxts.size"+fieldTxts.size()+"    dbFieldsInGroupOfPanels.length:"+dbFieldsInGroupOfPanels.length+"    dbFieldsAll.length:"+dbFieldsAll.length);   
-          
+
+          //System.out.println("PanelODORData.setEntity         f:("+f+") "+fields[f]+"    dbFieldsInGroupOfPanels[f].getColClassName():"+dbFieldsInGroupOfPanels[f].getColClassName()+"   fieldTxts.size"+fieldTxts.size()+"    dbFieldsInGroupOfPanels.length:"+dbFieldsInGroupOfPanels.length+"    dbFieldsAll.length:"+dbFieldsAll.length);  
         }
 
         this.setLayout(new BorderLayout());
         this.add(panelAllOnIt, BorderLayout.CENTER);        
-        
 
         boolean isFirstFieldAutoInc=false;
         //fieldsOnTitle=fieldsOnTitleIn;
-  
-        
-        
+ 
        if (panelAllOnIt != null)
        { panelAllOnIt.removeAll(); } //erases all components placed during initialization
-       
-
-                        
+              
         //this.setLayout(new BorderLayout());//new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
         // listPanelGroups= new ArrayList();
@@ -507,18 +493,12 @@ int flds = 0;
                   dataPanel.setOpaque(false);
    	          GridLayoutVariable layout = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 4);
    	          dataPanel.setLayout(layout); //public FlowLayout(int alignment,int horizontalGap,int verticalGap)
-                  
-               
-
         }
         else
         {
-           
             JxPanel panelHolder = new JxPanel();
-            
-             
-            
-            panelHolder.setOpaque(false);
+
+                panelHolder.setOpaque(false);
         	GridLayoutVariable layout1 = new GridLayoutVariable (GridLayoutVariable.FIXED_NUM_COLUMNS, 1);
         	//GridLayout layout1 = new GridLayout(0,1);
         	panelHolder.setLayout(layout1);
@@ -590,9 +570,6 @@ int flds = 0;
          	        //panelGroup.setVisible(true);
 
                                    // panelHolder.add(pcl);
-        
-                                  
-                      
                            // System.out.println("     gc"+gc+"  ");
          	        panelHolder.add(panelGroup);//keep
              
@@ -603,7 +580,6 @@ int flds = 0;
 
                      //panelGroup.setVisible(false);
         	 	 }
-
         	 }
         	 
         	panelAllOnIt.add(panelHolder, BorderLayout.PAGE_START);
@@ -651,7 +627,7 @@ int flds = 0;
         }
        
         
-        query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
+    //    query=utilsString.removeCaptionsFromQuerySubStringSelect(query);
         if (VariablesGlobal.globalShowSQL)
         {    
           System.out.println("panelODORData.setEntity query: "+query); 
@@ -688,8 +664,11 @@ int flds = 0;
                  String columnDbName = fields[i];
                  //System.out.println("panelODORData.setEntity col:");
                  int columnCompsFontSize= 8;
-                 columnCompsFontSize =  entityGroupOfComps [ dbFieldsInGroupOfPanels[i].getGroupOfComps()].getCompsFontSize();
-                        
+                 if(entityGroupOfComps !=null)
+                 {
+                    columnCompsFontSize =  entityGroupOfComps [ dbFieldsInGroupOfPanels[i].getGroupOfComps()].getCompsFontSize();
+                 }
+                 
                  int columnWidth = colWidth[i];//get column width
                  //columnWidth=columnWidth+2;
                  
@@ -768,6 +747,7 @@ int flds = 0;
               tb2=null;
               tb3=null;
               tb4=null;
+              
 
              textArea=null;
              JScrollPane scrollPaneTextArea = null;
@@ -786,10 +766,11 @@ int flds = 0;
                 else
                 {
                     luname = dbFieldsInGroupOfPanels[i].getLookupEntityName();
+                    if(luname== null)
+                    {
+                      System.out.println("PanelODORData.setEntity  =  =  i:"+i+"   "+columnDbName+"    perhaps misseting, look at entity     luname:"+luname);
+                    }
                     foreignTable = lookUp.getTable(luname);
-                   //String ln = lookUp.getFromForeignTableTheName(entity);
-                    // foreignTable = ln;//lookUp.getFromForeignTableTheName(lname);
-                    /// foreignTable = dbFieldsInGroupOfPanels[i].getLookupEntityName(); // getFromForeignTableTheName
                 }
                               
                 // if has foreign key then calculate
@@ -862,14 +843,8 @@ int flds = 0;
                      System.out.println("PanelOneDataOneRecData.setEntity  NOT DEFINED  columnFieldObligatoryOrSuggest:"+columnFieldObligatoryOrSuggest);
                  }                    
                     
-                    tb = new JTextField(columnWidth);
-                    
+                    tb = new JTextField(5);// columnWidth
 
-                    
-                    
-                    
-                    //tb.setUI(new TinyTextFieldUI());
-                    //tb.setDocument(new PlainDocumentInsertText(columnWidth,columnClass));//limiting the capacity of txt 
                     int colWdth = foreignColumnWidth - (foreignColumnWidth/5);
                     tb2 = new JTextField(foreignColumnWidth);
                     tb3 = new JTextField(colWdth);
@@ -889,8 +864,6 @@ int flds = 0;
                        tb2.getInputMap().put(KeyStroke.getKeyStroke(KEYSTROKE_F_LOOKUP_SHOW), "showDialogLookUp"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
                        tb2.getActionMap().put("showDialogLookUp", actionShowDialogLookUp);
                     
-
-                   // Action actionShowDialogNew = new ActionShowDialogNew(luname, i);
                     Action actionShowDialogEdit = new ActionShowDialogEdit(luname,foreignTable, i);
 
                    /* ArrayList listMenuCaption = new ArrayList();
@@ -901,13 +874,13 @@ int flds = 0;
 
                     JMenuItem menuListItemEdit = new JMenuItem("επεξεργασία");
                     menuListItemEdit.addActionListener(actionShowDialogEdit);
-                    listMenuCaption.add(menuListItemEdit);  */                  
+                    listMenuCaption.add(menuListItemEdit);  */
                     
                      txtLookUpBtn = new JTextBoxWithEditButtons(tb, false ,null,null, false,null,null,0, frame,"","",MONTH_DATE_ONLY);  
                     if(lookUp.getShowToolbar(luname))  
                     {
                        txtLookUpBtn2 = new JTextBoxWithEditButtons(tb2, true ,ICO_LOOKUP,actionShowDialogLookUp, true,ICO_EDIT14, actionShowDialogEdit,0, frame,"","",MONTH_DATE_ONLY);                  	
-                    }  
+                    }
                     else   // on lookup dialog no toolbar so must be not be editable
                     {
                          txtLookUpBtn2 = new JTextBoxWithEditButtons(tb2, true ,ICO_LOOKUP,actionShowDialogLookUp, false,null, null,0, frame,"","",MONTH_DATE_ONLY);                  	
@@ -917,7 +890,7 @@ int flds = 0;
                        txtLookUpBtn3 = new JTextBoxWithEditButtons(tb3, false ,null,null, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	
                     //}
                                    
-                    txtLookUpBtn.setDocument(new PlainDocumentInsertText(columnWidth,columnClass));//limiting the capacity of txt
+                    txtLookUpBtn.setDocument(new PlainDocumentInsertText(columnWidth,columnClass));//   columnWidth     //limiting the capacity of txt
                     txtLookUpBtn2.setDocument(new PlainDocumentInsertText(foreignColumnWidth+10,foreignColumnType)); // +10 because in look up 2 text we would like to show all text
                     
                     eachDataFieldPanel.add(txtLookUpBtn.getComponent());
@@ -941,7 +914,7 @@ int flds = 0;
                     
                     final int finalCol = i;  //  must be final            
                     final String lunameFin=luname;
-                   tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,luname,foreignTable,columnDbName));  
+          //         tb.getDocument().addDocumentListener(new DocumentHandler(i,0,columnClass,luname,foreignTable,columnDbName));  
                      final String foreignTableFinal = foreignTable;
                      final JTextField tbFinal = tb;
                      final EntityDBFields[] finalDbFieldsInGroupOfPanels = dbFieldsInGroupOfPanels;
@@ -1033,89 +1006,7 @@ int flds = 0;
                        fieldTxts2.set(i,tb2);
                        fieldTxts3.set(i,tb3);
                        fieldTxts4.set(i,tb4);
-                       //tb2No=tb2No+1; 
-                                            
-                       /*if(checkIfNameMatchesWhereValueName(columnLabel))
-                       {
-                       	tb.setVisible(false);
-                       	tb2.setVisible(false);
-                       	//btnLookup.setVisible(false);
-                       	lbl.setVisible(false);
-                       }*/
-                       
-                       //boolean isColumnPrimKey = databaseTableMeta.isColumnPrimKey(columnLabel);
-                  /*   if( !isNewRec && intPKAutoInc == FIELD_PRIMARY_KEY_AUTOINC)
-                       {
-                             tb.setEditable(false);
-                          	    tb.setFocusable(false);
-                          	    txtLookUpBtn.setBtn1Enabled(false);
-                       	        tb2.setEditable(false);
-                       	        tb2.setFocusable(false);*/
-                       	        //btnLookup.setVisible(false);
-                    //   }    
-                       
-                      // System.out.println("PanelOneDataOnRecData.setEntity   lookup     --("+i+")--    isVisibleOrEditable[i]"+isVisibleOrEditable[i]);
-                       /*if(isVisibleOrEditable[i]==FIELD_VISIBLE_NOT_EDITABLE_ALWAYS)
-                       {
-                      	  tb.setEditable(false);
-                          tb.setFocusable(false);
-                          txtLookUpBtn.setBtn1Enabled(false);
-                       	  tb2.setEditable(false);
-                       	  tb2.setFocusable(false);
-                       	  tb3.setEditable(false);
-                       	  tb3.setFocusable(false);                             
-                       }
-                       else
-                       {
-                      	  tb.setEditable(true);
-                          tb.setFocusable(true);
-                          txtLookUpBtn.setBtn1Enabled(true);
-                       	  tb2.setEditable(true);
-                       	  tb2.setFocusable(true);
-                       	  tb3.setEditable(true);
-                       	  tb3.setFocusable(true);                             
-                       }*/
-                       
-                       
-                       
-                       //select the status where is not editable and is the prim key
-               /*        if(!isEditable && !isNewRec && countOfUniqueKeys == 1)
-                       {
-                       	  //System.out.println("PanelODORData.setEntity now "+isEditable);
-                      	  tb.setEditable(false);
-                          tb.setFocusable(false);
-                          txtLookUpBtn.setBtn1Enabled(false);
-                       	  tb2.setEditable(false);
-                       	  tb2.setFocusable(false);
-                       	  tb3.setEditable(false);
-                       	  tb3.setFocusable(false);                       	  
-           //               txtLookUpBtn.setBtn1Visible(false);
-           //               txtLookUpBtn2.setBtn1Visible(false);
-                       	  
-                       }   
-                       else
-                       {
-                       	
-                       	  /*tb.setEditable(true);
-                          tb.setFocusable(true);
-                       	  tb2.setEditable(true);
-                       	  tb2.setFocusable(true);*/
-                       	  //System.out.println("PanelODORData.setEntity now else "+isEditable);
-                //       } 
-                       
-                       // because is edit not new initially false
-                       
-                     /* if(isNewRec)
-                       {
-                          txtLookUpBtn.setBtn1Visible(true);
-                          txtLookUpBtn2.setBtn1Visible(true);
-                       }
-                       else
-                       {
-                          txtLookUpBtn.setBtn1Visible(false);
-                          txtLookUpBtn2.setBtn1Visible(false);
-                       }
-                       */       
+     
 
                    if(!txtLookUpBtn.isVisible() )// add doc handler so if there is change trigger save
                    {    }
@@ -1363,21 +1254,7 @@ int flds = 0;
                 }
  */               else
                 {
-                    /*int colWdth=0;
-                    if(columnWidth<20)
-                    {
-                    	colWdth = columnWidth - (columnWidth/6);
-                    	
-                    }
-                    else
-                    {
-                    	colWdth = columnWidth - (columnWidth/3);
-                    }*/
-                    
-                    //System.out.println("PanelODORData.setEntity ("+i+")  "+columnDbName+"  "+columnWidth+" "+colWdth+" columnClass:"+columnClass);
-                    
-                    
-                    
+
                     
                     if(columnDbName!= null && columnClass.equalsIgnoreCase("table") )
                     {
@@ -1452,14 +1329,13 @@ int flds = 0;
                       PanelOneDataManyRecData pnlODMRData =  new PanelOneDataManyRecData(frame);
                       
                         
-                        pnlODMRData.setEntity(dbFieldsInGroupOfPanels[i].getCaption(),sql,dbFieldsInGroupOfPanels[i].getChildTable(),true,true,dbFieldsInGroupOfPanels,
-                                dbFieldsChild,isNewRec,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,/*formGlobalField1,formGlobalVariable1,*/primKeyValue,
+                        pnlODMRData.setEntity(dbFieldsInGroupOfPanels[i].getCaption(),entityPanel,sql,dbFieldsInGroupOfPanels[i].getChildTable(),true,true,dbFieldsInGroupOfPanels,
+                                dbFieldsChild,entityGroupOfComps,isNewRec,primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,/*formGlobalField1,formGlobalVariable1,*/primKeyValue,
                                 dbFieldsInGroupOfPanels[i].getChildTableFieldsForSums(),fieldTxts,this,intTableOfParentDBFields);
                         //setFormGlobalVariable1ToPanelODMRData();
                     //System.out.println(" - - - - - - - PanelODORData.setEntityA")    ;
                         pnlODMRData.filterForWritableTable(sql,isNewRec,isNewRecFromCopy,false);  // last parameter is true when we try to insert a completely new record with one and many, is false when we edit an already saved record
-                   
-                  // System.out.println(" - - - - - - - PanelODORData.setEntityB")    ;
+                    // System.out.println(" - - - - - - - PanelODORData.setEntityB")    ;
 
                    lbl = new JLabel(dbFieldsInGroupOfPanels[i].getCaption());
                    lbl.setIconTextGap(0);
@@ -2261,7 +2137,7 @@ int flds = 0;
                      {
                        if(VariablesGlobal.globalFieldIsVisibleWhenSetNotVisible) // do not show
                        {
-                          dataPanel.add(lbl);
+                         dataPanel.add(lbl);
                          dataPanel.add(eachDataFieldPanel);                            
                        } 
                        else
@@ -2272,7 +2148,8 @@ int flds = 0;
                      else
                      {
                          dataPanel.add(lbl);
-                         dataPanel.add(eachDataFieldPanel); 	
+                         dataPanel.add(eachDataFieldPanel); 
+                         panelAllOnIt.add(dataPanel,BorderLayout.CENTER);                     
                      }
 
                   }
@@ -2383,9 +2260,9 @@ int flds = 0;
            //   System.out.println("PanelODORData.setEntity   ========================= showSpecificRow     primKeys:"+primKeys+"     query:"+query);
              
                
-               
+           showSpecificRow(query);    
         }
-        else
+        else if(primKeys==null  && primKeyDb!=null)
         {
             
              if(primKeyDb.equalsIgnoreCase(STRFIELD_DBCOMPANYID))//  exists in PanelOneDataOneRec and PanelODORData when primKeys!=null. Look for STRFIELD_DBCOMPANYID
@@ -2407,11 +2284,27 @@ int flds = 0;
                         {
                             System.out.println("--------*   PanelODORData.setEntity B  query has no where  query:"+query);
                         } 
-              System.out.println("PanelODORData.setEntity   ========================= showSpecificRow      primKeys:"+primKeys+"      query:"+query);
-              
+              System.out.println("PanelODORData.setEntity   ========================= showSpecificRow  ELSE IF    primKeys:"+primKeys+"      query:"+query);
+           showSpecificRow(query);   
         }
-         //showSpecificRow(selectedRow,query);     // }	
-        showSpecificRow(query);     // }	
+        else // when shows panel row edit in jtable
+        {
+            System.out.println("PanelODORData.setEntity   ========================= showSpecificRow   ELSE   primKeys:"+primKeys+"   primKeyDb:"+primKeyDb+"   primKeyValue:"+primKeyValue);
+             
+            /*ArrayList lstTempDataRec = new ArrayList();
+            
+            for(int dbf = 0; dbf<dbFieldsInGroupOfPanels.length;dbf++)
+            {
+                lstTempDataRec.add("11111");
+            }*/
+            
+            if(lstTempDataRec!=null)
+            {    
+              showTemporaryRow(lstTempDataRec);
+            }
+        }
+         
+        	
           }
 
 
@@ -4283,7 +4176,7 @@ catch(Exception e)
         String[] fieldsOnTitle=lookUp.getFieldsOnTitle(luname);
          String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(luname);
         String editTitle=lookUp.getStrOfOne(luname);
-        EntityPanel[] entityPanel = lookUp.getEntityPanel(luname);
+        EntityPanel[] luEntityPanel = lookUp.getEntityPanel(luname);
   //      String primKey = lookUp.getLookUpKey(luname);
         ImageIcon iconLU=lookUp.getIcon(luname);
         String queryLookUp = lookUp.getQuery(luname);
@@ -4310,12 +4203,12 @@ catch(Exception e)
        String[] selPrimKeys={primKey} ;
        String[] selPrimKeysValue={primKeyValue} ;
         
-       panelEODR.setEntity(foreignTable, entityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,*//*primKeyDb  (set to primKey instead of primKeyDb because in panelEditOneDataRec of buyers to the product statistics page there was an error in the title)*/
+       panelEODR.setEntity(foreignTable, luEntityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*primKeyDb,/*formGlobalTableToGet1,formGlobalTableToApply1,*//*primKeyDb  (set to primKey instead of primKeyDb because in panelEditOneDataRec of buyers to the product statistics page there was an error in the title)*/
        /*, null,null,*/"",editTitle,iconLU,/*true,*/true,isNewRecFromCopy,true,categoryNodes, false, panelManagement);//,entityReport);	
      
   
    //     String editTitle=strOfOne;
-  //      panelEODR.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,/*null,null,*/queryReadOnly,
+  //      panelEODR.setEntity(entity, luEntityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,/*null,null,*/queryReadOnly,
   //      editTitle,ico/*,true*/,isNewRec,isNewRecFromCopy,true,categoryNodes, false,panelManagement);//,entityReportForm);	
 
         panelEODR.setVisible(true);
@@ -4934,6 +4827,455 @@ catch(Exception e)
        qIsTemplateToReplace=subqueryIsNotTemplateIn;
    }*/
    
+   public ArrayList getTemporaryRow(int row)
+   {
+   ArrayList<String> lstReturn = new ArrayList();
+     for(int i = 0;i<dbFieldsInGroupOfPanels.length;i++)
+      {
+          //int fieldCount = i;//i-1; // calculates the no of field starting from 0 when i = 1
+          String colName =   dbFieldsInGroupOfPanels[i].getDbField();
+          String colTableName =dbFieldsInGroupOfPanels[i].getTableName();
+          String colCaption =   dbFieldsInGroupOfPanels[i].getCaption();
+          int columnWidth = dbFieldsInGroupOfPanels[i].getColWidth();
+      	 //System.out.println("panelODORData.showRow i ("+i+") colName:"+colName+" class:"+dbFieldsInGroupOfPanels[i].getColClassName());
+          String classtype = dbFieldsInGroupOfPanels[i].getColClassName();
+          int isPrimaryKeyIntegerAutoInc =  dbFieldsInGroupOfPanels[i].getPrimaryKeyIntegerAutoInc();
+          
+          String luname = dbFieldsInGroupOfPanels[i].getLookupEntityName();//databaseTableMeta.findForeignTable(columnLabel); 
+         // System.out.println(" PanelODORData.showRow    i:"+i+"    colName:"+colName+"   class name:"+dbFieldsInGroupOfPanels[i].getColClassName()+"    lookup type:"+dbFieldsInGroupOfPanels[i].getLookupType()+"   luname:"+luname);
+         
+         
+         
+          if (dbFieldsInGroupOfPanels[i].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD && luname!= null )
+          {       
+               String foreignTable = lookUp.getFromTheNameTheForeignTable(luname);
+              // show field value in tb
+               
+              JTextComponent tbe = (JTextComponent)fieldTxts.get(i);
+             // tbe.setText(field);  
+             lstReturn.add( tbe.getText());
+          }
+          else if(classtype.equalsIgnoreCase("java.sql.Date") || classtype.equalsIgnoreCase("java.lang.Date"))
+              {
+                 //field=utilsDate.reformatDateStringToEditFromDB(field);	
+                    JTextBoxWithEditButtons textEditFormatedDate = (JTextBoxWithEditButtons)fieldTxts.get(i);
+                  // select all the text if focus gained
+                  
+                  JTextComponent ta = (JTextComponent)textEditFormatedDate.getTextComp();
+                lstReturn.add( ta.getText());
+                 //System.out.println("PanelODORD.showRow "+field);
+              }
+              else if (classtype.equalsIgnoreCase("java.lang.String") || (classtype.equalsIgnoreCase("java.lang.Integer" )))
+              {   
+              JTextComponent tbe = (JTextComponent)fieldTxts.get(i);
+              lstReturn.add( tbe.getText());               	
+              }
+              else if(classtype.equalsIgnoreCase("java.lang.Double") || classtype.equalsIgnoreCase("java.math.BigDecimal")  || classtype.equalsIgnoreCase("java.lang.Long"))
+              {   
+             	//field = utilsDouble.getDoubleReading(field,false);
+              JTextComponent tbe = (JTextComponent)fieldTxts.get(i);
+              
+              lstReturn.add( tbe.getText());                 
+              }    
+              else if (classtype.equalsIgnoreCase("java.lang.Boolean"))
+              {
+          	  	   //System.out.println("PanelOneDataOneRecData.showRow boolean "+field);
+              	   JCheckBox chk = (JCheckBox) fieldTxts.get(i);//i-1);
+
+              	   /*chk.setOpaque(false);
+              	   boolean sel =false;
+                   if(field.equals(""))
+              	   {
+              	   	sel=false;
+              	   }
+                   else if(field.equals("0"))
+              	   {
+              	   	sel=false;
+              	   }
+              	   else if(field.equals("1"))
+              	   {
+              	   	 sel=true;
+              	   }
+              	   else if(field.equals("TRUE"))
+              	   {
+              	   	  sel=true;
+              	   }
+              	   else if(field.equals("FALSE"))
+              	   {
+              	   	  sel=false;
+              	   }
+              	   else
+              	   {
+                        
+              	   	  System.out.println("PanelOneDataOneRecData.showRow  boolean unknown value "+field);
+              	   }*/
+              	   if(chk.isSelected())
+                   {
+                       lstReturn.add( "1");
+                   }
+                   else
+                   {
+                       lstReturn.add( "0");
+                   }
+              	           	  	          	  	
+                  
+          	  	//System.out.println("err panelODORData.showRow classtype "+classtype+" "+i+" not implemented");
+              }   
+              else if(classtype.equalsIgnoreCase("java.awt.image.BufferedImage"))
+              {
+                       lstReturn.add( "");      
+              }              
+              else
+              {   
+              	
+             	System.out.println("error panelODORData.showRow A  colName:"+colName+"    classtype:"+classtype+" "+i+" not implemented");
+               JTextComponent tbe = (JTextComponent)fieldTxts.get(i);
+              	        //tbe.setText(field);
+                lstReturn.add( tbe.getText());
+              
+                
+              }                   
+          /* }
+           else
+           {
+              if(classtype.equalsIgnoreCase("java.sql.Date") || classtype.equalsIgnoreCase("java.lang.Date"))
+              {
+                 field="";	
+              }
+              else if(classtype.equalsIgnoreCase("java.lang.String") || (classtype.equalsIgnoreCase("java.lang.Integer" )))
+              {   
+             	field="";	
+              }
+              else if (classtype.equalsIgnoreCase("java.lang.Boolean"))
+              {
+          	  	field="";
+              } 
+              else if(classtype.equalsIgnoreCase("java.awt.image.BufferedImage"))
+              {
+                         
+              }              
+              else
+              {
+             	System.out.println("error panelODORData.showRow B field:"+field+"  classtype "+classtype+" "+i+" not implemented");
+              }
+                  /* if (classtype.equalsIgnoreCase("java.sql.Double") || classtype.equalsIgnoreCase("java.lang.Double") )
+                  {
+             	      
+                  }
+            } */
+      }
+   
+     return    lstReturn;
+   }
+   
+   
+   private void showTemporaryRow(ArrayList lstTempDataRec)
+   {
+       
+      for(int i = 0;i<dbFieldsInGroupOfPanels.length;i++)
+      {
+          //int fieldCount = i;//i-1; // calculates the no of field starting from 0 when i = 1
+          String colName =   dbFieldsInGroupOfPanels[i].getDbField();
+          String colTableName =dbFieldsInGroupOfPanels[i].getTableName();
+          String colCaption =   dbFieldsInGroupOfPanels[i].getCaption();
+          int columnWidth = dbFieldsInGroupOfPanels[i].getColWidth();
+      	 //System.out.println("panelODORData.showRow i ("+i+") colName:"+colName+" class:"+dbFieldsInGroupOfPanels[i].getColClassName());
+          String classtype = dbFieldsInGroupOfPanels[i].getColClassName();
+          int isPrimaryKeyIntegerAutoInc =  dbFieldsInGroupOfPanels[i].getPrimaryKeyIntegerAutoInc();
+          
+          String luname = dbFieldsInGroupOfPanels[i].getLookupEntityName();//databaseTableMeta.findForeignTable(columnLabel); 
+         // System.out.println(" PanelODORData.showRow    i:"+i+"    colName:"+colName+"   class name:"+dbFieldsInGroupOfPanels[i].getColClassName()+"    lookup type:"+dbFieldsInGroupOfPanels[i].getLookupType()+"   luname:"+luname);
+   
+         
+         
+         
+         
+         
+         
+          String field = lstTempDataRec.get(i)+"";
+          if (dbFieldsInGroupOfPanels[i].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD && luname!= null )
+          {        
+               String foreignTable = lookUp.getFromTheNameTheForeignTable(luname);
+              // show field value in tb
+
+            int intFieldToGetTheValue = calculateAllFieldsForFormVariable1(); 
+              //System.out.println("PanelODoRData.showRow     luname:"+luname+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue);
+          String fieldVariableFromPreField =  "";
+          if(dbFieldsInGroupOfPanels!=null && intFieldToGetTheValue!=-1)
+          {
+              if(intFieldToGetTheValue < dbFieldsInGroupOfPanels.length )// 
+              {
+                 fieldVariableFromPreField = dbFieldsInGroupOfPanels[intFieldToGetTheValue].getDbField();
+              }
+              else
+              {
+                  System.out.println("error -> PanelODoRData.showRow     luname:"+luname+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue+" < "+dbFieldsInGroupOfPanels.length);
+              }
+          }              
+              
+              
+              JTextComponent tbe = (JTextComponent)fieldTxts.get(i);
+              tbe.setText(field);  
+              
+              
+  final EntityDBFields[] finalDbFieldsInGroupOfPanels = dbFieldsInGroupOfPanels;
+                   final int finalCol = i;
+                  final JTextComponent tbFinal=tbe;
+                  final String columnDbNameFinal = colName;
+                  final String foreignTableFinal = foreignTable;
+                  // select all the text if focus gained
+                  // tbe is for lookup
+                  tbe.addFocusListener(new FocusListener()
+                   {
+                    	public void focusLost(FocusEvent e)
+                        {  // if entered nothing or spaces on textbox
+                            
+                            //System.out.println("PanelODoRData.showRow  finalCol:"+finalCol);
+                           if(Boolean.parseBoolean(fieldTxtsKeyChanged.get(finalCol).toString()))//keyChanged)
+                           {
+                              //calculateRecordAfterKeySet(finalCol);
+                      //        System.out.println("  showRow finalCol:"+finalCol+"      type"+dbFieldsInGroupOfPanels[finalCol].getLookupType());
+                             //System.out.println("PanelODORData.showRow   ====================================  "+finalCol+"  formGlobalTableToGet1:"+formGlobalTableToGet1);
+                              //System.out.println("PanelODORData.dbFieldsCalculateSet d  hasDataChanged:"+hasDataChanged); 
+                             dbFieldsCalculateSet(finalDbFieldsInGroupOfPanels,finalCol);
+                              	//keyChanged=false;
+                               
+                           }                              
+                            checkIfFieldsHaveUniqueValueWhileInDataEntry(columnDbNameFinal); 
+                            checkFieldsIfThenElse(finalCol,CHECK_ON_ENTRY);//columnDbNameFinal
+                            
+                        }
+                        public void focusGained(FocusEvent e)
+                        {    //System.out.println("panelODORData.showRow focus gained");
+                             tbFinal.setSelectionStart(0);
+                             tbFinal.setSelectionEnd(tbFinal.getText().length());
+                             hasDataFieldUniqueChanged(finalCol);  // dataHasChangedInAField  is set to true from this.hasDataFieldUniqueChanged() which is called when txt gets focus
+                        }                    	
+                    }); 
+              
+            
+
+             
+              // show field look up in tb2
+              //ResultSet rsForeign;
+              String foreignQuery="";
+              String lookupText="";
+              String lookupText3="";
+              String lookupText4="";
+              //System.out.println("panelODORData.showRow ");
+              
+              String k = ""; // primkey like farmerid in twodataonerec
+
+                                k = field;//rs.getString(colName);
+                                String val =field;//rs.getString(colName);
+              
+              if (k!=null && !k.equals("0") && !k.equals(""))
+              {
+
+                
+                  // String  luname =  finalDbFieldsInGroupOfPanels[finalCol].getLookupEntityName();
+                  lookupText = utilsPanelReport.getLookupValue(luname,foreignTable,val,1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
+         //    System.out.println("PanelODORData.showRow   =+++++++++++   +   +++++++++  i:"+i+"        colName:"+colName+"      luname:"+luname+"      fieldVariableFromPreField:"+ fieldVariableFromPreField +"  rs.getString(colName):"+rs.getString(colName) +"  lookupText:" +lookupText);               
+                if(lookUp.getLookUpField2(luname)!=null)
+                {
+                   //System.out.println("panelODORData.showRow "+lookUp.getLookUpField2Index(luname));
+                  // lookupText3 =rsForeign.getString(lookUp.getLookUpField2Index(luname));// get field data	
+                   //System.out.println("panelODORData.showRow "+lookupText3);
+                   lookupText3 = utilsPanelReport.getLookupValue(luname,foreignTable,val,2,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
+                }
+ 
+                if(lookUp.getLookUpField3(luname)!=null)
+                {
+                   //System.out.println("panelODORData.showRow "+lookUp.getLookUpField2Index(foreignTable));
+                  // lookupText4 =rsForeign.getString(lookUp.getLookUpField3Index(foreignTable));// get field data	
+                   //System.out.println("panelODORData.showRow "+lookupText3);
+                   lookupText4 = utilsPanelReport.getLookupValue(luname,foreignTable,val,3,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
+                }               
+                //System.out.println("panelODORData.showRow if 2 "+(i)+" columnLabel "+columnLabel+" text "+lookupText);            
+
+                
+                
+                
+                
+                
+                
+                
+                //System.out.println("panelODORData.showRow "+foreignQuery);
+              JTextComponent tb2 = (JTextComponent) fieldTxts2.get(i);//(i); 
+              tb2.setText(lookupText.trim());
+              
+              
+              // select all the text if focus gained
+               final JTextComponent tb2Final=tb2;    
+                   tb2.addFocusListener(new FocusListener()
+                   {
+                    	public void focusLost(FocusEvent e)
+                        {  // if entered nothing or spaces on textbox
+                             
+                        }
+                        public void focusGained(FocusEvent e)
+                        {    //System.out.println("panelODORData.showRow tb2 focus gained");
+                             tb2Final.setSelectionStart(0);
+                             tb2Final.setSelectionEnd(tb2Final.getText().length());
+                        }                    	
+                    });
+              
+             /* JTextComponent tb3 = (JTextComponent) fieldTxts3.get(i); 
+              if(lookupText3 != null)
+              {              
+                tb3.setText(lookupText3);              
+              }
+              
+              JTextComponent tb4 = (JTextComponent) fieldTxts4.get(i);
+              if(lookupText4 != null)
+              {
+                 tb4.setText(lookupText4);    
+              }*/              
+              }
+              
+          }
+          
+          
+          if(!field.equalsIgnoreCase(""))
+          { 
+              
+              if(classtype.equalsIgnoreCase("java.sql.Date") || classtype.equalsIgnoreCase("java.lang.Date"))
+              {
+                 field=utilsDate.reformatDateStringToEditFromDB(field);	
+                 
+           	  JTextBoxWithEditButtons textEditFormatedDate = (JTextBoxWithEditButtons)fieldTxts.get(i);
+
+              	   //System.out.println("setEntity "+field);
+              	   if(!utilsDate.isDateNull(field))
+              	   {
+              	   	  textEditFormatedDate.setText(field);
+              	   	  textEditFormatedDate.findDateNameInText();
+              	   	  
+  	                  //System.out.println("PanelODORD.showRow "+field);
+
+              	   }
+              	 // for textEditFormatedDate to be all selected when focus gained implemented inside JTextBoxWithEditButtons
+                  // select all the text if focus gained
+                  
+                  JTextComponent ta = (JTextComponent)textEditFormatedDate.getTextComp();
+                
+                  final JTextComponent taFinal=ta;
+                  taFinal.addFocusListener(new FocusListener()
+                   {
+                    	public void focusLost(FocusEvent e)
+                        {  // if entered nothing or spaces on textbox
+                        }
+                        public void focusGained(FocusEvent e)
+                        {    //System.out.println("panelODORData.showRow focus gained");
+                             taFinal.setSelectionStart(0);
+                             taFinal.setSelectionEnd(taFinal.getText().length());
+                        }                    	
+                    });              	                                      
+                 //System.out.println("PanelODORD.showRow "+field);
+              }
+              else if (classtype.equalsIgnoreCase("java.lang.String") || (classtype.equalsIgnoreCase("java.lang.Integer" )))
+              {   
+              JTextComponent tbe = (JTextComponent)fieldTxts.get(i);
+              tbe.setText(field);               	
+              }
+              else if(classtype.equalsIgnoreCase("java.lang.Double") || classtype.equalsIgnoreCase("java.math.BigDecimal")  || classtype.equalsIgnoreCase("java.lang.Long"))
+              {   
+             	field = utilsDouble.getDoubleReading(field,false);
+              JTextComponent tbe = (JTextComponent)fieldTxts.get(i);
+              tbe.setText(field);                 
+              }    
+              else if (classtype.equalsIgnoreCase("java.lang.Boolean"))
+              {
+          	  	   //System.out.println("PanelOneDataOneRecData.showRow boolean "+field);
+              	   JCheckBox chk = (JCheckBox) fieldTxts.get(i);//i-1);
+
+              	   chk.setOpaque(false);
+              	   boolean sel =false;
+                   if(field.equals(""))
+              	   {
+              	   	sel=false;
+              	   }
+                   else if(field.equals("0"))
+              	   {
+              	   	sel=false;
+              	   }
+              	   else if(field.equals("1"))
+              	   {
+              	   	 sel=true;
+              	   }
+              	   else if(field.equals("TRUE"))
+              	   {
+              	   	  sel=true;
+              	   }
+              	   else if(field.equals("FALSE"))
+              	   {
+              	   	  sel=false;
+              	   }
+              	   else
+              	   {
+                        
+              	   	  System.out.println("PanelOneDataOneRecData.showRow  boolean unknown value "+field);
+              	   }
+              	   
+              	   chk.setSelected(sel);          	  	          	  	
+
+          	  	//System.out.println("err panelODORData.showRow classtype "+classtype+" "+i+" not implemented");
+              }   
+              else if(classtype.equalsIgnoreCase("java.awt.image.BufferedImage"))
+              {
+                             
+              }              
+              else
+              {   
+              	
+             	System.out.println("error panelODORData.showRow A field:"+field+"  colName:"+colName+"    classtype:"+classtype+" "+i+" not implemented");
+               JTextComponent tbe = (JTextComponent)fieldTxts.get(i);
+              if(!tbe.hasFocus())
+              {
+              	//String field = "";
+
+                        //field = rs.getString(colName);
+                       // field = rs.getString(colName);//fieldVariableFromPreField);
+              	        tbe.setText(field);
+
+              }
+                
+              }                   
+           }
+           else
+           {
+              if(classtype.equalsIgnoreCase("java.sql.Date") || classtype.equalsIgnoreCase("java.lang.Date"))
+              {
+                 field="";	
+              }
+              else if(classtype.equalsIgnoreCase("java.lang.String") || (classtype.equalsIgnoreCase("java.lang.Integer" )))
+              {   
+             	field="";	
+              }
+              else if (classtype.equalsIgnoreCase("java.lang.Boolean"))
+              {
+          	  	field="";
+              } 
+              else if(classtype.equalsIgnoreCase("java.awt.image.BufferedImage"))
+              {
+                         
+              }              
+              else
+              {
+             	System.out.println("error panelODORData.showRow B field:"+field+"  classtype "+classtype+" "+i+" not implemented");
+              }
+                  /* if (classtype.equalsIgnoreCase("java.sql.Double") || classtype.equalsIgnoreCase("java.lang.Double") )
+                  {
+             	      
+                  } */
+             }
+
+
+
+      }
+       setVisibleOrEditableFields(false);//calledByEditOrNew
+   }
+   
    /*
     * 
     * called by this.showSpecificRow
@@ -5002,15 +5344,8 @@ catch(Exception e)
                String foreignTable = lookUp.getFromTheNameTheForeignTable(luname);
               // show field value in tb
                
-              
-               
-               //System.out.println("panelODORData.showRow 1b --- "+i+" "+field);
               JTextComponent tbe = (JTextComponent)fieldTxts.get(i);//i-1);
               
-              /*if (!field.equalsIgnoreCase("") || field!=null)
-              { field.trim(); }*/
-              
-         
               int intFieldToGetTheValue = calculateAllFieldsForFormVariable1(); 
               //System.out.println("PanelODoRData.showRow     luname:"+luname+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue);
           String fieldVariableFromPreField =  "";
@@ -5026,7 +5361,7 @@ catch(Exception e)
               }
           }
           
-            if(dbFieldsInGroupOfPanels[i].getColClassName().equalsIgnoreCase("table"))
+          if(dbFieldsInGroupOfPanels[i].getColClassName().equalsIgnoreCase("table"))
           {
               /* PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(i);//,PanelOneDataManyRecData);
               int lenClildFields = pnlODMRData.getDbFieldsChild().length;
@@ -5117,25 +5452,25 @@ catch(Exception e)
               String lookupText3="";
               String lookupText4="";
               //System.out.println("panelODORData.showRow ");
-              
+
               String k = ""; // primkey like farmerid in twodataonerec
 
                                 k = rs.getString(colName);
-
+                                String val =rs.getString(colName);
               
               if (k!=null && !k.equals("0") && !k.equals(""))
               {
 
-                
+                //System.out.println("++++PanelODORData.showRow ===  === === B");
                   // String  luname =  finalDbFieldsInGroupOfPanels[finalCol].getLookupEntityName();
-                  lookupText = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
+                  lookupText = utilsPanelReport.getLookupValue(luname,foreignTable,val,1,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
          //    System.out.println("PanelODORData.showRow   =+++++++++++   +   +++++++++  i:"+i+"        colName:"+colName+"      luname:"+luname+"      fieldVariableFromPreField:"+ fieldVariableFromPreField +"  rs.getString(colName):"+rs.getString(colName) +"  lookupText:" +lookupText);               
                 if(lookUp.getLookUpField2(luname)!=null)
                 {
                    //System.out.println("panelODORData.showRow "+lookUp.getLookUpField2Index(luname));
                   // lookupText3 =rsForeign.getString(lookUp.getLookUpField2Index(luname));// get field data	
                    //System.out.println("panelODORData.showRow "+lookupText3);
-                   lookupText3 = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),2,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
+                   lookupText3 = utilsPanelReport.getLookupValue(luname,foreignTable,val,2,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
                 }
  
                 if(lookUp.getLookUpField3(luname)!=null)
@@ -5143,13 +5478,13 @@ catch(Exception e)
                    //System.out.println("panelODORData.showRow "+lookUp.getLookUpField2Index(foreignTable));
                   // lookupText4 =rsForeign.getString(lookUp.getLookUpField3Index(foreignTable));// get field data	
                    //System.out.println("panelODORData.showRow "+lookupText3);
-                   lookupText4 = utilsPanelReport.getLookupValue(luname,foreignTable,rs.getString(colName),3,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
+                   lookupText4 = utilsPanelReport.getLookupValue(luname,foreignTable,val,3,false,fieldVariableFromPreField,/*formGlobalTableToGet1,formGlobalTableToApply1,*/"",entity,dbFieldsInGroupOfPanels,fieldTxts);
                 }               
                 //System.out.println("panelODORData.showRow if 2 "+(i)+" columnLabel "+columnLabel+" text "+lookupText);            
 
                 
                 
-                
+
                 
                 
                 
@@ -5253,7 +5588,7 @@ catch(Exception e)
 
                          //sqlWhere = sqlWhere.replaceAll("AND sxesoexoline.isTemplate LIKE 0","AND sxesoexoline.isTemplate LIKE 1");
                         String sql = queryWithoutOrderby+" "+sqlWhere+" "+queryOrderby;
-                        //System.out.println("PanelODORData.showRow -------table1       isNewRec:"+isNewRec+"      isNewRecFromCopy:"+isNewRecFromCopy+"       sql:"+sql);
+                System.out.println("PanelODORData.showRow -------table1       isNewRec:"+isNewRec+"      isNewRecFromCopy:"+isNewRecFromCopy+"       sql:"+sql);
             if(entityTemplate!=null)// && !isNewRecFromCopy)  // when is template                
             {
                String subqueryIsNotTemplate = entityTemplate.getSubQueryIsNotTemplate();// = "AND sxesoexoline.isTemplate ='0'";
@@ -5701,7 +6036,7 @@ catch(Exception e)
        closeDB(); 
            
        setVisibleOrEditableFields(true);
-       //System.out.println("++++PanelODORData.showRow ===  === === B");
+       
         
     }    
    
@@ -8020,11 +8355,11 @@ ps.setBytes(i, b);
                     
                                for(int d=0;d<listFields.size();d++)
                                {
-                                //System.out.println("PanelODORData.rowInsertHtmlFormElements         d"+d+"      f"+f+"   fieldDBName:"+fieldDBName+"      listFields.get(d):"+listFields.get(d)+"       listFieldValues.get(d):"+listFieldValues.get(d));
+                               System.out.println("PanelODORData.rowInsertHtmlFormElements   NOT IMPLEMENTED      d"+d+"            listFields.get(d):"+listFields.get(d)+"       listFieldValues.get(d):"+listFieldValues.get(d));
                                  
-                               String insertQuery = "INSERT INTO "+fieldChildTableName+" ( "+subQueryFieldNames+" "+strReadFieldWhere+", "+strReadFieldValue+" ) VALUES ( "+subQueryFieldValues+" '"+listFields.get(d)+"', '"+listFieldValues.get(d)+"' )";                               
-                               if (VariablesGlobal.globalShowSQLEdit)
-                               { System.out.println("PanelODORData.rowInsertHtmlFormElements          insertQuery:"+insertQuery);}  
+                        //       String insertQuery = "INSERT INTO "+fieldChildTableName+" ( "+subQueryFieldNames+" "+strReadFieldWhere+", "+strReadFieldValue+" ) VALUES ( "+subQueryFieldValues+" '"+listFields.get(d)+"', '"+listFieldValues.get(d)+"' )";                               
+                        //       if (VariablesGlobal.globalShowSQLEdit)
+                        //       { System.out.println("PanelODORData.rowInsertHtmlFormElements          insertQuery:"+insertQuery);}  
                                         
                     
                     
@@ -8036,10 +8371,10 @@ ps.setBytes(i, b);
                                { System.out.println("PanelODORData.rowInsertHtmlFormElements          insertQuery:"+insertQuery);}                             
               */
                               //}   
-                        System.out.println("PanelODORData.rowInsertHtmlFormElements               from query query:"+insertQuery);      
-                     int intRet =  dbTransaction.transactionUpdateQuery(insertQuery,"PanelODORData.rowInsertHtmlFormElements",showDialogOnError);
+                    //    System.out.println("PanelODORData.rowInsertHtmlFormElements               from query query:"+insertQuery);      
+                  //   int intRet =  dbTransaction.transactionUpdateQuery(insertQuery,"PanelODORData.rowInsertHtmlFormElements",showDialogOnError);
                       //System.out.println("PanelODORData.rowInsertHtmlFormElements         intRet:"+intRet+"       from query query:"+insertQuery);
-                     if(intRet==1)
+                /*     if(intRet==1)
                      {
                          ret=true;
                      }
@@ -8049,7 +8384,7 @@ ps.setBytes(i, b);
                          ret=false;
                          break; 
                      }
-                               }
+               */                }
                          
                     
            // //return 1 there is already one record with the same keys                         
@@ -9810,7 +10145,7 @@ ps.setBytes(i, b);
    {     
        try
          {  
-
+               //System.out.println("PanelOneDataOneRecData.showSpecificRow ...........................q:"+q);    
              db.retrieveDBDataFromQuery(q,"PanelOneDataOnRecData.showSpecificRow A");
    	     rs=db.getRS();
              rs.first();

@@ -526,7 +526,7 @@ import javax.swing.border.BevelBorder;
                
                        selected = panelOneDataOneRec.setEntity(entity,entityPanel[cn],selectedTableRow,/*primKeyValue,*/query,primKeys,primKeysValue,titleOfPanel+" "+title, isNewRec, isNewRecFromCopy,
                        /*formGlobalTableToGet1,formGlobalTableToApply1,*/fieldsOnTitle, fieldsOnTitleCaption, false, "",showShowListButtons, true,
-                       entityPanel[cn].getIco(),panelManagement,this,IS_CALLED_BY_ONE_TABLE_ODOR);
+                       entityPanel[cn].getIco(),panelManagement,this,IS_CALLED_BY_ONE_TABLE_ODOR,null);
                            
                            //System.out.println("PanelEditODR.addVisibleMenuButtonsAndPanels  +++  ODOR loadPanelsODOR  entityGroupOfPanels=null  cn=" + cn+" titleOfPanel="+titleOfPanel);
                            //System.out.println(" --  PanelEditOneDataRec.addVisibleMenuButtonsAndPanels   size"+panelMainCard.getComponentCount());
@@ -568,7 +568,7 @@ import javax.swing.border.BevelBorder;
       
                  selected = panelOneDataOneRec.setEntity(entity,/*entityPanel,*/entityPanel[cn],selectedTableRow,/*primKeyValue,*/query,primKeys,primKeysValue,titleOfPanel+" "+title, isNewRec, isNewRecFromCopy,
                          /*formGlobalTableToGet1,formGlobalTableToApply1,*/fieldsOnTitle,
-                          fieldsOnTitleCaption, false, "",showShowListButtons, true, entityPanel[cn].getIco(),/*cn,*/panelManagement,this,IS_CALLED_BY_ONE_TABLE_ODOR);//,entityReportForm); 
+                          fieldsOnTitleCaption, false, "",showShowListButtons, true, entityPanel[cn].getIco(),/*cn,*/panelManagement,this,IS_CALLED_BY_ONE_TABLE_ODOR,null);//,entityReportForm); 
                  
                   JxToggleButton btnMenu ;
 

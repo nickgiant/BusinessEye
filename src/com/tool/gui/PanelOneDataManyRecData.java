@@ -124,6 +124,7 @@ import javax.swing.text.JTextComponent;
         private JButton btnManyInsertInLine;
         private JButton btnManyMultiInsert;
         private JButton btnManyDelete;
+        private JButton btnManyEdit;
         private JButton btnManyCopyAboveCell;
         private JButton btnManyClearAll;
        // private JButton btnManySave;
@@ -243,7 +244,7 @@ import javax.swing.text.JTextComponent;
     private ArrayList listTableCellEditorLookup;
        private String filePrefs;
        private String queryMany;
-      private ToolBarDataMany toolBarDataMany;
+      private ToolBarDataManyEditable toolBarDataManyEditable;
       private JxPanel panelManyWithTable;
       //private EntityUpdateAdditional[] updateAdditional;
       private PanelOneDataOneRecData panelODORData;
@@ -253,6 +254,9 @@ import javax.swing.text.JTextComponent;
     //private String formGlobalField1;
     private ArrayList fieldTxts;  
     private int intTableOfParentDBFields;
+    EntityPanel entityPanel;
+    
+    private boolean isTableEditable;
     
     public PanelOneDataManyRecData(JFrame frame) 
     {
@@ -308,8 +312,8 @@ import javax.swing.text.JTextComponent;
        utilsDate= new UtilsDate();
        utilsDate.readFromFileDateFormats();
         
- 	toolBarDataMany = new ToolBarDataMany();
-        toolBarDataMany.setFocusable(false);        
+ 	toolBarDataManyEditable = new ToolBarDataManyEditable();
+        toolBarDataManyEditable.setFocusable(false);        
         
         db= new Database();
         
@@ -494,11 +498,13 @@ import javax.swing.text.JTextComponent;
      called by PanelODORData.setEntity
      also needed to call -->this.filterForWritableTable after setEntity  <---
    */
-   public void setEntity(String titleIn, String queryIn,String entityManyIn,boolean isQuery2In,boolean isEditableIn, EntityDBFields[] dbFieldsParentIn,EntityDBFields[] dbFieldsManyIn,
-           boolean isNewRecIn, String primKeyDbIn,/*String formGlobalTableToGet1In,String formGlobalTableToApply1In,*//* String formGlobalField1In,String formGlobalVariable1In,*/
+   public void setEntity(String titleIn,EntityPanel entityPanelIn, String queryIn,String entityManyIn,boolean isQuery2In,boolean isEditableIn, 
+           EntityDBFields[] dbFieldsParentIn,EntityDBFields[] dbFieldsManyIn,EntityGroupOfComps[] entityGroupOfCompsIn,boolean isNewRecIn, String primKeyDbIn,
+           /*String formGlobalTableToGet1In,String formGlobalTableToApply1In,*//* String formGlobalField1In,String formGlobalVariable1In,*/
            String primKeyValueIn,String[] fieldsForSumsIn,ArrayList fieldTxtsIn,PanelOneDataOneRecData panelODORDataIn, int intTableOfParentDBFieldsIn)//,EntityUpdateAdditional[] updateAdditionalIn)
    {
        entity=entityManyIn;
+       entityPanel=entityPanelIn;
        title=titleIn;
        query=queryIn;
        entityMany=entityManyIn;
@@ -506,6 +512,7 @@ import javax.swing.text.JTextComponent;
        isEditable=isEditableIn;
        dbFieldsParent = dbFieldsParentIn;
        dbFieldsMany= dbFieldsManyIn;
+       entityGroupOfComps=entityGroupOfCompsIn;
        isNewRec= isNewRecIn;
        primKeyDb=primKeyDbIn;
        
@@ -545,8 +552,9 @@ import javax.swing.text.JTextComponent;
         
         if(isEditable)
         {
-           panelManyWithTable.add(toolBarDataMany, BorderLayout.PAGE_START);            
-        }        
+           panelManyWithTable.add(toolBarDataManyEditable, BorderLayout.PAGE_START);            
+        }
+        
         panelManyWithTable.add(panelAllOnIt, BorderLayout.CENTER );
         
            
@@ -592,10 +600,15 @@ import javax.swing.text.JTextComponent;
                 
         
         
-   //    System.out.println("PanelODMRData.setEntity  -    (short)  -       query:"+query+"     isEditableIn:"+isEditableIn+"       dbFieldsParent:"+dbFieldsParent+"   dbFieldsMany:"+dbFieldsMany); 
-        
- //      if ( isEditable )
- //      {     databaseTableMeta.retrieveImpKsOnQuery(entity,query); }//first retrieve them then find for each column the foreign table name        
+       if(!isEditable)
+       {
+           toolBarDataManyEditable.setVisible(isEditableIn);
+           table.setModel(tableModelReadOnly);
+       }
+       else
+       {
+           table.setModel(tableModelResultSet);
+       }    
         
         add(panelManyWithTable, BorderLayout.CENTER );
 
@@ -618,8 +631,8 @@ import javax.swing.text.JTextComponent;
      * called by PanelODMR.setEntity
      * 
      */
-    public void setEntity(String entityIn,String titleIn, String queryIn, String[] fieldsForSumsIn,EntityDBFields[] dbFieldsIn,EntityDBFields[] dbFieldsManyIn, 
-          EntityGroupOfComps[] entityGroupOfCompsManyIn, /*String[] fieldsManyOnInsertIn, String[]fieldsManyTranslationOnInsertIn,*/ String primKeyIn, String primKeyDbIn,
+    public void setEntity(String entityIn,/*EntityPanel entityPanelIn,*/String titleIn, String queryIn, String[] fieldsForSumsIn,EntityDBFields[] dbFieldsIn,EntityDBFields[] dbFieldsManyIn, 
+          /*EntityGroupOfComps[] entityGroupOfCompsManyIn,*/ /*String[] fieldsManyOnInsertIn, String[]fieldsManyTranslationOnInsertIn,*/ String primKeyIn, String primKeyDbIn,
           //String formGlobalVariable1In,
           /*String[] primKeysManyIn,String[] primKeysManyTranIn, String[] sql2WhereFieldIn, String[] sql2WhereValueIn,*/ String primKeyValueIn, boolean isEditableIn,
           /*boolean showExtendedSummaryIn,*/boolean showExtendedSummaryCalcsIn,String strOfManyIn, boolean isNewRecIn,String entityManyIn, boolean isQuery2In,
@@ -634,6 +647,7 @@ import javax.swing.text.JTextComponent;
         //fieldsMany=fieldsManyIn;
         //fieldsManyTranslation=fieldsManyTranslationIn;
         //formGlobalTableToApply1=formGlobalTableToApply1In;
+        // entityPanel = entityPanelIn;
         title=titleIn;
         fieldsForSums=fieldsForSumsIn;
         dbFields = dbFieldsIn;
@@ -750,9 +764,21 @@ import javax.swing.text.JTextComponent;
         
         if(isEditable)
         {
-           panelManyWithTable.add(toolBarDataMany, BorderLayout.PAGE_START);            
+           panelManyWithTable.add(toolBarDataManyEditable, BorderLayout.PAGE_START);            
         }
-             
+  
+        
+       if(!isEditable)
+       {
+           toolBarDataManyEditable.setVisible(isEditableIn);
+           table.setModel(tableModelReadOnly);
+       }
+       else
+       {
+           table.setModel(tableModelResultSet);
+       }        
+        
+        
         panelManyWithTable.add(panelAllOnIt, BorderLayout.CENTER );
         
         
@@ -1415,7 +1441,7 @@ import javax.swing.text.JTextComponent;
      }   
    //System.out.println(" oooooooooooooo   PanelODMRData.retrieveDataFromReadOnlyQuery XML read     queryIn:"+queryIn);
         //tableModelReadOnly= new TableModelReadOnly();
-        table.setModel(tableModelReadOnly);
+   //     table.setModel(tableModelReadOnly);
         
         tableModelReadOnly.setQuery(queryIn);
      
@@ -1680,7 +1706,7 @@ import javax.swing.text.JTextComponent;
    //System.out.println("O PanelOneDataManyRecData.retrieveDataFromWritableTable  --A--   primKeyDbFromParentIn:"+primKeyDbFromParentIn+"     primKeyDb:"+primKeyDb);
 
     
-        table.setModel(tableModelResultSet);
+   //     table.setModel(tableModelResultSet);
 //  for writable       tableModelResultSet.setQuery(queryIn, entityIn,dbFieldsMany,primKeysMany,primKeysManyTran,sql2WhereField,sql2WhereValue,primKeyValueIn);
         tableModelResultSet.setQuery(queryMany, entityIn,dbFieldsParent,dbFieldsMany,isNewRec,isCopyFromNewRecIn,primKeyDbFromParentIn,primKeyValueFromParentIn,isEditableIn,panelODORData);        
 
@@ -3807,14 +3833,33 @@ public int getRowCountFromReadOnlyTable()
        return selected;
    }
 
-   public void setEditable(boolean isEditable)
+   public void setEditable(boolean isEditableIn)
    {
-       toolBarDataMany.setVisible(isEditable);
-       table.setEnabled(isEditable);
        
+        isEditable=isEditableIn;
+       if(!isEditable)
+       {
+           toolBarDataManyEditable.setVisible(isEditableIn);
+           
+           table.setEnabled(isEditable);
+             /*table.setModel(new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                 return false;
+            }
+            });
+            table.revalidate();
+            this.revalidate();*/
+       }
+       else
+       {
+           
+       }
    }
    
-  
+
+     
    public String filterForReadOnlyTable(String queryIn)//, String[] strSearchField, String[] strSearch)
    {
    	  this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -3906,7 +3951,7 @@ public int getRowCountFromReadOnlyTable()
         String[] fieldsOnTitle=lookUp.getFieldsOnTitle(luname);
          String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(luname);
         String editTitle=lookUp.getStrOfOne(luname);
-        EntityPanel[] entityPanel = lookUp.getEntityPanel(luname);
+        EntityPanel[] luEntityPanel = lookUp.getEntityPanel(luname);
         String primKey = lookUp.getLookUpKey(luname);
   /*      String query = "";
         if(lookUp.getQuerySubqueryWhere(luname) !=null && !lookUp.getQuerySubqueryWhere(luname).trim().equalsIgnoreCase("") )
@@ -3920,13 +3965,13 @@ public int getRowCountFromReadOnlyTable()
         
   */      
         ImageIcon iconLU=lookUp.getIcon(luname);
-   //     panelEditOneDataRec.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,null,null,/*query,*/
+   //     panelEditOneDataRec.setEntity(entity, luEntityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,null,null,/*query,*/
    //     editTitle,ico,true,isNewRec,isNewRecFromCopy,true,categoryNodes, false);	
       //  -1 is the selectedTableRow in readonlytable used to get the PKs
       
       String[] selPrimKeys ={primKey};
       String[] selPrimKeysValue ={selectedKeyValue};
-       panelEditOneDataRec.setEntity(luname, entityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*primKey,*/
+       panelEditOneDataRec.setEntity(luname, luEntityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*primKey,*/
                /*null,null,*//*,query*/"", editTitle,iconLU/*,true*/,true,false,true,null, false, panelManagement);	
    
     	
@@ -3943,6 +3988,40 @@ public int getRowCountFromReadOnlyTable()
        
    }
    
+   private void displayDialogTableRowEdit()
+   {
+       PanelOneDataOneRecData panelOneDataOneRecData= new PanelOneDataOneRecData(frame);
+       System.out.println("PanelODMRData.displayDialogTableRowEdit   getName:"+entityPanel.getName()+"    entity:"+entityPanel.getEntity()+"     getPrimKey:"+entityPanel.getPrimKey()+"         query:"+query+"       entityPanel getSqlMany:"+entityPanel.getQuery());
+       ArrayList<String> lstTempDataRow = new ArrayList();
+       int tableRow = getSelectedTableRow();
+       int colCount = tableModelResultSet.getColumnCount();
+       for(int c=0;c<colCount;c++)
+       {
+           lstTempDataRow.add(tableModelResultSet.getValueAt(tableRow, c)+"");
+       }
+       if(getSelectedTableRow()>=0)
+       {
+       EntityGroupOfComps[] egoc =new EntityGroupOfComps[1];
+       egoc[0] = new EntityGroupOfComps(title,6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+       panelOneDataOneRecData.setEntity(entityPanel, title, entity, dbFieldsMany, egoc/*entityGroupOfComps*/, null/*entityGroupOfPanelsIn*/, /*primKeys*/null, /*primKeysValue*/null, 
+             /*primKeyDb*/null, query, /*isNewRec*/false, false/*isNewRec*/, isEditable, yearEnforceInLines, ICO_ADD, 0, panelManagement,lstTempDataRow);//getSelectedTableRow
+
+       String editTitle = (tableRow+1)+"";
+       
+        DialogMulti dlg = new DialogMulti(frame);
+        dlg.setEntity(panelOneDataOneRecData,PANEL_TYPE_ANY, "επεξεργασία γραμμής "+editTitle,true);
+        dlg.display();
+        
+        if(!dlg.getIsCancelClicked())
+        {
+        ArrayList lstResultRow = panelOneDataOneRecData.getTemporaryRow(tableRow);
+        for(int c =0;c<lstResultRow.size();c++)
+        {
+            tableModelResultSet.setValueAt(lstResultRow.get(c), tableRow, c);
+        }
+        }
+       }
+   }
    
    
    
@@ -3977,7 +4056,7 @@ public int getRowCountFromReadOnlyTable()
         String[] fieldsOnTitle=lookUp.getFieldsOnTitle(luname);
          String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(luname);
         String editTitle=lookUp.getStrOfOne(luname);
-        EntityPanel[] entityPanel = lookUp.getEntityPanel(luname);
+        EntityPanel[] luEntityPanel = lookUp.getEntityPanel(luname);
         String primKey = lookUp.getLookUpKey(luname);
         String query = "";
         
@@ -4067,12 +4146,12 @@ public int getRowCountFromReadOnlyTable()
         
         
         ImageIcon iconLU=lookUp.getIcon(luname);
-   //     panelEditOneDataRec.setEntity(entity, entityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,null,null,/*query,*/
+   //     panelEditOneDataRec.setEntity(entity, luEntityPanel,fieldsOnTitle,fieldsOnTitleCaption,false,primKey,primKeyValue,primKeyDb,null,null,/*query,*/
    //     editTitle,ico,true,isNewRec,isNewRecFromCopy,true,categoryNodes, false);	
    //  -1 is the selectedTableRow in readonlytable used to get the PKs
          String[] selPrimKeys ={primKey};
       String[] selPrimKeysValue ={selectedKeyValue};
-     int selected =  panelEditOneDataRec.setEntity(foreignTable, entityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*primKey,*/
+     int selected =  panelEditOneDataRec.setEntity(foreignTable, luEntityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,selPrimKeys,selPrimKeysValue,/*primKey,*/
                /*null,null,*/queryLookUp, editTitle,iconLU/*,true*/,false,false,true,null, false, panelManagement);	
    
     	
@@ -4111,10 +4190,10 @@ public int getRowCountFromReadOnlyTable()
       table.addMouseListener(al);
     }
 
-class ToolBarDataMany extends JToolBar implements Constants
+class ToolBarDataManyEditable extends JToolBar implements Constants
 {
 
-        public ToolBarDataMany()
+        public ToolBarDataManyEditable()
         {
             try
            {     initialize();   }
@@ -4136,6 +4215,7 @@ class ToolBarDataMany extends JToolBar implements Constants
         btnManyInsert = new JButton();
         btnManyInsertInLine = new JButton();
         btnManyMultiInsert = new JButton();
+        btnManyEdit = new JButton();
         btnManyCopyAboveCell = new JButton();
         btnManyDelete = new JButton();
         btnManyClearAll = new JButton();
@@ -4151,7 +4231,7 @@ class ToolBarDataMany extends JToolBar implements Constants
         btnManyInsert.setText("εισαγωγή");
         btnManyInsert.setOpaque(false);
         btnManyInsert.setToolTipText("εισαγωγή");
-        btnManyInsert.setIcon(ICO_ADDBELOW);
+        btnManyInsert.setIcon(ICO_ADD);
         btnManyInsert.setFocusable(false);        
         btnManyInsert.addActionListener(new ActionListener()
         {
@@ -4170,7 +4250,7 @@ class ToolBarDataMany extends JToolBar implements Constants
         btnManyInsertInLine.setText("εισαγωγή στη γραμμή");
         btnManyInsertInLine.setOpaque(false);
         btnManyInsertInLine.setToolTipText("εισαγωγή στην επιλεγμένη γραμμή");
-        btnManyInsertInLine.setIcon(ICO_ADD);
+        btnManyInsertInLine.setIcon(ICO_ADDBELOW);
         btnManyInsertInLine.setFocusable(false);        
         btnManyInsertInLine.addActionListener(new ActionListener()
         {
@@ -4243,6 +4323,24 @@ class ToolBarDataMany extends JToolBar implements Constants
  //       btnManyDelete.getActionMap().put("delRecMany", actionDelRecMany);
  
    
+         btnManyEdit.setText("επεξεργασία");
+        btnManyEdit.setOpaque(false);
+        btnManyEdit.setToolTipText("επεξεργασία");
+        btnManyEdit.setIcon(ICO_SETTINGS);
+        btnManyEdit.setFocusable(false);        
+        btnManyEdit.addActionListener(new ActionListener()
+        {
+	        public void actionPerformed(ActionEvent e) 
+	        {	   
+                     //addNewRowBelow();
+	           	displayDialogTableRowEdit();   
+	        } 
+	    });
+  //      Action actionNewRecMany = new ActionNewRecMany();
+ //       btnManyInsert.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0), "newRecMany"); //where the constant is JComponent.WHEN_FOCUSED, you can just use getInputMap with no arguments
+ //       btnManyInsert.getActionMap().put("newRecMany", actionNewRecMany);
+
+ 
         
         //btnManyCopyAboveCell.setText("<html>αντιγραφή επάνω κελιού</html>");
         btnManyCopyAboveCell.setText("αντιγραφή επάνω κελιού");
@@ -4339,8 +4437,9 @@ class ToolBarDataMany extends JToolBar implements Constants
         add(btnManyInsert);
         add(btnManyInsertInLine);
         add(btnManyMultiInsert);
-        add(btnManyCopyAboveCell);
         add(btnManyDelete);
+        add(btnManyEdit);
+        add(btnManyCopyAboveCell);
          //addSeparator();
         
         add(btnManyClearAll);

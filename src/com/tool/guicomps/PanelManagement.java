@@ -2138,7 +2138,7 @@ lblMainMenu.setHorizontalAlignment(SwingConstants.LEFT);*/
             panelOneDataOneRec.setEntity(entParameter.name,/*ent.getEntityPanel(),*/entParameter.getEntityPanel()[0],-1, /*ent.primKey*/ /*VariablesGlobal.globalCompanyId ,*/
             query,null,null , entParameter.caption,false,false,
               /* entParameter.getFormGlobalTableToGet1(),entParameter.getFormGlobalTableToApply1(),*/ entParameter.getFieldsOnTitle(), entParameter.getFieldsOnTitleCaption(),true, entParameter.getYearEnforce(),false,true,   
-               entityMenu.getEntityIcon(),this,null,IS_CALLED_BY_ONE_TABLE_ODOR);//false,false,true,false,false,
+               entityMenu.getEntityIcon(),this,null,IS_CALLED_BY_ONE_TABLE_ODOR,null);//false,false,true,false,false,
             //true,"",true,1, this,null);//1 is not known why*/
             
     /*panelOneDataOneRec setEntity(String entityIn,EntityPanel[] entityPanelArrayIn,EntityPanel entityPanelIn, String primKeyValueIn,String queryIn,String titleIn, boolean isNewRecIn,  boolean isNewRecFromCopyIn,

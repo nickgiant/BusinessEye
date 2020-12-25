@@ -797,6 +797,11 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
          return 0;
       }*/
    }
+   
+   
+
+   
+   
       @Override
     public boolean isCellEditable(int row, int column)
     {

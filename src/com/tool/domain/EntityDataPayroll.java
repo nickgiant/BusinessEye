@@ -82,7 +82,7 @@ public class EntityDataPayroll extends EntityData implements Constants
 
         //----------------------------------------------------------------        
                     
-        EntityDBFields[] comBranchDBFields = new EntityDBFields[5]; 
+        EntityDBFields[] comBranchDBFields = new EntityDBFields[10]; 
             
 
         
@@ -804,9 +804,13 @@ public class EntityDataPayroll extends EntityData implements Constants
         comBranchDBFields[0] = new EntityDBFields("hr_companybranch","branchId","Νο",0,"java.lang.Integer",15, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");       
         comBranchDBFields[1] = new EntityDBFields("hr_companybranch","dbCompanyId","Νο εταιρίας",0,"java.lang.String",4,FIELD_PRIMARY_KEY_FROM_PARENTTABLE,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,""); //uses FIELD_PRIMARY_KEY_FROM_PARENTTABLE, not:VariablesGlobal.globalCompanyId
         comBranchDBFields[2] = new EntityDBFields("hr_companybranch","branchTitle","τίτλος",0,"java.lang.String",28,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        comBranchDBFields[3] = new EntityDBFields("hr_companybranch","dateEstablished","από ημερομηνία",0,"java.sql.Date",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        comBranchDBFields[4] = new EntityDBFields("hr_companybranch","datePaused","εως ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-          
+        comBranchDBFields[3] = new EntityDBFields("hr_companybranch","dateEstablished","ίδρυση",0,"java.sql.Date",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        comBranchDBFields[4] = new EntityDBFields("hr_companybranch","datePaused","παύση",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        comBranchDBFields[5] = new EntityDBFields("hr_companybranch","countryIdLocated","χώρα",0,"java.lang.String",28,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        comBranchDBFields[6] = new EntityDBFields("hr_companybranch","state","περιοχή",0,"java.lang.String",28,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        comBranchDBFields[7] = new EntityDBFields("hr_companybranch","city","πόλη",0,"java.lang.String",28,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        comBranchDBFields[8] = new EntityDBFields("hr_companybranch","pc","ΤΚ",0,"java.lang.String",28,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        comBranchDBFields[9] = new EntityDBFields("hr_companybranch","responsibleIdRepresentative","εκπρόσωπος",0,"java.lang.String",35,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_efkakad", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
            
         //String[] updateQueryFieldsCompany ={"dbCompanyId"};
 
@@ -1159,7 +1163,7 @@ public class EntityDataPayroll extends EntityData implements Constants
          //calculationPeriodDBFields[3] = new EntityDBFields("pay_calculationperiod","isActive","ενεργή",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");               
          calculationPeriodDBFields[2] = new EntityDBFields("pay_calculationperiod","month","μήνας",0,"java.lang.Integer",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCMonths",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
          //calculationPeriodDBFields[3] = new EntityDBFields("pay_calculationperiod","year","έτος",0,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        calculationPeriodDBFields[3] = new EntityDBFields("pay_calculationperiod","description","περιγραφή",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+         calculationPeriodDBFields[3] = new EntityDBFields("pay_calculationperiod","description","περιγραφή",0,"java.lang.String",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
 
 
         calculationPeriodEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);

@@ -462,9 +462,9 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        //traderBankaccountDBFields[2] = new EntityDBFields("traderbankaccount","dbCompanyId","dbCompanyId",0,"java.lang.String",6,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,VariablesGlobal.globalCompanyId);
         traderBankaccountDBFields[2] = new EntityDBFields("traderbankaccount","inc","αα",0,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
         
-        traderBankaccountDBFields[3] = new EntityDBFields("traderbankaccount","bankId","τράπεζα",2,"java.lang.Integer",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"bank",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-	traderBankaccountDBFields[4] = new EntityDBFields("traderbankaccount","account","λογαριασμός",2,"java.lang.String",18,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-       	traderBankaccountDBFields[5] = new EntityDBFields("traderbankaccount","iban","ΙΒΑΝ",2,"java.lang.String",29,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        traderBankaccountDBFields[3] = new EntityDBFields("traderbankaccount","bankId","τράπεζα",0,"java.lang.Integer",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"bank",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+	traderBankaccountDBFields[4] = new EntityDBFields("traderbankaccount","account","λογαριασμός",0,"java.lang.String",18,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+       	traderBankaccountDBFields[5] = new EntityDBFields("traderbankaccount","iban","ΙΒΑΝ",0,"java.lang.String",29,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         traderBankaccountDBFields[6] = new EntityDBFields("traderbankaccount","firstName","1ο ονοματεπώνυμο",0,"java.lang.String",15,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         traderBankaccountDBFields[7] = new EntityDBFields("traderbankaccount","branch","κατάστημα",0,"java.lang.String",13,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         traderBankaccountDBFields[8] = new EntityDBFields("traderbankaccount","bic","BIC",0,"java.lang.String",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
@@ -565,22 +565,22 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         fieldsCalculationServiceSelect[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputServiceCategory,inputService,"SELECT stock.priceWhole FROM stock, vatcat  WHERE stock.vatCatId=vatcat.vatCatId AND stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND stock.stockId LIKE #");
         fieldsCalculationServiceSelect[2] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,10,inputVatCategory,inputVat,calculationVatPercentageSql);
        
-        saleLineDBFields[4] = new EntityDBFields("saleline","stockId","υπηρεσία",2,"java.lang.Integer",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"stock",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationServiceSelect,"");
-	saleLineDBFields[5] = new EntityDBFields("saleline","description","περ/φή υπηρεσίας",2,"java.lang.String",18,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        saleLineDBFields[4] = new EntityDBFields("saleline","stockId","υπηρεσία",0,"java.lang.Integer",30,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"stock",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationServiceSelect,"");
+	saleLineDBFields[5] = new EntityDBFields("saleline","description","περ/φή υπηρεσίας",0,"java.lang.String",18,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
        
         int[] inputQuantityPriceCategory = {FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputQuantityPrice = {6,7};
        EntityDBFieldsCalculation[] fieldsCalculationQuantitySelect = new EntityDBFieldsCalculation[1];
        fieldsCalculationQuantitySelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,9,inputQuantityPriceCategory,inputQuantityPrice,"SELECT #*#");
        //9,inputPriceBeforeVat,"*");//,"SELECT vatcat.priceWhole FROM stock, vatcat  WHERE stock.vatCatId=vatcat.vatCatId AND stock.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND stock.stockId=");
-        saleLineDBFields[6] = new EntityDBFields("saleline","quantity","ποσότητα",1,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationQuantitySelect,"0");
+        saleLineDBFields[6] = new EntityDBFields("saleline","quantity","ποσότητα",0,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationQuantitySelect,"0");
         
         
        EntityDBFieldsCalculation[] fieldsCalculationPriceSelect = new EntityDBFieldsCalculation[1];
        fieldsCalculationPriceSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,9,inputQuantityPriceCategory,inputQuantityPrice,"SELECT #*#");        
-        saleLineDBFields[7] = new EntityDBFields("saleline","priceForOne","τιμή",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationPriceSelect,"0");
+        saleLineDBFields[7] = new EntityDBFields("saleline","priceForOne","τιμή",0,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationPriceSelect,"0");
         //saleLineDBFields[8] = new EntityDBFields("saleline","discountPercentage","εκπτωση %",1,"java.lang.Double",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,null,"0");
-        saleLineDBFields[8] = new EntityDBFields("saleline","dbYearId","dbYearId",1,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalYearId,"");
+        saleLineDBFields[8] = new EntityDBFields("saleline","dbYearId","dbYearId",0,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,VariablesGlobal.globalYearId,"");
         
         //int[] inputPreVatCategorySums ={FIELDSCALCULATION_CATEGORY_SAME};
         //int[] inputPreVatSums ={9};//field
@@ -590,26 +590,26 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        EntityDBFieldsCalculation[] fieldsCalculationPriceBeforeVatSelect = new EntityDBFieldsCalculation[1];
        fieldsCalculationPriceBeforeVatSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,11,inputPriceBeforeVatCategoryCell,inputPriceBeforeVatCell,"SELECT #*#/100"); // for each cell
        //fieldsCalculationPriceBeforeVat[1] = new EntityDBFieldsCalculation(11,11,inputPreVatCategorySums,inputPreVatSums,"SELECT #");// for sums
-        saleLineDBFields[9] = new EntityDBFields("saleline","priceBeforeVat","προ ΦΠΑ",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,fieldsCalculationPriceBeforeVatSelect,"");
+        saleLineDBFields[9] = new EntityDBFields("saleline","priceBeforeVat","προ ΦΠΑ",0,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,fieldsCalculationPriceBeforeVatSelect,"");
 
         
         int[] inputVatPercentCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatPercentValue ={9,10};
        EntityDBFieldsCalculation[] fieldsCalculationVatPercentValueSelect = new EntityDBFieldsCalculation[1];
        fieldsCalculationVatPercentValueSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,11,inputVatPercentCategory,inputVatPercentValue,"SELECT #*#/100");         
-        saleLineDBFields[10] = new EntityDBFields("saleline","vatPercentage","ΦΠΑ %",1,"java.lang.Double",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,fieldsCalculationVatPercentValueSelect,"");
+        saleLineDBFields[10] = new EntityDBFields("saleline","vatPercentage","ΦΠΑ %",0,"java.lang.Double",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,null,fieldsCalculationVatPercentValueSelect,"");
         
         int[] inputVatValueCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputVatValue ={9,11};
        EntityDBFieldsCalculation[] fieldsCalculationVatValueSelect = new EntityDBFieldsCalculation[1];
        fieldsCalculationVatValueSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,12,inputVatValueCategory,inputVatValue,"SELECT #+#");         
-        saleLineDBFields[11] = new EntityDBFields("saleline","vatValue","αξία ΦΠΑ",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationVatValueSelect,"");
+        saleLineDBFields[11] = new EntityDBFields("saleline","vatValue","αξία ΦΠΑ",0,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationVatValueSelect,"");
         
         int[] inputValueWithVatCategory ={FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME,FIELDSCALCULATION_CATEGORY_SAME};
         int[] inputValueWithVat ={12,10,6};
        EntityDBFieldsCalculation[] fieldsCalculationValueWithVatSelect = new EntityDBFieldsCalculation[1];
        fieldsCalculationValueWithVatSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputValueWithVatCategory,inputValueWithVat,"SELECT #/(100+#)*100/#");         
-        saleLineDBFields[12] = new EntityDBFields("saleline","valueWithVat","αξία",1,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationValueWithVatSelect,"");                     
+        saleLineDBFields[12] = new EntityDBFields("saleline","valueWithVat","αξία",0,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationValueWithVatSelect,"");                     
         
         
         
@@ -886,7 +886,7 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         companySetSerSalesDBFields[1] = new EntityDBFields("dbCompanySet","sersaleCodeOfDocumentsLength","μήκος κωδικού παραστατικών",1,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"7","");
         companySetSerSalesDBFields[2] = new EntityDBFields("dbCompanySet","sersaleWithHoldingTaxAmountGreaterThan","ελαχιστο σύνολο για υπολογισμό % φόρου παρακράτησης",1,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"300","");
         companySetSerSalesDBFields[3] = new EntityDBFields("dbCompanySet","sersaleWithHoldingTaxRate","% φόρου παρακράτησης",1,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"20","");
-        companySetSerSalesDBFields[4] = new EntityDBFields("dbCompanySet","sersaleRetailTrader","προτεινόμενος συναλλασσόμενος λιανικής",2,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"trader", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,null,"");
+        companySetSerSalesDBFields[4] = new EntityDBFields("dbCompanySet","sersaleRetailTrader","προτεινόμενος συναλλασσόμενος λιανικής",2,"java.lang.Integer",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"traderS", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,null,"");
         companySetSerSalesDBFields[5] = new EntityDBFields("dbCompanySet","sersaleCheckAFMOfSaleAndComp","ενημέρωση καταχώρησης παραστατικού με συναλλασσόμενο την εταιρία εργασίας",3,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                
         companySetSerSalesDBFields[6] = new EntityDBFields("dbCompanySet","sersaleMaxOfCashCheck","ενημέρωση για ποσό εξόφλησης μέσω τράπεζικού τρόπου",4,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                
         companySetSerSalesDBFields[7] = new EntityDBFields("dbCompanySet","sersaleMaxOfCashNetValue","ελαχιστο ποσό για εξόφληση μέσω τράπεζικού τρόπου",4,"java.lang.Double",9,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"500","");
@@ -1027,8 +1027,8 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
         saleErs[0]=new EntityFilterSettings("χρήση","checkboxTable","string","","dbYearId","dbyear","saleheader",/*VariablesGlobal.globalYearId*/"",-1,-1,-1,FIELD_NOCOMPLETION);
         saleErs[1]=new EntityFilterSettings("αριθ. παρ/κού","","string","equals","saleCodeOfDocument","saleheader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
         saleErs[2]=new EntityFilterSettings("τύπος","checkboxTable","string","","actionseriesId","actionseries","saleheader","",-1,-1,-1,FIELD_NOCOMPLETION);
-        saleErs[3]=new EntityFilterSettings("συναλλασσόμενος","","string","equals","title","trader","saleheader","",-1,-1,-1,FIELD_NOCOMPLETION);
-        saleErs[4]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","trader","saleheader","",-1,-1,-1,FIELD_NOCOMPLETION);
+        saleErs[3]=new EntityFilterSettings("συναλλασσόμενος","","string","equals","title","traderS","saleheader","",-1,-1,-1,FIELD_NOCOMPLETION);
+        saleErs[4]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","traderS","saleheader","",-1,-1,-1,FIELD_NOCOMPLETION);
         saleErs[5]=new EntityFilterSettings("ημερομηνία","","date","fromto","dateOfSale","","saleheader","",-1,-1,-1,FIELD_NOCOMPLETION);
         saleErs[6]=new EntityFilterSettings("ποσότητα","","double","fromto","quantityTotal","","saleheader","",-1,-1,-1,FIELD_NOCOMPLETION);
         saleErs[7]=new EntityFilterSettings("τελική τιμή","","double","fromto","priceTotal","","saleheader","",-1,-1,-1,FIELD_NOCOMPLETION);
@@ -1074,12 +1074,12 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
 
       
        EntityFilterSettings[] traderErs = new EntityFilterSettings[3];       
-       //traderErs[0]=new EntityFilterSettings("επίθετο","","string","equals","surname","trader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-       traderErs[0]=new EntityFilterSettings("όνομα","","string","equals","title","trader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-       traderErs[1]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","trader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-       //traderErs[3]=new EntityFilterSettings("ταυτότητα","","string","equals","idNo","trader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-       //traderErs[4]=new EntityFilterSettings("πόλη/χωριό","checkboxTable","string","","townId","town","trader","",-1,-1,-1,FIELD_NOCOMPLETION);
-       traderErs[2]=new EntityFilterSettings("Δ.Ο.Υ.","checkboxTable","string","","doyId","doy","trader","",-1,-1,-1,FIELD_NOCOMPLETION);
+       //traderErs[0]=new EntityFilterSettings("επίθετο","","string","equals","surname","traderS",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       traderErs[0]=new EntityFilterSettings("όνομα","","string","equals","title","traderS",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       traderErs[1]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","traderS",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       //traderErs[3]=new EntityFilterSettings("ταυτότητα","","string","equals","idNo","traderS",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       //traderErs[4]=new EntityFilterSettings("πόλη/χωριό","checkboxTable","string","","townId","town","traderS","",-1,-1,-1,FIELD_NOCOMPLETION);
+       traderErs[2]=new EntityFilterSettings("Δ.Ο.Υ.","checkboxTable","string","","doyId","doy","traderS","",-1,-1,-1,FIELD_NOCOMPLETION);
        //traderErs[3]=new EntityFilterSettings("χρήση","checkboxTable","string","","dbYearId","dbyear","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
        //traderErs[4]=new EntityFilterSettings("ημερομηνία","","date","fromto","dateOfEsoexo","","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
                              //onelookup,checkboxTable
@@ -1179,9 +1179,9 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
      entities.add(entityLookUp = new EntityLookUp("trader","trader","SELECT trader.traderId AS\"Νο συναλλασσόμενου\", traderCode AS\"κωδικός\", title AS\"επωνυμία\",  vatNo AS\"Α.Φ.Μ.\", sum(quantityTotal) AS \"ποσότητα\", sum(pricePreVat) AS \"προ ΦΠΑ\", sum(priceVat) AS \"ΦΠΑ\", sum(priceTotal) AS \"συνολικό ποσό\"  FROM trader LEFT JOIN saleheader ON saleheader.traderId = trader.traderId AND saleheader.dbCompanyId = trader.dbCompanyId","WHERE trader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,"AND trader.active LIKE 1", "GROUP BY trader.traderId ORDER BY trader.title","","traderId","Νο συναλλασσόμενου","traderId","συναλλασσόμενος",3,lookUpFieldTrader,"επωνυμία ή ΑΦΜ",29,"java.lang.String",4,"vatNo", "Α.Φ.Μ.",0,null,null,traderQueryEditable, "συναλλασσόμενου","συναλλασσόμενων",strTraderCategories,entityPanelTrader,fieldsOnTitleTrader,fieldsOnTitleCaptionTrader,traderErs,2,2,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
 */
        EntityFilterSettings[] traderErs = new EntityFilterSettings[3];      
-       traderErs[0]=new EntityFilterSettings("κωδικός","","string","equals"," traderCode","trader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-       traderErs[1]=new EntityFilterSettings("επωνυμία","","string","equals","title","trader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-       traderErs[2]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","trader",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       traderErs[0]=new EntityFilterSettings("κωδικός","","string","equals"," traderCode","traderS",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       traderErs[1]=new EntityFilterSettings("επωνυμία","","string","equals","title","traderS",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       traderErs[2]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","traderS",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
        //traderErs[2]=new EntityFilterSettings("χρήση","checkboxTable","string","","dbYearId","dbyear","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
        //traderErs[2]=new EntityFilterSettings("πόλη/χωριό","checkboxTable","string","","townId","town","trader","",-1,-1,-1,FIELD_NOCOMPLETION);
             // for 'intNoOfColsWhenInTable' look also at  deliveryFieldsMany
@@ -1561,20 +1561,20 @@ EntityFilterSettings[] salesDocumentErs = new EntityFilterSettings[7] ;
        saleheaderEntityGroupOfComps[2] = new EntityGroupOfComps("παραστατικό",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
        //invoiceEntityGroupOfComps[3] = new EntityGroupOfComps("υπηρεσίες",4,0);        
         
-       EntityFilterSettings[] invoiceErs = new EntityFilterSettings[7];   
+       EntityFilterSettings[] invoiceErs = new EntityFilterSettings[6];   
       
      // invoiceErs[1]=new EntityFilterSettings("χρήση","onelookup","string","","dbYearId","dbyear","saleheader",VariablesGlobal.globalYearId,0,0,-1,FIELD_OBLIGATORY);
       invoiceErs[0]=new EntityFilterSettings("χρήση","onelookup","string","","dbYearId","dbyear","saleheader", VariablesGlobal.globalYearId,0,-1,-1,FIELD_NOCOMPLETION);
        //invoiceErs[2]=new EntityFilterSettings("αποστολή","onelookup","string","equals","deliveryId","dbDelivery","a",VariablesGlobal.globalDeliveryId,0,-1,-1,FIELD_OBLIGATORY);        
-       invoiceErs[1]=new EntityFilterSettings("Νο συναλλασσόμενου","lookup","string","fromto","traderId","trader","trader","",1,-1,-1,FIELD_NOCOMPLETION);
-       invoiceErs[2]=new EntityFilterSettings("επίθετο","","string","equals","title","trader",null,"",1,-1,-1,FIELD_NOCOMPLETION);
-       invoiceErs[3]=new EntityFilterSettings("συναλλασσόμενος","checkboxTable","string","","traderId","traderS","trader","",1,-1,-1,FIELD_NOCOMPLETION);
-       invoiceErs[4]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","trader",null,"",1,-1,-1,FIELD_NOCOMPLETION);
+       //invoiceErs[1]=new EntityFilterSettings("Νο συναλλασσόμενου","lookup","string","fromto","traderId","trader","traderS","",1,-1,-1,FIELD_NOCOMPLETION);
+       invoiceErs[1]=new EntityFilterSettings("επίθετο","","string","equals","title","traderS",null,"",1,-1,-1,FIELD_NOCOMPLETION);
+       invoiceErs[2]=new EntityFilterSettings("συναλλασσόμενος","checkboxTable","string","","traderId","traderS","trader","",1,-1,-1,FIELD_NOCOMPLETION);
+       invoiceErs[3]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","traderS",null,"",1,-1,-1,FIELD_NOCOMPLETION);
        //invoiceErs[6]=new EntityFilterSettings("πόλη/χωριό","checkboxTable","string","","townId","town","f","",1,-1,-1,FIELD_NOCOMPLETION);
        //invoiceErs[7]=new EntityFilterSettings("Δ.Ο.Υ.","checkboxTable","string","","doyId","doy","f","",1,-1,-1,FIELD_NOCOMPLETION);
-       invoiceErs[5]=new EntityFilterSettings("ημ/νία παραστατικού","","date","fromto","dateOfSale","saleheader",null,"",2,0,-1,FIELD_NOCOMPLETION);
+       invoiceErs[4]=new EntityFilterSettings("ημ/νία παραστατικού","","date","fromto","dateOfSale","saleheader",null,"",2,0,-1,FIELD_NOCOMPLETION);
       // invoiceErs[6]=new EntityFilterSettings("πλήθος παρ/κών","","double","fromto","invcount","d",null,"",2,-1,-1,FIELD_NOCOMPLETION);
-       invoiceErs[6]=new EntityFilterSettings("τελικό ποσό","","double","fromto","priceTotal","saleheader",null,"",2,-1,-1,FIELD_NOCOMPLETION);
+       invoiceErs[5]=new EntityFilterSettings("τελικό ποσό","","double","fromto","priceTotal","saleheader",null,"",2,-1,-1,FIELD_NOCOMPLETION);
       // invoiceErs[8]=new EntityFilterSettings("ποσό επιστροφής","","double","fromto","valueReturn","a",null,"",2,-1,-1,FIELD_NOCOMPLETION);
       // invoiceErs[9]=new EntityFilterSettings("ποσό κράτησης","","double","fromto","payment","d",null,"",2,-1,-1,FIELD_NOCOMPLETION);
        //invoiceErs[13]=new EntityFilterSettings("αγοραστής","checkboxTable","string","","buyerId","buyer","i","",3,-1,1,FIELD_NOCOMPLETION);
@@ -1646,14 +1646,14 @@ boolean[] boolSettingsSaleHeaderΒ = {true,true,true,true};
         nodeReports.getChildFromCaption(REPORT_CAT_2).addChild(nodeemrb);                 
 
 
-       EntityFilterSettings[] traderErs = new EntityFilterSettings[4];   
+       EntityFilterSettings[] traderErs = new EntityFilterSettings[3];   
        //traderErs[0]=new EntityFilterSettings("εταιρία","onelookup","string","","dbCompanyId","dbcompany","trader",VariablesGlobal.globalCompanyId,0,-1,-1,FIELD_OBLIGATORY);
        //invoiceErs[1]=new EntityFilterSettings("χρήση","onelookup","string","","dbyearId","dbyear","trader", VariablesGlobal.globalYearId,0,0,-1,FIELD_OBLIGATORY);
        //invoiceErs[2]=new EntityFilterSettings("αποστολή","onelookup","string","equals","deliveryId","dbDelivery","a",VariablesGlobal.globalDeliveryId,0,-1,-1,FIELD_OBLIGATORY);        
-       traderErs[0]=new EntityFilterSettings("Νο συναλλασσόμενου","lookup","string","fromto","traderId","trader","trader","",0,-1,-1,FIELD_NOCOMPLETION);
-       traderErs[1]=new EntityFilterSettings("επίθετο","","string","equals","title","trader",null,"",0,-1,-1,FIELD_NOCOMPLETION);
-       traderErs[2]=new EntityFilterSettings("αγρότης","checkboxTable","string","","traderId","trader","trader","",0,-1,-1,FIELD_NOCOMPLETION);
-       traderErs[3]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","trader",null,"",0,-1,-1,FIELD_NOCOMPLETION);
+       //traderErs[0]=new EntityFilterSettings("Νο συναλλασσόμενου","lookup","string","fromto","traderId","trader","trader","",0,-1,-1,FIELD_NOCOMPLETION);
+       traderErs[0]=new EntityFilterSettings("επίθετο","","string","equals","title","trader",null,"",0,-1,-1,FIELD_NOCOMPLETION);
+       traderErs[1]=new EntityFilterSettings("αγρότης","checkboxTable","string","","traderId","trader","trader","",0,-1,-1,FIELD_NOCOMPLETION);
+       traderErs[2]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","trader",null,"",0,-1,-1,FIELD_NOCOMPLETION);
        //invoiceErs[6]=new EntityFilterSettings("πόλη/χωριό","checkboxTable","string","","townId","town","f","",1,-1,-1,FIELD_NOCOMPLETION);
        //invoiceErs[7]=new EntityFilterSettings("Δ.Ο.Υ.","checkboxTable","string","","doyId","doy","f","",1,-1,-1,FIELD_NOCOMPLETION);
        //invoiceErs[8]=new EntityFilterSettings("ημ/νία αίτησης","","date","fromto","dateOfApplication","a",null,"",2,0,-1,FIELD_NOCOMPLETION);
@@ -1765,18 +1765,18 @@ boolean[] boolSettingsSaleHeaderΒ = {true,true,true,true};
        int[] intSettingsReportFarm={0,0,0,0};*/
        
          
-       EntityFilterSettings[] invoiceeErs = new EntityFilterSettings[10];       
-       invoiceeErs[0]=new EntityFilterSettings("Νο συναλλασσόμενου","lookup","string","fromto","traderId","trader","f","",-1,-1,0,FIELD_NOCOMPLETION);
-       invoiceeErs[1]=new EntityFilterSettings("αγρότης","checkboxTable","string","","traderId","trader","trader","",-1,-1,0,FIELD_NOCOMPLETION);
-       invoiceeErs[2]=new EntityFilterSettings("επίθετο","","string","equals","surname","trader",null,"",-1,-1,0,FIELD_NOCOMPLETION);
-       invoiceeErs[3]=new EntityFilterSettings("ΑΦΜ","","string","equals","traderAfm","trader",null,"",-1,-1,0,FIELD_NOCOMPLETION);
-       invoiceeErs[4]=new EntityFilterSettings("πόλη/χωριό","checkboxTable","string","","townId","town","trader","",-1,-1,0,FIELD_NOCOMPLETION);
-       invoiceeErs[5]=new EntityFilterSettings("Δ.Ο.Υ.","checkboxTable","string","","doyId","doy","trader","",-1,-1,0,FIELD_NOCOMPLETION);
-       invoiceeErs[6]=new EntityFilterSettings("ημερομηνία παραστ.","","date","fromto","date","invoice",null,"",-1,-1,0,FIELD_NOCOMPLETION);
-       invoiceeErs[7]=new EntityFilterSettings("αγοραστής","checkboxTable","string","","buyerId","buyer","invoice","",-1,-1,0,FIELD_NOCOMPLETION);
-       invoiceeErs[8]=new EntityFilterSettings("προϊόν","checkboxTable","string","","productId","product","invoice","",-1,-1,0,FIELD_NOCOMPLETION);
-       invoiceeErs[9]=new EntityFilterSettings("τύπος παραστατικού","checkboxTable","string","","paymentTypeId","paymentType","invoice","",-1,-1,0,FIELD_NOCOMPLETION);
-       
+       /*EntityFilterSettings[] invoiceeErs = new EntityFilterSettings[9];       
+       //invoiceeErs[0]=new EntityFilterSettings("Νο συναλλασσόμενου","lookup","string","fromto","traderId","trader","f","",-1,-1,0,FIELD_NOCOMPLETION);
+       invoiceeErs[0]=new EntityFilterSettings("αγρότης","checkboxTable","string","","traderId","trader","trader","",-1,-1,0,FIELD_NOCOMPLETION);
+       invoiceeErs[1]=new EntityFilterSettings("επίθετο","","string","equals","surname","trader",null,"",-1,-1,0,FIELD_NOCOMPLETION);
+       invoiceeErs[2]=new EntityFilterSettings("ΑΦΜ","","string","equals","traderAfm","trader",null,"",-1,-1,0,FIELD_NOCOMPLETION);
+       invoiceeErs[3]=new EntityFilterSettings("πόλη/χωριό","checkboxTable","string","","townId","town","trader","",-1,-1,0,FIELD_NOCOMPLETION);
+       invoiceeErs[4]=new EntityFilterSettings("Δ.Ο.Υ.","checkboxTable","string","","doyId","doy","trader","",-1,-1,0,FIELD_NOCOMPLETION);
+       invoiceeErs[5]=new EntityFilterSettings("ημερομηνία παραστ.","","date","fromto","date","invoice",null,"",-1,-1,0,FIELD_NOCOMPLETION);
+       invoiceeErs[6]=new EntityFilterSettings("αγοραστής","checkboxTable","string","","buyerId","buyer","invoice","",-1,-1,0,FIELD_NOCOMPLETION);
+       invoiceeErs[7]=new EntityFilterSettings("προϊόν","checkboxTable","string","","productId","product","invoice","",-1,-1,0,FIELD_NOCOMPLETION);
+       invoiceeErs[8]=new EntityFilterSettings("τύπος παραστατικού","checkboxTable","string","","paymentTypeId","paymentType","invoice","",-1,-1,0,FIELD_NOCOMPLETION);
+       */
        //invoiceErs[4]=new EntityFilterSettings("πόλη/χωριό","checkboxTable","string","or","townId","town","");       
        
        /*EntityGroupOfComps[] invoiceeEntityGroupOfComps = null;       
