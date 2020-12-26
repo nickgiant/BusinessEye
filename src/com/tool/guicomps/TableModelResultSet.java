@@ -105,7 +105,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
         
         private String strPkValue="";
         private int countOfJTableNewRowsBeforeSavedInDB=0;
-        
+        private int intTableOfParentDBFields;
 //abstract class ResultSetTableModel extends AbstractTableModel
 //{  
    public TableModelResultSet()//    only writable table model
@@ -163,13 +163,57 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                
    }
    
+   
+       /*
+    *  called by this and 
+    */
+    /*public boolean areAllCellsReadOnly()
+    {
+        boolean ret = false;
+        for(int dbp= 0;dbp<this.getColumnCount();dbp++)
+        {
+       // System.out.println("TableModelResultSet.areAllCellsReadOnly "+c+" intTableOfParentDBFields:"+intTableOfParentDBFields+" "+dbFieldsParent[intTableOfParentDBFields].getDbField());
+        //if(dbFieldsParent[dbp].getColClassName().equalsIgnoreCase("table"))
+            if(dbp==intTableOfParentDBFields)
+            {
+                    if(dbFieldsParent[intTableOfParentDBFields].getIsVisibleOrEditable()==FIELD_VISIBLE_AND_EDITABLE_IN_NEW_PANEL)
+                    {
+                        ret =  true;
+                        break;
+                    }
+            }*/
+        //for()
+       // if(c==0)
+        //{
+        
+        /*if(dbFieldsParent[intTableOfParentDBFields].getIsVisibleOrEditable()==FIELD_VISIBLE_AND_EDITABLE_IN_NEW_PANEL)
+         {
+             //EntityDBFields[] dbf = dbFieldsParent[intTableOfParentDBFields].getDbChildFields();
+             //for(int c=0;c<dbf.length;dbf++)
+             //{
+                 
+             //}
+             ret =  true;
+             //break;
+         }
+         else
+         {
+             ret = false;
+             
+         }*/
+     /*   }
+        
+        return ret;
+    }*/
+   
+   
    /*
     * 
     * called by PanelODMRData.retrieveDataFromWritableTable 
     */
   public void setQuery(String queryIn, String entity,EntityDBFields[] dbFieldsParentIn, EntityDBFields[] dbFieldsManyIn,boolean isNewRecIn,boolean isCopyFromNewRecIn,/*String[]fieldsManyOnInsertIn,*/
     /*String[] fieldsManyTranslationOnInsertIn,String[] primKeysManyIn,String[] primKeysManyTranIn,String[] sql2WhereFieldIn, String[] sql2WhereValueIn,*/
-    String primKeyDbIn, String primKeyValueIn/*this is from parent*/, boolean isEditableIn,PanelOneDataOneRecData panelODORDataIn)
+    String primKeyDbIn, String primKeyValueIn/*this is from parent*/, boolean isEditableIn,int intTableOfParentDBFieldsIn,PanelOneDataOneRecData panelODORDataIn)
   {
       
     dataVector = new Vector();
@@ -187,6 +231,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     primKeyDb=primKeyDbIn;
     primKeyValue=primKeyValueIn;
     query=queryIn;
+    intTableOfParentDBFields=intTableOfParentDBFieldsIn;
     panelODORData=panelODORDataIn;
     
     listTableColumns.clear();
@@ -805,11 +850,22 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
       @Override
     public boolean isCellEditable(int row, int column)
     {
+        
+        
+        boolean ret = false;
     	if (isEditable)
-    	{   
+    	{  
+            /*if(dbFieldsParent[intTableOfParentDBFields].getIsVisibleOrEditable()==FIELD_VISIBLE_AND_EDITABLE_IN_NEW_PANEL)
+            //if(areAllCellsReadOnly())
+            {
+                return  false;
+                
+            }
+            else
+            {*/
     	   if(getColumnDBName(column).toUpperCase().equals(VariablesGlobal.columnNameInc.toUpperCase()))
     	   {
-    	   	    return false;
+    	   	    return  false;
     	   }
            else if(dbFieldsMany[column].getIsVisibleOrEditable()==FIELD_VISIBLE_NOT_EDITABLE_ALWAYS)
            {
@@ -818,26 +874,40 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
            else if(dbFieldsMany[column].getIsVisibleOrEditable()==FIELD_NOT_VISIBLE)
            {
                return false;
-           }           
+           } 
            else // FIELD_VISIBLE_AND_EDITABLE
     	   {
     	        String tableName;
                 
                 RecColumn tableCol = (RecColumn)listTableColumns.get(column);
                 tableName = tableCol.getColumnTable();
-                  
-                return true; 
-       		    
+                //for(int d=0;d<dbFieldsParent.length;d++)
+                //{
+                tableCol.getColumnName();
+                /*if(dbFieldsParent[intTableOfParentDBFields].getChildTable().equalsIgnoreCase(tableName))
+                 //if(dbFieldsParent[intTableOfParentDBFields].getIsVisibleOrEditable()==FIELD_VISIBLE_AND_EDITABLE_IN_NEW_PANEL)
+                 {
+                     System.out.println(dbFieldsParent[intTableOfParentDBFields].getCaption()+"  "+row+"   "+column+"   tableName:"+tableName+"   "+intTableOfParentDBFields);
+                     return false;
+                     
+                 }
+                 else
+                 {*/
+                     return true; 
+         //        } 
+           //      }
        		    /*if (tableName.toUpperCase().equalsIgnoreCase(entity.toUpperCase()))
     		    {	      }
     		    else
     		    {      return false;         }*/
             }
+            
+
         }
     	else
     	{  return false;  }
     	
-          
+          //return ret;
     }
 
       @Override

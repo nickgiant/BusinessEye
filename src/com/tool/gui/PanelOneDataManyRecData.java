@@ -384,7 +384,7 @@ import javax.swing.text.JTextComponent;
         JTextField tfObject = new JTextField();
         tfObject.setBorder(BorderFactory.createEmptyBorder()); 
         DefaultCellEditor editorObject = new DefaultCellEditor(tfObject);
-        editorObject.setClickCountToStart(1);
+        //editorObject.setClickCountToStart(JTABLEEDITABLE_CLICKCOUNTTOSTART_3);
         table.setDefaultEditor(Object.class,  editorObject);
         
         
@@ -464,6 +464,7 @@ import javax.swing.text.JTextComponent;
 
        panelInfo.setVisible(false);
         
+
        
 //       tableModelResultSet.addTableModelListener(this);
         //panelManyWithTable.add(PanelOneDataManyRecData, BorderLayout.CENTER );
@@ -607,9 +608,29 @@ import javax.swing.text.JTextComponent;
        }
        else
        {
-           table.setModel(tableModelResultSet);
+           /*if(areAllCellsReadOnly())
+           {
+               table.setModel(tableModelReadOnly);
+           }
+           else
+           {*/
+               table.setModel(tableModelResultSet);
+           //}
        }    
         
+       
+        if(isEditable)
+        {
+            if( areAllCellsReadOnly())
+            {
+                 btnManyCopyAboveCell.setVisible(false);
+                 btnManyInsertInLine.setVisible(false);
+            }
+            else
+            {
+                
+            }
+        }
         add(panelManyWithTable, BorderLayout.CENTER );
 
        
@@ -631,9 +652,9 @@ import javax.swing.text.JTextComponent;
      * called by PanelODMR.setEntity
      * 
      */
-    public void setEntity(String entityIn,/*EntityPanel entityPanelIn,*/String titleIn, String queryIn, String[] fieldsForSumsIn,EntityDBFields[] dbFieldsIn,EntityDBFields[] dbFieldsManyIn, 
-          /*EntityGroupOfComps[] entityGroupOfCompsManyIn,*/ /*String[] fieldsManyOnInsertIn, String[]fieldsManyTranslationOnInsertIn,*/ String primKeyIn, String primKeyDbIn,
-          //String formGlobalVariable1In,
+    public void setEntity(String entityIn,/*EntityPanel entityPanelIn,*/String titleIn, String queryIn, String[] fieldsForSumsIn,EntityDBFields[] dbFieldsIn,
+            EntityDBFields[] dbFieldsManyIn, /*EntityGroupOfComps[] entityGroupOfCompsManyIn,*/ /*String[] fieldsManyOnInsertIn, String[]fieldsManyTranslationOnInsertIn,*/
+            String primKeyIn, String primKeyDbIn, //String formGlobalVariable1In,
           /*String[] primKeysManyIn,String[] primKeysManyTranIn, String[] sql2WhereFieldIn, String[] sql2WhereValueIn,*/ String primKeyValueIn, boolean isEditableIn,
           /*boolean showExtendedSummaryIn,*/boolean showExtendedSummaryCalcsIn,String strOfManyIn, boolean isNewRecIn,String entityManyIn, boolean isQuery2In,
           int extsumcalcsIntTableActionValueField, String extsumcalcsTablePercentage, String extsumcalcsTablePercentageKey, String extsumcalcsTableCategory, 
@@ -775,7 +796,14 @@ import javax.swing.text.JTextComponent;
        }
        else
        {
-           table.setModel(tableModelResultSet);
+          /* if(areAllCellsReadOnly())
+           {
+               table.setModel(tableModelReadOnly);
+           }
+           else
+           {*/
+             table.setModel(tableModelResultSet);
+          // }
        }        
         
         
@@ -799,7 +827,26 @@ import javax.swing.text.JTextComponent;
         
         closeDB();
     }
-    
+  
+    private boolean areAllCellsReadOnly()
+    {
+        boolean ret = false;
+        //for(int c= 0;c<dbFieldsMany.length;c++)
+        //{
+         if(dbFieldsParent[intTableOfParentDBFields].getIsVisibleOrEditable()==FIELD_VISIBLE_AND_EDITABLE_IN_NEW_PANEL)
+         {
+             ret =  true;
+             
+         }
+         else
+         {
+             ret = false;
+             
+         }
+        //}
+        
+        return ret;
+    }
     
     
   /* public void setTableValuesAtRow(Object[] value, int row, String[] colName,EntityDBFields[] dbFieldsInGroupOfPanels)
@@ -1708,7 +1755,8 @@ import javax.swing.text.JTextComponent;
     
    //     table.setModel(tableModelResultSet);
 //  for writable       tableModelResultSet.setQuery(queryIn, entityIn,dbFieldsMany,primKeysMany,primKeysManyTran,sql2WhereField,sql2WhereValue,primKeyValueIn);
-        tableModelResultSet.setQuery(queryMany, entityIn,dbFieldsParent,dbFieldsMany,isNewRec,isCopyFromNewRecIn,primKeyDbFromParentIn,primKeyValueFromParentIn,isEditableIn,panelODORData);        
+        tableModelResultSet.setQuery(queryMany, entityIn,dbFieldsParent,dbFieldsMany,isNewRec,isCopyFromNewRecIn,primKeyDbFromParentIn,primKeyValueFromParentIn,
+                isEditableIn,intTableOfParentDBFields,panelODORData);        
 
         
         //   public void setQuery(String query,String entity,EntityDBFields[] dbFieldsManyIn,String[] primKeysManyIn, String[] sql2WhereFieldIn, String[] sql2WhereValueIn )
@@ -1799,7 +1847,7 @@ import javax.swing.text.JTextComponent;
          columnLabelTranslated = tableModelResultSet.getColumnName(i);// the translated
       //System.out.println("PanelODMRData.retrieveDataFromWritableTable ("+i+") columnLabelTranslated:"+columnLabelTranslated+"  "+isEditable+" "+columnType);
          columnLength=tableModelResultSet.getColumnLength(i);
-         
+        
 
         if(columnType.equalsIgnoreCase("java.lang.Date") || columnType.equalsIgnoreCase("java.sql.Date"))
         {
@@ -1821,7 +1869,7 @@ import javax.swing.text.JTextComponent;
            textFieldDate.setBorder(BorderFactory.createEmptyBorder());
            textFieldDate.setDocument(new PlainDocumentInsertText(columnLength,columnType));//limiting the capacity of txt
            TableCellEditorDate tceDate = new TableCellEditorDate(textFieldDate,yearEnforceInLines,utilsDate);
-           tceDate.setClickCountToStart(VariablesGlobal.jtableEditableClickCountToStart); //exists inside TableCellEditorLookup
+           //tceDate.setClickCountToStart(intEditClickCountToStart); //exists inside TableCellEditorLookup // JTableDec
            table.getColumn(columnLabelTranslated).setCellEditor(tceDate); 
            //System.out.println("panelODMRData.retrieveDataFromWritableTable "+columnClass+" "+columnLabelTranslated);
         }
@@ -1835,7 +1883,7 @@ import javax.swing.text.JTextComponent;
            textFieldDouble.setDocument(new PlainDocumentInsertText(columnLength,columnType));//limiting the capacity of txt
            
            TableCellEditorDouble tceDouble = new TableCellEditorDouble(textFieldDouble,uDouble);
-           tceDouble.setClickCountToStart(VariablesGlobal.jtableEditableClickCountToStart); 
+           //tceDouble.setClickCountToStart(intEditClickCountToStart); // JTableDec
            table.getColumn(columnLabelTranslated).setCellEditor(tceDouble);	
            //System.out.println("panelODMRData.retrieveDataFromWritableTable "+columnClass+" "+columnLabelTranslated);
         }
@@ -1847,7 +1895,7 @@ import javax.swing.text.JTextComponent;
            textFieldInt.setDocument(new PlainDocumentInsertText(columnLength,columnType));//limiting the capacity of txt
            
            TableCellEditorInteger tceInteger = new TableCellEditorInteger(textFieldInt,dbFieldsMany[i]);
-           tceInteger.setClickCountToStart(VariablesGlobal.jtableEditableClickCountToStart); 
+           //tceInteger.setClickCountToStart(intEditClickCountToStart); // JTableDec
            table.getColumn(columnLabelTranslated).setCellEditor(tceInteger);	        	
         }
         else //if (columnType.equalsIgnoreCase("java.lang.String"))
@@ -1865,7 +1913,7 @@ import javax.swing.text.JTextComponent;
                   textFieldString.setDocument(new PlainDocumentInsertText(columnLength,columnType));//limiting the capacity of txt
            
                   TableCellEditorString tceString = new TableCellEditorString(textFieldString);
-                  tceString.setClickCountToStart(VariablesGlobal.jtableEditableClickCountToStart); 
+                 // tceString.setClickCountToStart(intEditClickCountToStart); // JTableDec
                  // System.out.println("PanelODMRData.retrieveDataFromWritableTable i:"+i+" columnLabelTranslated:"+columnLabelTranslated);
                   table.getColumn(columnLabelTranslated).setCellEditor(tceString);	   			
     		}
@@ -2037,10 +2085,10 @@ import javax.swing.text.JTextComponent;
 
 
 
-    private void addNewRowBelow()
+    private int addNewRowBelow()
     {
          
-       
+       int ret = -1;
       // setPrimKeyValueInTableModelResultSet(getPrimKeyValue()); 
        //System.out.println("-----panelODMRData.addNewRowBelow IF "+tableModelResultSet.hasEmptyRow()+"  primKeyValue:"+primKeyValue+"  tableModelResultSet.getRowCount():"+tableModelResultSet.getRowCount()+"    getSelectedTableRow()"+getSelectedTableRow());                
         String pKey = getPrimKeyValue();
@@ -2054,7 +2102,7 @@ import javax.swing.text.JTextComponent;
        	     	        tableModelResultSet.addEmptyRow(0,pKey,table);
        	     	        //table.changeSelection(0,0,true,false);
                         table.setRowSelectionInterval(0,0); 
-                        
+                        ret = 0;
                         //  http://stackoverflow.com/questions/7656568/jtable-select-next-cell-on-tab-but-first-focus-selects-same-cell-not-next-one
                         /*table.setColumnSelectionInterval(0, 0);
                         table.scrollRectToVisible(table.getCellRect(0, 0, true));
@@ -2067,7 +2115,7 @@ import javax.swing.text.JTextComponent;
                      int rowlast = tableModelResultSet.getRowCount();
                      tableModelResultSet.addEmptyRow(rowlast,pKey,table);
                      table.setRowSelectionInterval(rowlast, rowlast);
-                     
+                     ret = rowlast;
                         //not working.cannot select the row  table.setRowSelectionInterval(tableModelResultSet.getRowCount()-1,tableModelResultSet.getRowCount()-1);
        	     	        //not working.cannot select the row table.setRowSelectionInterval(getSelectedTableRow()+1,getSelectedTableRow()+1);
                  }
@@ -2085,7 +2133,8 @@ import javax.swing.text.JTextComponent;
        else
        {
            System.out.println("panelODMRData.addNewRowBelow  NOT SUPPORTED   hasEmptyRow:"+tableModelResultSet.hasEmptyRow()+"    isEditable:"+isEditable+"    isNewRec:"+isNewRec);
-       }       
+       }  
+       return ret;
         
     }
 
@@ -3200,6 +3249,11 @@ targetModelCol = table.convertColumnIndexToModel(targetViewCol);
                         
                }                
                 
+                if(e.getClickCount() == 2 && selectedTableRow!=-1 && tableModelResultSet.getRowCount()>0)// && isEditable) // make it 2 for doubleclick
+                {
+                    btnManyEdit.doClick();
+                    //displayDialogTableRowEdit();
+                }
                    
                     
             } 
@@ -3839,9 +3893,12 @@ public int getRowCountFromReadOnlyTable()
         isEditable=isEditableIn;
        if(!isEditable)
        {
-           toolBarDataManyEditable.setVisible(isEditableIn);
-           
-           table.setEnabled(isEditable);
+           toolBarDataManyEditable.setVisible(false);
+           table.setEntity(false);// JTableDec
+           //table.setEnabled(isEditable);
+           table.setDefaultEditor(Object.class, null);
+           table.revalidate();
+           this.revalidate();           
              /*table.setModel(new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column)
@@ -3854,7 +3911,25 @@ public int getRowCountFromReadOnlyTable()
        }
        else
        {
-           
+                    if(areAllCellsReadOnly())
+                    {
+                        
+                        
+                        /* for (int c = 0; c < table.getColumnCount(); c++)
+                        {
+                            Class<?> col_class = table.getColumnClass(c);
+                               table.setDefaultEditor(col_class, null);        // remove editor
+                        }*/
+                        table.setEntity(false);// JTableDec
+                        table.setDefaultEditor(Object.class, null);
+                        table.revalidate();
+                        this.revalidate();
+                    }
+                    else
+                    {
+                                table.setEntity(true);// JTableDec
+                        
+                    }
        }
    }
    
@@ -3879,6 +3954,12 @@ public int getRowCountFromReadOnlyTable()
    public void filterForWritableTable(String queryIn,boolean isNewRecIn,boolean isCopyFromNewRecIn,boolean boolWhenPKisNothing)//String[] strSearchField, String[] strSearch)
    {
        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+       /*if(areAllCellsReadOnly())
+       {
+          filterForReadOnlyTable(queryIn);
+       }
+       else
+       {*/
       String pkValue = "";
        if(boolWhenPKisNothing)
        {
@@ -3911,7 +3992,7 @@ public int getRowCountFromReadOnlyTable()
         {
             table.setRowSelectionInterval(0,0);
         }    	   
-           
+          
            
            table.revalidate();
    	   this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -3991,7 +4072,7 @@ public int getRowCountFromReadOnlyTable()
    private void displayDialogTableRowEdit()
    {
        PanelOneDataOneRecData panelOneDataOneRecData= new PanelOneDataOneRecData(frame);
-       System.out.println("PanelODMRData.displayDialogTableRowEdit   getName:"+entityPanel.getName()+"    entity:"+entityPanel.getEntity()+"     getPrimKey:"+entityPanel.getPrimKey()+"         query:"+query+"       entityPanel getSqlMany:"+entityPanel.getQuery());
+       //System.out.println("PanelODMRData.displayDialogTableRowEdit   getName:"+entityPanel.getName()+"    entity:"+entityPanel.getEntity()+"     getPrimKey:"+entityPanel.getPrimKey()+"         query:"+query+"       entityPanel getSqlMany:"+entityPanel.getQuery());
        ArrayList<String> lstTempDataRow = new ArrayList();
        int tableRow = getSelectedTableRow();
        int colCount = tableModelResultSet.getColumnCount();
@@ -4237,7 +4318,11 @@ class ToolBarDataManyEditable extends JToolBar implements Constants
         {
 	        public void actionPerformed(ActionEvent e) 
 	        {	   
-                     addNewRowBelow();
+                    int row = addNewRowBelow();
+                    if(areAllCellsReadOnly())
+                    {
+                        btnManyEdit.doClick();
+                    }
 	           	   
 	        } 
 	    });
@@ -4439,7 +4524,9 @@ class ToolBarDataManyEditable extends JToolBar implements Constants
         add(btnManyMultiInsert);
         add(btnManyDelete);
         add(btnManyEdit);
+
         add(btnManyCopyAboveCell);
+        
          //addSeparator();
         
         add(btnManyClearAll);

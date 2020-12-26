@@ -139,10 +139,16 @@ public interface Constants
        //public static final int FIELD_VISIBLE_NOT_EDITABLE_WHENNEW = 0;
        public static final int FIELD_VISIBLE_NOT_EDITABLE_WHENEDIT_BUT_EDITABLE_ON_NEW = 2;
        public static final int FIELD_NOT_VISIBLE = 3;
+       public static final int FIELD_VISIBLE_AND_EDITABLE_IN_NEW_PANEL=4; // in many is editable in a new panel
        
        public static final int FIELDSCALCULATION_CATEGORY_BACKWARD = -1;
        public static final int FIELDSCALCULATION_CATEGORY_SAME = 0;
        //public static final int FIELDSCALCULATION_CATEGORYFIELDS_TABLE =  the no of dbfield that is the table
+       
+       
+        public static final int JTABLEEDITABLE_CLICKCOUNTTOSTART_1=1;
+        public static final int JTABLEEDITABLE_CLICKCOUNTTOSTART_3=3;
+       
        
        //EntityUpdateAdditional: updateWhen in EntityInfo // UPDATE_ON_INSERT_ONLY,UPDATE_ON_UPDATE_ONLY, UPDATE_ON_BOTH_INSERT_AND_UPDATE,UPDATE_ON_DELETE
        public static final int NO_UPDATE = 0;

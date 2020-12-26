@@ -219,7 +219,11 @@ public void changeSelectionf(int row,int col,boolean toggle,boolean expand)
 private int[] findNextEditableCell(int row,int col, int direction,int nRows,int nCols) {
     int origRow=row;
     int origCol=col;
-    do {
+   
+    if(isEditable)
+    {
+    do
+    {
     col = col+direction;
     if (col>=nCols) {
         col = 0;
@@ -232,9 +236,12 @@ private int[] findNextEditableCell(int row,int col, int direction,int nRows,int 
     if (row>=nRows) row = 0;
     if (row<0) row = nRows-1;
     //System.out.println("FNEC looking at "+row+','+col);
-                if (isCellEditable(row,col)) return new int[]{row,col};
+                if (isCellEditable(row,col))
+                {
+                    return new int[]{row,col};
+                }
     } while (!((row==origRow)&&(col==origCol)));
-
+    }
     // Nothing editable found; stay here.
     return new int[]{origRow,origCol};
 }
@@ -404,7 +411,7 @@ super.changeSelection(targetViewRow, targetViewCol, toggle, expand);
         //System.out.println("JTableDec.changeSelection after super "+targetViewRow+" "+targetViewCol+"  toggle:"+toggle+"   expand:"+expand+"  isEditable:"+this.isEditable);
 
          // make edit text in next focusable text
-            if(isCellEditable(targetViewRow,targetViewCol))
+            if(isEditable && isCellEditable(targetViewRow,targetViewCol))
             {
                 //System.out.println("JTableDec.changeSelection after super  ooo-ooo   isCellEditable:"+isCellEditable(targetViewRow,targetViewCol)+" row:"+targetViewRow+" col:"+targetViewCol);
         if (editCellAt(targetViewRow, targetViewCol)) // when target cell is editable, set focus

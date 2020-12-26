@@ -38,7 +38,7 @@ public class VariablesGlobal
    public static boolean globalShowSelectDataFromWritable=false;//   OOOO PanelOneDataManyRecData.retrieveDataFromWritable
    public static boolean globalShowReportSQL=false;
     
-    public static int jtableEditableClickCountToStart=1;
+
     
     public static UtilsDouble globalUtilsDouble;
     

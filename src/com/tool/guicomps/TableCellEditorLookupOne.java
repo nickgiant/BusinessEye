@@ -190,7 +190,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
         customEditorButton.setIcon(ICO_LOOKUP);
         
         DefaultCellEditor editor = new DefaultCellEditor(txt);
-        editor.setClickCountToStart(VariablesGlobal.jtableEditableClickCountToStart);//edit at 1 click
+        editor.setClickCountToStart(JTABLEEDITABLE_CLICKCOUNTTOSTART_1);//edit at 1 click
 
          txtDescription =new JTextField();
          txtDescription.setBorder(BorderFactory.createEmptyBorder());        
