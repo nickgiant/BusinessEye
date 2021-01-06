@@ -199,7 +199,7 @@ public class DialogSystemInfo extends JDialog implements Constants
                 +VariablesGlobal.appUseName+"\n"
         +"--------------------- Εφαρμογή ---------------------\n"
         +"κατάλογος εφαρμογής: "+VariablesGlobal.globalDirConfiguration+"\n"
-        +"υποκατάλογος αναφορών: "+VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+DIR_REPORTDOCUMENTTEMPLATE+"\n"
+        +"υποκατάλογος αναβαθμίσεων: "+VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+DIR_DATAUPDATES+"\n"
         +"υποκατάλογος backup: "+VariablesGlobal.globalDirConfiguration+VariablesGlobal.globalSystemDirectorySymbol+DIR_DATABACKUP+"\n"        
         +"------------- Λειτουργικό σύστημα -------------\n"
         +"Operating System: "+System.getProperty("os.name")+" έκδοση: "+System.getProperty("os.version")+"\n"

@@ -515,7 +515,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
         {
              //System.out.println("i "+i+" dbHeadNo "+dbColNo);
              String columnName =dbFieldsMany[i].getDbField();//rsmd.getColumnName(dbColNo);
-             //System.out.println("isNewRec:  "+isNewRec+"  i "+i+" columnName:"+columnName);
+           //System.out.println("TableModelResultSet    isNewRec:  "+isNewRec+"  i "+i+" columnName:"+columnName);
              
 
              Object columnData =rs.getObject(columnName);//dbColNo);
@@ -561,14 +561,22 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
                 String foreignQuery="";
                 String lookupText="";
                 
-                System.out.println("TableModelResultSet.setQuery  --------==--  "+lookUp.getLookUpKey(luName).toString()+" foreignTable:"+foreignTable);
+                System.out.println("TableModelResultSet.setQuery  --------==--    foreignTable:"+foreignTable+"      getFromTheNameTheForeignTable:"+lookUp.getFromTheNameTheForeignTable(luName)+"    "+lookUp.getLookUpKey(luName)+"   FTKey:"+lookUp.getLookUpKeyFTKey(luName)+"   "+lookUp.getLookUpKeyTranslation(luName));
                 int k = rs.getInt(lookUp.getLookUpKey(luName).toString()); //dbColNo); 
                 if (k!=0)
                 {
 
+                     //System.out.println("tableModelRS.setQuery   getLookUpKey:"+lookUp.getLookUpKey(luName)+"   getLookUpKeyFTKey:"+lookUp.getLookUpKeyFTKey(luName)+"   getQueryEditable:"+lookUp.getQueryEditable(name)+"    where:"+lookUp.getQuerySubqueryWhere(name));
                  
-                   foreignQuery = "SELECT * FROM "+foreignTable+" WHERE "+lookUp.getLookUpKey(luName)+" = "+rs.getInt(lookUp.getLookUpKey(luName));//dbColNo);     
-               //System.out.println("tableModelRS.foreignQuery "+row+"  "+lookUp.getLookUpKey(foreignTable)+" "+rs.getInt(lookUp.getLookUpKey(foreignTable))+" "+foreignQuery);
+                    /*if(lookUp.getLookUpKeyFTKey(luName)== null || lookUp.getLookUpKeyFTKey(luName).equalsIgnoreCase("")) 
+                    {
+                        foreignQuery = "SELECT * FROM "+foreignTable+" WHERE "+lookUp.getLookUpKey(luName)+" = "+rs.getInt(lookUp.getLookUpKey(luName));
+                    }
+                    else
+                    {*/
+                        foreignQuery = "SELECT * FROM "+foreignTable+" WHERE "+lookUp.getLookUpKeyFTKey(luName)+" = "+rs.getInt(lookUp.getLookUpKey(luName));
+                    //}
+                    //System.out.println("tableModelRS.foreignQuery "+row+"  "+lookUp.getLookUpKey(foreignTable)+"   foreignQuery:"+foreignQuery);
    	               db.retrieveDBDataFromQuery(foreignQuery,"TableModelResultSet.setQuery");
    	               rsForeign=db.getRS();
    	                              
@@ -632,7 +640,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
     catch (SQLException e)
     {
       dataVector = new Vector(); // blank it out and keep going.
-      System.out.println("TableModelRS.setQuery (data)"+e);//e.printStackTrace();
+      System.out.println("TableModelRS.setQuery (data) "+e);//e.printStackTrace();
       e.printStackTrace();     
     }
     finally

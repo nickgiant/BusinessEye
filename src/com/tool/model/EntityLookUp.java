@@ -17,6 +17,7 @@ public class EntityLookUp
         public String lookUpKey;
         public String lookUpKeyTranslation;
         public String lookUpKeyFT; //lookUpKeyForeignTable
+        public String lookUpKeyFTKey; //lookUpKeyForeignTable key, usualy equals lookUpKey. ie: responsibleAccountantId, responsibleDoctorId
         public String lookUpLabel;
         public int lookUpFieldIndex; // the number of column
         public String[] lookUpField;
@@ -55,7 +56,7 @@ public class EntityLookUp
       {}
 
         public EntityLookUp(String nameIn, String foreignTableIn, String queryIn, String querySubqueryWhereIn,String[] fieldsReplacedInsideQueryIn ,String querySubqueryIsActiveIn,String queryOrderByIn, 
-           String queryWhereForFormVariableIn,String lookUpKeyIn, String lookUpKeyTranslationIn, String lookUpKeyFTIn, String lookUpLabelIn, int lookUpFieldIndexIn,
+           String queryWhereForFormVariableIn,String lookUpKeyIn, String lookUpKeyTranslationIn, /*String lookUpKeyFTIn,*/ String lookUpKeyFTKeyIn, String lookUpLabelIn, int lookUpFieldIndexIn,
            String[] lookUpFieldIn, String lookUpFieldLabelIn,int  lookUpFieldLengthIn,String lookUpFieldTypeIn,int lookUpField2IndexIn, String lookUpField2In,
            String lookUpField2LabelIn, int lookUpField3IndexIn, String lookUpField3In, String lookUpField3LabelIn, String queryEditableIn, /*EntityDBFields[] fieldsIn,*/ 
            String strOfOneIn,  String strOfManyIn,String [] categoryNodesIn, EntityPanel[] entityPanelIn, String[]fieldsOnTitleIn,
@@ -72,7 +73,8 @@ public class EntityLookUp
           queryWhereForFormVariable = queryWhereForFormVariableIn;
           lookUpKey = lookUpKeyIn;
           lookUpKeyTranslation=lookUpKeyTranslationIn;
-          lookUpKeyFT = lookUpKeyFTIn;
+     //     lookUpKeyFT = lookUpKeyFTIn;
+          lookUpKeyFTKey = lookUpKeyFTKeyIn;
           lookUpLabel = lookUpLabelIn;
           lookUpFieldIndex =lookUpFieldIndexIn;
           lookUpField = lookUpFieldIn;
@@ -161,10 +163,15 @@ public class EntityLookUp
 
         public String getLookUpKeyTranslation(){    return lookUpKeyTranslation;  }
 
-        public String getLookUpKeyFT()
+        /*public String getLookUpKeyFT()
         {
            return lookUpKeyFT;
-        }
+        }*/
+        
+        public String getLookUpKeyFTKey()
+        {
+           return lookUpKeyFTKey;
+        }        
         
         public String getLookUpLabel()
         {

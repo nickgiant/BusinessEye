@@ -86,7 +86,7 @@ public interface Constants
        */
        
        public static final String STR_VERSIONLEAD_START = "1";
-       public static final String STR_VERSIONSUB_START = "1.2610";
+       public static final String STR_VERSIONSUB_START = "1.2611";
        
        public final int FONT_SIZE_NOT_SET = 0;
        
@@ -442,7 +442,7 @@ public interface Constants
     public static final int FIELD_VALIDATION_AMKA = 12;
     
     
-    public static final ImageIcon ICO_BOOKMARK = new ImageIcon(Constants.class.getResource("/images/bookmark16.png"));
+    public static final ImageIcon ICO_BOOKMARK = new ImageIcon(Constants.class.getResource("/images/logo16.png"));
 
     public static final Image IMG_BOOKMARK = ICO_BOOKMARK.getImage(); // for frame icon
 
@@ -462,7 +462,7 @@ public interface Constants
     
     public static final ImageIcon ICO_MENUESODAEXODA = new ImageIcon(Constants.class.getResource("/images/menuesodaexoda.png"));
     public static final ImageIcon ICO_MENUSERVICESALES = new ImageIcon(Constants.class.getResource("/images/menuservicesales.png"));
-    public static final ImageIcon ICO_MENUPAYROLL = new ImageIcon(Constants.class.getResource("/images/payroll.png"));
+    public static final ImageIcon ICO_MENUPAYROLL = new ImageIcon(Constants.class.getResource("/images/menupayroll.png"));
     public static final ImageIcon ICO_MENUFARMERSVAT = new ImageIcon(Constants.class.getResource("/images/menufarmer.png"));
     public static final ImageIcon ICO_MENUSYSTEM = new ImageIcon(Constants.class.getResource("/images/menusystem.png"));
     //public static final ImageIcon ICO_MENUTAMEIO = new ImageIcon(Constants.class.getResource("/images/menutameio.png"));

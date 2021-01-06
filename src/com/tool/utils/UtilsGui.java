@@ -327,6 +327,7 @@ public class UtilsGui implements Constants
         {
              UIManager.setLookAndFeel(laf);   // when there is chosen laf
         }
+        
       
         JDialog.setDefaultLookAndFeelDecorated(true);  
         JFrame.setDefaultLookAndFeelDecorated(true);

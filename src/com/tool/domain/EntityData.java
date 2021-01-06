@@ -229,12 +229,14 @@ public class EntityData implements Constants
         emCat0.setEntityType(ENTITY_TYPE_SECTION);
         emCat0.setEntitySection(PRODUCT_APLOGRAFIKA_CAPTION,loadAndGetEsodaExodaDataTreeNode(),ICO_MENUESODAEXODA);//(String captionIn, int categoryLevelIn, ImageIcon icoIn)
         listSections.add(emCat0);
-       
+      if(VariablesGlobal.globalEnableModulesInDevelopment)
+      {
         EntityMenu emCat3 = new EntityMenu();
         emCat3.setEntityType(ENTITY_TYPE_SECTION);
         emCat3.setEntitySection(PRODUCT_PAYROLL_CAPTION,loadAndGetPayrollDataTreeNode(),ICO_MENUPAYROLL);
         listSections.add(emCat3);
-        
+      }
+      
      if(!VariablesGlobal.appProduct.equalsIgnoreCase(PRODUCT_FARMERSVAT_NOT))
      {
                 EntityMenu emCat2 = new EntityMenu();

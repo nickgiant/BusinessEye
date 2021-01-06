@@ -2284,12 +2284,12 @@ import org.xml.sax.SAXException;
                         {
                             System.out.println("--------*   PanelODORData.setEntity B  query has no where  query:"+query);
                         } 
-              System.out.println("PanelODORData.setEntity   ========================= showSpecificRow  ELSE IF    primKeys:"+primKeys+"      query:"+query);
+              System.out.println("PanelODORData.setEntity   ========================= showSpecificRow  ELSE IF  lstTempDataRec:"+lstTempDataRec+"  primKeys:"+primKeys+"    primKeyDb:"+primKeyDb+"      query:"+query);
            showSpecificRow(query);   
         }
         else // when shows panel row edit in jtable
         {
-            System.out.println("PanelODORData.setEntity   ========================= showSpecificRow   ELSE   primKeys:"+primKeys+"   primKeyDb:"+primKeyDb+"   primKeyValue:"+primKeyValue);
+            System.out.println("PanelODORData.setEntity   ========================= showSpecificRow   ELSE  lstTempDataRec:"+lstTempDataRec+" primKeys:"+primKeys+"   primKeyDb:"+primKeyDb+"   primKeyValue:"+primKeyValue);
              
             /*ArrayList lstTempDataRec = new ArrayList();
             
@@ -4986,19 +4986,19 @@ catch(Exception e)
           String luname = dbFieldsInGroupOfPanels[i].getLookupEntityName();//databaseTableMeta.findForeignTable(columnLabel); 
          // System.out.println(" PanelODORData.showRow    i:"+i+"    colName:"+colName+"   class name:"+dbFieldsInGroupOfPanels[i].getColClassName()+"    lookup type:"+dbFieldsInGroupOfPanels[i].getLookupType()+"   luname:"+luname);
    
+          //String luname = dbFieldsInGroupOfPanels[i].getLookupEntityName();//databaseTableMeta.findForeignTable(columnLabel); 
+         // System.out.println(" PanelODORData.showRow    i:"+i+"    colName:"+colName+"   class name:"+dbFieldsInGroupOfPanels[i].getColClassName()+"    lookup type:"+dbFieldsInGroupOfPanels[i].getLookupType()+"   luname:"+luname);
          
-         
-         
-         
-         
-         
-          String field = lstTempDataRec.get(i)+"";
+         String field = lstTempDataRec.get(i)+"";
+          
           if (dbFieldsInGroupOfPanels[i].getLookupType()==LOOKUPTYPE_ONLYONE_THISFIELD && luname!= null )
           {        
                String foreignTable = lookUp.getFromTheNameTheForeignTable(luname);
               // show field value in tb
-
-            int intFieldToGetTheValue = calculateAllFieldsForFormVariable1(); 
+               
+              JTextComponent tbe = (JTextComponent)fieldTxts.get(i);//i-1);
+              
+              int intFieldToGetTheValue = calculateAllFieldsForFormVariable1(); 
               //System.out.println("PanelODoRData.showRow     luname:"+luname+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue);
           String fieldVariableFromPreField =  "";
           if(dbFieldsInGroupOfPanels!=null && intFieldToGetTheValue!=-1)
@@ -5011,11 +5011,66 @@ catch(Exception e)
               {
                   System.out.println("error -> PanelODoRData.showRow     luname:"+luname+"  colName:"+colName+"   i:"+i+" intFieldToGetTheValue:"+intFieldToGetTheValue+" < "+dbFieldsInGroupOfPanels.length);
               }
-          }              
+          }
+          
+          /*if(dbFieldsInGroupOfPanels[i].getColClassName().equalsIgnoreCase("table"))
+          {
+              /* PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(i);//,PanelOneDataManyRecData);
+              int lenClildFields = pnlODMRData.getDbFieldsChild().length;
+              EntityDBFields[] edbfChilds = pnlODMRData.getDbFieldsChild();
+              System.out.println("PanelODoRData.showRow     TABLE     colName:"+colName+"   lenClildFields:"+lenClildFields);  
+              for(int r = 0;r<lenClildFields;r++)
+              {
+                  System.out.println("PanelODoRData.showRow    TABLE   colName:"+colName+"   i:"+i+"   edbfChilds:"+edbfChilds[r].getDbField()+"  fieldVariableFromPreField:"+fieldVariableFromPreField);
+              }              
+              */
+          /*}
+          else
+          {
+              if(!tbe.hasFocus())
+              {
+              	String field = "";
+
+                        //field = rs.getString(colName);
+                        field = rs.getString(colName);//fieldVariableFromPreField);
+              	        tbe.setText(field);
+
+              }
+          }*/                 
+         
+         
+         
+         
+         
+           if(dbFieldsInGroupOfPanels[i].getColClassName().equalsIgnoreCase("table"))
+          {
+              /* PanelOneDataManyRecData pnlODMRData = (PanelOneDataManyRecData)fieldTxts.get(i);//,PanelOneDataManyRecData);
+              int lenClildFields = pnlODMRData.getDbFieldsChild().length;
+              EntityDBFields[] edbfChilds = pnlODMRData.getDbFieldsChild();
+              System.out.println("PanelODoRData.showRow     TABLE     colName:"+colName+"   lenClildFields:"+lenClildFields);  
+              for(int r = 0;r<lenClildFields;r++)
+              {
+                  System.out.println("PanelODoRData.showRow    TABLE   colName:"+colName+"   i:"+i+"   edbfChilds:"+edbfChilds[r].getDbField()+"  fieldVariableFromPreField:"+fieldVariableFromPreField);
+              }              
+              */
+          }
+          else
+          {
+              if(!tbe.hasFocus())
+              {
+              	//String field = "";
+
+                        //field = rs.getString(colName);
+                       // field = rs.getString(colName);//fieldVariableFromPreField);
+              	        tbe.setText(field);
+
+              }
+          }                 
+
               
               
-              JTextComponent tbe = (JTextComponent)fieldTxts.get(i);
-              tbe.setText(field);  
+           
+              //tbe.setText(field);  
               
               
   final EntityDBFields[] finalDbFieldsInGroupOfPanels = dbFieldsInGroupOfPanels;
@@ -5065,7 +5120,7 @@ catch(Exception e)
               //System.out.println("panelODORData.showRow ");
               
               String k = ""; // primkey like farmerid in twodataonerec
-
+                                 //  field = tbe.getText();
                                 k = field;//rs.getString(colName);
                                 String val =field;//rs.getString(colName);
               
@@ -5134,6 +5189,43 @@ catch(Exception e)
               }
               
           }
+          else if (dbFieldsInGroupOfPanels[i].getLookupType()==LOOKUPTYPE_TABLECONSTANTS)
+          {  // showRow
+               //String field="";
+             if(rs!=null && field/*rs.getString(colName)*/!=null && field/*!rs.getString(colName)*/.equalsIgnoreCase("") )
+             {
+                field = field;/*rs.getString(colName);*/
+                //System.out.println("panelODORData.showRow "+i+" "+rsmd.getColumnName(i)+" "+field);
+             }
+             else
+             {
+             	field="";
+             }                
+              	   JComboBox cb = (JComboBox) fieldTxts.get(i);
+                   
+                    LookupTableConstantsMgt lookUpTableConstants = new LookupTableConstantsMgt();
+                    EntityLookupTableConstantsData[] elutcData = lookUpTableConstants.getEntityLookupTableConstantsData(dbFieldsInGroupOfPanels[i].getLookupEntityName());
+                    //dbFieldsInGroupOfPanels[i].getLookupEntityName();
+                   
+                    if(elutcData == null)
+                    {
+                        
+                    }
+                    else
+                    {
+                     for(int l = 0 ;l<elutcData.length;l++)
+                     {
+                       if(field.equalsIgnoreCase(elutcData[l].getPk()))
+                       {
+       //                    System.out.println("+PanelODORData.showRow  setSelectedItem     ("+i+")  "+elutcData[l].getTitle());
+                            cb.setSelectedItem(elutcData[l].getName());
+                       }                            
+                     }
+                    }
+               //System.out.println("panelODORData.showRow  LOOKUPTYPE_TABLECONSTANTS   i:"+i+"   "+cb.getSelectedItem());
+        
+              
+          }          
           
           
           if(!field.equalsIgnoreCase(""))
@@ -5382,26 +5474,7 @@ catch(Exception e)
                         //field = rs.getString(colName);
                         field = rs.getString(colName);//fieldVariableFromPreField);
               	        tbe.setText(field);
-                        
-  /*                  if(intFieldToGetTheValue!=-1 && !colName.equalsIgnoreCase(fieldVariableFromPreField))
-                    {
 
-                         String strValueFromField = "";
-                         JTextField tbf = (JTextField) fieldTxts.get(intFieldToGetTheValue);
-                         strValueFromField= tbf.getText();
-                        
-                         setVariablesGlobal1(fieldVariableFromPreField,strValueFromField);
-
-                  //System.out.println("PanelODoRData.showRow    ---I---F---  colName:"+colName+"     fieldVariableFromPreField:"+fieldVariableFromPreField+"     field:"+field);//+"    tb2Text:"+tb2Text);
-                         
-                    }
-                    else
-                    {
-               //         field = rs.getString(colName);
-               // System.out.println("PanelODoRData.showRow    ---ELSE----  colName:"+colName+"     fieldVariableFromPreField:"+fieldVariableFromPreField+"     field:"+field);
-              	//tbe.setText(field);    
-                        
-                    }*/
               }
           }        
         

@@ -442,7 +442,7 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
 
        
     eCalculateFilterMyf[0]=new EntityFilterSettings("ημερομηνία παραστατικών","","date","fromto","dateOfesoexo","","sxesoexoheader","",0,-1,-1,FIELD_OBLIGATORY);
-    eCalculateFilterMyf[1]=new EntityFilterSettings( "τύποι ΜΥΦ","checkboxTable","string","","lookupconstantsId","sxmyftype","lookupconstants","",0,-1,-1,FIELD_NOCOMPLETION);
+    eCalculateFilterMyf[1]=new EntityFilterSettings("τύποι ΜΥΦ","checkboxTable","string","","lookupconstantsId","sxmyftype","lookupconstants","",0,-1,-1,FIELD_NOCOMPLETION);
          
     entityGroupOfFilterCompsMyf[0] = new EntityGroupOfComps("φίλτρα εγγραφών εσόδων εξόδων",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
     
@@ -1038,7 +1038,7 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
          esoexoHeaderTempDBFields[5] = new EntityDBFields("sxesoexoheader","isTemplateActive","ενεργό",0,"java.lang.Boolean",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");
    
         
-        esoexoHeaderTempDBFields[6] = new EntityDBFields("sxesoexoheader","traderId","συναλλασσόμενος",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"trader", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//fieldsCalculationtrader);
+        esoexoHeaderTempDBFields[6] = new EntityDBFields("sxesoexoheader","traderId","συναλλασσόμενος",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"traderSX", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//fieldsCalculationtrader);
         
         esoexoHeaderTempDBFields[7] = new EntityDBFields("sxesoexoheader","comments","αιτιολογία",2,"java.lang.String",55,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");//fieldsCalculationtrader);
 
@@ -1910,7 +1910,7 @@ EntityDBFields[] myfLineDBFields2 = new EntityDBFields[11];
         
         String[] lookUpFieldPrintForm={"printFormName"};                   
     
-     entities.add(entityLookUp = new EntityLookUp("printform","printform","SELECT printform.printformId AS\"Νο φόρμας\", printform.printformName AS \"φόρμα εκτύπωσης\"  FROM printform","WHERE printform.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"AND printform.isActive LIKE 1","ORDER BY printform.printformName ","","printformId","Νο φόρμας","printform","φόρμα",2,lookUpFieldPrintForm,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,printFormQueryEditable,"φόρμας εκτύπωσης","φορμών εκτύπωσης",null,entityPanelPrintForm,fieldsOnTitlePrintForm,fieldsOnTitleCaptionPrintForm,printFormErs,-1,1,null,true,-1,-1,null));    	 	
+     entities.add(entityLookUp = new EntityLookUp("printform","printform","SELECT printform.printformId AS\"Νο φόρμας\", printform.printformName AS \"φόρμα εκτύπωσης\"  FROM printform","WHERE printform.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"AND printform.isActive LIKE 1","ORDER BY printform.printformName ","","printformId","Νο φόρμας","printformId","φόρμα",2,lookUpFieldPrintForm,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,printFormQueryEditable,"φόρμας εκτύπωσης","φορμών εκτύπωσης",null,entityPanelPrintForm,fieldsOnTitlePrintForm,fieldsOnTitleCaptionPrintForm,printFormErs,-1,1,null,true,-1,-1,null));    	 	
                
      
    //----------------------------------------------------------------  

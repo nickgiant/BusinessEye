@@ -185,7 +185,7 @@ public class LookUpMgt
       return null;
    }
 
-   public String getLookUpKeyFT(String name)
+  /* public String getLookUpKeyFT(String name)
    {
    	  for(int i =0; i<listEntities.size(); i++)
    	  {  
@@ -196,7 +196,20 @@ public class LookUpMgt
    	     }     
    	  }
       return null;
-   }
+   }*/
+   
+   public String getLookUpKeyFTKey(String name)
+   {
+   	  for(int i =0; i<listEntities.size(); i++)
+   	  {  
+   	     EntityLookUp elu = (EntityLookUp)listEntities.get(i);
+   	     if (elu.getName().toUpperCase().equalsIgnoreCase(name.toUpperCase()))// non case sensitive search
+   	     {
+   	     	return elu.getLookUpKeyFTKey();
+   	     }     
+   	  }
+      return null;
+   }   
 
    public String getLookUpLabel(String name)
    {
@@ -660,7 +673,7 @@ public class LookUpMgt
     String table = "doy";
     System.out.println(l.getQuery(table));
     System.out.println(l.getLookUpKey(table));
-    System.out.println(l.getLookUpKeyFT(table));
+    System.out.println(l.getLookUpKeyFTKey(table));
     System.out.println(l.getLookUpLabel(table));
     System.out.println(l.getLookUpField(table));
     System.out.println(l.getLookUpField2(table));

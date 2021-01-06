@@ -101,7 +101,7 @@ import java.util.regex.Pattern;
         {
         int indexFrom = queryIn.toUpperCase().indexOf("FROM".toUpperCase());	
         
-        System.out.println("removeCaptionsFromQuerySubStringSelect   queryIn:"+queryIn+"    indexFrom:"+indexFrom);
+        System.out.println("UtilsString.removeCaptionsFromQuerySubStringSelect   queryIn:"+queryIn+"    indexFrom:"+indexFrom);
         
         String strAfterFrom = queryIn.substring(indexFrom,queryIn.length());
         String strSelect = queryIn.substring(7,indexFrom); // 7 is the "select" end index plus a space

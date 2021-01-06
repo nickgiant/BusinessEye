@@ -390,7 +390,7 @@ import javax.swing.border.BevelBorder;
     	//caption=CaptionIn;
 
        
-      System.out.println("PanelODMR.setEntity   +OooooooooooooooooooOOOooooooooooooooooooO+   entity:"+entity+"."+primKey+" "+primKeyDb+"       entityPanel.length:"+entityPanel.length+"            fieldsForSums:"+fieldsForSums);
+      System.out.println("PanelODMR.setEntity   +OooooooooooooooooooOOOooooooooooooooooooO+   entity:"+entity+"."+primKey+" "+primKeyDb+"       entityPanel:"+entityPanel+"            fieldsForSums:"+fieldsForSums);
       //for(int p = 0;p<entityPanel.length;p++)
       //{
       //    System.out.println("panelOneDataManyRec.setEntity ooo    "+p+"      title:"+entityPanel[p].getTitle()+"         ReportForm:"+entityPanel[p].getEntityReportForm() +"   form report bands:"+entityPanel[p].getEntityReportForm().getEntityReportBands()[0]+"   entityPanel dbFields:"+entityPanel[p].getDBFields());

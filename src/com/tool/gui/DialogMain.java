@@ -2852,16 +2852,18 @@ manager.addChangeListener(updateListener);*/
         boolean ret = false;
         
         String strCaption ="";
-         wwu = new WindowWait(strCaption,WINDOW_LOCATION_CENTER,ICO_RELOAD16, ICO_RELOADB16);
+
         if(oldVersion==Double.parseDouble(STR_VERSIONSUB_START))
         {
             strCaption="δημιουργία βάσης, παρακαλω περιμένετε";
-            wwu.showWindow();
+            
         }
         else
         {
             strCaption = "αναβάθμιση  βάσης";
-        }
+        }        
+        wwu = new WindowWait(strCaption,WINDOW_LOCATION_CENTER,ICO_RELOAD16, ICO_RELOADB16);
+        wwu.showWindow();
         
           
          //wwu.showWindow();

@@ -65,7 +65,7 @@ public class UtilsPanelReport implements Constants
       rs.beforeFirst();
       while(rs.next())
       {
-      System.out.println(" - + - + + + + + +  +UtilsPanelReport.getRowFromPrimKeys() row="+row+"       calledByIn:"+calledByIn+" queryIn:"+queryIn);
+      //System.out.println(" - + - + + + + + +  +UtilsPanelReport.getRowFromPrimKeys() row="+row+"       calledByIn:"+calledByIn+" queryIn:"+queryIn);
       	 row=row+1; //rs starts from 1
         
          if(primKeysIn!=null)
@@ -73,7 +73,7 @@ public class UtilsPanelReport implements Constants
          int len = primKeysIn.length;
            for(int pk=0;pk<len;pk++)
            {
-               //System.out.println(" - + - + + + + + +  +UtilsPanelReport.getRowFromPrimKeys() row="+row+"   pk:"+pk+"    primKeysIn:"+primKeysIn[pk]+" = "+rs.getString(primKeysIn[pk]) );
+               //System.out.println("UtilsPanelReport.getRowFromPrimKeys() row="+row+"   pk:"+pk+"    primKeysIn:"+primKeysIn[pk]+" = "+rs.getString(primKeysIn[pk]) );
           	   if(rs.getString(primKeysIn[pk])==null)  
                    {
                        
@@ -569,7 +569,7 @@ public class UtilsPanelReport implements Constants
                   }
                   else
                   {                  
-                     lookupValueQuery=" AND "+strTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                     lookupValueQuery=" AND "+strTable+"."+lookUp.getLookUpKeyFTKey(luname)+" LIKE '"+lookupValue+"' "; // getLookUpKey
                   }
               }
               else
@@ -580,7 +580,7 @@ public class UtilsPanelReport implements Constants
                   }
                   else
                   {                  
-                     lookupValueQuery=" WHERE "+strTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                     lookupValueQuery=" WHERE "+strTable+"."+lookUp.getLookUpKeyFTKey(luname)+" LIKE '"+lookupValue+"' "; // getLookUpKey
                   }
               }
              if(isTypedOrSaved)     //is typed
@@ -608,7 +608,7 @@ public class UtilsPanelReport implements Constants
                   }
                   else
                   {
-                      lookupValueQuery =  " AND "+strTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";  //"";//queryClosingSubquery;  //lookupValueQuery=" "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
+                      lookupValueQuery =  " AND "+strTable+"."+lookUp.getLookUpKeyFTKey(luname)+" LIKE '"+lookupValue+"' "; // getLookUpKey //"";//queryClosingSubquery;  //lookupValueQuery=" "+foreignTable+"."+lookUp.getLookUpKey(foreignTable)+" LIKE '"+lookupValue+"' ";
                   }
               }
               else
@@ -619,7 +619,7 @@ public class UtilsPanelReport implements Constants
                   }
                   else
                   {                  
-                    lookupValueQuery =  " WHERE "+strTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+lookupValue+"' ";
+                    lookupValueQuery =  " WHERE "+strTable+"."+lookUp.getLookUpKeyFTKey(luname)+" LIKE '"+lookupValue+"' "; // getLookUpKey
                   }
               }
              if(isTypedOrSaved)     //is typed

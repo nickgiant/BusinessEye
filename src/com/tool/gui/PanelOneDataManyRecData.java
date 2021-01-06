@@ -4072,7 +4072,7 @@ public int getRowCountFromReadOnlyTable()
    private void displayDialogTableRowEdit()
    {
        PanelOneDataOneRecData panelOneDataOneRecData= new PanelOneDataOneRecData(frame);
-       //System.out.println("PanelODMRData.displayDialogTableRowEdit   getName:"+entityPanel.getName()+"    entity:"+entityPanel.getEntity()+"     getPrimKey:"+entityPanel.getPrimKey()+"         query:"+query+"       entityPanel getSqlMany:"+entityPanel.getQuery());
+       System.out.println(" ======00000======   PanelODMRData.displayDialogTableRowEdit   getName:"+entityPanel.getName()+"  entity:"+entity+"   entity:"+entityPanel.getEntity()+"    entityPanel getDBFields.length"+entityPanel.getDBFields().length+"    dbFieldsParent:"+dbFieldsParent+"     getPrimKey:"+entityPanel.getPrimKey()+"       -       query:"+query+"      -     entityPanel getSqlMany:"+entityPanel.getQuery());
        ArrayList<String> lstTempDataRow = new ArrayList();
        int tableRow = getSelectedTableRow();
        int colCount = tableModelResultSet.getColumnCount();
@@ -4084,7 +4084,22 @@ public int getRowCountFromReadOnlyTable()
        {
        EntityGroupOfComps[] egoc =new EntityGroupOfComps[1];
        egoc[0] = new EntityGroupOfComps(title,6,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-       panelOneDataOneRecData.setEntity(entityPanel, title, entity, dbFieldsMany, egoc/*entityGroupOfComps*/, null/*entityGroupOfPanelsIn*/, /*primKeys*/null, /*primKeysValue*/null, 
+       
+       //String queryEditable = "SELECT * FROM "+entity;
+       //EntityPanel entityPanelMany = new EntityPanel("ODOR",entity,dbFieldsMany,egoc,null,"Νο","",null/*primKeyDb must be null*/,queryEditable,"βασικά στοιχεία",ICO_EDIT16, false, true,/*fieldsUniqueSale*/null,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null/*updateAdditionalActionType*/,null/*entReportServiceSaleDoc*/,null,null/*entityCheckFieldsVATCompanyOfHeader*/,null);          
+       
+       //PanelOneDataOneRec panelOneDataOneRec= new PanelOneDataOneRec(frame);
+      // panelOneDataOneRec.setEntity(entity, entityPanelMany, tableRow, query, null/*primKeys*/,null /*primKeysValue*/, title, false /*isNewRec*/, /*isNewRec*/false,
+       //        null, null, false, yearEnforceInLines, false, false, ICO_ADD, panelManagement,
+       //        /*panelEditOneDataRecIn*/null, IS_CALLED_BY_MULTIPLE_TABLES_MDMR, lstTempDataRow);
+       
+       //   IS_CALLED_BY_ONE_TABLE_ODOR  or  IS_CALLED_BY_MULTIPLE_TABLES_MDMR
+    //public int setEntity(String entityIn,EntityPanel entityPanelIn, int selectedTableRow/*, String primKeyValueIn*//*when 1 row like companysettings*/,String queryIn,String[] primKeysIn, String[] primKeysValueIn,
+    //       String titleIn, boolean isNewRecIn, boolean isNewRecFromCopyIn/*,String formGlobalTableToGet1In, String formGlobalTableToApply1In*/, String[]fieldsOnTitleIn,  
+      //      String[] fieldsOnTitleCaptionIn, boolean showOnlySaveNPrintButton,  String yearEnforceIn, boolean isShowBackToListButtons, boolean showToolBar, ImageIcon icon, 
+    //        PanelManagement panelManagementIn, PanelEditOneDataRec  panelEditOneDataRecIn, int whereIsCalledFromIn, ArrayList lstDataRow)
+
+        panelOneDataOneRecData.setEntity(entityPanel, title, entity, dbFieldsMany, egoc/*entityGroupOfComps*/, null/*entityGroupOfPanelsIn*/, /*primKeys*/null, /*primKeysValue*/null, 
              /*primKeyDb*/null, query, /*isNewRec*/false, false/*isNewRec*/, isEditable, yearEnforceInLines, ICO_ADD, 0, panelManagement,lstTempDataRow);//getSelectedTableRow
 
        String editTitle = (tableRow+1)+"";

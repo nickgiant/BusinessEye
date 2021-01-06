@@ -9,6 +9,18 @@ import com.tool.gui.*;
 import com.tool.jdbc.Database;
 import com.tool.utils.*;
 
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -71,6 +83,7 @@ public class DialogDbConnect  extends JDialog implements Constants
     //private JButton btnShowBackup;
     private JButton btnShowBackupRestore;
     private JButton btnShowSystemInfo; 
+    private JButton btnCreateData;
     private JButton btnStart;
      private JLabel lblDbName;
     //private JLabel lblDbPath;
@@ -83,6 +96,7 @@ public class DialogDbConnect  extends JDialog implements Constants
     private JTextArea txtDbInfo;    
     //private JTextField txtDbPath;
     private JTextField txtDbDriver;
+    private JTextField txtDbPath;
     private JTextField txtDbUrl;
     private JTextField txtDbUser;
     private JTextField txtDbPass;
@@ -157,7 +171,7 @@ public class DialogDbConnect  extends JDialog implements Constants
     
     private String   curDir;
     
-         static ArrayList classes;
+    static ArrayList classes;
    
         // private DialogQueryBrowser dialogQueryBrowser;
      //private PasswordUtils passUtils;    
@@ -250,6 +264,7 @@ public class DialogDbConnect  extends JDialog implements Constants
         lblDbPass = new JLabel("κωδικός:", JLabel.CENTER);
         //JLabel lblBackupDir = new JLabel("back up dir:", JLabel.CENTER);
         JLabel lblDbSettingsDir = new JLabel("settings dir:", JLabel.CENTER);
+        JLabel lblDbPath = new JLabel("db path:", JLabel.CENTER);
         //JLabel lblDbSalt = new JLabel("salt:", JLabel.CENTER);
         
         //JLabel lblDbEngineDir = new JLabel("db engine dir:", JLabel.CENTER);
@@ -264,6 +279,8 @@ public class DialogDbConnect  extends JDialog implements Constants
         //txtDbSalt = new JTextField(intTxtLength);
         //txtBackupDir= new JTextField(55);
         txtDbSettingsDir = new JTextField(intTxtLength);
+        txtDbPath = new JTextField(intTxtLength);
+     //   txtDbPath.setEnabled(false);
         //txtDbEngineDir= new JTextField(55);        
         txtDbInfo = new JTextArea(6,10);
         txtDbInfo.setBackground(panelChecks.getBackground());
@@ -377,8 +394,8 @@ public class DialogDbConnect  extends JDialog implements Constants
        //panelLabelsAndTexts.add(txtDbSalt);       
        //panelLabelsAndTexts.add(lblBackupDir);
        //panelLabelsAndTexts.add(txtBackupDir);
-       //panelLabelsAndTexts.add(lblDbEngineDir);        
-       //panelLabelsAndTexts.add(txtDbEngineDir);
+       panelLabelsAndTexts.add(lblDbPath);        
+       panelLabelsAndTexts.add(txtDbPath);
        panelLabelsAndTexts.add(lblDbSettingsDir);        
        panelLabelsAndTexts.add(txtDbSettingsDir);
        //panelLabelsAndTexts.add(lblDbExists);
@@ -874,7 +891,12 @@ public class DialogDbConnect  extends JDialog implements Constants
 
         DatabaseMetaData metaData = conn.getMetaData();
         //String driverVersion = metaData.getDriverName()+" "+metaData.getDriverVersion();
-        
+        //ResultSet rs = conn.get
+        Statement   stmnt = conn.createStatement(); 
+                ResultSet rs = stmnt.executeQuery("SELECT @@basedir");
+                rs.first();
+                String dbPath = rs.getString(1);
+               // txtDbPath.setText(dbPath);
          database = metaData.getDatabaseProductName();
          databaseVersion = metaData.getDatabaseProductVersion();
         String driver = metaData.getDriverName();
@@ -888,6 +910,28 @@ public class DialogDbConnect  extends JDialog implements Constants
            }
            else
            {
+               
+               boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+               // by   https://stackoverflow.com/questions/15150154/string-replace-every-except-the-first-and-last/15150318
+              if(isWindows)
+              {
+    /*int first = dbPath.indexOf('\\');
+    int last = dbPath.lastIndexOf('\\');
+    String prefix = dbPath.substring(0, first+1);
+    prefix = prefix.replace("\\", "\\\"");
+    String query = dbPath.substring(first+1, last-first-1);
+    String suffix = dbPath.substring(last-first-1,last);
+    suffix = suffix+"\"\\";
+    String pathWithQuotes = prefix + query.replace("\\", "\"\\\"") + suffix; */              
+               
+               
+            txtDbPath.setText(formatPathWithQuotes(dbPath));
+              }
+              
+              else
+              {
+                  txtDbPath.setText(dbPath);
+              }
             txtDbInfo.append("database: "+database+"   version:"+databaseVersion);	       
             txtDbInfo.append("\ndriver: "+driver+"  driver version:"+driverVersion);              
                ret = true;
@@ -921,7 +965,7 @@ public class DialogDbConnect  extends JDialog implements Constants
                }
                 ret = false;
           }
-        btnStart.setEnabled(ret);
+        btnCreateData.setEnabled(ret);
         
        System.out.println("DialogSetupDb.dbRuns for "+dbEngine+":"+ret);
         return ret;
@@ -972,7 +1016,249 @@ public class DialogDbConnect  extends JDialog implements Constants
         
     }
     
- 
+   private boolean createDataForDb()
+   {
+       String pathsymbol = VariablesGlobal.globalSystemDirectorySymbol;
+       // select @@basedirbe
+       //String file = "C:\\\"Program Files\"\\\"MariaDB 10.5\"\\bin\\mysql -u root -p be53 < C:\\mydocuments\\projects\\be.sql";
+    WindowWait wwu = new WindowWait("δημιουργία βάσης",WINDOW_LOCATION_CENTER,ICO_RELOAD16, ICO_RELOADB16);
+    wwu.showWindow();
+    	        Thread thread1 = new Thread(new Runnable() {
+	          public void run()
+	          {
+                      
+	            wwu.animate();
+           	       
+	               wwu.setComment("εκκίνηση");
+	               //thread = null;
+	          }
+	          });
+
+              thread1.start(); 	 
+    
+    
+        String dbZipFile = curDir+pathsymbol+DIR_DATAUPDATES+pathsymbol+UPDATE_DB_PREFIX+STR_VERSIONSUB_START+UPDATE_DB_ZIPPEDPOSTFIX;//".zip";  //db1.2611.sql";UPDATE_DB_ZIPPEDPOSTFIX              
+        String dbUnzipPath = curDir+pathsymbol+DIR_DATAUPDATES+pathsymbol;
+        
+        try
+        {
+        unzip(dbZipFile,dbUnzipPath);     
+        }
+        catch(IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+    
+        System.setProperty("file.encoding", "UTF-8");
+         //https://www.netjstech.com/2016/10/running-dos-windows-commands-from-java.html
+        // p = Runtime.getRuntime().exec("cmd /c dir");
+        
+        // https://www.baeldung.com/run-shell-command-in-java
+        
+        int exitCode = 1;
+    Process p;
+    try {
+    boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+        
+    String dbPathOfDb = txtDbPath.getText();
+    
+
+    
+    //dbPathOfDb = dbPathOfDb.replace("\\", "\"\\\"");// yes replace // https://stackoverflow.com/questions/7535317/how-to-replace-with-in-java
+    //dbPathOfDb = dbPathOfDb.replaceFirst("\"\\\"", "\\");
+    /*int s = dbPathOfDb.indexOf("\\");
+    String start = dbPathOfDb.substring(0, s);
+    String middle1 = dbPathOfDb.substring(s, dbPathOfDb.length());
+    int intMiddle1 = middle1.indexOf("\\");
+    String middle2 = middle1.substring(0, intMiddle1);
+    String middle3 = middle1.substring(intMiddle1, dbPathOfDb.length());*/
+    
+    
+    
+    
+    String createDbFile = curDir+pathsymbol+DIR_DATAUPDATES+pathsymbol+UPDATE_DB_PREFIX+STR_VERSIONSUB_START+UPDATE_DB_POSTFIX;//".sql";//db1.2611.sql";
+    createDbFile = formatPathWithQuotes(createDbFile);
+    String command = dbPathOfDb+"bin"+pathsymbol+"mysql -u "+txtDbUser.getText()+" -p"+txtDbPass.getText()+" "+txtDbName.getText()+" < "+createDbFile;
+    System.out.println(command);
+            
+     
+     
+
+//Process process;
+if (isWindows) {
+    System.out.println();
+    //command = command.replaceAll(pathsymbol, pathsymbol+pathsymbol);
+    p = Runtime.getRuntime().exec(String.format("cmd.exe /c "+command));// path
+    //p = Runtime.getRuntime().exec(String.format("cmd.exe /c dir %s", homeDirectory));
+} else {
+    //p = Runtime.getRuntime().exec(String.format("sh -c ls %s", homeDirectory));
+    p = Runtime.getRuntime().exec(String.format("sh -c "+command));
+}        
+        
+      
+
+      exitCode = p.waitFor(); 
+      BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream())); 
+      String line; 
+      String strRet ="";
+      if(exitCode==0)
+      {
+          strRet="επιτυχία, επιλέξτε το ΟΚ";
+          
+      }
+      else if(exitCode==1)
+      {
+          strRet= "σφάλμα, δεν δημιουργήθηκαν εγγραφές";
+      }
+      else
+      {
+          strRet= "αδιευκρίνιστο σφάλμα";
+      }
+      
+      
+                 wwu.setComment("OK"); 
+                 wwu.close();      
+      
+      
+        txtDbInfo.append("\n"+"δημιουργία δεδομένων:  "+strRet);
+         //System.out.println("exitCode:"+exitCode+"  "+strRet);
+      
+      while((line = reader.readLine()) != null) 
+      { 
+          txtDbInfo.append("\n"+line);
+        //System.out.println(line);
+      } 
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      wwu.close();
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      wwu.close();
+      e.printStackTrace();
+    }        
+        
+        
+       String createDbFile = curDir+pathsymbol+DIR_DATAUPDATES+pathsymbol+UPDATE_DB_PREFIX+STR_VERSIONSUB_START+UPDATE_DB_POSTFIX;//".sql";//db1.2611.sql";
+       File myfile = new File(createDbFile); 
+    if (myfile.delete()) { 
+      System.out.println("Deleted the file: " + myfile.getName());
+    } else {
+      System.out.println("Failed to delete the file.");
+    }
+       
+       
+      if(exitCode==0)
+      {
+          btnCreateData.setEnabled(false);
+          btnStart.setEnabled(true);          
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+   }
+    
+   //  https://mkyong.com/java/how-to-decompress-files-from-a-zip-file/
+   private void unzip(String sourcePath, String targetPath) throws IOException 
+   {
+        Path source = Paths.get(sourcePath);//"/home/mkyong/zip/test.zip");
+        Path target = Paths.get(targetPath);//"/home/mkyong/zip/");       
+
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(source.toFile()))) {
+
+            // list files in zip
+            ZipEntry zipEntry = zis.getNextEntry();
+
+            while (zipEntry != null) {
+
+                boolean isDirectory = false;
+                // example 1.1
+                // some zip stored files and folders separately
+                // e.g data/
+                //     data/folder/
+                //     data/folder/file.txt
+                if (zipEntry.getName().endsWith(File.separator)) {
+                    isDirectory = true;
+                }
+
+                Path newPath = zipSlipProtect(zipEntry, target);
+
+                if (isDirectory) {
+                    Files.createDirectories(newPath);
+                } else {
+
+                    // example 1.2
+                    // some zip stored file path only, need create parent directories
+                    // e.g data/folder/file.txt
+                    if (newPath.getParent() != null) {
+                        if (Files.notExists(newPath.getParent())) {
+                            Files.createDirectories(newPath.getParent());
+                        }
+                    }
+
+                    // copy files, nio
+                    Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
+
+                    // copy files, classic
+                    /*try (FileOutputStream fos = new FileOutputStream(newPath.toFile())) {
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while ((len = zis.read(buffer)) > 0) {
+                            fos.write(buffer, 0, len);
+                        }
+                    }*/
+                }
+
+                zipEntry = zis.getNextEntry();
+
+            }
+            zis.closeEntry();
+
+        }
+
+    }       
+       
+       
+       
+       // protect zip slip attack
+   //https://mkyong.com/java/how-to-decompress-files-from-a-zip-file/
+    private  Path zipSlipProtect(ZipEntry zipEntry, Path targetDir)
+        throws IOException {
+
+        // test zip slip vulnerability
+        // Path targetDirResolved = targetDir.resolve("../../" + zipEntry.getName());
+
+        Path targetDirResolved = targetDir.resolve(zipEntry.getName());
+
+        // make sure normalized file still has targetDir as its prefix
+        // else throws exception
+        Path normalizePath = targetDirResolved.normalize();
+        if (!normalizePath.startsWith(targetDir)) {
+            throw new IOException("Bad zip entry: " + zipEntry.getName());
+        }
+
+        return normalizePath;
+    }
+   
+   
+    private String formatPathWithQuotes(String path)
+    {
+              //if(isWindows)
+              //{
+    int first = path.indexOf('\\');
+    int last = path.lastIndexOf('\\');
+    String prefix = path.substring(0, first+1);
+    prefix = prefix.replace("\\", "\\\"");
+    String query = path.substring(first+1, last-first-1);
+    String suffix = path.substring(last-first-1,last);
+    suffix = suffix+"\"\\";
+    String strEnd = path.substring(last+1,path.length());
+    String pathWithQuotes = prefix + query.replace("\\", "\"\\\"") + suffix+strEnd; 
+    //System.out.println(pathWithQuotes);
+    return pathWithQuotes;
+    }
     
     
     private void createDB()
@@ -1371,6 +1657,9 @@ public class DialogDbConnect  extends JDialog implements Constants
         btnShowSystemInfo  = new JButton(); 
         btnStart = new JButton();
         btnStart.setEnabled(false);
+        
+        btnCreateData = new JButton();
+        btnCreateData.setEnabled(false);
 
         btnCheck.setText("<html>test</html>");
         btnCheck.setIcon(ICO_INFO16);
@@ -1441,7 +1730,7 @@ public class DialogDbConnect  extends JDialog implements Constants
 	    });
 
 
-        btnStart.setText("<html>ΟΚ εκκίνηση</html>");
+        btnStart.setText("<html>ΟΚ</html>");
         btnStart.setIcon(ICO_OK16);
         btnStart.addActionListener(new ActionListener()
         {
@@ -1451,7 +1740,20 @@ public class DialogDbConnect  extends JDialog implements Constants
                     closeNStart();
 
 	        }
-	    });        
+	    });     
+        
+        btnCreateData.setText("<html>δημιουργία δεδομένων</html>");
+        btnCreateData.setIcon(ICO_RESTORE);
+        btnCreateData.addActionListener(new ActionListener()
+        {
+	        public void actionPerformed(ActionEvent e) 
+	        {     
+                    
+                    createDataForDb();
+                    //closeNStart();
+
+	        }
+	    });    
       /*IconSeparator icoSeparator = new IconSeparator();
       JLabel lblIcoSeparator1 =new JLabel();
       JLabel lblIcoSeparator2 =new JLabel();
@@ -1487,6 +1789,7 @@ public class DialogDbConnect  extends JDialog implements Constants
   //      add(btnShowBackupRestore);
        // addSeparator();
         add(btnShowSystemInfo);
+        add(btnCreateData);
         add(btnStart);
         //addSeparator();
         //addSeparator();

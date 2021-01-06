@@ -483,8 +483,38 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         EntityPanel entityPanelsxActionTypeDataentry = new EntityPanel("ODOR","sxactiontype",esoexoTypeDBFields,sxactionTypeEntityGroupOfComps,sxactionTypeEntityGroupOfPanels,"Νο τυπου παραστατικού","","sxActionTypeId",sxactionTypeQueryEditable,"βασικά στοιχεία",null, false, true,fieldsUniquesxActionType,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,entityCheckFieldssxActionType,null);  
         EntityPanel[] entityPanelsxActionType = new EntityPanel[] {entityPanelsxActionTypeDataentry}; 
          
+                      //----------------------------------------------------------------
+        //EntityDBFields[] actionTypeLineDBFields = new EntityDBFields[7];
+        EntityDBFields[] countryDBFields = new EntityDBFields[3];
+
+        
+        EntityGroupOfComps[] countryEntityGroupOfComps = new EntityGroupOfComps[1];
+        EntityGroupOfPanels[] countryEntityGroupOfPanels = new EntityGroupOfPanels[1];
         
         
+        String countryQueryEditable="SELECT * FROM country";//geoCatId AS\"Νο πόλης\", geoCatName AS\"πόλη/χωριό\",state AS \"νομός\", postCode AS\"ΤΚ\", phoneCode AS\"κωδ τηλ\" FROM town";
+        String[] fieldsOnTitlecountry ={"countryId","name"};
+        String[] fieldsOnTitleCaptioncountry  ={"Νο","ονομασία"};     
+            String[] fieldsUniquecountry = null; 
+            EntityCheckFields[] entityCheckFieldscountry =null;
+        EntityPanel entityPanelcountryDataentry = new EntityPanel("ODOR","country",countryDBFields,countryEntityGroupOfComps,countryEntityGroupOfPanels,"Νο","","countryId",countryQueryEditable,"βασικά στοιχεία",null, false, true,fieldsUniquecountry,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,entityCheckFieldscountry,null);  
+        EntityPanel[] entityPanelcountry = new EntityPanel[] {entityPanelcountryDataentry};        
+        
+        //----------------------------------------------------------------        
+     EntityDBFields[] doyKadDBFields = new EntityDBFields[3];       // be carefull  companyDoyKadDBFields and doyKadDBFields seem the same. are NOT
+
+        
+        EntityGroupOfComps[] doyKadEntityGroupOfComps = new EntityGroupOfComps[1];
+        EntityGroupOfPanels[] doyKadEntityGroupOfPanels = new EntityGroupOfPanels[1];
+
+        
+        String doyKadQueryEditable = "SELECT * FROM doykad";
+        String[] fieldsOnTitleDoyKad ={"doyKadId","kadCode","description"};
+        String[] fieldsOnTitleCaptionDoyKad  ={"Νο","κωδικός","ονομασία"};
+        String[] fieldsUniqueDoyKad = null;
+        EntityCheckFields[] entityCheckFieldsDoyKad = null;
+        EntityPanel entityPanelDoyKadDataentry = new EntityPanel("ODOR","doykad",doyKadDBFields,doyKadEntityGroupOfComps,doyKadEntityGroupOfPanels,"ΔΟΥ ΚΑΔ","","doyKadId",doyKadQueryEditable,"βασικά στοιχεία",null, false, true,fieldsUniqueDoyKad,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,entityCheckFieldsDoyKad,null);  
+        EntityPanel[] entityPanelDoyKad = new EntityPanel[] { entityPanelDoyKadDataentry};        
         
         
         
@@ -619,8 +649,34 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         dbUserRolesEntityGroupOfComps[0]= new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
        
-
+//-------------------------        
         
+         countryDBFields[0] = new EntityDBFields("country","countryId","Νο φόρμας",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+         //countryDBFields[1] = new EntityDBFields("country","countryTypeId","τύπος",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCResponsible",FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+         countryDBFields[1] = new EntityDBFields("country","name","ονομασία",0,"java.lang.String",40,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+         //countryDBFields[3] = new EntityDBFields("country","isActive","ενεργή",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");               
+         countryDBFields[2] = new EntityDBFields("country","transactionTypeId","τύπος συναλλαγών",0,"java.lang.String",15,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCImportsExports",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        // countryDBFields[4] = new EntityDBFields("country","gradeOfLicense","βαθμός άδειας",0,"java.lang.String",4,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        // countryDBFields[5] = new EntityDBFields("country","dateStartOfLicense","ημ. έναρξης άδειας",0,"java.sql.Date",8/*45000*/,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");     
+         //countryDBFields[7] = new EntityDBFields("country","imageBottom","εικόνα κάτω",3,"java.awt.image.BufferedImage",40/*45000*/,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,null,"");               
+         //countryDBFields[8] = new EntityDBFields("country","imageBackground","εικόνα πίσω",3,"java.awt.image.BufferedImage",40/*45000*/,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_NOT_VISIBLE,null,"");             
+         
+        
+        
+        countryEntityGroupOfComps[0] = new EntityGroupOfComps("ιδιότητες",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        
+        countryEntityGroupOfPanels[0] = new EntityGroupOfPanels("ιδιότητες",1);
+        //-------------------------                
+        
+        doyKadDBFields[0] = new EntityDBFields("doykad","doyKadId","Νο",0,"java.lang.Integer",1, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+       	doyKadDBFields[1] = new EntityDBFields("doykad","kadCode","κωδικός",0,"java.lang.String",15,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        doyKadDBFields[2] = new EntityDBFields("doykad","description","ονομασία",0,"java.lang.String",40,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+
+        doyKadEntityGroupOfComps[0] = new EntityGroupOfComps("",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        
+       doyKadEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1); 
+       
+    //----------------------------------------------        
         
         
    	activityCatLineDBFields[0] = new EntityDBFields("activitycat","activityCatId","Νο δραστηριότητας",0,"java.lang.Integer",3, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
@@ -1289,8 +1345,19 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
     
 
 
+     //------------------------------------------------------------------ 
 
-
+         EntityFilterSettings[] countryErs = new EntityFilterSettings[1];       
+        countryErs[0]=new EntityFilterSettings("ονομασία","","string","equals","name","country",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        //countryErs[0]=new EntityFilterSettings("τύπος","checkboxTable","string","","countryTypeId","country","country","",-1,-1,-1,FIELD_NOCOMPLETION);
+       
+        
+        String[] lookUpFieldcountry={"name"};                   
+    
+      entities.add(entityLookUp = new EntityLookUp("country","country","SELECT country.countryId AS\"Νο\", country.name  FROM country",""/*"WHERE country.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/,null,""/*"AND country.isActive LIKE 1"*/,"ORDER BY country.countryId ","","countryId","Νο","countryId","χώρα",2,lookUpFieldcountry,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,countryQueryEditable,"χώρας","χωρών",null,entityPanelcountry,fieldsOnTitlecountry,fieldsOnTitleCaptioncountry,countryErs,-1,1,null,true,-1,-1,null));    	 	
+               
+      
+//------------------------------------------------------------------ 
 
    
      //int[] lookUpFieldIndexPaymentType ={2,3,0};     
@@ -1372,7 +1439,17 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         String[] lookUpFieldsxActionType={"actionTypeDescription"};                   
     
      entities.add(entityLookUp = new EntityLookUp("sxactiontype","sxactiontype","SELECT sxactiontype.sxActionTypeId AS\"Νο τύπου εσόδων εξόδων\", sxactiontype.actionTypeCode AS\"κωδικός\", sxactiontype.actionTypeDescription AS \"ονομασία τύπου παραστατικού\", lookupconstants.name,  myfCatId AS\"ΜΥΦ\"  FROM sxactiontype  INNER JOIN lookupconstants ON sxactiontype.sxActionTypeCatId = lookupconstants.lookupconstantsId","WHERE lookupconstants.constantstypeId = 4 AND sxactiontype.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId,null,"AND sxactiontype.active LIKE 1","ORDER BY sxactiontype.sxActionTypeCatId, sxactiontype.sxActionTypeId","","sxActionTypeId","Νο τύπου εσόδων εξόδων","sxActionTypeId","τύπος παραστατικού",3,lookUpFieldsxActionType,"ονομασία",33,"java.lang.String",0,null,null,0,null,null,sxactionTypeQueryEditable,"τυπου παραστατικού","τύπων παραστατικών",null,entityPanelsxActionType,fieldsOnTitlesxActionType,fieldsOnTitlesxCaptionActionType,sxactionTypeErs,-1,1,null,true,-1,-1,null));    	 	
-   
+     //------------------------------------------------------------------ 
+         EntityFilterSettings[] doykadErs = new EntityFilterSettings[2];       
+        doykadErs[0]=new EntityFilterSettings("κωδικός","","string","equals","kadCode","doykad",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        doykadErs[1]=new EntityFilterSettings("περιγραφή","","string","equals","description","doykad",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+     //int[] lookUpFieldIndexPaymentType ={2,3,0};     
+     String[] lookUpFieldDoyKad={"description"};
+     //String[] lookUpFieldLabelPaymentType={"είδος παραστατικού","συντομογραφία",null};
+     entities.add(entityLookUp = new EntityLookUp("doykad","doykad","SELECT doyKadId AS\"Νο\",kadCode AS\"κωδικός\", description AS\"περιγραφή\" FROM doykad","",null,"","ORDER BY kadCode","","doyKadId","Νο","doyKadId","ΔΟΥ ΚΑΔ",4,lookUpFieldDoyKad,"ΔΟΥ ΚΑΔ",10,"java.lang.String",0,null,null,0,null,null,doyKadQueryEditable,"ΔΟΥ ΚΑΔ","ΔΟΥ ΚΑΔ",null,entityPanelDoyKad,fieldsOnTitleDoyKad, fieldsOnTitleCaptionDoyKad,doykadErs,2,1,null,false,-1,-1,null)); 
+     //entities.add(entityLookUp = new EntityLookUp("paymenttype","SELECT paymentTypeId AS\"Νο τύπου παρ/κού\",paymentTypeName AS\"ονομασία τύπου παρ/κού\", abbreviation AS\"συντομογραφία\" FROM paymenttype","ORDER BY paymentTypeName","paymentTypeId","Νο τύπου παρ/κού",2,lookUpFieldPaymentType,"είδος παραστατικού",0,null,null,0,null,null,paymenttypeQueryEditable,"τύπου παραστατικού","τύπων παραστατικού",null,entityPanelPaymentType,fieldsOnTitlePaymentType, fieldsOnTitleCaptionPaymentType,null,2,1,null,true,-1,-1)); 
+
+    //---------------------------------------------------------------
      return entities;
    }
   
@@ -1496,10 +1573,38 @@ EntityGroupOfComps[] saleDocumentGroupOfComps = new EntityGroupOfComps[3];
         empk.setEntityType(ENTITY_TYPE_PARAMETER);
         DataTreeNode nodeempk = new DataTreeNode(empk);
         //nodeRoot.getChildFromCaption(SYSTEM_CAT_1).addChild(nodeempk);
-         nodeSystem.getChildFromCaption(SYSTEM_CAT_1).addChild(nodeempk);   
-      
+         nodeSystem.getChildFromCaption(SYSTEM_CAT_1).addChild(nodeempk);  
+         
+         //------------------------------------------------------------
+
+        EntityFilterSettings[] countryErs = new EntityFilterSettings[1];
+        countryErs[0]=new EntityFilterSettings("όνομα","","string","equals","name","country",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+         
+        int[] countryFieldsOrderby ={2};
+        String[] fieldsForSumscountry=null;
+        EntityParameter ppfd = new EntityParameter("country", "SELECT country.countryId AS \"Νο\",  country.name, transactionTypeId FROM country"/*WHERE country.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/,"SELECT countryId AS \"Νο\", name, transactionTypeId ","FROM country",""/*"WHERE country.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/,fieldsForSumscountry,countryDBFields ,"χώρες","DORM","Νο","countryId",countryErs,null,"χώρας", "χωρών",entityPanelcountry,null,fieldsOnTitlecountry,fieldsOnTitleCaptioncountry,countryFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityMenu emppfd = new EntityMenu();
+        emppfd.setEntityParameter(ppfd,ICO_TABLE16);
+        emppfd.setEntityType(ENTITY_TYPE_PARAMETER);
+        DataTreeNode nodeemppfd = new DataTreeNode(emppfd);
+        nodeSystem.getChildFromCaption(SYSTEM_CAT_1).addChild(nodeemppfd);          
+               
+        //--------------------------------------------- doyKad
         
+         EntityFilterSettings[] doykadErs = new EntityFilterSettings[2];       
+        doykadErs[0]=new EntityFilterSettings("κωδικός","","string","equals","kadCode","doykad",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        doykadErs[1]=new EntityFilterSettings("περιγραφή","","string","equals","description","doykad",null,"",-1,-1,-1,FIELD_NOCOMPLETION);        
         
+        int[] doyKadFieldsOrderby ={2};
+        String[] fieldsForSumsDoyKad=null;//                                in query: because it has the same table 2 times, we use the 1st table as it is, in order to be queried correct in title fields
+        EntityParameter pqc = new EntityParameter("doykad", "SELECT doyKadId AS\"Νο\", kadCode AS\"κωδικός\" , description AS\"περιγραφή\" FROM doykad ORDER BY doyKadId","SELECT doyKadId AS\"Νο\", kadCode AS\"κωδικός\" , description AS\"περιγραφή\"","FROM doykad","",fieldsForSumsDoyKad,doyKadDBFields ,"ΚΑΔ εφορίας","DORM","Νο","doyKadId",doykadErs,null,"ΚΑΔ εφορίας", "ΚΑΔ εφορίας",entityPanelDoyKad,null,fieldsOnTitleDoyKad,fieldsOnTitleCaptionDoyKad,doyKadFieldsOrderby,-1,-1,globalYearPlusOne);
+        EntityMenu empqc = new EntityMenu();
+        empqc.setEntityParameter(pqc,ICO_TABLE16);
+        empqc.setEntityType(ENTITY_TYPE_PARAMETER);
+        DataTreeNode nodeempc = new DataTreeNode(empqc);
+        nodeSystem.getChildFromCaption(SYSTEM_CAT_1).addChild(nodeempc);         
+
+                
         //------------------------------------------------------------
        int[] currencyFieldsOrderby ={2};
        String[] fieldsForSumsCurrency=null;

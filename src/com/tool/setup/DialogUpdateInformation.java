@@ -84,7 +84,7 @@ public class DialogUpdateInformation extends JFrame implements Constants {
            //System.out.println(feed.getMessages().get(m).getLink());
           //System.out.println("      "+feed.getMessages().get(m).getDescription());
               versionTextTitle=versionTextTitle +"<tr><td><img src='http://www.businesseye.gr/bullet2.jpg' alt='-'></td><td><b>"+ feed.getMessages().get(m).getTitle()+"</b></td></tr>";
-              versionTextTitle=versionTextTitle +"<tr><td</td><td>"+ feed.getMessages().get(m).getDescription().substring(0, 135)+"...</td></tr>";
+              versionTextTitle=versionTextTitle +"<tr><td</td><td>"+ feed.getMessages().get(m).getDescription().substring(0, 125)+"...</td></tr>";
         }
             infoPane.setText(versionTextTitle+"</table></html>");
             
