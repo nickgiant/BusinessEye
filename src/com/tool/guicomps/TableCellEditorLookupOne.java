@@ -566,7 +566,7 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
          String[] fieldsOnTitleCaption=lookUp.getFieldsOnTitleCaption(luname);
         String editTitle=lookUp.getStrOfOne(luname);
         EntityPanel[] luentityPanel = lookUp.getEntityPanel(luname);
-        String primKey = lookUp.getLookUpKey(luname);
+        String primKey = lookUp.getLookUpKeyFTKey(luname);
         
         String query = "";
         if(lookUp.getQuerySubqueryWhere(luname) !=null && !lookUp.getQuerySubqueryWhere(luname).trim().equalsIgnoreCase("") )
@@ -684,6 +684,8 @@ public class TableCellEditorLookupOne implements TableCellEditor, ActionListener
            primKeysSel[0] = primKey ;
            primKeysValueSel[0]=selectedKeyValue ;     
         }
+        
+        System.out.println("TableCellEditorLookupOne.displayDialogEdit                                    strTable:"+strTable+"   size of pks:"+listPrimKeysSel.size()+" primKeysSel 0:"+primKeysSel[0]);
       // -1 is the selectedTableRow in readonlytable used to get the PKs
      int selected =  panelEditOneDataRec.setEntity(strTable, luentityPanel,-1,fieldsOnTitle,fieldsOnTitleCaption,false,primKeysSel,primKeysValueSel,/*"",*//*primKeyValue usualy for dbcompanysettings,*///primKey//formGlobalTableToGet1,formGlobalTableToApply1,
                /*null,null,*/query, editTitle,iconLU/*,true*/,false,false,true,null, false, panelManagement);	

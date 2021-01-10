@@ -238,13 +238,13 @@ public class DialogLookUp extends JDialog implements Constants
     {
    //     DialogLookUp.value = (String)(list.getSelectedValue());
           lookUp = new LookUpMgt();
-          //System.out.println("DialogLookUp.setButton() key "+lookUp.getLookUpKeyFT(lookupEntity));
+          
           //DialogLookUp.keyValue = panelOneDataManyRecData.getSelectedDataRowKeyValue(lookUp.getLookUpKeyFT(lookupEntity));
           //int tableRow = panelOneDataManyRec.getSelectedTableRow();
           DialogLookUp.keyValue = panelOneDataManyRec.getSelectedRowPrimaryKeyValue(lookupQuery,keyField,intColFieldDescription);
           DialogLookUp.keyDescription = panelOneDataManyRec.getSelectedRowDescriptionValue();
           
-         //System.out.println("DialogLookUp.setButton   keyValue:"+DialogLookUp.keyValue+ " keyDescription:"+DialogLookUp.keyDescription+"  keyField:"+keyField);
+         System.out.println("DialogLookUp.setButton    OOOOO   keyValue:"+DialogLookUp.keyValue+ " keyDescription:"+DialogLookUp.keyDescription+"  keyField:"+keyField+"     intColFieldDescription:"+intColFieldDescription);
           dispose();
           //DialogLookUp.dialog.setVisible(false);         	
           //System.out.println("DialogLookUp.setButton() "+DialogLookUp.keyValue);

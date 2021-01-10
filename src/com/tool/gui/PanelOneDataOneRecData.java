@@ -4365,22 +4365,22 @@ catch(Exception e)
         else
         {
           
-          System.out.println(" panelODORData.displayDialogLookUp    ----+++-----         luname:"+luname+"     VariablesGlobal.globalformGlobalVariable1"+VariablesGlobal.globalformGlobalVariable1);
+          //System.out.println(" panelODORData.displayDialogLookUp    ----+++-----         luname:"+luname+"     VariablesGlobal.globalformGlobalVariable1"+VariablesGlobal.globalformGlobalVariable1+"  queryLookUpWhere:"+queryLookUpWhere+"  subQueryFilterFromRecType:"+subQueryFilterFromRecType+"   qSub:"+qSub);
           queryLUWithQ = lookUp.getQuery(luname)+" "+queryLookUpWhere+" "+subQueryFilterFromRecType+" "+qSub ;//+" "+queryLookUpIsActive+" "+lookUp.getQueryOrderBy(luname);
         
           if(utilsString.hasQueryWhere(queryLookUpWhere))
            {
                //queryLookUp=queryLookUp+" "+queryLookUpWhere+" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
-               queryLUWithQ=queryLUWithQ+" AND "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
+               queryLUWithQ=queryLUWithQ+" AND "+foreignTable+"."+lookUp.getLookUpKeyFTKey(luname)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"'";//+" "+queryLookUpIsActive; //queryLookUpIsActive already has AND
            }
            else
            {
-                queryLUWithQ=queryLUWithQ+" WHERE "+foreignTable+"."+lookUp.getLookUpKey(luname)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"' ";//+" "+queryLookUpIsActive;//queryLookUpIsActive already has AND
+                queryLUWithQ=queryLUWithQ+" WHERE "+foreignTable+"."+lookUp.getLookUpKeyFTKey(luname)+" LIKE '"+selectedKeyValue+"'";//+rs.getString(primKey)+"' ";//+" "+queryLookUpIsActive;//queryLookUpIsActive already has AND
            }          
 
 
 // subQueryFilterFromRecType = ""; //for lookup dialog of no globalvariable
-             //System.out.println("ELSE ELSE     panelODORData.displayDialogLookUp    ELSE       globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"    luname:"+luname);
+           System.out.println("ELSE   panelODORData.displayDialogLookUp   ----+++-----        globalformGlobalVariable1:"+VariablesGlobal.globalformGlobalVariable1+"    luname:"+luname+"    .getLookUpKey():"+lookUp.getLookUpKey(luname)+"  getLookUpKeyFTKey():"+lookUp.getLookUpKeyFTKey(luname));
        }
         //   coppied from UtilsPanelReport.getLookupValue "end"  ------------- not double checked
  

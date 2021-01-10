@@ -38,7 +38,7 @@ public class VariablesGlobal
    public static boolean globalShowSelectDataFromWritable=false;//   OOOO PanelOneDataManyRecData.retrieveDataFromWritable
    public static boolean globalShowReportSQL=false;
     
-  public static boolean globalEnableModulesInDevelopment=true;//      misthodosia
+  public static boolean globalEnableModulesInDevelopment=false;//      misthodosia
     
     public static UtilsDouble globalUtilsDouble;
     

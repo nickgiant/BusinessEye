@@ -536,7 +536,7 @@ public class UtilsPanelReport implements Constants
             
              
       String queryLookUp = lookUp.getQuery(luname);
-   //   if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
+      if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
       {
      System.out.println("-t--ooo--t--UtilsPanelReport.getLookupValue     TO CHECK     luname:"+luname+"    strTable:"+strTable+"     formVariableFromField:"+formVariableFromField+"         VariablesGlobal.globalformGlobalVariable1::"+VariablesGlobal.globalformGlobalVariable1+"        strTable:"+strTable+"      entityIn:"+entityIn+"     subqueryWhereForAPreviousFieldValue:"+subqueryWhereForAPreviousFieldValue+"  lookupValue:"+lookupValue+"      queryLookUp:"+queryLookUp);             
       }
@@ -592,7 +592,7 @@ public class UtilsPanelReport implements Constants
        	          //lookUp.getLookUpField(luname)+" LIKE '"+tb2Text+"%' "
                   foreignQuery = queryLookUp+" "+queryLookUpWhere+" "+lookupValueQuery+" "+subqueryWhereForAPreviousFieldValue+lookUp.getQueryOrderBy(luname);        
              }          
-      // if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
+       if(VariablesGlobal.globalShowSelectUtilPanelReportRecord)
       {  
           System.out.println("   IF    -t--OOOOOOOOOOO--t--UtilsPanelReport.getLookupValue  isTypedOrSaved:"+isTypedOrSaved+"       entityIn:"+entityIn+"   name:"+luname+"         queryClosingSubquery:"+queryClosingSubquery+"     lookupValueQuery:"+lookupValueQuery+"   foreignQuery:"+foreignQuery);
       }
@@ -642,7 +642,7 @@ public class UtilsPanelReport implements Constants
       
       
 
-  System.out.println("---UtilsPanelReport.getLookupValue        --oOoOoOoOo--      luname:"+luname+"     strTable:"+strTable+"     lookupValue:"+lookupValue +"     isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
+  //System.out.println("---UtilsPanelReport.getLookupValue        --oOoOoOoOo--      luname:"+luname+"     strTable:"+strTable+"     lookupValue:"+lookupValue +"     isTypedOrSaved:"+isTypedOrSaved+"     hasWhere:"+utilsString.hasQueryWhere(queryLookUpWhere)+"   ----    foreignQuery:"+foreignQuery);
          try
          {     
               foreignQuery = utilsString.removeCaptionsFromQuerySubStringSelect(foreignQuery);
@@ -1765,14 +1765,16 @@ public void retrievePrimKeyValueForOnePK(String queryIn, int selectedTableRow, E
   public String getPrimKeyValue()
   {   
       
-      if(primKeyValue == null || primKeyValue.equalsIgnoreCase(""))
+      if((primKeyValue == null || primKeyValue.equalsIgnoreCase("")) && primKeysDbFieldValue!= null)
       {
-          //System.out.println("    ERROR       UtilsPanelReport.getPrimKeyValue    primKeyValue:"+primKeyValue);
+          System.out.println("    ERROR       UtilsPanelReport.getPrimKeyValue    primKeyValue:"+primKeyValue+" -> "+primKeysDbFieldValue[0]);
+         primKeyValue = primKeysDbFieldValue[0];
       }
       else
       {
           
       }
+      
       
   	 return primKeyValue;
   }

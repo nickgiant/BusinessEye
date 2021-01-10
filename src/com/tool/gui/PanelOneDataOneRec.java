@@ -1981,15 +1981,16 @@ import javax.swing.text.JTextComponent;
            String queryForTitle = "";
 
             String qOrderByAndGroupByReadOnly = utilsString.getGroupbyAndOrderbySubQuery(queryReadOnly);           
-   String subqueryWhere = ""; // for each primary key
-  	    db.retrieveDBDataFromQuery(queryReadOnly,"PanelOneDataOnRec.setTitle");
-   	    rs=db.getRS();
+   String subqueryWhere = "";
+  	//    db.retrieveDBDataFromQuery(queryReadOnly,"PanelOneDataOnRec.setTitle 1 ");
+   	//    rs=db.getRS();
      //       int selectedRow = utilsPanelReport.getRowForPrimKey("PanelOneDataOnRec.setTitle",queryReadOnly,rs,dbFieldsAll,primKeyDb,primKeyValue);
      //       utilsPanelReport.retrievePrimKeyValueForOnePK( queryReadOnly, selectedRow, null,dbFieldsAll,true, entityPanel.getEntity(), primKeyDb);    
         //     System.out.println("----O------>  PanelOneDataOneRec.showPrintPreviewForm   '"+entityPanel.getEntity()+"   primKeyDb:"+primKeyDb+"  selectedRow:"+selectedRow+"'  primKeyValue:"+primKeyValue+"  primKeys.length:"+primKeys.length+"  queryReadOnly:"+queryReadOnly);          
      //        primKeys = utilsPanelReport.getPrimKeys();
      //        primKeysCaption = utilsPanelReport.getPrimKeysCaption();
          String sqlEntity = entityPanel.getEntity();
+         boolean hasWhere= utilsString.hasQueryWhere(queryReadOnly);
          if(primKeys!=null)
          {
              primKeysCount = primKeys.length;
@@ -2022,8 +2023,16 @@ import javax.swing.text.JTextComponent;
                    subqueryWhere = subqueryWhere+"("+sqlEntity+"."+primKeyDb+" LIKE '"+primKeyValue+"')";
            
          }
-           
-           queryForTitle= utilsString.getQueryBeforeWhere(queryReadOnly)+" WHERE "+subqueryWhere+" "+qOrderByAndGroupByReadOnly; 
+         //.getQueryWhere(queryReadOnly)!=null && !utilsString.getQueryWhere(queryReadOnly).equalsIgnoreCase(METRICS);    //      ; // for each primary key;        
+         System.out.println("  PanelODOR.setTitle  ====00000000====    hasWhere:"+hasWhere+"  subqueryWhere:"+subqueryWhere);
+           if(hasWhere) // for each primary key)
+           {
+             queryForTitle= utilsString.getQueryBeforeWhere(queryReadOnly)+" "+utilsString.getQueryWhere(queryReadOnly)+" AND "+subqueryWhere+" "+qOrderByAndGroupByReadOnly; 
+           }
+           else
+           {
+               queryForTitle= utilsString.getQueryBeforeWhere(queryReadOnly)+" WHERE  "+subqueryWhere+" "+qOrderByAndGroupByReadOnly; 
+           }
            
            
            

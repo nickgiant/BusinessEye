@@ -275,7 +275,7 @@ public class UtilsGui implements Constants
          return optionPane;
      }
    
-  public boolean getIsLogVisible()
+  public boolean getIsLogVisibleAndOtherParameters()
   {
       
          systemDirectorySymbol=System.getProperty("file.separator");
@@ -288,9 +288,18 @@ public class UtilsGui implements Constants
         //String fileName = "ViewDB.txt"; //get properties from file
         FileInputStream in = new FileInputStream(VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_CONFIG);
         props.load(in);
-        if(props.getProperty("runlogview").equalsIgnoreCase("1"))
+        if(props.getProperty("runlogview")!= null && props.getProperty("runlogview").equalsIgnoreCase("11a"))
         {
         isVisible = true;
+        }
+        
+        if(props.getProperty("showfunctionsondevelopment")!= null && props.getProperty("showfunctionsondevelopment").equalsIgnoreCase("12a"))
+        {
+            VariablesGlobal.globalEnableModulesInDevelopment=true;
+        }
+        else
+        {
+            VariablesGlobal.globalEnableModulesInDevelopment=false;
         }
        }
       catch (IOException ex)
@@ -364,6 +373,7 @@ public class UtilsGui implements Constants
         fileProperties.setProperty("date.format", dateFormat);
         fileProperties.setProperty("date.formatEdit", dateFormatEdit);
         fileProperties.setProperty("runlogview", "0");// is read in DialogMain.main
+        fileProperties.setProperty("showfunctionsondevelopment", "0");// is read in DialogMain.main
         
  
  //		System.out.println(VariablesGlobal.globalDirConfiguration+systemDirectorySymbol+FILE_CONFIG) ;

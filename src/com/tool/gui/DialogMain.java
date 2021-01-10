@@ -3230,7 +3230,7 @@ manager.addChangeListener(updateListener);*/
              
       
          
-        if(utilsGui.getIsLogVisible())// && VariablesGlobal.appShowLogFrame.equalsIgnoreCase("1"))
+        if(utilsGui.getIsLogVisibleAndOtherParameters())// && VariablesGlobal.appShowLogFrame.equalsIgnoreCase("1"))
           {
             new FrameRedirected(true, false, null, 1080,980, JFrame.DISPOSE_ON_CLOSE);
           }

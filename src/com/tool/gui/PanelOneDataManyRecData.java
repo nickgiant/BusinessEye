@@ -3328,7 +3328,7 @@ targetModelCol = table.convertColumnIndexToModel(targetViewCol);
                         primKeysValue = utilsPanelReport.getPrimKeysValue();
        if(VariablesGlobal.globalShowSelectRecord)
        {                
-         System.out.println("---sel-- PanelODMRData.retrievePrimKeyValueForReadOnlyTable    PKlength:"+primKeys.length+"    queryIn:"+queryIn);           
+         System.out.println("---sel-- PanelODMRData.retrievePrimKeyValueForReadOnlyTable    PKlength:"+primKeys.length+"    primKeysValue 0:"+primKeysValue[0]+"  queryIn:"+queryIn);           
        }
   } 
    
@@ -3528,7 +3528,7 @@ targetModelCol = table.convertColumnIndexToModel(targetViewCol);
    	//  try
    	//  {  
    	    
-   	     //System.out.println(" PanelOneDataManyRecData.getSelectedDataRowKeyValue()   primKey:"+primKey+" "+intColDescription+"  selectedTableRow:"+selectedTableRow+" - queryIn:"+queryIn);
+   	     System.out.println(" PanelOneDataManyRecData.getSelectedDataRowKeyValue()   primKey:"+primKey+"   intColDescription:"+intColDescription+"  selectedTableRow:"+selectedTableRow+" - queryIn:"+queryIn);
    	     retrievePrimKeyValueForReadOnlyTable( queryIn, selectedTableRow, primKey,intColDescription);
    	     keyValue = getPrimKeyValue();
    	//     keyValue = rs.getString(getColumnIntFromName(fieldName)+1);  // +1 because index of jtable starts at 0 and dbtable starts at 1         

@@ -265,11 +265,11 @@ public class EntityDataPayroll extends EntityData implements Constants
         EntityGroupOfComps[] responsibleEntityGroupOfComps = new EntityGroupOfComps[1];
         EntityGroupOfPanels[] responsibleEntityGroupOfPanels = new EntityGroupOfPanels[1];
         
-        String queryResponsibleTypeId = "CASE WHEN responsibleTypeId = 1 THEN \"νομικά υπέυθυνος\" WHEN responsibleTypeId = 2 THEN \"υπεύθυνος λογιστής\" WHEN responsibleTypeId = 4 THEN \"υπεύθυνος γιατρός\" WHEN responsibleTypeId = 3 THEN \"υπεύθυνος τεχνικός\" END AS \"τύπος υπέυθυνου\"";
+        String queryResponsibleTypeId = "CASE WHEN hr_responsible.responsibleTypeId = 1 THEN \"νομικά υπέυθυνος\" WHEN hr_responsible.responsibleTypeId = 2 THEN \"υπεύθυνος λογιστής\" WHEN hr_responsible.responsibleTypeId = 4 THEN \"υπεύθυνος γιατρός\" WHEN hr_responsible.responsibleTypeId = 3 THEN \"υπεύθυνος τεχνικός\" END AS \"τύπος υπέυθυνου\"";
         
         String responsibleQueryEditable="SELECT * FROM hr_responsible";//geoCatId AS\"Νο πόλης\", geoCatName AS\"πόλη/χωριό\",state AS \"νομός\", postCode AS\"ΤΚ\", phoneCode AS\"κωδ τηλ\" FROM town";
-        String[] fieldsOnTitleresponsible ={"responsibleId","responsibleTypeId","employeeId"};
-        String[] fieldsOnTitleCaptionresponsible  ={"Νο","τύπος", "εργαζόμενος"};     
+        String[] fieldsOnTitleresponsible ={"responsibleId","employeeId"};
+        String[] fieldsOnTitleCaptionresponsible  ={"Νο","εργαζόμενος"};     
             String[] fieldsUniqueresponsible = null; 
             EntityCheckFields[] entityCheckFieldsresponsible =null;
         EntityPanel entityPanelresponsibleDataentry = new EntityPanel("ODOR","hr_responsible",responsibleDBFields,responsibleEntityGroupOfComps,responsibleEntityGroupOfPanels,"Νο","","responsibleId",responsibleQueryEditable,"βασικά στοιχεία",null, false, true,fieldsUniqueresponsible,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null,null,entityCheckFieldsresponsible,null);  
