@@ -49,7 +49,7 @@ public class EntityDataPayroll extends EntityData implements Constants
     
         EntityDBFields[] dbCompanyDBFields = new EntityDBFields[26];        
         EntityGroupOfComps[] dbCompanyEntityGroupOfComps= new EntityGroupOfComps[8];
-        EntityGroupOfPanels[] dbCompanyEntityGroupOfPanels = new EntityGroupOfPanels[4];
+        EntityGroupOfPanels[] dbCompanyEntityGroupOfPanels = new EntityGroupOfPanels[5];
         
         EntityDBFields[] dbyearLineDBFields = new EntityDBFields[5];
         
@@ -810,23 +810,23 @@ public class EntityDataPayroll extends EntityData implements Constants
         dbyearLineDBFields[0] = new EntityDBFields("dbyear","dbYearId","Νο χρήσης",0,"java.lang.Integer",15, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");       
         dbyearLineDBFields[1] = new EntityDBFields("dbyear","dbCompanyId","Νο εταιρίας",0,"java.lang.String",4,FIELD_PRIMARY_KEY_FROM_PARENTTABLE,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,""); //uses FIELD_PRIMARY_KEY_FROM_PARENTTABLE, not:VariablesGlobal.globalCompanyId
         dbyearLineDBFields[2] = new EntityDBFields("dbyear","dbYearDescr","περιγραφή χρήσης",0,"java.lang.String",18,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        dbyearLineDBFields[3] = new EntityDBFields("dbyear","dbDateFrom","από ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        dbyearLineDBFields[4] = new EntityDBFields("dbyear","dbDateTo","εως ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        dbyearLineDBFields[3] = new EntityDBFields("dbyear","dbDateFrom","από ημερομηνία χρήσης",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        dbyearLineDBFields[4] = new EntityDBFields("dbyear","dbDateTo","εως ημερομηνία χρήσης",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
 //dbyearDBFields[3] = new EntityDBFields("dbyear","yearDelivery","αποστολές του έτους",1,"table",FIELD_VISIBLE_AND_EDITABLE,"dbYearDelivery",200,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,dbYearDeliveryDBFields,FIELD_TABLE_ONEROWATLEAST_OBLIGATORY,"SELECT dbYearDeliveryId, dbYearId,aa,description,dbCompanyId FROM dbYearDelivery WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+"  ORDER BY aa",null);
         
         EntityDBFields[] companyDoyKadDBFields = new EntityDBFields[5];    // be carefull  companyDoyKadDBFields and doyKadDBFields seem the same. are NOT
         companyDoyKadDBFields[0] = new EntityDBFields("pay_companydoykad","id","Νο",0,"java.lang.Integer",15, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");       
         companyDoyKadDBFields[1] = new EntityDBFields("pay_companydoykad","dbCompanyId","Νο εταιρίας",0,"java.lang.String",4,FIELD_PRIMARY_KEY_FROM_PARENTTABLE,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,""); //uses FIELD_PRIMARY_KEY_FROM_PARENTTABLE, not:VariablesGlobal.globalCompanyId
         companyDoyKadDBFields[2] = new EntityDBFields("pay_companydoykad","doyKadId","ΔΟΥ ΚΑΔ",0,"java.lang.Integer",35,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"doykad", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        companyDoyKadDBFields[3] = new EntityDBFields("pay_companydoykad","affectStartDate","από ημερομηνία",0,"java.sql.Date",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        companyDoyKadDBFields[4] = new EntityDBFields("pay_companydoykad","affectEndDate","εως ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        companyDoyKadDBFields[3] = new EntityDBFields("pay_companydoykad","affectStartDate","ΔΟΥ ΚΑΔ από ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        companyDoyKadDBFields[4] = new EntityDBFields("pay_companydoykad","affectEndDate","ΔΟΥ ΚΑΔ εως ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
         
         EntityDBFields[]  companyEfkaKadDBFields = new EntityDBFields[5];
         companyEfkaKadDBFields[0] = new EntityDBFields("pay_companyefkakad","id","Νο",0,"java.lang.Integer",15, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");       
         companyEfkaKadDBFields[1] = new EntityDBFields("pay_companyefkakad","dbCompanyId","Νο εταιρίας",0,"java.lang.String",4,FIELD_PRIMARY_KEY_FROM_PARENTTABLE,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,""); //uses FIELD_PRIMARY_KEY_FROM_PARENTTABLE, not:VariablesGlobal.globalCompanyId
         companyEfkaKadDBFields[2] = new EntityDBFields("pay_companyefkakad","efkaKadCode","ΕΦΚΑ ΚΑΔ",0,"java.lang.String",35,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_efkakad", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        companyEfkaKadDBFields[3] = new EntityDBFields("pay_companyefkakad","affectEfkaKadStartDate","από ημερομηνία",0,"java.sql.Date",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        companyEfkaKadDBFields[4] = new EntityDBFields("pay_companyefkakad","affectEfkaKadEndDate","εως ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
+        companyEfkaKadDBFields[3] = new EntityDBFields("pay_companyefkakad","affectEfkaKadStartDate","ΕΦΚΑ ΚΑΔ από ημερομηνία",0,"java.sql.Date",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        companyEfkaKadDBFields[4] = new EntityDBFields("pay_companyefkakad","affectEfkaKadEndDate","ΕΦΚΑ ΚΑΔ εως ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");                
         
         comBranchDBFields[0] = new EntityDBFields("hr_companybranch","branchId","Νο",0,"java.lang.Integer",15, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");       
         comBranchDBFields[1] = new EntityDBFields("hr_companybranch","dbCompanyId","Νο εταιρίας",0,"java.lang.String",4,FIELD_PRIMARY_KEY_FROM_PARENTTABLE,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,""); //uses FIELD_PRIMARY_KEY_FROM_PARENTTABLE, not:VariablesGlobal.globalCompanyId
@@ -881,9 +881,9 @@ public class EntityDataPayroll extends EntityData implements Constants
         //dbCompanyDBFields[4] = new EntityDBFields("dbcompany","charOfThousands","χαρακτήρας χιλιάδων",0,"java.lang.String",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null);
         //dbCompanyDBFields[20] = new EntityDBFields("dbcompany","lengthOfDecimalPrice","μήκος δεκαδικών αξίας",5,"java.lang.Integer",3,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"2","");                
         String[] selectQueryFieldsCompany ={"dbCompanyId"};
-        dbCompanyDBFields[22] = new EntityDBFields("dbcompany","hr_companybranch","υποκαταστήματα",4,"table",FIELD_VISIBLE_AND_EDITABLE_IN_NEW_PANEL,"hr_companybranch",160,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,comBranchDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM hr_companybranch WHERE hr_companybranch.dbCompanyId = # ORDER BY branchId",selectQueryFieldsCompany,null,null,null);
-        dbCompanyDBFields[23] = new EntityDBFields("dbcompany","pay_companydoykad","ΚΑΔ εφορίας",5,"table",FIELD_VISIBLE_AND_EDITABLE,"pay_companydoykad",160,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,companyDoyKadDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM pay_companydoykad WHERE pay_companydoykad.dbCompanyId = # ORDER BY id",selectQueryFieldsCompany,null,null,null);     //String[] childTableFieldsForSumsIn   
-        dbCompanyDBFields[24] = new EntityDBFields("dbcompany","pay_companyefkakad","ΕΦΚΑ ΚΑΔ",6,"table",FIELD_VISIBLE_AND_EDITABLE,"pay_companyefkakad",160,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,companyEfkaKadDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM pay_companyefkakad WHERE pay_companyefkakad.dbCompanyId = # ORDER BY id",selectQueryFieldsCompany,null,null,null);     //String[] childTableFieldsForSumsIn   
+        dbCompanyDBFields[22] = new EntityDBFields("dbcompany","hr_companybranch","υποκαταστήματα",4,"table",FIELD_VISIBLE_AND_EDITABLE_IN_NEW_PANEL,"hr_companybranch",300,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,comBranchDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM hr_companybranch WHERE hr_companybranch.dbCompanyId = # ORDER BY branchId",selectQueryFieldsCompany,null,null,null);
+        dbCompanyDBFields[23] = new EntityDBFields("dbcompany","pay_companydoykad","ΚΑΔ εφορίας",5,"table",FIELD_VISIBLE_AND_EDITABLE,"pay_companydoykad",300,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,companyDoyKadDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM pay_companydoykad WHERE pay_companydoykad.dbCompanyId = # ORDER BY id",selectQueryFieldsCompany,null,null,null);     //String[] childTableFieldsForSumsIn   
+        dbCompanyDBFields[24] = new EntityDBFields("dbcompany","pay_companyefkakad","ΕΦΚΑ ΚΑΔ",6,"table",FIELD_VISIBLE_AND_EDITABLE,"pay_companyefkakad",300,CHILDTABLEINPOSITION_INSIDE_EACH_DATAFIELD_PANEL,companyEfkaKadDBFields,FIELD_TABLE_ONEROWATLEAST_SUGGEST,"SELECT * FROM pay_companyefkakad WHERE pay_companyefkakad.dbCompanyId = # ORDER BY id",selectQueryFieldsCompany,null,null,null);     //String[] childTableFieldsForSumsIn   
         dbCompanyDBFields[25] = new EntityDBFields("dbcompany","dbyear","χρήσεις",7,"table",FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"dbyear",130,CHILDTABLEINPOSITION_BORDER_LAYOUT_CENTER_SIZABLE,dbyearLineDBFields,FIELD_TABLE_NOROWCOMPLETION,"SELECT * FROM dbyear WHERE dbCompanyId = # ORDER BY dbyearId",selectQueryFieldsCompany,null,null,null);     //String[] childTableFieldsForSumsIn   
         
         //dbCompanyDBFields[22] = new EntityDBFields("dbcompany","afmTaxisUsername","χρήστης",7,"java.lang.String",25,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
@@ -896,17 +896,18 @@ public class EntityDataPayroll extends EntityData implements Constants
         //dbCompanyEntityGroupOfComps[5]= new EntityGroupOfComps("δεκαδικά (Χρειάζεται να εισέλθετε ξανα στην εφαρμογή για να εφαρμοσθούν οι αλλαγές.)",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         dbCompanyEntityGroupOfComps[4] = new EntityGroupOfComps("υποκαταστήματα",1,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         dbCompanyEntityGroupOfComps[5] = new EntityGroupOfComps("ΚΑΔ εφορίας",1,2,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        dbCompanyEntityGroupOfComps[6] = new EntityGroupOfComps("ΕΦΚΑ ΚΑΔ",1,2,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        dbCompanyEntityGroupOfComps[6] = new EntityGroupOfComps("ΚΑΔ ΕΦΚΑ",1,3,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         //dbCompanyEntityGroupOfComps[5] = new EntityGroupOfComps("ΚΑΔ εφορίας",4,1,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        dbCompanyEntityGroupOfComps[7] = new EntityGroupOfComps("χρήσεις",4,3,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        dbCompanyEntityGroupOfComps[7] = new EntityGroupOfComps("χρήσεις",4,4,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
 
         //dbCompanyEntityGroupOfComps[7] = new EntityGroupOfComps("κωδικοί αναζήτης ΑΦΜ",4,2,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         
         
         dbCompanyEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1);
         dbCompanyEntityGroupOfPanels[1] = new EntityGroupOfPanels("υποκαταστήματα",1);  
-        dbCompanyEntityGroupOfPanels[2] = new EntityGroupOfPanels("ΚΑΔ",1);
-        dbCompanyEntityGroupOfPanels[3] = new EntityGroupOfPanels("χρήσεις",1);  
+        dbCompanyEntityGroupOfPanels[2] = new EntityGroupOfPanels("ΚΑΔ εφορίας",1);
+        dbCompanyEntityGroupOfPanels[3] = new EntityGroupOfPanels("ΚΑΔ ΕΦΚΑ",1);
+        dbCompanyEntityGroupOfPanels[4] = new EntityGroupOfPanels("χρήσεις",1);  
         
         
 

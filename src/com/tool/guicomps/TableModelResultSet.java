@@ -1929,7 +1929,7 @@ public class TableModelResultSet extends AbstractTableModel implements Constants
               }*/
               else if(dbFieldsMany.length > 0)//dbFieldsMany.length == 1 )
               {
-              String fieldParentCaption = dbFieldsMany[c].getCaption();
+              String fieldParentCaption = dbFieldsParent[intTableOfParentDBFields].getCaption();//dbFieldsMany[c].getCaption();
    	      //System.out.println("TableModelResultSet.getListOfFieldsUncompleted  columnType =---> ("+c+") "+columnType+"     getTableName:"+dbFieldsMany[c].getTableName()+"     0 of parent field "+dbFieldsParent[0].getCaption());
 
                if(dbFieldsMany[c].getFieldObligatoryOrSuggest()==FIELD_OBLIGATORY)

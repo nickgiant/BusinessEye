@@ -988,12 +988,12 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
        fieldsCalculationServiceSelect[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,5,inputAccDescription,inputDescr,calculationAccDescrSql);
         fieldsCalculationServiceSelect[1] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,6,inputVatCategory,inputVat,calculationVatPercentageSql);
         
-        esoexolineTempDBFields[4] = new EntityDBFields("sxesoexoline","accountId","λογαριασμός",2,"java.lang.Integer",15,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"sxaccount",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationServiceSelect,"sxActionTypeId");
-	esoexolineTempDBFields[5] = new EntityDBFields("sxesoexoline","description","περ/φή λογαριασμού",2,"java.lang.String",20,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+        esoexolineTempDBFields[4] = new EntityDBFields("sxesoexoline","accountId","λογαριασμός",0,"java.lang.Integer",15,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"sxaccount",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationServiceSelect,"sxActionTypeId");
+	esoexolineTempDBFields[5] = new EntityDBFields("sxesoexoline","description","περ/φή λογαριασμού",0,"java.lang.String",20,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
 
         
         
-        esoexolineTempDBFields[6] = new EntityDBFields("sxesoexoline","vatPercentage","ΦΠΑ %",1,"java.lang.Double",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");//fieldsCalculationService);//fieldsCalculationVatPercentValue);        
+        esoexolineTempDBFields[6] = new EntityDBFields("sxesoexoline","vatPercentage","ΦΠΑ %",0,"java.lang.Double",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");//fieldsCalculationService);//fieldsCalculationVatPercentValue);        
         
         
 
@@ -1002,7 +1002,7 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
        //EntityDBFieldsCalculation[] fieldsCalculationVatValue = new EntityDBFieldsCalculation[1];
        //fieldsCalculationVatValue[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,8,inputVatValueCategory,inputVatValue,"SELECT #*#/100");//SELECT #+#"); 
 
-       esoexolineTempDBFields[7] = new EntityDBFields("sxesoexoline","priceBeforeVat","αξία",1,"java.lang.Double",7,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationVatValueSelect,"");//fieldsCalculationPriceBeforeVat);
+       esoexolineTempDBFields[7] = new EntityDBFields("sxesoexoline","priceBeforeVat","αξία",0,"java.lang.Double",7,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationVatValueSelect,"");//fieldsCalculationPriceBeforeVat);
 
         
 
@@ -1011,7 +1011,7 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
        //EntityDBFieldsCalculation[] fieldsCalculationValueWithVat = new EntityDBFieldsCalculation[1];
        //fieldsCalculationValueWithVat[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,9,inputValueWithVatCategory,inputValueWithVat,"SELECT #+#");        
         
-        esoexolineTempDBFields[8] = new EntityDBFields("sxesoexoline","vatValue","ΦΠΑ",1,"java.lang.Double",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationValueWithVatSelect,"");
+        esoexolineTempDBFields[8] = new EntityDBFields("sxesoexoline","vatValue","ΦΠΑ",0,"java.lang.Double",6,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationValueWithVatSelect,"");
         
        
         
@@ -1019,9 +1019,9 @@ sqlQueryTableCalcIncome[0] = "SELECT trader.traderId AS 'συναλλασσόμ�
         //int[] inputVatPercentValue ={9,6};
       // EntityDBFieldsCalculation[] fieldsCalculationNetValueFromTotal = new EntityDBFieldsCalculation[1];
       // fieldsCalculationNetValueFromTotal[0] = new EntityDBFieldsCalculation(FIELDSCALCULATION_CATEGORY_SAME,7,inputVatPercentCategory,inputVatPercentValue,"SELECT #/(100+#)*100");         
-        esoexolineTempDBFields[9] = new EntityDBFields("sxesoexoline","valueWithVat","σύνολο",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationNetValueFromTotalSelect,"");                    
+        esoexolineTempDBFields[9] = new EntityDBFields("sxesoexoline","valueWithVat","σύνολο",0,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,null,fieldsCalculationNetValueFromTotalSelect,"");                    
         //esoexolineTempDBFields[10] = new EntityDBFields("sxesoexoline","dbYearId","dbYearId",1,"java.lang.String",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,VariablesGlobal.globalYearId,"");
-        esoexolineTempDBFields[10] = new EntityDBFields("sxesoexoline","isTemplate","isTemplate",1,"java.lang.String",3,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"1","");
+        esoexolineTempDBFields[10] = new EntityDBFields("sxesoexoline","isTemplate","isTemplate",0,"java.lang.String",3,FIELD_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,"1","");
         
         
         

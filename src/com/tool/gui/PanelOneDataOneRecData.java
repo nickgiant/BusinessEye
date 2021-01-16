@@ -5156,20 +5156,20 @@ catch(Exception e)
                 
                 
                 //System.out.println("panelODORData.showRow "+foreignQuery);
-              JTextComponent tb2 = (JTextComponent) fieldTxts2.get(i);//(i); 
-              tb2.setText(lookupText.trim());
+              JTextComponent tbe2 = (JTextComponent) fieldTxts2.get(i);//(i); 
+              tbe2.setText(lookupText.trim());
               
               
               // select all the text if focus gained
-               final JTextComponent tb2Final=tb2;    
-                   tb2.addFocusListener(new FocusListener()
+               final JTextComponent tb2Final=tbe2;    
+                   tbe2.addFocusListener(new FocusListener()
                    {
                     	public void focusLost(FocusEvent e)
                         {  // if entered nothing or spaces on textbox
                              
                         }
                         public void focusGained(FocusEvent e)
-                        {    //System.out.println("panelODORData.showRow tb2 focus gained");
+                        {    //System.out.println("panelODORData.showRow tbe2 focus gained");
                              tb2Final.setSelectionStart(0);
                              tb2Final.setSelectionEnd(tb2Final.getText().length());
                         }                    	

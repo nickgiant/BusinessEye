@@ -155,7 +155,7 @@ public class EntityDBFields implements Constants
       
       
       // table dbfields or child dbfields
-      public EntityDBFields(String tableNameIn, String dbFieldIn, String captionIn, int groupOfCompsIn, String colClassNameIn,int isVisibleOrEditableIn, String childTableIn,
+      public EntityDBFields(String tableNameIn, String dbFieldIn, String captionIn, int groupOfCompsIn, String colClassNameIn,int isVisibleOrEditableIn,String childTableIn,
               int childTableHeightIn, int childTableInPositionIn,EntityDBFields[] dbChildFieldsIn,int fieldObligatoryOrSuggestIn,String sqlTableReadIn,String[] fieldsForCalculationOfTableReadIn,//  like dbcompanyid for year in panel of dbcompany
               String[] childTableFieldsForSumsIn,String multipleInsertFieldIn, String multipleInsertCaptionIn)
       {

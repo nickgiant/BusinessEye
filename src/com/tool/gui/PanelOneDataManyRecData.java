@@ -4069,6 +4069,10 @@ public int getRowCountFromReadOnlyTable()
        
    }
    
+   /*
+   *
+   * edits a row with a dialog
+   */
    private void displayDialogTableRowEdit()
    {
        PanelOneDataOneRecData panelOneDataOneRecData= new PanelOneDataOneRecData(frame);
@@ -4101,12 +4105,13 @@ public int getRowCountFromReadOnlyTable()
 
         panelOneDataOneRecData.setEntity(entityPanel, title, entity, dbFieldsMany, egoc/*entityGroupOfComps*/, null/*entityGroupOfPanelsIn*/, /*primKeys*/null, /*primKeysValue*/null, 
              /*primKeyDb*/null, query, /*isNewRec*/false, false/*isNewRec*/, isEditable, yearEnforceInLines, ICO_ADD, 0, panelManagement,lstTempDataRow);//getSelectedTableRow
-
+        panelOneDataOneRecData.setGuiLoaded(true);
        String editTitle = (tableRow+1)+"";
        
         DialogMulti dlg = new DialogMulti(frame);
         dlg.setEntity(panelOneDataOneRecData,PANEL_TYPE_ANY, "επεξεργασία γραμμής "+editTitle,true);
         dlg.display();
+        //panelOneDataOneRecData.setFocusInPageComponent();
         
         if(!dlg.getIsCancelClicked())
         {
