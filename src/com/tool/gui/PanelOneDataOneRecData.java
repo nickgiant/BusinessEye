@@ -8120,9 +8120,103 @@ ps.setBytes(i, b);
     */
     public void calculationFromToolBarButton(int intPanel, PanelDataFilter pnlDataFilter, boolean checkIsCanceled, EntityCalculate entityCalculate)
     {
+        String[] sqlQueryCalcArray  = entityCalculate.getQueryArray();
+        
+     if(entityCalculate.getCalculationType()== BUTTON_CALCULATION_DATARECORDS) 
+     {
+                if(checkIsCanceled)// == null || listUncompletedFields.size()==0)     
+                {
+                
+                }
+                else
+                {
+          if( sqlQueryCalcArray!= null && sqlQueryCalcArray.length==1)
+          {
 
-          String[] sqlQueryCalcArray  = entityCalculate.getQueryArray();
+          String sqlQueryCalc = sqlQueryCalcArray[0];
+                    
+         String [] textsInput = entityCalculate.getInputToQueryReplaceArray();//lookUp.getFieldsReplacedInsideQuery(luname);
+          ArrayList listTextString = new ArrayList();
+      if(textsInput!=null)    
+      {
+        for(int i =0;i<textsInput.length;i++)  
+        {
+         for(int c=0;c<dbFieldsInGroupOfPanels.length;c++)
+          {
+               //System.out.println("--------c:"+c+"   getDbField:"+dbFieldsInGroupOfPanels[c].getDbField()+"   "+textsInput[i]);
+                       if(textsInput[i].equalsIgnoreCase(dbFieldsInGroupOfPanels[c].getDbField()))
+                       {
+                           //System.out.println("=======================c:"+c+"   getDbField:"+dbFieldsInGroupOfPanels[c].getDbField()+"   "+textsInput[i]);
+                          JTextComponent tbToGet = (JTextComponent)fieldTxts.get(c);
+                          listTextString.add(tbToGet.getText().trim()); 
+                          
+                       }          
+          } 
+        }
+          String[] arrayText = new  String[listTextString.size()];
+          for(int a= 0; a<listTextString.size();a++)
+          {
+              arrayText[a]=(String)listTextString.get(a);
+          }
 
+                                int indexOfHashChar = sqlQueryCalc.indexOf("#");
+                               
+                               if(indexOfHashChar!=-1)
+                               {    
+                                sqlQueryCalc = utilsString.replaceTextOfAStringWithText("#", sqlQueryCalc, arrayText, null);
+                                Database dbTransaction = new Database();
+                                 
+      try
+      {
+          dbTransaction.transactionLoadConnection();
+          dbTransaction.setTransactionAutoCommit(false);
+        int  ret = dbTransaction.transactionUpdateQuery(sqlQueryCalc,"PanelODORData.calculationFromToolBarButton A", true);
+        System.out.println("PanelODORData.calculationFromToolBarButton A   commit all    ret:"+ret+"     dbTransactions:"+dbTransaction);    
+        dbTransaction.transactionCommit();
+        dbTransaction.updateShowWindowSuccessSave("");
+        dbTransaction.setTransactionAutoCommit(true);               
+             
+        //show updated record
+        showSpecificRowForPKsAfterANewRecIsSaved(arrayText[0]);
+       }
+       catch(SQLException e)
+       {
+           dbTransaction.transactionRollback();
+           System.out.println(" error  PanelODORData.calculationFromToolBarButton A   rollBack  dbTransaction:"+dbTransaction);    
+         if(VariablesGlobal.globalShowPrintStackTrace)  
+         {
+           e.printStackTrace();     
+         }           
+       }
+       finally
+        {
+            //System.out.println("PanelODORData.calculationFromToolBarButton A  finally      "+dbTransaction.isTransactionConnectionNull());
+	      if (!dbTransaction.isTransactionConnectionNull())
+              {
+                  
+	           dbTransaction.transactionClose();
+              }
+               closeDB();
+        }           
+      
+                                
+                                
+                               }         
+      }          
+      
+          }
+          else
+          {
+              
+          
+          }
+                }
+     }
+     else if(entityCalculate.getCalculationType()== BUTTON_CALCULATION_RETRIEVE)
+     {
+    
+          
+          
       int fromToInstances=1;
               for (int i = 0; i < dbFieldsInGroupOfPanels.length; i++)//  i = fieldTxts
               {
@@ -8179,7 +8273,7 @@ ps.setBytes(i, b);
                if(!columnClass.equalsIgnoreCase("table"))// calculation of ie myf
                {
                
-          if( sqlQueryCalcArray.length==1)
+          if( sqlQueryCalcArray!=null && sqlQueryCalcArray.length==1)
           {
 
                 //checkIsCanceled = dlgFilter.getIsCancelClicked();
@@ -8200,7 +8294,7 @@ ps.setBytes(i, b);
                String sqlQuery =  sqlQueryCalcArray[0];
                String qr =   pnlDataFilter.getSubquery(sqlQuery/*,0*/);// int reportgroup
                
-                     db.retrieveDBDataFromQuery(qr, "PanelODORecData.calculationFromToolBarButton.");
+                     db.retrieveDBDataFromQuery(qr, "PanelODORecData.calculationFromToolBarButton. B ");
                      ResultSet rsDocument = db.getRS();                
                     
                     try
@@ -8324,6 +8418,11 @@ ps.setBytes(i, b);
                //closeDB(); 
 
                } // checkIsCanceled else
+     }
+     else
+     {
+         System.out.println("PanelODORData.calculationFromToolBarButton: Undefined type:"+entityCalculate.getCalculationType());  
+     }
     }
 
 

@@ -237,9 +237,27 @@ public class EntityDataPayroll extends EntityData implements Constants
         EntityPanel[] entityPanelCalculationPeriod = new EntityPanel[] {entityPanelCalculationPeriodDataentry};        
         
        //---------------------------------------------------------------- 
-      
-        EntityDBFields[] payrollPeriodDBFields = new EntityDBFields[14];
-        EntityGroupOfComps[] payrollPeriodEntityGroupOfComps = new EntityGroupOfComps[2];
+
+        
+        EntityFilterSettings[] eCalculatePayrollPeriod = null;//new EntityFilterSettings[2];       
+        //eFilterSettings[0]=new EntityFilterSettings("ονομασία","","string","equals","vatDocDescr","sxvatdocforperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+        EntityGroupOfComps[] entityGroupOfFilterCompsPayrollPeriod = null;//new EntityGroupOfComps[1]; // if not null creates tabs, and nothing is shown
+        // entityGroupOfFilterCompsVatDoc[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+         
+        String [] sqlQueryCalcPayrollPeriod = new String[1];
+        
+             //String fieldVatDocPreffix ="";//"f" ;
+             //String[] arrayFieldVatDocAndValue1 = null;//{"sxaccount.vatDocCode","sumpre"};
+             //String[] arrayFieldVatDocAndValue2 = null;//{"sxaccount.vatDocCodeVat","sumvat"};  
+             String[] arrayInputFieldPeriodId = new String[1];  //{"payrollPeriodId"};
+        EntityCalculate entityCalculatePayroll = new EntityCalculate("calculateperiodpayroll","υπολογ. μισθοδοσίας","",BUTTON_CALCULATION_DATARECORDS,sqlQueryCalcPayrollPeriod,arrayInputFieldPeriodId);
+                
+                
+        
+        
+        
+        EntityDBFields[] payrollPeriodDBFields = new EntityDBFields[21];
+        EntityGroupOfComps[] payrollPeriodEntityGroupOfComps = new EntityGroupOfComps[3];
         EntityGroupOfPanels[] payrollPeriodEntityGroupOfPanels = new EntityGroupOfPanels[1];
         
         // same as second query in etityInfo
@@ -251,7 +269,7 @@ public class EntityDataPayroll extends EntityData implements Constants
         String[] fieldsUniquepayrollPeriod = null;//{"vatNo"};
         //STATS be careful to have in the query all the fields that are also in the title
         EntityCheckFields[] entityCheckFieldsTrader = null;
-        EntityPanel entityPanelpayrollPeriodDataentry = new EntityPanel("ODOR","pay_payrollperiod",payrollPeriodDBFields,payrollPeriodEntityGroupOfComps,payrollPeriodEntityGroupOfPanels,"Νο","","payrollPeriodId",payrollPeriodQueryEditable,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniquepayrollPeriod,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null/*hr*/,null,entityCheckFieldsTrader,null);  
+        EntityPanel entityPanelpayrollPeriodDataentry = new EntityPanel("ODOR","pay_payrollperiod",payrollPeriodDBFields,payrollPeriodEntityGroupOfComps,payrollPeriodEntityGroupOfPanels,"Νο","","payrollPeriodId",payrollPeriodQueryEditable,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniquepayrollPeriod,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null/*hr*/,entityCalculatePayroll,entityCheckFieldsTrader,null);  
         //EntityPanel entityPanelpayrollPeriodHistory = new EntityPanel("statpayrollPeriodHistory","STATS",null,"ιστορικό",ICO_STATISTICS16,"SELECT sxesoexoheader.payrollPeriodId, sxesoexoheader.esoexoheaderId, sxactiontype.actionTypeCode, sxesoexoheader.esoexoCodeOfDocument,sxesoexoheader.dbYearId, sxesoexoheader.dateOfEsoexo, sxesoexoheader.isPrinted, sxesoexoheader.countTotal, sxesoexoheader.pricePreVat, sxesoexoheader.priceVat, sxesoexoheader.priceTotal, sxesoexoheader.isTemplate","FROM sxesoexoheader LEFT JOIN sxactiontype ON sxesoexoheader.sxActionTypeId = sxactiontype.sxActionTypeId","WHERE sxesoexoheader.isTemplate ='0'  AND sxesoexoheader.dbCompanyId = sxactiontype.dbCompanyId AND sxesoexoheader.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+" AND sxesoexoheader.payrollPeriodId =","","ORDER BY sxesoexoheader.dateOfEsoexo, sxesoexoheader.esoexoCodeOfDocument",false,"",false,"",entityPanelSale,fieldsOnTitlepayrollPeriod,fieldsOnTitleCaptionpayrollPeriod);     
         //EntityPanel entityPanelpayrollPeriodProducts = new EntityPanel("statpayrollPeriodProducts","STATS",null,"καλλιέργιες",ICO_STATISTICS16,"SELECT product.productId AS \"Νο προϊόντος\", product.productName AS \"προϊόν\",  COUNT(*) AS \"πλήθος\", SUM(invoice.value) AS \"σύνολο\"","FROM invoice, product","WHERE invoice.productId = product.productId AND invoice.payrollPeriodId=","GROUP BY product.productId","ORDER BY product.productName",true,"invoice.dbCompanyId",true,"invoice.dbyear");
         //EntityPanel entityPanelpayrollPeriodBuyers = new EntityPanel("statpayrollPeriodBuyers","STATS",null,"αγοραστές",ICO_STATISTICS16,"SELECT buyer.buyerId AS \"νο αγοραστή\", buyer.buyerTitle,buyer.buyerAfm, COUNT(*) AS \"πλήθος\", SUM(invoice.value) AS \"σύνολο\"","FROM invoice, buyer","WHERE invoice.buyerId = buyer.buyerId AND invoice.payrollPeriodId=","GROUP BY buyer.buyerId","ORDER BY buyer.buyerTitle",true,"invoice.dbCompanyId",true,"invoice.dbyear");
@@ -309,7 +327,7 @@ public class EntityDataPayroll extends EntityData implements Constants
      
              //int[] lookUpFieldIndexPaymentType ={2,3,0};     
      String[] lookUpFieldDbCompany={"title"};
-     entities.add(entityLookUp = new EntityLookUp("dbCompanyForPay","dbcompany","SELECT dbCompanyId AS \"νο\", title AS \"επωνυμία\", companyVatNo AS \"ΑΦΜ\" FROM dbcompany","WHERE dbcompany.dbCompanyId = "+VariablesGlobal.globalCompanyId+" OR dbcompany.participatesInPayroll LIKE 1 ",null,"AND dbcompany.active LIKE 1 AND dbcompany.participatesInPayroll LIKE 1", "ORDER BY title","","dbCompanyId","νο","dbCompanyId","εταιρία",2,lookUpFieldDbCompany,"τίτλος εταιρίας",15,"java.lang.String",0,null,null,0,null,null,dbCompanyQueryEditable,"της εταιρίας","εταιριών",null,entityPanelDbCompany,fieldsOnTitleDbCompany,fieldsOnTitleCaptionDbCompany,null,2,1,null,true,2,FIELD_VALIDATION_AFM,null));     
+     entities.add(entityLookUp = new EntityLookUp("dbCompanyForPay","dbcompany","SELECT dbCompanyId AS \"νο\", title AS \"επωνυμία\", companyVatNo AS \"ΑΦΜ\" FROM dbcompany","WHERE (dbcompany.dbCompanyId = "+VariablesGlobal.globalCompanyId+" OR dbcompany.participatesInPayroll LIKE 1) ",null,"AND dbcompany.active LIKE 1 AND dbcompany.participatesInPayroll LIKE 1", "ORDER BY title","","dbCompanyId","νο","dbCompanyId","εταιρία",2,lookUpFieldDbCompany,"τίτλος εταιρίας",15,"java.lang.String",0,null,null,0,null,null,dbCompanyQueryEditable,"της εταιρίας","εταιριών",null,entityPanelDbCompany,fieldsOnTitleDbCompany,fieldsOnTitleCaptionDbCompany,null,2,1,null,true,2,FIELD_VALIDATION_AFM,null));     
 
      //-------------------------------------------------------------------
      
@@ -319,13 +337,13 @@ public class EntityDataPayroll extends EntityData implements Constants
      //String[] fieldsOnTitleCaptionBranch=null;
      String[] fieldsReplacedInsideQueryComBranch = {"dbCompanyId"};// get it from dbfields
      String[] lookUpFieldCompanyBranch={"title"};
-     entities.add(entityLookUp = new EntityLookUp("hr_companybranch","hr_companybranch","SELECT branchId AS \"νο\", branchTitle AS \"επωνυμία\", dateEstablished AS \"έναρξη\", state, city, pc FROM hr_companybranch","WHERE dbCompanyId LIKE #"/*"WHERE dbcompany.active LIKE 1 AND dbcompany.participatesInPayroll LIKE 1 "*/,fieldsReplacedInsideQueryComBranch,""/*"AND dbcompany.active LIKE 1 AND dbcompany.participatesInPayroll LIKE 1"*/, "ORDER BY branchTitle","","branchId","νο","branchId","υποκατάστημα",2,lookUpFieldCompanyBranch,"υποκατάστημα",15,"java.lang.String",0,null,null,0,null,null,comBranchQueryEditable,"της υποκαταστήματος","υποκαταστημάτων",null,entityPanelComBranch,fieldsOnTitleComBranch,fieldsOnTitleCaptionComBranch,null,2,1,null,false,2,FIELD_VALIDATION_AFM,null));
+     entities.add(entityLookUp = new EntityLookUp("hr_companybranch","hr_companybranch","SELECT branchId AS \"νο\", branchTitle AS \"επωνυμία\", dateEstablished AS \"έναρξη\", state, city, pc FROM hr_companybranch","WHERE dbCompanyId LIKE #"/*"WHERE dbcompany.active LIKE 1 AND dbcompany.participatesInPayroll LIKE 1 "*/,fieldsReplacedInsideQueryComBranch,""/*"AND dbcompany.active LIKE 1 AND dbcompany.participatesInPayroll LIKE 1"*/, "ORDER BY branchTitle","","branchId","νο","branchId","υποκατάστημα",2,lookUpFieldCompanyBranch,"υποκατάστημα",15,"java.lang.String",0,null,null,0,null,null,comBranchQueryEditable,"της υποκαταστήματος","υποκαταστημάτων",null,entityPanelComBranch,fieldsOnTitleComBranch,fieldsOnTitleCaptionComBranch,null,2,1,null,false,-1,-1,null));
      //-------------------------------------------------------------------     
      
        EntityFilterSettings[] employmentperiodErs = new EntityFilterSettings[3];      
-       employmentperiodErs[0]=new EntityFilterSettings("κωδικός","","string","equals"," payrollPeriodCode","pay_payrollperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-       employmentperiodErs[1]=new EntityFilterSettings("επωνυμία","","string","equals","title","pay_payrollperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
-       employmentperiodErs[2]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","pay_payrollperiod",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       employmentperiodErs[0]=new EntityFilterSettings("εταιρία","","string","equals"," title","dbCompany",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       employmentperiodErs[1]=new EntityFilterSettings("επίθετο","","string","equals","lastname","hr_employee",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
+       employmentperiodErs[2]=new EntityFilterSettings("ΑΦΜ","","string","equals","vatNo","hr_employee",null,"",-1,-1,-1,FIELD_NOCOMPLETION);
        //payrollPeriodErs[2]=new EntityFilterSettings("χρήση","checkboxTable","string","","dbYearId","dbyear","sxesoexoheader","",-1,-1,-1,FIELD_NOCOMPLETION);
        //payrollPeriodErs[2]=new EntityFilterSettings("πόλη/χωριό","checkboxTable","string","","townId","town","pay_payrollperiod","",-1,-1,-1,FIELD_NOCOMPLETION);
             // for 'intNoOfColsWhenInTable' look also at  deliveryFieldsMany
@@ -333,8 +351,42 @@ public class EntityDataPayroll extends EntityData implements Constants
      
      String[] lookUpFieldEmployee={"title","vatNo"};
             
-     entities.add(entityLookUp = new EntityLookUp("pay_employmentperiod","pay_employmentperiod","SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", pay_employmentperiod.dbCompanyId, pay_employmentperiod.employeeId, hr_employee.lastname, hr_employee.firstname, hr_employee.fathername, companyBranchId, actualEmploymentStartDate, pay_employmentperiod.actualEmploymentEndDate FROM pay_employmentperiod, hr_employee","WHERE pay_employmentperiod.employeeId = hr_employee.employeeId",/*WHERE pay_employmentperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+*//*WHERE pay_payrollperiod.active LIKE 1"*/null,/*"AND pay_payrollperiod.active LIKE 1"*/"", " ORDER BY pay_employmentperiod.employmentPeriodId","","employmentPeriodId","Νο","employmentPeriodId","εργαζόμενος",4,lookUpFieldEmployee,"επωνυμία ή ΑΦΜ",15,"java.lang.String",0,null, null,0,null,null,employmentperiodQueryEditable, "εργαζόμενου","εργαζόμενων",employmentperiodCategories,entityPanelemploymentperiod,fieldsOnTitleemploymentperiod,fieldsOnTitleCaptionemploymentperiod,employmentperiodErs,-1,2,ICO_FARMER16,true,3,FIELD_VALIDATION_AFM,null));
+     entities.add(entityLookUp = new EntityLookUp("pay_employmentperiod","pay_employmentperiod","SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", dbCompany.title, companyBranchId, pay_employmentperiod.employeeId, hr_employee.lastname, hr_employee.firstname, hr_employee.vatNo AS \"Α.Φ.Μ.\", hr_employee.amkaNo AS \"AMKA\",  actualEmploymentStartDate, pay_employmentperiod.actualEmploymentEndDate FROM pay_employmentperiod, hr_employee, dbCompany","WHERE pay_employmentperiod.employeeId = hr_employee.employeeId AND dbCompany.dbCompanyId = pay_employmentperiod.dbCompanyId",/*WHERE pay_employmentperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+*//*WHERE pay_payrollperiod.active LIKE 1"*/null,/*"AND pay_payrollperiod.active LIKE 1"*/"", " ORDER BY pay_employmentperiod.employmentPeriodId","","employmentPeriodId","Νο","employmentPeriodId","εργαζόμενος",5,lookUpFieldEmployee,"επωνυμία ή ΑΦΜ",15,"java.lang.String",0,null, null,0,null,null,employmentperiodQueryEditable, "εργαζόμενου","εργαζόμενων",employmentperiodCategories,entityPanelemploymentperiod,fieldsOnTitleemploymentperiod,fieldsOnTitleCaptionemploymentperiod,employmentperiodErs,-1,2,ICO_FARMER16,true,6,FIELD_VALIDATION_AFM,null));
 
+     
+     String[] arrayLookupFieldsFilter ={"calculationYear","calculationperiodId","calculationperiodId","calculationperiodId"};
+     entities.add(entityLookUp = new EntityLookUp("pay_employmentperiod_avail","pay_employmentperiod",
+             "SELECT DISTINCT pay_employmentperiod.employmentPeriodId, dbCompany.title, pay_employmentperiod.employeeId, hr_employee.lastname, hr_employee.firstname, hr_employee.vatNo, hr_employee.amkaNo ,  actualEmploymentStartDate, actualEmploymentEndDate "+
+             "FROM hr_employee, dbcompany, pay_employmentperiod, pay_calculationperiod, pay_payrollperiod ", // where is an other parameter
+             "WHERE pay_employmentperiod.employeeId = hr_employee.employeeId AND dbCompany.dbCompanyId = pay_employmentperiod.dbCompanyId AND pay_employmentperiod.employmentPeriodId = pay_payrollperiod.employmentPeriodId AND pay_calculationperiod.calculationPeriodId = pay_payrollperiod.calculationPeriodId "+       
+             "AND fnCheckIfCalcPeriodIsBetweenStartAndEndDates(pay_employmentperiod.actualEmploymentStartDate, pay_employmentperiod.actualEmploymentEndDate,#,#)=2 "+
+             "AND pay_employmentperiod.employmentPeriodId NOT IN ( "+
+             "SELECT DISTINCT pay_employmentperiod.employmentPeriodId "+
+             "FROM hr_employee, dbcompany, pay_employmentperiod, pay_calculationperiod, pay_payrollperiod "+
+             "WHERE pay_employmentperiod.employeeId = hr_employee.employeeId "+
+             "AND dbCompany.dbCompanyId = pay_employmentperiod.dbCompanyId "+
+             "AND pay_employmentperiod.employmentPeriodId = pay_payrollperiod.employmentPeriodId "+
+             "AND pay_calculationperiod.calculationPeriodId = pay_payrollperiod.calculationPeriodId "+ 
+             "AND pay_calculationperiod.calculationPeriodId = # "+
+             "AND pay_payrollperiod.calculationYear>= # "+
+             ")", 
+                     
+                             
+                           /*WHERE pay_employmentperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+*//*WHERE pay_payrollperiod.active LIKE 1"*/arrayLookupFieldsFilter,/*"AND pay_payrollperiod.active LIKE 1"*/"", " ORDER BY hr_employee.lastname, hr_employee.firstname , hr_employee.vatNo,  actualEmploymentStartDate",
+             "","employmentPeriodId","Νο","employmentPeriodId","εργαζόμενος",5,lookUpFieldEmployee,"επωνυμία ή ΑΦΜ",15,"java.lang.String",0,null, null,0,null,null,employmentperiodQueryEditable, "εργαζόμενου","εργαζόμενων",employmentperiodCategories,entityPanelemploymentperiod,fieldsOnTitleemploymentperiod,fieldsOnTitleCaptionemploymentperiod,employmentperiodErs,-1,2,ICO_FARMER16,true,6,FIELD_VALIDATION_AFM,null));
+     
+     
+      String[] arrayLookupFieldsToDeleteFilter ={"calculationYear","calculationperiodId"};//,"calculationperiodId","calculationperiodId"};
+      entities.add(entityLookUp = new EntityLookUp("pay_employmentperiod_todelete","pay_employmentperiod",
+              "SELECT pay_payrollperiod.payrollPeriodId, pay_payrollperiod.dbCompanyId, dbcompany.title, pay_payrollperiod.employmentPeriodId,  pay_employmentperiod.employeeId, hr_employee.lastname,"+
+            "hr_employee.firstname, hr_employee.vatNo, hr_employee.amkaNo, pay_employmentperiod.actualEmploymentStartDate, pay_payrollperiod.daysWorked, pay_payrollperiod.daysGiftWorked, pay_payrollperiod.salaryGross "+
+            "FROM pay_payrollperiod,pay_employmentperiod, hr_employee, dbcompany ", // where is an other parameter
+            "WHERE pay_employmentperiod.employmentPeriodId = pay_payrollperiod.employmentPeriodId "+
+            "AND hr_employee.employeeId = pay_employmentperiod.employeeId "+
+            "AND dbcompany.dbCompanyId = pay_employmentperiod.dbCompanyId "+
+            "AND pay_payrollperiod.calculationYear LIKE #  AND pay_payrollperiod.calculationPeriodId LIKE # ",
+              /*WHERE pay_employmentperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+*/arrayLookupFieldsToDeleteFilter,/*"AND pay_payrollperiod.active LIKE 1"*/"", " ORDER BY hr_employee.lastname, hr_employee.firstname , hr_employee.vatNo,  actualEmploymentStartDate",
+              "","employmentPeriodId","Νο","employmentPeriodId","εργαζόμενος",5,lookUpFieldEmployee,"επωνυμία ή ΑΦΜ",15,"java.lang.String",0,null, null,0,null,null,employmentperiodQueryEditable, "εργαζόμενου","εργαζόμενων",employmentperiodCategories,entityPanelemploymentperiod,fieldsOnTitleemploymentperiod,fieldsOnTitleCaptionemploymentperiod,employmentperiodErs,-1,2,ICO_FARMER16,true,6,FIELD_VALIDATION_AFM,null));
      //------------------------------------------------------------------ 
 
          EntityFilterSettings[] payContractErs = new EntityFilterSettings[1];       
@@ -410,7 +462,7 @@ public class EntityDataPayroll extends EntityData implements Constants
         String[] lookUpFieldCalculationPeriod={"description"};                   
     
      entities.add(entityLookUp = new EntityLookUp("pay_calculationperiod","pay_calculationperiod","SELECT pay_calculationperiod.calculationPeriodId AS\"Νο\", pay_calculationperiod.efkaPeriodTypeId AS \"περιγραφή ΕΦΚΑ\", month, pay_calculationperiod.description  FROM pay_calculationperiod ",""/*"WHERE pay_calculationperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/,null,""/*"AND pay_calculationperiod.isActive LIKE 1"*/,"ORDER BY month, pay_calculationperiod.efkaPeriodTypeId","","calculationPeriodId","Νο","calculationPeriodId","περίοδος",4,lookUpFieldCalculationPeriod,"ονομασία",12,"java.lang.String",0,null,null,0,null,null,calculationPeriodQueryEditable,"περιόδου υπολογισμού","περιόδων υπολογισμού",null,entityPanelCalculationPeriod,fieldsOnTitleCalculationPeriod,fieldsOnTitleCaptionCalculationPeriod,calculationPeriodErs,-1,1,null,true,-1,-1,null));    	 	
-               
+     
      
      
      //------------------------------------------------------------------
@@ -601,7 +653,7 @@ public class EntityDataPayroll extends EntityData implements Constants
        
         int[] companyFieldsOrderby ={2};
         String[] fieldsForSumsDbCompany=null;
-        EntityParameter pg = new EntityParameter("dbcompany", "SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.title AS\"τίτλος\", dbcompany.companyVatNo AS\"Α.Φ.Μ.\", activitycat.activityDescr AS \"δραστηριότητα\", geocat.geoCatName AS\"πόλη/χωριό\", dbcompany.doyId AS\"Νο Δ.Ο.Υ.\" ,doy.doyname AS\"ονομασία Δ.Ο.Υ.\", active,  bank.bankBranch AS\"τράπεζα\",dbcompany.bankAccount AS\"λογαριασμός τραπεζας\",dbcompany.bankAccountIBAN AS\"ΙΒΑΝ\" FROM dbcompany LEFT JOIN doy ON dbcompany.doyId=doy.doyId LEFT JOIN geocat ON dbcompany.geoCatId=geocat.geoCatId LEFT JOIN bank ON dbcompany.bankId=bank.bankId  LEFT JOIN activitycat ON activitycat.activityCatId = dbcompany.activityCatId WHERE dbcompany.dbCompanyId = "+VariablesGlobal.globalCompanyId+" OR dbcompany.participatesInPayroll LIKE 1 ORDER BY dbcompany.title"  ,"SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.title AS\"τίτλος\", dbcompany.companyVatNo AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.geoCatId,  dbcompany.bankId , dbcompany.bankAccount , dbcompany.bankAccountIBAN, dbcompany.notes" ," FROM dbcompany" ,"",fieldsForSumsDbCompany,dbCompanyDBFields ,"εταιρίες μισθοδοσίας","DORM","Νο εταιρίας","dbCompanyId",dbCompanyErs,null,"εταιρίας", "εταιριών",entityPanelDbCompany,null,fieldsOnTitleDbCompany,fieldsOnTitleCaptionDbCompany,companyFieldsOrderby,2,FIELD_VALIDATION_AFM,globalYearPlusOne/*,"",""*/);
+        EntityParameter pg = new EntityParameter("dbcompany", "SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.title AS\"τίτλος\", dbcompany.companyVatNo AS\"Α.Φ.Μ.\", activitycat.activityDescr AS \"δραστηριότητα\", geocat.geoCatName AS\"πόλη/χωριό\", dbcompany.doyId AS\"Νο Δ.Ο.Υ.\" ,doy.doyname AS\"ονομασία Δ.Ο.Υ.\", active,  bank.bankBranch AS\"τράπεζα\",dbcompany.bankAccount AS\"λογαριασμός τραπεζας\",dbcompany.bankAccountIBAN AS\"ΙΒΑΝ\" FROM dbcompany LEFT JOIN doy ON dbcompany.doyId=doy.doyId LEFT JOIN geocat ON dbcompany.geoCatId=geocat.geoCatId LEFT JOIN bank ON dbcompany.bankId=bank.bankId  LEFT JOIN activitycat ON activitycat.activityCatId = dbcompany.activityCatId WHERE (dbcompany.dbCompanyId = "+VariablesGlobal.globalCompanyId+" OR dbcompany.participatesInPayroll LIKE 1) ORDER BY dbcompany.title"  ,"SELECT dbcompany.dbCompanyId AS\"Νο εταιρίας\", dbcompany.title AS\"τίτλος\", dbcompany.companyVatNo AS\"Α.Φ.Μ.\", dbcompany.doyId, dbcompany.geoCatId,  dbcompany.bankId , dbcompany.bankAccount , dbcompany.bankAccountIBAN, dbcompany.notes" ," FROM dbcompany" ,"",fieldsForSumsDbCompany,dbCompanyDBFields ,"εταιρίες μισθοδοσίας","DORM","Νο εταιρίας","dbCompanyId",dbCompanyErs,null,"εταιρίας", "εταιριών",entityPanelDbCompany,null,fieldsOnTitleDbCompany,fieldsOnTitleCaptionDbCompany,companyFieldsOrderby,2,FIELD_VALIDATION_AFM,globalYearPlusOne/*,"",""*/);
         EntityMenu empg = new EntityMenu();
         empg.setEntityParameter(pg,ICO_TABLE16);
         empg.setEntityType(ENTITY_TYPE_PARAMETER);
@@ -647,7 +699,7 @@ public class EntityDataPayroll extends EntityData implements Constants
         
         String[] fieldsForSumsemploymentperiod = null;//{"ποσότητα","προ φπα", "φπα","σύνολο"};
         
-        EntityInfo pf = new EntityInfo("pay_employmentperiod", "SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", pay_employmentperiod.dbCompanyId, companyBranchId, pay_employmentperiod.employeeId,  hr_employee.lastname, hr_employee.firstname, hr_employee.fathername, actualEmploymentStartDate \"έναρξη\", actualEmploymentEndDate \"διακοπή\", if(employmentPeriodIsDefined=1,'αορίστου','ορισμένου') AS \"σχέση εργ.\", salaryOrWage AS \"μισθός\", contractOfEmploymentId, efkaKadCode, efkaEidikotitaCode FROM pay_employmentperiod, hr_employee WHERE pay_employmentperiod.employeeId = hr_employee.employeeId "/*WHERE pay_employmentperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+*/+"ORDER BY pay_employmentperiod.employmentPeriodId"  ,"SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", pay_employmentperiod.dbCompany","FROM pay_employmentperiod",""/*"WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/ ,null,fieldsForSumsemploymentperiod,"περίοδοι εργασίας","DORM","","Νο","employmentPeriodId",/*"","",*/employmentperiodErs,employmentperiodErsEntityGroupOfComps,"περιόδου εργασίας","περιόδων εργασίας",employmentperiodCategories,entityPanelemploymentperiod,fieldsOnTitleemploymentperiod,fieldsOnTitleCaptionemploymentperiod,employmentperiodFieldsOrderby,-1,-1,null,globalYearPlusOne);
+        EntityInfo pf = new EntityInfo("pay_employmentperiod", "SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", dbCompany.title,  companyBranchId, pay_employmentperiod.employeeId,  hr_employee.lastname, hr_employee.firstname, hr_employee.vatNo AS \"Α.Φ.Μ.\", hr_employee.amkaNo AS \"AMKA\", actualEmploymentStartDate \"έναρξη\", actualEmploymentEndDate \"διακοπή\", if(employmentPeriodIsDefined=1,'αορίστου','ορισμένου') AS \"σχέση εργ.\", pay_contract.description AS \"σύμβαση εργασίας\", salaryOrWage AS \"μισθός\"FROM hr_employee, dbCompany, pay_employmentperiod LEFT JOIN pay_contract ON pay_contract.contractId = pay_employmentperiod.contractOfEmploymentId  WHERE pay_employmentperiod.employeeId = hr_employee.employeeId AND pay_employmentperiod.dbCompanyId = dbCompany.dbCompanyId"/*WHERE pay_employmentperiod.dbCompanyId LIKE "+VariablesGlobal.globalCompanyId+*/+"ORDER BY pay_employmentperiod.employmentPeriodId"  ,"SELECT pay_employmentperiod.employmentPeriodId AS \"Νο\", pay_employmentperiod.dbCompany","FROM pay_employmentperiod",""/*"WHERE dbCompanyId LIKE "+VariablesGlobal.globalCompanyId*/ ,null,fieldsForSumsemploymentperiod,"περίοδοι εργασίας","DORM","","Νο","employmentPeriodId",/*"","",*/employmentperiodErs,employmentperiodErsEntityGroupOfComps,"περιόδου εργασίας","περιόδων εργασίας",employmentperiodCategories,entityPanelemploymentperiod,fieldsOnTitleemploymentperiod,fieldsOnTitleCaptionemploymentperiod,employmentperiodFieldsOrderby,-1,-1,null,globalYearPlusOne);
         EntityMenu empf = new EntityMenu();
         empf.setEntityInfo(pf,ICO_TABLE16);
         empf.setEntityType(ENTITY_TYPE_DATAENTRY);
@@ -657,34 +709,41 @@ public class EntityDataPayroll extends EntityData implements Constants
 
 
        //---------------------------------------------------------------------------------
-        
+        String loginYear = utilsDate.getCurrentYearFormattedLocaly(VariablesGlobal.globalDate);
         
       String[] taskCalculationTypeCalc ={"υπολογισμός"};
       String[] taskCalculationTypeNull ={"μηδενισμός"};     
-       EntityFilterSettings[] taskErs = new EntityFilterSettings[2];   
-       //taskErs[0]=new EntityFilterSettings("εταιρία","onelookup","string","","dbCompanyId","dbcompany","a",VariablesGlobal.globalCompanyId,-1,-1,-1,FIELD_OBLIGATORY);  // checkboxTable
-       taskErs[0]=new EntityFilterSettings("περίοδος υπολογισμού","onelookup","string","","calculationperiodId","pay_calculationperiod","a","",0,-1,-1,FIELD_OBLIGATORY);
-       taskErs[1]=new EntityFilterSettings("εργαζόμενος","checkboxTable","string","equals","employmentPeriodId","pay_employmentperiod","a","",0,-1,-1,FIELD_OBLIGATORY);         //"αποστολή","onelookup","string","equals","deliveryId","i",null,VariablesGlobal.globalDeliveryId,-1,-1,-1);   
+       EntityFilterSettings[] taskErsCalc = new EntityFilterSettings[3];
+       taskErsCalc[0]=new EntityFilterSettings("έτος","","string","equals","calculationYear","pay_calculationperiod","pay_calculationperiod",loginYear,0,-1,-1,FIELD_OBLIGATORY);
+       //        ("έτος","onelookup","string","","dbCompanyId","dbcompany","a",VariablesGlobal.globalCompanyId,-1,-1,-1,FIELD_OBLIGATORY);  // checkboxTable
+       taskErsCalc[1]=new EntityFilterSettings("περίοδος υπολογισμού","onelookup","string","","calculationperiodId","pay_calculationperiod","a","",0,-1,-1,FIELD_OBLIGATORY);
+       taskErsCalc[2]=new EntityFilterSettings("εργαζόμενοι προς υπολογισμό","checkboxTable","string","equals","employmentPeriodId","pay_employmentperiod_avail","a","",0,-1,-1,FIELD_OBLIGATORY);         //"αποστολή","onelookup","string","equals","deliveryId","i",null,VariablesGlobal.globalDeliveryId,-1,-1,-1);   
        
+       EntityFilterSettings[] taskErsRemove = new EntityFilterSettings[3];
+       taskErsRemove[0]=new EntityFilterSettings("έτος","","string","equals","calculationYear","pay_calculationperiod","pay_calculationperiod",loginYear,0,-1,-1,FIELD_OBLIGATORY);
+       //        ("έτος","onelookup","string","","dbCompanyId","dbcompany","a",VariablesGlobal.globalCompanyId,-1,-1,-1,FIELD_OBLIGATORY);  // checkboxTable
+       taskErsRemove[1]=new EntityFilterSettings("περίοδος υπολογισμού","onelookup","string","","calculationperiodId","pay_calculationperiod","a","",0,-1,-1,FIELD_OBLIGATORY);
+       taskErsRemove[2]=new EntityFilterSettings("μισθοδοτικές εγγραφές προς διαγραφή","checkboxTable","string","equals","payrollPeriodId","pay_employmentperiod_todelete","a","",0,-1,-1,FIELD_OBLIGATORY);         //"αποστολή","onelookup","string","equals","deliveryId","i",null,VariablesGlobal.globalDeliveryId,-1,-1,-1);   
+              
        EntityGroupOfComps[] taskEntityGroupOfComps = new EntityGroupOfComps[1];
        taskEntityGroupOfComps[0]= new EntityGroupOfComps("",2,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
        
        
        
  
-       String loginYear = utilsDate.getCurrentYearFormattedLocaly(VariablesGlobal.globalDate);
+       
        
       EntityQuery[] eqCalc = new EntityQuery[1];
-      eqCalc[0] = new EntityQuery("CALL calcPayrollForMonthPeriod("+loginYear+",#,'31','#')",QUERY_UPDATE_STOREDPROCEDURE,null,null,null,"εγγραφές ενημερώθηκαν.","Καμία εγγραφή δεν ενημερώθηκε.");
+      eqCalc[0] = new EntityQuery("CALL calcPayrollAll('#', #,'#')",QUERY_UPDATE_STOREDPROCEDURE,null,null,null,"εγγραφές ενημερώθηκαν.","Καμία εγγραφή δεν ενημερώθηκε.");
      // eqCalc[1] = new EntityQuery("UPDATE frvapplicationline AS i, frvapplicationheader AS a SET a.permanent =1,  a.valueReturn=(SELECT SUM(i.valueReturn) FROM frvapplicationline AS l WHERE a.applicationHeaderId = l.applicationHeaderId AND a.dbCompanyId=l.dbCompanyId GROUP BY a.applicationHeaderId AND a.dbCompanyId ) WHERE i.dbCompanyId=a.dbCompanyId AND a.applicationHeaderId = i.applicationHeaderId  AND a.dbCompanyId = "+VariablesGlobal.globalCompanyId,true,0,null,null,null,"αιτήσεις ενημερώθηκαν.","Καμία αίτηση δεν ενημερώθηκε.");
      // eq[1] = new EntityQuery("UPDATE frvapplicationheader SET permanent=1",true,0,"success","faillure");
       EntityQuery[] eqNull = new EntityQuery[1];
-      eqNull[0] = new EntityQuery("CALL calcPayrollForAllPeriodTypesDelete(#,'#')",QUERY_UPDATE_STOREDPROCEDURE,null,null,null,"εγγραφές ενημερώθηκαν.","Καμία εγγραφή δεν ενημερώθηκε.");
+      eqNull[0] = new EntityQuery("CALL calcPayrollAllPeriodTypesDelete('#', #,'#')",QUERY_UPDATE_STOREDPROCEDURE,null,null,null,"εγγραφές ενημερώθηκαν.","Καμία εγγραφή δεν ενημερώθηκε.");
       //eqNull[1] = new EntityQuery("UPDATE frvapplicationline AS i, frvapplicationheader AS a SET a.permanent =0, a.payment = NULL, a.valueReturn= NULL  WHERE a.dbCompanyId = "+VariablesGlobal.globalCompanyId,QUERY_UPDATE_STOREDPROCEDURE,null,null,null,"αιτήσεις ενημερώθηκαν.","Καμία αίτηση δεν ενημερώθηκε.");
      // eq[3] = new EntityQuery("UPDATE frvapplicationheader SET permanent=0",true,1,"success","faillure");    a.invcount=NULL, a.value=NULL,         //  WHERE i.farmerId=a.farmerId AND i.dbyear=a.dbyear AND i.dbCompanyId=a.dbCompanyId AND a.dbYearDeliveryId=i.dbYearDeliveryId
       EntityTask[] entityTaskDelivery = new EntityTask[2];
-      entityTaskDelivery[0] = new EntityTask("permanent","υπολογισμός μισθοδοσίας", "υπολογίζει μισθοδοσία", taskCalculationTypeCalc, taskErs,taskEntityGroupOfComps,eqCalc,false,"d",globalYearPlusOne );
-      entityTaskDelivery[1] = new EntityTask("permanentnull","διαγραφή  υπολογισμού μισθοδοσίας", "διαγράφει την επιλεγμένη περίοδο μισθοδοσίας", taskCalculationTypeNull, taskErs,taskEntityGroupOfComps,eqNull,true,null,globalYearPlusOne );
+      entityTaskDelivery[0] = new EntityTask("permanent","υπολογισμός μισθοδοσίας", "υπολογίζει μισθοδοσία", taskCalculationTypeCalc, taskErsCalc,taskEntityGroupOfComps,eqCalc,false,"d",globalYearPlusOne );
+      entityTaskDelivery[1] = new EntityTask("permanentnull","διαγραφή  υπολογισμού μισθοδοσίας", "διαγράφει την επιλεγμένη περίοδο μισθοδοσίας", taskCalculationTypeNull, taskErsRemove,taskEntityGroupOfComps,eqNull,true,null,globalYearPlusOne );
       
 
         //buyerId,applicationlineTypeId,applicationlineNo AS\"αρ παρ/κού\",date AS\"ημερομηνία\",productId,value AS\"αξία\" 
@@ -727,7 +786,7 @@ public class EntityDataPayroll extends EntityData implements Constants
         // if fields change, change them and at lookup entities
        String[] fieldsForSumspayrollPeriod = {"μικτά","κρατ. εργαζ.", "καθαρά","κρατ. εργοδ.","σύν. κρατήσεων","πληρωτέο","σύν. εξόδων"};
        // , sum(quantityTotal) AS \"ποσότητα\", sum(pricePreVat) AS \"προ ΦΠΑ\", sum(priceVat) AS \"ΦΠΑ\", sum(priceTotal) AS \"σύνολο\"    LEFT JOIN sxesoexoheader ON sxesoexoheader.payrollPeriodId = pay_payrollperiod.payrollPeriodId
-       EntityInfo id = new EntityInfo("pay_payrollperiod", "SELECT pay_payrollperiod.payrollPeriodId AS \"Νο\", pay_payrollperiod.employmentPeriodId,  hr_employee.lastname, hr_employee.firstname, hr_employee.fathername, pay_employmentperiod.actualEmploymentStartDate, pay_employmentperiod.actualEmploymentEndDate, pay_payrollperiod.calculationPeriodId  AS \"περίοδος υπ.\", pay_payrollperiod.calculationYear AS \"έτος\", pay_payrollperiod.startPayrollDate,  pay_payrollperiod.endPayrollDate, pay_payrollperiod.daysWorked AS \"ημέρες\", pay_payrollperiod.daysGiftWorked AS \"ημ. υπολ. δώρων\",pay_payrollperiod.salaryGross AS \"μικτά\", pay_payrollperiod.deductionEmployeeAmount  AS \"κρατ. εργαζ.\" ,pay_payrollperiod.salaryNet AS \"καθαρά\", pay_payrollperiod.deductionCompanyAmount  AS \"κρατ. εργοδ.\", pay_payrollperiod.deductionTotalAmount AS \"σύν. κρατήσεων\", taxValue AS \"ΦΜΥ\", pay_payrollperiod.netPayable AS \"πληρωτέο\", pay_payrollperiod.totalCompanyExpence AS\"σύν. εξόδων\", pay_payrollperiod.timePeriodCalculated  FROM hr_employee, pay_payrollperiod LEFT JOIN pay_calculationperiod ON pay_payrollperiod.calculationPeriodId=pay_calculationperiod.calculationPeriodId  LEFT JOIN pay_employmentperiod ON pay_employmentperiod.employmentPeriodId = pay_payrollperiod.employmentPeriodId WHERE hr_employee.employeeId = pay_employmentperiod.employeeId ORDER BY pay_payrollperiod.calculationPeriodId,  pay_payrollperiod.payrollPeriodId, pay_payrollperiod.employmentPeriodId" ,"SELECT pay_payrollperiod.payrollPeriodId AS \"Νο\", pay_payrollperiod.employmentPeriodId,pay_payrollperiod.calculationPeriodId  AS \"κωδ.\", pay_payrollperiod.startPayrollDate,  pay_payrollperiod.endPayrollDate, pay_payrollperiod.daysWorked AS \"ημέρες\", pay_payrollperiod.salaryGross AS \"salaryGross\", pay_payrollperiod.deductionEmployeePercentage, pay_payrollperiod.deductionCompanyPercentage","FROM pay_payrollperiod LEFT JOIN pay_calculationperiod ON pay_payrollperiod.calculationPeriodId=pay_calculationperiod.calculationPeriodId  LEFT JOIN pay_employmentperiod ON pay_employmentperiod.employmentPeriodId = pay_payrollperiod.employmentPeriodId"," ",null, fieldsForSumspayrollPeriod ,"μισθοδοτικές περίοδοι","DORM","","Νο","payrollPeriodId"/*,"",""*/,payrollPeriodErs,null ,"μισθοδοτικής περίοδου","μισθοδοτικών περίοδων",strpayrollPeriodCategories,entityPanelpayrollPeriod,fieldsOnTitlepayrollPeriod,fieldsOnTitleCaptionpayrollPeriod,payrollPeriodFieldsOrderBy,-1,-1/*FIELD_VALIDATION_AFM*/,null,globalYearPlusOne);
+       EntityInfo id = new EntityInfo("pay_payrollperiod", "SELECT pay_payrollperiod.payrollPeriodId AS \"Νο\", dbCompany.title, pay_payrollperiod.employmentPeriodId,  hr_employee.lastname, hr_employee.firstname, hr_employee.fathername, pay_employmentperiod.actualEmploymentStartDate, pay_employmentperiod.actualEmploymentEndDate, pay_payrollperiod.calculationPeriodId  AS \"περίοδος υπ.\", pay_payrollperiod.calculationYear AS \"έτος\", pay_payrollperiod.startPayrollDate,  pay_payrollperiod.endPayrollDate, pay_payrollperiod.daysWorked AS \"ημέρες\", pay_payrollperiod.daysGiftWorked AS \"ημ. υπολ. δώρων\",pay_payrollperiod.salaryGross AS \"μικτά\", pay_payrollperiod.deductionEmployeeAmount  AS \"κρατ. εργαζ.\" ,pay_payrollperiod.salaryNet AS \"καθαρά\", pay_payrollperiod.deductionCompanyAmount  AS \"κρατ. εργοδ.\", pay_payrollperiod.deductionTotalAmount AS \"σύν. κρατήσεων\", taxValue AS \"ΦΜΥ\", pay_payrollperiod.netPayable AS \"πληρωτέο\", pay_payrollperiod.totalCompanyExpence AS\"σύν. εξόδων\", pay_payrollperiod.timePeriodCalculated  FROM hr_employee,dbCompany, pay_payrollperiod LEFT JOIN pay_calculationperiod ON pay_payrollperiod.calculationPeriodId=pay_calculationperiod.calculationPeriodId  LEFT JOIN pay_employmentperiod ON pay_employmentperiod.employmentPeriodId = pay_payrollperiod.employmentPeriodId WHERE hr_employee.employeeId = pay_employmentperiod.employeeId AND pay_employmentperiod.dbCompanyId = dbCompany.dbCompanyId ORDER BY pay_payrollperiod.calculationPeriodId,  pay_payrollperiod.payrollPeriodId, pay_payrollperiod.employmentPeriodId" ,"SELECT pay_payrollperiod.payrollPeriodId AS \"Νο\", pay_payrollperiod.employmentPeriodId,pay_payrollperiod.calculationPeriodId  AS \"κωδ.\", pay_payrollperiod.startPayrollDate,  pay_payrollperiod.endPayrollDate, pay_payrollperiod.daysWorked AS \"ημέρες\", pay_payrollperiod.salaryGross AS \"salaryGross\", pay_payrollperiod.deductionEmployeePercentage, pay_payrollperiod.deductionCompanyPercentage","FROM pay_payrollperiod LEFT JOIN pay_calculationperiod ON pay_payrollperiod.calculationPeriodId=pay_calculationperiod.calculationPeriodId  LEFT JOIN pay_employmentperiod ON pay_employmentperiod.employmentPeriodId = pay_payrollperiod.employmentPeriodId"," ",null, fieldsForSumspayrollPeriod ,"μισθοδοτικές περίοδοι","DORM","","Νο","payrollPeriodId"/*,"",""*/,payrollPeriodErs,null ,"μισθοδοτικής περίοδου","μισθοδοτικών περίοδων",strpayrollPeriodCategories,entityPanelpayrollPeriod,fieldsOnTitlepayrollPeriod,fieldsOnTitleCaptionpayrollPeriod,payrollPeriodFieldsOrderBy,-1,-1/*FIELD_VALIDATION_AFM*/,null,globalYearPlusOne);
         EntityMenu emid = new EntityMenu();
         emid.setEntityInfo(id,ICO_TABLE16);//,ICO_FARMER16);
         emid.setEntityType(ENTITY_TYPE_DATAENTRY);
@@ -793,6 +852,16 @@ public class EntityDataPayroll extends EntityData implements Constants
    	  nodeRoot = new DataTreeNode("root");
    	  dTree.setRootElement(nodeRoot);
    
+          
+          //String loginYear = utilsDate.getCurrentYearFormattedLocaly(VariablesGlobal.globalDate);
+          sqlQueryCalcPayrollPeriod[0] =  "CALL calcPayrollCalcPeriod(#)";
+          arrayInputFieldPeriodId[0] = "payrollPeriodId";
+          
+          
+          
+          
+          
+          
         //------------------------
         EntityCheckFields[] entityCheckFieldsEmployee = null;
         entityPanelemployeeDataentry = new EntityPanel("ODOR","hr_employee",employeeDBFields,employeeEntityGroupOfComps,employeeEntityGroupOfPanels,"Νο","","employeeId",employeeQueryEditable,"βασικά στοιχεία",ICO_EDIT16, false, true,fieldsUniqueemployee,1,UNIQUE_FIELDS_WHILE_DATAENTRY_EDITABLE_YES,1,UNIQUE_FIELDS_BEFORE_SAVE_EDITABLE_YES,false,false,null,null/*hr*/,null,entityCheckFieldsEmployee,null);  
@@ -1194,29 +1263,40 @@ public class EntityDataPayroll extends EntityData implements Constants
         calculationPeriodEntityGroupOfPanels[0] = new EntityGroupOfPanels("ιδιότητες",1);
         
         //-------------------------        
-       
+ 
+
+        
         payrollPeriodDBFields[0] = new EntityDBFields("pay_payrollperiod","payrollPeriodId","Νo",0,"java.lang.Integer",5, FIELD_PRIMARY_KEY_AUTOINC,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
         //payrollPeriodDBFields[1] = new EntityDBFields("pay_payrollperiod","surname","επίθετο",0,"java.lang.String",20, FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,true,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,  false,null);
         payrollPeriodDBFields[1] = new EntityDBFields("pay_payrollperiod","employmentPeriodId","employmentPeriodId",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_employmentperiod",FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
-        payrollPeriodDBFields[2] = new EntityDBFields("pay_payrollperiod","calculationPeriodId","calculationPeriodId",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_calculationperiod", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        payrollPeriodDBFields[3] = new EntityDBFields("pay_payrollperiod","calculationYear","έτος",0,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        payrollPeriodDBFields[4] = new EntityDBFields("pay_payrollperiod","timePeriodCalculated","ημ/ώρα υπολογισμού",0,"java.lang.String",23,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        payrollPeriodDBFields[5] = new EntityDBFields("pay_payrollperiod","startPayrollDate","από ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        payrollPeriodDBFields[6] = new EntityDBFields("pay_payrollperiod","endPayrollDate","εως ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        payrollPeriodDBFields[2] = new EntityDBFields("pay_payrollperiod","calculationPeriodId","calculationPeriodId",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_calculationperiod", FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+        payrollPeriodDBFields[3] = new EntityDBFields("pay_payrollperiod","calculationYear","έτος",0,"java.lang.Integer",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_OBLIGATORY,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");      
+        payrollPeriodDBFields[4] = new EntityDBFields("pay_payrollperiod","startPayrollDate","από ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
+        payrollPeriodDBFields[5] = new EntityDBFields("pay_payrollperiod","endPayrollDate","εως ημερομηνία",0,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
         //payrollPeriodDBFields[5] = new EntityDBFields("pay_payrollperiod","salaryByLaw","νόμιμος μισθός",0,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         //payrollPeriodDBFields[6] = new EntityDBFields("pay_payrollperiod","salaryAgreed","συμφωνηθείς μισθος",0,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");         
-       
+        payrollPeriodDBFields[6] = new EntityDBFields("pay_payrollperiod","salaryOrWage","salaryOrWage",0,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");         
         payrollPeriodDBFields[7] = new EntityDBFields("pay_payrollperiod","daysWorked","daysWorked",0,"java.lang.Integer",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        payrollPeriodDBFields[8] = new EntityDBFields("pay_payrollperiod","daysGiftWorked","daysGiftWorked",0,"java.lang.Integer",12,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
+        payrollPeriodDBFields[9] = new EntityDBFields("pay_payrollperiod","timePeriodCalculated","ημ/ώρα υπολογισμού",0,"java.lang.String",23,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");        
+        
+        payrollPeriodDBFields[10] = new EntityDBFields("pay_payrollperiod","codeEfkaKpk","κωδικός πακέτου κάλυψης",1,"java.lang.Integer",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_ONLYONE_THISFIELD,"pay_efkakpk", FIELD_SUGGEST,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");                
+        payrollPeriodDBFields[11] = new EntityDBFields("pay_payrollperiod","taxCalcTypeId","τύπος υπολογισμού ΦΜΥ",1,"java.lang.Integer",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_TABLECONSTANTS,"LTCTypeOfTaxCalc", FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"1","");        
+        payrollPeriodDBFields[12] = new EntityDBFields("pay_payrollperiod","deductionEmployeePercentage","% κρατ. εργαζόμενου",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
+        payrollPeriodDBFields[13] = new EntityDBFields("pay_payrollperiod","deductionCompanyPercentage","% κρατ. εργοδότη",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
 
+  
        // payrollPeriodDBFields[13] = new EntityDBFields("pay_payrollperiod","endPayrollDate","εως ημερομηνία",4,"java.sql.Date",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");        
-        payrollPeriodDBFields[8] = new EntityDBFields("pay_payrollperiod","salaryGross","μικτός μισθός",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+        payrollPeriodDBFields[14] = new EntityDBFields("pay_payrollperiod","salaryGross","μικτός μισθός",2,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
         //payrollPeriodDBFields[9] = new EntityDBFields("pay_payrollperiod","deductionEmployeePercentage","deductionEmployeePercentage",0,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");         
         //payrollPeriodDBFields[10] = new EntityDBFields("pay_payrollperiod","deductionCompanyPercentage","deductionCompanyPercentage",0,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
-        payrollPeriodDBFields[9] = new EntityDBFields("pay_payrollperiod","deductionEmployeeAmount","κρατ. εργαζόμενου",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
-        payrollPeriodDBFields[10] = new EntityDBFields("pay_payrollperiod","deductionCompanyAmount","κρατ. εργοδότη",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
-        payrollPeriodDBFields[11] = new EntityDBFields("pay_payrollperiod","salaryNet","καθαρά",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
-        payrollPeriodDBFields[12] = new EntityDBFields("pay_payrollperiod","deductionTotalAmount","σύν. κρατήσεων",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
-        payrollPeriodDBFields[13] = new EntityDBFields("pay_payrollperiod","taxValue","ΦΜΥ",1,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
+        payrollPeriodDBFields[15] = new EntityDBFields("pay_payrollperiod","deductionEmployeeAmount","κρατ. εργαζόμενου",2,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
+        payrollPeriodDBFields[16] = new EntityDBFields("pay_payrollperiod","deductionCompanyAmount","κρατ. εργοδότη",2,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");
+        payrollPeriodDBFields[17] = new EntityDBFields("pay_payrollperiod","salaryNet","καθαρά",2,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
+        payrollPeriodDBFields[18] = new EntityDBFields("pay_payrollperiod","deductionTotalAmount","σύν. κρατήσεων",2,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
+        payrollPeriodDBFields[19] = new EntityDBFields("pay_payrollperiod","taxValue","ΦΜΥ",2,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
+        payrollPeriodDBFields[20] = new EntityDBFields("pay_payrollperiod","totalCompanyExpence","συνολικό κόστος",2,"java.lang.Double",8,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_NOT_EDITABLE_ALWAYS,null,"");         
+        
         /*ayrollPeriodDBFields[3] = new EntityDBFields("pay_payrollperiod","vatNo","Α.Φ.Μ.",0,"java.lang.String",10,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null, FIELD_SUGGEST,FIELD_VALIDATION_AFM,FIELD_VISIBLE_AND_EDITABLE,null,"");
         payrollPeriodDBFields[4] = new EntityDBFields("pay_payrollperiod","activityDescr","δραστηριότητα",0,"java.lang.String",35,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,null,"");
         //payrollPeriodDBFields[5] = new EntityDBFields("pay_payrollperiod","active","ενεργός",0,"java.lang.Boolean",5,FIELD_NORMAL_NO_PRIMARY_KEY,LOOKUPTYPE_NOLOOKUP,null,FIELD_NOCOMPLETION,FIELD_VALIDATION_NO,FIELD_VISIBLE_AND_EDITABLE,"true","");                    
@@ -1226,7 +1306,8 @@ public class EntityDataPayroll extends EntityData implements Constants
         */
         
         payrollPeriodEntityGroupOfComps[0] = new EntityGroupOfComps("βασικά",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
-        payrollPeriodEntityGroupOfComps[1] = new EntityGroupOfComps("αποτελέσματα",12,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        payrollPeriodEntityGroupOfComps[1] = new EntityGroupOfComps("βάση υπολογισμών",4,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
+        payrollPeriodEntityGroupOfComps[2] = new EntityGroupOfComps("αποτελέσματα",14,0,FONT_SIZE_NOT_SET, GROUP_OF_PANEL_VISIBLE);
         
         payrollPeriodEntityGroupOfPanels[0] = new EntityGroupOfPanels("βασικά",1);
         /*payrollPeriodEntityGroupOfPanels[1] = new EntityGroupOfPanels("επικοινωνία",1);

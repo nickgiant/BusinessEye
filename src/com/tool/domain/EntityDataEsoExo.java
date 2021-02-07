@@ -188,7 +188,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
              String fieldVatDocPreffix ="f" ;
              String[] arrayFieldVatDocAndValue1 = {"sxaccount.vatDocCode","sumpre"};
              String[] arrayFieldVatDocAndValue2 = {"sxaccount.vatDocCodeVat","sumvat"};        
-        EntityCalculate entityCalculateVatDoc = new EntityCalculate("calculatevatdoc","υπολογ. περιοδικής ΦΠΑ","",null,eCalculateFilterVatDoc,entityGroupOfFilterCompsVatDoc,sqlQueryTableCalcVatDoc,false,null,fieldVatDocPreffix,arrayFieldVatDocAndValue1,arrayFieldVatDocAndValue2);
+        EntityCalculate entityCalculateVatDoc = new EntityCalculate("calculatevatdoc","υπολογ. περιοδικής ΦΠΑ","",BUTTON_CALCULATION_RETRIEVE,eCalculateFilterVatDoc,entityGroupOfFilterCompsVatDoc,sqlQueryTableCalcVatDoc,false,null,fieldVatDocPreffix,arrayFieldVatDocAndValue1,arrayFieldVatDocAndValue2);
         
         // same as second (and the rest) query in etityParameters
         EntityGroupOfComps[] sxVatDocEntityGroupOfComps =new EntityGroupOfComps[21];
@@ -222,7 +222,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
               String fieldIncomePreffix ="" ;
              String[] arrayFieldIncomeAndValue1 = null;
              String[] arrayFieldIncomeAndValue2 = null; 
-        EntityCalculate entityCalculateIncomeDoc = new EntityCalculate("calculateincome","υπολογισμός","",null,eCalculateFilterIncome,entityGroupOfFilterCompsIncome,sqlQueryTableCalcIncome,false,null,fieldIncomePreffix,arrayFieldIncomeAndValue1,arrayFieldIncomeAndValue2);
+        EntityCalculate entityCalculateIncomeDoc = new EntityCalculate("calculateincome","υπολογισμός","",BUTTON_CALCULATION_RETRIEVE,eCalculateFilterIncome,entityGroupOfFilterCompsIncome,sqlQueryTableCalcIncome,false,null,fieldIncomePreffix,arrayFieldIncomeAndValue1,arrayFieldIncomeAndValue2);
         /*(String nameIn,String captionIn,String subTitleIn, String[] calculationTypeIn,
         EntityFilterSettings[] entityFilterSettingsIn,EntityGroupOfComps[] entityGroupOfCompsIn,
         EntityQuery[] entityQueryIn, boolean isNullifyIn, String yearEnforceIn)*/        
@@ -264,7 +264,7 @@ public class EntityDataEsoExo extends EntityData implements Constants
               String fieldMyfPreffix ="" ;
              String[] arrayFieldMyfAndValue1 = null;
              String[] arrayFieldMyfAndValue2 = null;        
-        EntityCalculate entityCalculateMyf = new EntityCalculate("calculatemyf","υπολογισμός ΜΥΦ","",null,eCalculateFilterMyf,entityGroupOfFilterCompsMyf,sqlQueryTableCalcMyf,false,null, fieldMyfPreffix,arrayFieldMyfAndValue1,arrayFieldMyfAndValue2);
+        EntityCalculate entityCalculateMyf = new EntityCalculate("calculatemyf","υπολογισμός ΜΥΦ","",BUTTON_CALCULATION_RETRIEVE,eCalculateFilterMyf,entityGroupOfFilterCompsMyf,sqlQueryTableCalcMyf,false,null, fieldMyfPreffix,arrayFieldMyfAndValue1,arrayFieldMyfAndValue2);
         /*(String nameIn,String captionIn,String subTitleIn, String[] calculationTypeIn,
         EntityFilterSettings[] entityFilterSettingsIn,EntityGroupOfComps[] entityGroupOfCompsIn,
         EntityQuery[] entityQueryIn, boolean isNullifyIn, String yearEnforceIn)*/

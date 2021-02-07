@@ -1680,7 +1680,19 @@ import javax.swing.text.JTextComponent;
        
 
          
-         
+        if(entityCalculate.getEntityFilterSettings()==null || entityCalculate.getEntityFilterSettings().length==0)
+        {
+                   //panelOneDataOneRecData.calculationFromToolBar();
+            for(int p=0;p<listPanelOneDataOneRecData.size();p++)
+            {
+                PanelOneDataOneRecData pnl = (PanelOneDataOneRecData)listPanelOneDataOneRecData.get(p);
+                pnl.calculationFromToolBarButton(p,/*pnlDataFilter,*/null, /*checkIsCanceled,*/false, entityCalculate);
+                //System.out.println("PanelODOR.calculationForFields   p:"+p+"         listPanelOneDataOneRecData.size:"+listPanelOneDataOneRecData.size());
+            }
+            
+        }
+        else
+        {
                 PanelDataFilter pnlDataFilter = new PanelDataFilter(frame);
                 pnlDataFilter.setEntity(entityCalculate.getEntityFilterSettings(), entityCalculate.getEntityGroupOfComps(), PANEL_FILTER_CALCULATE_DIALOG, /*entityCalculate.getYearEnforce(),*/ panelManagement);
 
@@ -1689,7 +1701,7 @@ import javax.swing.text.JTextComponent;
                 //dlgDocFilter.setPanelFilters(pnlDataFilter);
                 dlgFilter.display();
                 boolean checkIsCanceled = dlgFilter.getIsCancelClicked();
-   
+        
        
        //panelOneDataOneRecData.calculationFromToolBar();
        for(int p=0;p<listPanelOneDataOneRecData.size();p++)
@@ -1697,7 +1709,8 @@ import javax.swing.text.JTextComponent;
            PanelOneDataOneRecData pnl = (PanelOneDataOneRecData)listPanelOneDataOneRecData.get(p);
            pnl.calculationFromToolBarButton(p,pnlDataFilter,checkIsCanceled, entityCalculate);
            //System.out.println("PanelODOR.calculationForFields   p:"+p+"         listPanelOneDataOneRecData.size:"+listPanelOneDataOneRecData.size());
-       }       
+       } 
+        }
 
    }
 

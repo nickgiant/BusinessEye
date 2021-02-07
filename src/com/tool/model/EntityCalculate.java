@@ -14,9 +14,10 @@ public class EntityCalculate
         public String name;
         public String caption;
         public String subTitle;
-        public String [] calculationType;
+        public int calculationType;//  BUTTON_CALCULATION_RETRIEVE, BUTTON_CALCULATION_DATARECORDS
         public EntityFilterSettings [] entityFilterSettings;
         public String[] query;
+        public String[] inputToQueryReplace; // when query has # replace with these fields
         public boolean isNullify; //is make everything null
        // public String tableForFilters; // if different than EntityFilterSettings
         public EntityGroupOfComps[] entityGroupOfComps;
@@ -24,10 +25,14 @@ public class EntityCalculate
         String prefixOfFields;  // like f in periodic of vat
         String[] arrayFieldAndValue1;
         String[] arrayFieldAndValue2;
-                
-        public EntityCalculate(String nameIn,String captionIn,String subTitleIn, String[] calculationTypeIn,
+        
+         /*
+        *  for get ifo and set in text fields and tables, like esoexo periodiki fpa and myf      
+        */
+        public EntityCalculate(String nameIn,String captionIn,String subTitleIn, int calculationTypeIn,
         EntityFilterSettings[] entityFilterSettingsIn,EntityGroupOfComps[] entityGroupOfCompsIn,
-        String[] queryIn, boolean isNullifyIn, String yearEnforceIn, String prefixOfFieldsIn, String[] arrayFieldAndValue1In,String[] arrayFieldAndValue12In)
+        String[] queryIn, boolean isNullifyIn, String yearEnforceIn, String prefixOfFieldsIn, 
+        String[] arrayFieldAndValue1In,String[] arrayFieldAndValue12In)
         {
          name=nameIn;
          caption=captionIn;
@@ -36,6 +41,7 @@ public class EntityCalculate
          entityFilterSettings=entityFilterSettingsIn;
          entityGroupOfComps=entityGroupOfCompsIn;
          query= queryIn;
+         //inputToQueryReplace=inputToQueryReplaceIn;
          isNullify=isNullifyIn;
         
          yearEnforce=yearEnforceIn;
@@ -43,7 +49,33 @@ public class EntityCalculate
          arrayFieldAndValue1 = arrayFieldAndValue1In;
          arrayFieldAndValue2=arrayFieldAndValue12In;
         }   
-         
+
+        /*
+        * for db update like payroll calc of period
+        */
+        
+        public EntityCalculate(String nameIn,String captionIn,String subTitleIn, int calculationTypeIn,/*
+        EntityFilterSettings[] entityFilterSettingsIn,EntityGroupOfComps[] entityGroupOfCompsIn,*/
+        String[] queryIn, String[] inputToQueryReplaceIn/*, boolean isNullifyIn, String yearEnforceIn, String prefixOfFieldsIn, 
+        String[] arrayFieldAndValue1In,String[] arrayFieldAndValue12In*/)
+        {
+         name=nameIn;
+         caption=captionIn;
+         subTitle=subTitleIn;  
+         calculationType=calculationTypeIn;
+         //entityFilterSettings=entityFilterSettingsIn;
+         //entityGroupOfComps=entityGroupOfCompsIn;
+         query= queryIn;
+         inputToQueryReplace=inputToQueryReplaceIn;
+         //isNullify=isNullifyIn;
+        
+         //yearEnforce=yearEnforceIn;
+         //prefixOfFields=prefixOfFieldsIn;
+         //arrayFieldAndValue1 = arrayFieldAndValue1In;
+         //arrayFieldAndValue2=arrayFieldAndValue12In;
+        }          
+        
+        
         public String toString()
         {
         	String ret="";
@@ -66,10 +98,11 @@ public class EntityCalculate
         public String getName()  {   return name;  }
         public String getCaption()  {   return caption;  }
         public String getSubTitle()  {   return subTitle;  }        
-        public String[] getCalculationType()  {   return calculationType;  }  
+        public int getCalculationType()  {   return calculationType;  }  
         public EntityFilterSettings[] getEntityFilterSettings()  {   return entityFilterSettings;  }
         public EntityGroupOfComps[]  getEntityGroupOfComps()  {   return entityGroupOfComps;  }
-        public String[] getQueryArray()  {   return query;  }  
+        public String[] getQueryArray()  {   return query;  } 
+        public String[] getInputToQueryReplaceArray()  {return inputToQueryReplace;}
         public boolean getIsNullify()  {   return isNullify;  }
         public String getYearEnforce()  {   return yearEnforce;  }
         public String getPrefixOfFields()  {   return prefixOfFields;  }

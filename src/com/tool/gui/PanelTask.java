@@ -541,7 +541,7 @@ import javax.swing.table.*;
                  null,entityFilterSettings[e].groupOfComps,entityFilterSettings[e].filterFromSelectedField,
                  entityFilterSettings[e].forEntityReportGroup,entityFilterSettings[e].getFieldObligatoryOrSuggest()); // (-1 all) filters apply to all the groups of data
    	     }
-   	     panelDataFilter.setNewEntityFilterSettings(ent);
+   	      panelDataFilter.setNewEntityFilterSettings(ent);
    	  }
    	  else //if(table==null && table.equals(""))
    	  {
@@ -704,6 +704,16 @@ import javax.swing.table.*;
                {
              	  intCalculationOption=ct;
              	  strCalculationOption=entityTaskArray[ct].getCaption();
+                
+                  
+                entityFilterSettings=entityTaskArray[ct].getEntityFilterSettings();
+                entityGroupOfComps = entityTaskArray[ct].getEntityGroupOfComps();                  
+                  
+                panelDataFilter.setEntity(entityFilterSettings,entityGroupOfComps,PANEL_FILTER_TASK,/*yearEnforce,*/panelManagement);        
+                //panelDataFilter.setNewEntityFilterSettings(entityFilterSettings);
+                //System.out.println("PanelTask.ActionSelectCalculationOption    ct:"+ct+"   entityFilterSettings:"+entityFilterSettings.length);
+                panelDFilters.removeAll();
+                panelDFilters.add(panelDataFilter.getPanelFilters());
                }
            		            	
             }

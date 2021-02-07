@@ -442,14 +442,19 @@ import javax.swing.event.*;
                    // System.out.println(" error: PanelDataFilters.setEntity NO WHERE QUERY   qWhere:"+qWhere+"   qWhereIsActive:"+qWhereIsActive);
                 }
                 
+            
+            
+
+      
             String queryAll = lookUp.getQuery(luname)+" "+queryWhere+" "+lookUp.getQueryOrderBy(luname);//"SELECT * FROM dbcompany";
+            //System.out.println(" ------   PanelDataFilters.setEntity  QUERY   queryAll:"+queryAll);//+"   qWhereIsActive:"+qWhereIsActive)
         	//String table = entityFilterSettings[s].dbTable;
         	 //lblFilterSetting = new JLabel(JLabel.RIGHT);
         	 lblFilterSetting.setText(entityFilterSettings[s].caption+":("+KEYSTROKE_F_LOOKUP_SHOW+")");
       		 JTextField  txtFilterSetting = new JTextField(intSizeOfTextBox);
              txtFilterSetting.setText(entityFilterSettings[s].getValue());
              
-             Action actionShowCheck = new ActionShowWinLookUpCheck(entityFilterSettings[s].caption,queryAll, lookUp.getEntityFilterSettings(luname) , txtFilterSetting, lookUp.getIntValidationColumn(luname), lookUp.getIntValidationType(luname));
+             Action actionShowCheck = new ActionShowWinLookUpCheck(entityFilterSettings[s].caption,queryAll, luname, entityFilterSettings, lookUp.getEntityFilterSettings(luname) , txtFilterSetting, lookUp.getIntValidationColumn(luname), lookUp.getIntValidationType(luname));
 
              JTextBoxWithEditButtons txtLookUpBtn = new JTextBoxWithEditButtons();       
              txtLookUpBtn = new JTextBoxWithEditButtons(txtFilterSetting, true ,ICO_CHECKS,actionShowCheck, false,null,null,0, frame,"","",MONTH_DATE_ONLY);                  	
@@ -1444,7 +1449,9 @@ public ArrayList getListOfFieldsUncompleted()
     
     
     
-    
+   /*
+*     has no filter by #. look at displayWindowCheckBox and ActionShowWinLookupCheck
+*/ 
    private void displayDialogLookUp(String luname,  int i , int j,int noOfFilter, int filterFromPreviousSelectedField)// filterFromPreviousSelectedField   for example we set here 0(companyid) when field is dbyear
    { 
        //System.out.println(comp.getClass());
@@ -1484,31 +1491,14 @@ public ArrayList getListOfFieldsUncompleted()
            String strWhere ="";
            String sub ="";
            String where=lookUp.getQuerySubqueryWhere(luname);
-           /*int len = lookUp.getLookUpField(foreignTable).length;
-              if(where!=null  && !where.equalsIgnoreCase(""))
-           {
-               strWhere = " "+where+" AND ";// 'WHERE is already in string from lookup
-           }
-           else
-           {
-               strWhere= " WHERE ";
-           }
-   	   		sub=luname+"."+lookUp.getLookUpKey(luname)+" LIKE '"+selectedKeyValue+"%'";
-               */      
-   	   		/*for(int o= 0; o<len ;o++)
-   	   		{
-   	   		   
-   	   		   String end ="";	
-   	   		   	if(o==0)// if there is only one field
-   	   		   	{
-   	   		   	   	sub=sub+foreignTable+"."+lookUp.getLookUpField(luname)[i]+" LIKE '"+selectedKeyValue+"%'";
-   	   		   	}
-   	   		   	else
-   	   		   	{
-   	   		   		sub=sub+" AND "+foreignTable+"."+lookUp.getLookUpField(luname)[i]+" LIKE '"+selectedKeyValue+"%'";
-   	   		   	}
-   	   		} */        	   
+
+           
              String sql = lookUp.getQuery(luname)+/*strWhere*/" "+where+" "+lookUp.getQueryOrderBy(luname);
+             
+             
+             
+             
+             
            	
              selected = DialogLookUp.showDialog(this,luname,sql,lookUp.getLookUpKeyTranslation(luname) , selectedKeyValue,lookUp.getShowToolbar(luname),/*yearEnforce,*/
                    panelManagement,lookUp.getFieldsForSums(luname),fieldFilterTxts1);  
@@ -2315,12 +2305,50 @@ public ArrayList getListOfFieldsUncompleted()
    	return ret;
    }
    
-  private void displayWindowCheckBox(String dialogTitle, String query, EntityFilterSettings[] entityFilterSettings ,
+   /*
+   *
+   *                                                                                entityParentFilterSettings are the ones before,   entityFilterSettings are the ones in the dialog
+   */
+  private void displayWindowCheckBox(String dialogTitle, String query, String luname,EntityFilterSettings[] entityParentFilterSettings,EntityFilterSettings[] entityFilterSettings ,
    JTextComponent textIn, int intValidationColumn, int intValidationType)
   {
-  	//System.out.println("PanelDataFilters.displayCheckBox     query:"+query);
-        //
-       
+      
+          //String queryLookUpWhere = lookUp.getQuerySubqueryWhere(luname);
+          // replace # with text, array if they are more than one         
+          String [] textsInput = lookUp.getFieldsReplacedInsideQuery(luname);
+          
+          //System.out.println("PanelDataFilters.displayCheckBox     luname:"+luname+"  textsInput:"+textsInput);
+          ArrayList listTextString = new ArrayList();
+      if(textsInput!=null)    
+      {
+        for(int i =0;i<textsInput.length;i++)  
+        {
+          for(int c=0;c<entityParentFilterSettings.length;c++)
+          {
+              //System.out.println("--------c:"+c+"   getDbField:"+entityParentFilterSettings[c].dbField+"   "+textsInput[i]);
+                       if(textsInput[i].equalsIgnoreCase(entityParentFilterSettings[c].dbField))
+                       {
+                           //System.out.println("=======================c:"+c+"   getDbField:"+dbFieldsInGroupOfPanels[c].getDbField()+"   "+textsInput[i]);
+                          //JTextComponent tbToGet = (JTextComponent)fieldTxts.get(c);
+                          listTextString.add(getFilterValue(c).trim()); 
+                          
+                       }          
+          } 
+        }
+          String[] arrayText = new  String[listTextString.size()];
+          for(int a= 0; a<listTextString.size();a++)
+          {
+              arrayText[a]=(String)listTextString.get(a);
+          }
+
+                                int indexOfHashChar = query.indexOf("#");
+                               
+                               if(indexOfHashChar!=-1)
+                               {    
+                                query = utilsString.replaceTextOfAStringWithText("#", query, arrayText, null);
+                               }          
+      }
+      
         if (!winLookUpCheck.isVisible())
         {
         	 //System.out.println("isVisibleWinLookUpCheck ifisFalse "+winLookUpCheck.isVisible());
@@ -2342,15 +2370,20 @@ public ArrayList getListOfFieldsUncompleted()
    {       
       	String dialogTitle;
          String query;
+         String luname;
+         EntityFilterSettings[] entityParentFilterSettings;
          JTextComponent text;
          EntityFilterSettings[] entityFilterSettings;
          int intValidationColumn;
          int intValidationType;
-        public ActionShowWinLookUpCheck(String dialogTitleIn,String queryIn, EntityFilterSettings[] entityFilterSettingsIn ,
+         //entityParentFilterSettings are the ones before,   entityFilterSettings are the ones in the dialog
+        public ActionShowWinLookUpCheck(String dialogTitleIn,String queryIn, String lunameIn,EntityFilterSettings[] entityParentFilterSettingsIn,EntityFilterSettings[] entityFilterSettingsIn ,
          JTextComponent textIn, int intValidationColumnIn, int intValidationTypeIn)
         {
             dialogTitle=dialogTitleIn;
                  query=queryIn;
+                 luname=lunameIn;
+                 entityParentFilterSettings=entityParentFilterSettingsIn;
                  text=textIn;
                  entityFilterSettings=entityFilterSettingsIn;
                  intValidationColumn =intValidationColumnIn;
@@ -2366,7 +2399,7 @@ public ArrayList getListOfFieldsUncompleted()
       	{
                    //   System.out.println("ActionShowDialogLookUp ("+entityFilterSettings.length);
                    
-                displayWindowCheckBox(dialogTitle,query,entityFilterSettings,text,intValidationColumn,intValidationType);
+                displayWindowCheckBox(dialogTitle,query,luname,entityParentFilterSettings,entityFilterSettings,text,intValidationColumn,intValidationType);
         }  
 
     }

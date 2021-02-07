@@ -85,6 +85,9 @@ public interface Constants
        
        */
        
+        public static final int BUTTON_CALCULATION_RETRIEVE = 1;//EntityCalculate
+        public static final int BUTTON_CALCULATION_DATARECORDS = 2;//EntityCalculate
+       
        public static final String STR_VERSIONLEAD_START = "1";
        public static final String STR_VERSIONSUB_START = "1.2611";
        
@@ -269,7 +272,7 @@ public interface Constants
     public static final int PANEL_FILTER_SEARCH =1;
     public static final int PANEL_FILTER_REPORT =2;
     public static final int PANEL_FILTER_TASK =3;
-    public static final int PANEL_FILTER_CALCULATE_DIALOG =4;// ιε δοψθμεντσ λικε περιοδικι ανδ μυφ
+    public static final int PANEL_FILTER_CALCULATE_DIALOG =4;// ie documents like periodiki or muf
     
     
     public static final int LOOKUP_TYPE_DATE =1;
