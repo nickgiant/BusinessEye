@@ -1,4 +1,3 @@
-// created 18-04-2009
 // http://sujitpal.blogspot.com/2006/05/java-data-structure-generic-tree.html
 package com.tool.utils;
 

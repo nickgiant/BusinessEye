@@ -1,4 +1,3 @@
-//created 01-06-2008
 
 package com.tool.model;
 

@@ -1,4 +1,4 @@
-// created 12-07-2007
+
 package com.tool.utils;
 
   import com.tool.guicomps.*;
