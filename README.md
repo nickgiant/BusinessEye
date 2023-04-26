@@ -7,5 +7,3 @@ Modules implemented are:
 
 The application is designed to follow Greek regulations.
 As a consequence captions, menus, and messages are in Greek.
-
-You can view screenshots at www.businesseye.gr .You can also look about development (ERDs) at www.businesseye.gr/development.
